@@ -1,0 +1,27 @@
+This document aims to track that content in chapters leading up to Chapter 16 which are relevant for understanding of Chapter 16, from the perspective of
+someone who has finished Dmitri's Group Theory module (aka DGT).
+
+Chapter 1
+    All already covered in DGT except
+        -1.7 Factor group
+
+Chapter 2
+    All already covered in DGT
+
+Chapter 3
+    All already covered in DGT except for
+        -3.4 Reducible Representations is more elaborate than the 2022/23 course
+        -3.9 Symmetry Notation (RELEVANT)
+
+Chapter 4
+    -4.1, 4.2 touched upon in DGT, but greatly elaborated on here (RELEVANT)
+    -the entire rest of the chapter (4.3 - 4.6) focuses on projection operators and basis functions (?RELEVANT)
+
+Chapter 5
+    -All touched upon in DGT, but recommended heavily since I found it more concise than Dmitri's lecture notes.
+
+Chapter 6
+    -This is an example of the application of general principles derived in previous chapters, but I found it extremely
+        insightful and easy to work through - RELEVANT
+
+    
