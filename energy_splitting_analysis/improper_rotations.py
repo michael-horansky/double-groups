@@ -6,6 +6,20 @@ import numpy as np
 
 inversion_matrix = np.array([[-1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0.0, 0.0, -1.0]])
 
+def constrained_angle(angle):
+    # constrains the angle unto a [0, 2pi) interval
+    res = angle
+    while(res < 0.0):
+        res += 2.0 * np.pi
+    while(res >= 2.0 * np.pi):
+        res -= 2.0 * np.pi
+    return(np.round(res, decimals = 10))
+
+def inverse_angle(angle):
+    # given an angle around an axis, this returns the positive angle within (0, 2pi) which inverts that rotation
+    res = 2.0 * np.pi - angle
+    return(constrained_angle(res))
+
 def Euler_Rodriguez_encoder(axis, angle):
     a = np.cos(angle / 2.0)
     b = axis[0] * np.sin(angle / 2.0)
@@ -15,7 +29,13 @@ def Euler_Rodriguez_encoder(axis, angle):
 
 def Euler_Rodriguez_decoder(a, b, c, d):
     axis = np.zeros(3)
-    angle = 2.0 * np.arccos(a)
+    angle = constrained_angle(2.0 * np.arccos(a))
+    
+    # special case: for a null angle, the axis is arbitrary
+    if angle == 0.0:
+        axis[0] = 1.0
+        return(axis, angle)
+    
     sin_angle_half = np.sqrt(1.0 - a * a)
     axis[0] = b / sin_angle_half
     axis[1] = c / sin_angle_half
@@ -31,8 +51,8 @@ class ImproperRotation():
     
     def __init__(self, axis, angle, inversion):
         
-        self.axis = np.array(axis) / np.linalg.norm(axis)
-        self.angle = angle
+        self.axis = np.round(np.array(axis) / np.linalg.norm(axis), decimals = 10)
+        self.angle = np.round(constrained_angle(angle), decimals = 10)
         self.inversion = inversion
     
     def cartesian_rep(self):
@@ -84,10 +104,16 @@ class ImproperRotation():
         
         if self.inversion != SO.inversion:
             return(False)
+        
+        # special cases: no rotation
+        if self.angle == 0.0 and SO.angle == 0.0:
+            return(True)
+        
         if np.array_equal(self.axis, SO.axis) and self.angle == SO.angle:
             return(True)
-        #if self.axis == -SO.axis and self.angle == -SO.angle:
-        #    return(True)
+        
+        if np.array_equal(self.axis, -SO.axis) and self.angle == inverse_angle(SO.angle):
+            return(True) # inverting the axis == inverting the angle
         return(False)
         
         """if self.op_type == "rotation":
@@ -122,7 +148,17 @@ class ImproperRotation():
         
         # rounding here
         new_axis = np.round(new_axis, decimals = 10)
+        new_angle = np.round(new_angle, decimals = 10)
         return(ImproperRotation(new_axis, new_angle, new_inversion))
+    
+    def inverse(self):
+        return(ImproperRotation(self.axis, inverse_angle(self.angle), self.inversion))
+    
+    def __neg__(self):
+        return(self.inverse())
+    
+    def __sub__(self, SO):
+        return(self + SO.inverse())
         
 
 
