@@ -13,7 +13,7 @@ def constrained_angle(angle):
         res += 2.0 * np.pi
     while(res >= 2.0 * np.pi):
         res -= 2.0 * np.pi
-    return(np.round(res, decimals = 10))
+    return(np.round(res, decimals = ImproperRotation.rounding_decimals))
 
 def inverse_angle(angle):
     # given an angle around an axis, this returns the positive angle within (0, 2pi) which inverts that rotation
@@ -45,14 +45,17 @@ def Euler_Rodriguez_decoder(a, b, c, d):
 
 class ImproperRotation():
     
+    # Static variables
+    rounding_decimals = 10 # so that sin pi/2 = 1 etc
+    
     # Each operation is defined as follows:
     #   1. a rotation about an AXIS (given by a unit vector) by a specified ANGLE (right-handed convention)
     #   2. If INVERSION == True, an inversion about [0, 0, 0]
     
     def __init__(self, axis, angle, inversion):
         
-        self.axis = np.round(np.array(axis) / np.linalg.norm(axis), decimals = 10)
-        self.angle = np.round(constrained_angle(angle), decimals = 10)
+        self.axis = np.round(np.array(axis) / np.linalg.norm(axis), decimals = ImproperRotation.rounding_decimals)
+        self.angle = np.round(constrained_angle(angle), decimals = ImproperRotation.rounding_decimals)
         self.inversion = inversion
     
     def cartesian_rep(self):
@@ -77,24 +80,7 @@ class ImproperRotation():
         if self.inversion:
             res = np.matmul(res, inversion_matrix)
         
-        """if self.op_type == "inversion":
-            #https://en.wikipedia.org/wiki/Transformation_matrix#Reflection_2
-            u_x = self.axis[0]
-            u_y = self.axis[1]
-            u_z = self.axis[2]
-            res[0][0] = 1.0 - 2.0 * u_x * u_x
-            res[0][1] = - 2.0 * u_x * u_y
-            res[0][2] = - 2.0 * u_x * u_z
-            
-            res[1][0] = - 2.0 * u_x * u_y
-            res[1][1] = 1.0 - 2.0 * u_y * u_y
-            res[1][2] = - 2.0 * u_y * u_z
-            
-            res[2][0] = - 2.0 * u_x * u_z
-            res[2][1] = - 2.0 * u_y * u_z
-            res[2][2] = 1.0 - 2.0 * u_z * u_z"""
-        
-        res = np.round(res, decimals = 10) # so that sin 90 = 1 etc
+        res = np.round(res, decimals = ImproperRotation.rounding_decimals)
         
         return(res)
             
@@ -130,6 +116,8 @@ class ImproperRotation():
     def __add__(self, SO):
         # P_R + P_S = P_R P_S
         
+        # This method seems to have a problem for when the result is meant to be E - we add some catching exceptions
+        
         #https://en.wikipedia.org/wiki/Euler%E2%80%93Rodrigues_formula
         a_1, b_1, c_1, d_1 = Euler_Rodriguez_encoder(self.axis, self.angle)
         a_2, b_2, c_2, d_2 = Euler_Rodriguez_encoder(SO.axis, SO.angle)
@@ -139,6 +127,13 @@ class ImproperRotation():
         c = a_1 * c_2 + c_1 * a_2 - d_1 * b_2 + b_1 * d_2
         d = a_1 * d_2 + d_1 * a_2 - b_1 * c_2 + c_1 * b_2
         
+        # here when a is supposed to equal 1 or -1, it often jumps over by a bit: we map these cases unto hard-coded ones and minus ones
+        if a < -1.0 and a > -1.001:
+            a = -1.0
+        if a > 1.0 and a < 1.001:
+            a = 1.0
+        
+        
         new_axis, new_angle = Euler_Rodriguez_decoder(a, b, c, d)
             
         if (self.inversion == True and SO.inversion == True) or (self.inversion == False and SO.inversion == False):
@@ -147,8 +142,8 @@ class ImproperRotation():
             new_inversion = True
         
         # rounding here
-        new_axis = np.round(new_axis, decimals = 10)
-        new_angle = np.round(new_angle, decimals = 10)
+        new_axis = np.round(new_axis, decimals = ImproperRotation.rounding_decimals)
+        new_angle = np.round(new_angle, decimals = ImproperRotation.rounding_decimals)
         return(ImproperRotation(new_axis, new_angle, new_inversion))
     
     def inverse(self):
@@ -161,6 +156,8 @@ class ImproperRotation():
         return(self + SO.inverse())
         
 
+# ------------------- Common instances ---------------------
 
+identity_rotation = ImproperRotation([1.0, 0.0, 0.0], 0.0, False)
 
 
