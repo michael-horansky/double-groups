@@ -1,0 +1,3 @@
+https://github.com/gap-system/gap - a system for computational discrete algebra, with particular emphasis on computational group theory.
+    Documentation: https://www.gap-system.org
+    Irreps page: https://www.gap-system.org/Overview/Capabilities/representations.html

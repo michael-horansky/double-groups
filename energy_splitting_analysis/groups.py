@@ -103,8 +103,42 @@ def group_from_multiplication_table(group_operations, multiplication_table):
                 conjugacy_classes_dict[group_elements[cur_element]] = [group_elements[cur_element]]
     
     print(conjugacy_classes_dict)
-    #print(orders_list)
-
+    
+    
+    # Second: we find the dimensions of the irreps. This is the diophantine eq sum d^2 = h, where the number of irreps = number of classes
+    number_of_classes = len(conjugacy_classes_dict.keys())
+    
+    # the first rep has trivially d = 1
+    def square_sum(l):
+        res = 0
+        for x in l:
+            res += x * x
+        return(res)
+    
+    target_sum = h - 1
+    maximum_d = int(np.floor(np.sqrt(target_sum)))
+    irrep_dimensions = [1] * (number_of_classes - 1) # monotonously increasing - check all possibilities
+    while(square_sum(irrep_dimensions) != target_sum):
+        index_of_increasable_irrep = len(irrep_dimensions) - 1
+        while(irrep_dimensions[index_of_increasable_irrep] == maximum_d and index_of_increasable_irrep > -1):
+            index_of_increasable_irrep -= 1
+        if index_of_increasable_irrep == -1:
+            # We have failed: no solution exists / was found
+            print("ERROR: no solution to the irrep dimensionality equations was found")
+            return(-1)
+        
+        # increase that irrep's d by 1 and set all the subsequent d's to the same value
+        new_d = irrep_dimensions[index_of_increasable_irrep] + 1
+        for i in range(index_of_increasable_irrep, len(irrep_dimensions)):
+            irrep_dimensions[i] = new_d
+    irrep_dimensions = [1] + irrep_dimensions
+    print(irrep_dimensions)
+    
+    # at this point, we ask the user to fill out the character table themselves because difficult to automate
+    
+    # for automation, check https://github.com/gap-system/gap, https://www.gap-system.org/Overview/Capabilities/representations.html
+    
+    
 
 def generate_group(generators):
     # generators is a dictionary of the form {'label' : ImproperRotation}, where the first element is 'e' : identity
