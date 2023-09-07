@@ -3,7 +3,7 @@ someone who has finished Dmitri's Group Theory module (aka DGT).
 
 Chapter 1
     All already covered in DGT except
-        -1.7 Factor group
+        -1.7 Factor group (NOT RELEVANT)
 
 Chapter 2
     All already covered in DGT
@@ -15,7 +15,7 @@ Chapter 3
 
 Chapter 4
     -4.1, 4.2 touched upon in DGT, but greatly elaborated on here (RELEVANT)
-    -the entire rest of the chapter (4.3 - 4.6) focuses on projection operators and basis functions (?RELEVANT)
+    -the entire rest of the chapter (4.3 - 4.6) focuses on projection operators and basis functions (RELEVANT)
 
 Chapter 5
     -All touched upon in DGT, but recommended heavily since I found it more concise than Dmitri's lecture notes.
@@ -24,4 +24,18 @@ Chapter 6
     -This is an example of the application of general principles derived in previous chapters, but I found it extremely
         insightful and easy to work through - RELEVANT
 
-    
+Chapter 7
+    -All covered in DGT, but explained here with much greater clarity, with an exceptionally well-worked example.
+
+Chapter 8
+    -Application of GT to molecular bonding - NOT RELEVANT
+
+Chapter 9
+    -Application of GT to vibrational modes - NOT RELEVANT
+
+Chapter 10
+    -Discussion of "equivalence" (a situation when the wavefunctions of two particles are interchangable without affecting the Hamiltonian)
+        and the application of permutation groups to multi-electron orbitals of a single atom. Interesting but NOT RELEVANT(?)
+
+Chapter 11
+    -Discussion of abstract tensor algebra, where a GT approach yields neat results. NOT RELEVANT(?)
