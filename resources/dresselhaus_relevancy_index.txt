@@ -1,4 +1,4 @@
-This document aims to track that content in chapters leading up to Chapter 16 which are relevant for understanding of Chapter 16, from the perspective of
+This document aims to track that content in chapters leading up to Chapter 16 which are relevant for understanding of Chapter 19, from the perspective of
 someone who has finished Dmitri's Group Theory module (aka DGT).
 
 Chapter 1
@@ -39,3 +39,25 @@ Chapter 10
 
 Chapter 11
     -Discussion of abstract tensor algebra, where a GT approach yields neat results. NOT RELEVANT(?)
+
+Chapter 12
+    -Unlike the previous 6 chapters, this chapter doesn't showcase a specific application of GT to a physical problem, but rather
+        builds the notation of space groups (rotation + translation symmetry) and lists point group symmetries of all bravais lattices. NOT RELEVANT
+    -Can be useful in case we need to familiarise ourselves with the International Crystallography Tables notation.
+
+Chapter 13
+    -Applies space groups to a real physical problem (Proof of Bloch's Theorem)
+    -Discusses the group of the wavevector (point subgroup of the group of symmetries of the reciprocal lattice/crystal structure)
+    -Band degeneracies and compatibility relations
+    -All in all NOT RELEVANT (?)
+
+Chapter 14
+    -Uses results from Chapter 13 to analyse the degeneracies of band diagrams at k=0, and mode analysis of lattice vibrations.
+
+Chapter 15
+    -Supplement to Ch14
+
+Chapter 16
+    How to draw band structure diagrams
+
+
