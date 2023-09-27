@@ -1,24 +1,28 @@
-\documentclass[journal]{Imperial_lab_report}
+\documentclass[12pt]{article}
 
-\usepackage{url}
-\usepackage{physics}
-\usepackage{siunitx}
-\usepackage{graphicx}
+
+\newcommand{\reporttitle}{Quantum Dots and Double Groups}
+\newcommand{\reportauthor}{Michal Horanský}
+\newcommand{\reporttype}{CMTH-Vvedensky-3}
+\newcommand{\cid}{your college-id number}
+
+\input{includes}
 \usepackage{caption}
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
 
-
 \begin{document}
 
-\title{Double Groups and Quantum Dots - Literature Review}%
-\author{Michal Horansky}
+%\title{Double Groups and Quantum Dots - Literature Review}%
+%\author{Michal Horansky}
 
+%\markboth{M. HORANSKY}%
+%{Horansky \MakeLowercase{\textit{et al.}}:}
 
-\markboth{M. HORANSKY}%
-{Horansky \MakeLowercase{\textit{et al.}}:}
+%\maketitle
 
-\maketitle
+\input{titlepage}
+
 
 \begin{abstract}
 
@@ -28,15 +32,18 @@ In this project, we investigate the photonic properties of quantum dots employin
 
 
 \section{Introduction}
-\IEEEPARstart{D}{ouble} groups are awesome
+Quantum dots (QDs) have been the subject of keen interest and study by the scientific community in the last decades for their wide applications in quantum information (\cite{quantum_information1}), photonics (\cite{photonics1}, \cite{photonics2}), medicine (\cite{medicine1}, \cite{medicine2}) and many others (\cite{other_applications}). Many of these applications are viable due to the unique electronic properties of QDs that allow us to construct within it atom-like electron states \cite{atomlike} with tunable energy levels \cite{tunable} which depend on the specific manufacturing parameters. However, there are still challenges in characterising the small-scale structural properties of grown QDs, such as unintentional symmetry breaking \cite{karlsson}. In the project, we will inspect these structural properties using the tools of spectroscopy and the mathematical toolset of group theory.
 
-what are qds?
+The most direct way to experimentally investigate the energy states of electrons and electron holes in QDs is photoluminiscence spectroscopy, a technique used in \cite{karlsson}. The QDs are first non-resonantly excited by a laser and then they spontaneously emit photons as a result of state transitions of exciton complexes (exciton complexes are states of multiple electrons and holes which populate QDs, and their charge states are programmable \cite{charge_state}). The spectrum of these emissions is given by the allowed state transitions. Hence, if each exciton complex state had a single associated energy, we could use standard arguments to determine which state transitions are allowed and with these transitions we would label each peak on the spectral diagram. However, there are complications that require further analysis to successfully label the spectral features of QD photoluminiscence. First, the properties of the crystallic structure of QDs may allow electron holes with different characteristics, which have to be labelled separately and which contribute to more allowed state transitions \cite{karlsson2}. Second, the exciton complexes enjoy spin-orbit coupling, which results in fine-structure splitting of energy levels \cite{fine-structure}. Techniques analogous to that of Karlsson \textit{et al} in \cite{karlsson} are employed to properly analyse the first complication; similarly, their group theory approach will be used in our case as well to investigate the fine-structure effects.
 
-what does the data mean
-
-	mmm spectra -> double groups
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.3]{figures/example_decay_diagrams}
+\end{center}
+\caption{Example of simple decay diagrams for a trion and a biexciton respectively. The subscripts indicate the occupancy of heavy-like and light-like holes in each exciton complex, and the superscript indicates the net charge. We see that clusters of energy levels are labelled by exciton complexes, but these clusters consist of multiple energy levels separated due to fine-structure splittings. Figure courtesy of Karlsson \textit{et al}, \cite{karlsson}.}
+\end{figure}
 	
-what are double groups
+The utility of group theory in the study of spin-orbit interaction stems from the fact that degeneracies of energy levels are associated with symmetries. By considering the point group associated with the symmetry of the QD crystallic structure and then finding its double group, we can immediately write down the amount of different energy levels of a given exciton complex, their degeneracies, and even the allowed transitions with their polarisation for each energy level \cite[Ch. 19]{dresselhaus}.
 
 goal: deduce the symmetries of the qd based on the spectra
 (growth mode BUT symmetry elevations)
@@ -46,14 +53,15 @@ what is symmetry elevation
 \section{Background Material - BY THURSDAY EVENING}
 
 why polarisation in data? -> group theory prediciton
+
 why temperature data> -> to separate heavy-like and light-like
 
-classify sources
+classify sourcesGarcía de Arquer FP, Talapin DV, Klimov VI, Arakawa Y, Bayer M, Sargent EH. Semiconductor quantum dots: Technological progress and future challenges. Science
 
 classify steps
 
 \subsection{Exciton analysis}
-lmao
+First, the specifics of the Brillouin zones of the nanocrystals which QDs are can allow multiple characters of involved elementary particles -- for example, zincblende quantum wells have two different effective masses for holes in the valence band, referred to as heavy-like and light-like holes, which are labelled by separate quantum numbers and are associated with different polarisations \cite{karlsson2}. As noted by Karlsson \textit{et al} in \cite{karlsson}, the photoluminiscence intensity in the different hole regimes scales differently with crystal temperature, which Karlsson \textit{et al} conjectures to be the result of acoustic phonon relaxation bottleneck, an effect predicted by Bockelmann and Bastard \cite{bastard} and observed by Brunner \textit{et al} \cite{brunner}. This allows us to identify the characters of holes in transitions associated with peaks in the spectrum based on how the intensity of the peak changes with temperature, combined with the change in polarisation of emitted photons.
 
 \subsection{Potential analysis}
 or join this with exciton analysis
@@ -63,48 +71,63 @@ or join this with exciton analysis
 \section{Summary}
 anything
 
-%\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
-%\bibitem{microwave}
+\bibitem{quantum_information1}
+Michler, P. (2017), \textit{Quantum Dots for Quantum Information Technologies}. 1st edn. Springer Cham.
+
+\bibitem{photonics1}
+Jin, X. \textit{et al} (2020), Cation exchange assisted synthesis of ZnCdSe/ZnSe quantum dots with narrow emission line widths and near-unity photoluminescence quantum yields. \textit{Chem. Commun.}, \textbf{56}, 6130--6133
+
+\bibitem{photonics2}
+Hanifi, D. A. \textit{et al} (2019), Redefining near-unity luminescence in quantum dots with photothermal threshold quantum yield. \textit{Science}, \textbf{363}, 1199--1202
+
+\bibitem{medicine1}
+Medintz, I. L., Uyeda, H. T., Goldman, E. R., Mattoussi, H. (2005),
+Quantum dot bioconjugates for imaging, labelling and sensing. \textit{Nature Materials}, \textbf{4}, 435--446
+
+\bibitem{medicine2}
+Sakimoto, K. K., Wong, A. B., Yang, P. (2016), Self-photosensitization
+of nonphotosynthetic bacteria for solar-to-chemical production. \textit{Science}, \textbf{351}, 74--77
+
+\bibitem{other_applications}
+García de Arquer, F. P., Talapin, D. V., Klimov, V. I., Arakawa, Y., Bayer, M., Sargent, E. H. (2021), Semiconductor quantum dots: Technological progress and future challenges. \textit{Science}, \textbf{373}, 640 
+
+\bibitem{atomlike}
+Ashoori, R. C. (1996), Electrons in artificial atoms. \textit{Nature}, \textbf{379}, 413--419.
+
+\bibitem{tunable}
+Cho, A. Y., Arthur, J. R. (1975), Molecular beam epitaxy. \textit{Progress in Solid State Chemistry}, \textbf{10}, 157--191
+
+\bibitem{karlsson}
+Karlsson, K. F. \textit{et al} (2015), Spectral signatures of high-symmetry quantum dots and effects of symmetry breaking. \textit{New Journal of Physics}, \textbf{17} 103017
+
+\bibitem{charge_state}
+Hartmann, A., Ducommun, Y., Kapon, E., Hohenester, U., Molinari, E. (2000), Few-Particle Effects in Semiconductor Quantum Dots: Observation of Multicharged Excitons. \textit{Physical Review Letters}, \textbf{84} 5648
+
+\bibitem{karlsson2}
+Karlsson, K. F. \textit{et al} (2010), Fine structure of exciton complexes in high-symmetry quantum dots: Effects of symmetry breaking and symmetry elevation. \textit{Physical Review B}, \textbf{81} 161307
+
+\bibitem{bastard}
+Bockelmann, U., Bastard, G. (1990), Phonon scattering and energy relaxation in two-, one-, and zero-dimensional electron gases. \textit{Physical Review B}, \textbf{42} 8947
+
+\bibitem{brunner}
+Brunner, K. \textit{et al} (1992), Photoluminescence from a single GaAs/AlGaAs quantum dot. \textit{Physical Review Letters}, \textbf{69} 3216
+
+\bibitem{fine-structure}
+Jacak, L., Krasnyj, J., Wójs, A. (1997), Spin-orbit interaction in the quantum dot. \textit{Physica B}, \textbf{229}, 279--293
+
+\bibitem{dresselhaus}
+Dresselhaus, M. S. (2002), \textit{Applications of Group Theory to the Physics of Solids}. Massachusetts Institute of Technology
+
 %Steer, M. B. (2010) \textit{Microwave and RF design: A systems approach}. Beta edn. North Carolina State University: SciTech Publishing Inc.
 
-%\end{thebibliography}
+\end{thebibliography}
 
 
-% Can use something like this to put references on a page
-% by themselves when using endfloat and the captionsoff option.
-\ifCLASSOPTIONcaptionsoff
-  \newpage
-\fi
-
-\appendix[Feedback for the 1st cycle two-page report]
-"Decent in all categories - lab book had good recording of what you did. Fig captions should tell reader what to take away, not just what's in the figure. Good description of method, numerical result and error all there - some attempt at error analysis."
-
-% trigger a \newpage just before the given reference
-% number - used to balance the columns on the last page
-% adjust value as needed - may need to be readjusted if
-% the document is modified later
-%\IEEEtriggeratref{8}
-% The "triggered" command can be changed if desired:
-%\IEEEtriggercmd{\enlargethispage{-5in}}
-
-% references section
-
-% can use a bibliography generated by BibTeX as a .bbl file
-% BibTeX documentation can be easily obtained at:
-% http://mirror.ctan.org/biblio/bibtex/contrib/doc/
-% The IEEEtran BibTeX style support page is at:
-% http://www.michaelshell.org/tex/ieeetran/bibtex/
-%\bibliographystyle{IEEEtran}
-% argument is your BibTeX string definitions and bibliography database(s)
-%\bibliography{IEEEabrv,../bib/paper}
-%
-% <OR> manually copy in the resultant .bbl file
-% set second argument of \begin to the number of references
-% (used to reserve space for the reference number labels box)
-\bibliographystyle{ieeetran} 
+\bibliographystyle{unsrt}
 % use the following line to create a bibligraphy based on a .bib bibtex file (change to your filename)
-%\bibliography{filename}
+%\bibliography{michal_bibliography}
 
 
 
