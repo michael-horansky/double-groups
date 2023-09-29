@@ -43,33 +43,60 @@ The most direct way to experimentally investigate the energy states of electrons
 \caption{Example of simple decay diagrams for a trion and a biexciton respectively. The subscripts indicate the occupancy of heavy-like and light-like holes in each exciton complex, and the superscript indicates the net charge. We see that clusters of energy levels are labelled by exciton complexes, but these clusters consist of multiple energy levels separated due to fine-structure splittings. Figure courtesy of Karlsson \textit{et al}, \cite{karlsson}.}
 \end{figure}
 	
-The utility of group theory in the study of spin-orbit interaction stems from the fact that degeneracies of energy levels are associated with symmetries. By considering the point group associated with the symmetry of the QD crystallic structure and then finding its double group, we can immediately write down the amount of different energy levels of a given exciton complex, their degeneracies, and even the allowed transitions with their polarisation for each energy level \cite[Ch. 19]{dresselhaus}.
+The utility of group theory in the study of spin-orbit interaction stems from the fact that degeneracies of energy levels are associated with symmetries. By considering the point group associated with the symmetry of the QD crystallic structure and then finding its double group, we can immediately write down the amount of different energy levels of a given exciton complex, their degeneracies, and even the allowed transitions with their polarisation for each energy level \cite[Ch. 19]{dresselhaus}. These values don't necessarily have to agree with the measured spectra, which is the crux of our uncertainty about the true QD structural symmetry -- this effect is called \textit{symmetry elevation}, and has been studied in \cite{karlsson2}. Hence, we need to consider potential symmetry breakings of the growth-mode crystallic structure for different transitions and assess the agreement of group theory predictions with the measured spectra.
 
-goal: deduce the symmetries of the qd based on the spectra
-(growth mode BUT symmetry elevations)
+\section{Background Material}
 
-what is symmetry elevation
-
-\section{Background Material - BY THURSDAY EVENING}
+The main research paper our project will draw from shall be \cite{karlsson}, as it directly studies the structural properties of pyramidal GaAs quantum dots with (presumed) $C_{3v}$ symmetry that have been studied by Hartmann \textit{et al} in \cite{pyramidal_qds}, employing in order all the techniques that we wish to implement for the study of our system.
 
 why polarisation in data? -> group theory prediciton
 
 why temperature data> -> to separate heavy-like and light-like
 
-classify sourcesGarcía de Arquer FP, Talapin DV, Klimov VI, Arakawa Y, Bayer M, Sargent EH. Semiconductor quantum dots: Technological progress and future challenges. Science
+classify sources
 
 classify steps
 
 \subsection{Exciton analysis}
-First, the specifics of the Brillouin zones of the nanocrystals which QDs are can allow multiple characters of involved elementary particles -- for example, zincblende quantum wells have two different effective masses for holes in the valence band, referred to as heavy-like and light-like holes, which are labelled by separate quantum numbers and are associated with different polarisations \cite{karlsson2}. As noted by Karlsson \textit{et al} in \cite{karlsson}, the photoluminiscence intensity in the different hole regimes scales differently with crystal temperature, which Karlsson \textit{et al} conjectures to be the result of acoustic phonon relaxation bottleneck, an effect predicted by Bockelmann and Bastard \cite{bastard} and observed by Brunner \textit{et al} \cite{brunner}. This allows us to identify the characters of holes in transitions associated with peaks in the spectrum based on how the intensity of the peak changes with temperature, combined with the change in polarisation of emitted photons.
+First, the specifics of the Brillouin zones of the QD crystallic structure can allow multiple characters of involved elementary particles -- for example, zincblende quantum wells have two different effective masses for holes in the valence band, referred to as heavy-like and light-like holes, which are labelled by separate quantum numbers and are associated with different polarisations \cite{karlsson2}. As noted by Karlsson \textit{et al} in \cite{karlsson}, the photoluminiscence intensity in the different hole regimes scales differently with crystal temperature, which Karlsson \textit{et al} conjectures to be the result of acoustic phonon relaxation bottleneck, an effect predicted by Bockelmann and Bastard \cite{bastard} and observed by Brunner \textit{et al} \cite{brunner}. This allows us to identify the characters of holes in transitions associated with peaks in the spectrum based on how the intensity of the peak changes with temperature, combined with the change in polarisation of emitted photons. Then, a range of methods can be used to label certain peaks with a corresponding exciton complex decay transition.
 
-\subsection{Potential analysis}
-or join this with exciton analysis
+\subsection{Coulomb interaction analysis}
+Karlsson \textit{et al} employ the analysis of Coulomb interaction of exciton complexes to label the remaining peaks in the spectrum. More specifically, they use first-order approximations of Coulomb interactions between a system of electrons and holes in a quantum well to create a system of linear equations which relates the energies of decay transitions between several exciton complexes. By considering this approximation also for decays that have already been labelled by direct exciton analysis, Karlsson \textit{et al} are able to draw conclusions about the ordering of magnitudes of these decays, as well as the magnitudes of their variations on the spectral diagram, which is used both to finalise the labelling of all spectral features, as well as predicting the scaling of each peak with parameters such as the depth of the quantum well and its dimensions.
+
+These techniques can be used analogously on quantum dots with other structural properties, making them useful for our project, although the necessary experimental data has to be obtained, such as the dynamics of charging and recombination of QDs under photoexcitation (for pyramidal QDs done by Baier \textit{et al} in \cite{pyramid_dynamics} using temporal photon-correlation spectroscopy) and the temperature dependences of specific decay transitions (for pyramidal QDs done e.g. by Karlsson \textit{et al} in \cite{pyramid_temperature}).
 
 \subsection{Symmetry analysis}
 
+We have thus far summarised the methods of labelling spectral features of quantum dot photoluminiscence. These techniques provide insight into the inner mechanisms of quantum dot spectroscopy, which we will need to correctly interpret their results, however, the body of original work in our project will consist mainly of the analysis of \textit{symmetries} of crystals that should explain the experimental measurements obtained by other researchers. For this, we will use the invaluable toolset provided by group theory, particularly the concept of double groups.
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.4]{figures/quantum_dot_symmetries}
+\end{center}
+\caption{Examples of symmetries for QD states for individual carriers and their exciton complexes. To obtain the spin-orbit coupling splitting levels, we first need to label the individual carriers by irreducible representations on the basis of simple symmetry arguments as per the work of Dupertuis \textit{et al} \cite{dupertuis}, and then consider the reducible representations of single excitons using the approach described by Dresselhaus \cite[Ch. 19]{dresselhaus}. Labelling multi-electron exciton complexes usually requires additional consideration of the Pauli exclusion principle, which forces certain symmetries. Figure courtesy of Dupertuis \textit{et al}, \cite{dupertuis}.}
+\end{figure}
+
+Double groups are groups built upon classic point groups that model symmetries of crystallic structures. When a half-integer spin particle, such as an electron, is introduced, states with half-integer angular momentum become allowed, expanding the number of symmetry operators. More specifically, the wavefunctions of eigenstates are now no longer periodic under rotation with a period of $2\pi$, but rather with a period of $4\pi$, as a $2\pi$ rotation requires the change of sign of a half-integer angular momentum wavefunction--this $4\pi$-periodicity has been confirmed experimentally by Werner \textit{et al} in \cite{fermion_periodicity}. Therefore, the identity element $E$ can now be understood as a rotation by $4\pi$, and rotation by $2\pi$ becomes a new symetry operation commonly denoted $\mathcal{R}, \mathcal{R}^2=E$. Consequently, for each symmetry operator $g$ a new symmetry operator is introduced, equal to $\mathcal{R}g$, doubling the group order (hence the name double group). A complex but trivial technique as shown in \cite{heine} is then used to find the new conjugacy classes and irreducible representations, the amounts of which are usually less than double of that for the original point group. One of these new representations, the representation of the spin function ($E_{1/2}$ in Mulliken notation), is unique since pure spin states transform as this representation. Therefore, if we consider the eigenfunctions of the new Hamiltonian as linear combinations of pure spin-up and pure spin-down Bloch eigenfunctions of the original crystallic structure, we see that they have to transform as both the representation of the specific Bloch eigenfunction and the dipole representation. Therefore the representations of the new eigenstates will usually be reducible, and can be decomposed from $\Gamma_i\otimes E_{1/2}$ into several irreducible representations of the double group, each labelling an energy level. Therefore, this directly gives us the energy levels of the fine-structure splitting and their degeneracies.
+%the spin-orbit interaction term of the Hamiltonian%
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.15]{figures/symmetry_breaking_door}
+\end{center}
+\caption{Depiction of symmetry breaking and its effect on allowed transitions. A perturbation breaks the $\mathbf{D_2}$ point group symmetry of the door, which results in fine-structure splitting between the bedroom state and the hallway state, and forbids any direct transition between these two states.}
+\end{figure}
+
+The variance in polarisation of the emitted photons, which was used in classifying heavy-like and light-like electron holes, is also invaluable for assessing the predictions of group-theoretical analysis of symmetry, since it also includes information about polarisation associated with energy levels that emerge from fine-structure splitting. This is a simple consequence of the fact that these energy levels are labelled by irreducible representations of the point group of the quantum dot symmetries, such that all the eigenstates associated with a specific energy level transform as its irreducible representation \cite[Ch. 5]{dresselhaus}. Karlsson \textit{et al} employ the dipole approximation to consider how differently polarised photons transform according to different irreducible representations (the basis functions of irreducible representations can be found in standard tables, such as \cite{altmann}), which allows them to predict the polarisation of all allowed transitions.
+
+\subsection{Symmetry elevation}
+The techniques outlined above were employed by Karlsson \textit{et al} to study the structural symmetries of pyramidal QDs which are expected to exhibit $C_{3v}$ symmetry. However, the predicted energy splittings and allowed transitions didn't agree with the measured spectral peaks for all exciton complexes. To explain this, Karlsson \textit{et al} hypothesized that for certain complexes, the symmetry elevates to higher-symmetry point groups. For example, for the exciton $X_{10}$, symmetry elevation from $C_{3v}$ to $D_{3h}$ would forbid one predicted decay mode, which results in perfect agreement with the measured spectrum (one specific state of $X_{10}$ which is optically active in $C_{3v}$ symmetry becomes a dark state in $D_{3h}$ symmetry). Biexcitons $2X_{20}$ and $2X_{11}$ are also conjectured to experience symmetry elevation, and sensitive transitions whose presence in the spectrum probes the predicted symmetry are identified for other exciton complexes \cite{karlsson}. This outlines a very versatile toolset, which can be used to identify symmetry elevations for any exciton complex in a QD with any specific crystallic point group symmetry, as we will do in this project. This will illuminate the structural-symmetric properties of our studied QD system and how they vary in different states.
+
 \section{Summary}
-anything
+We have outlined our goal to probe the symmetry properties of a provided quantum dot structure using group theory approach to create a model that matches the measured polarisation-resolved photoluminiscence spectrum and predicts symmetry elevations for respective exciton states. An array of experiment-based arguments will be made to first label the PL spectral peaks as decay modes of exciton complexes, and then the measured fine-structure energy splittings will be used as a basis for arguments about the symmetries of the respective quantum states, using the language of double groups. Our desired outcome for this project is a clear and concise point-group labelling of the first exciton complex states and the evaluation of the agreement between our predictions and the measured data.
+
+However, there are limitations to this approach that have been well noted by its previous employers, such as Karlsson \textit{et al} in \cite{karlsson}. The main limitation is that even if we identify symmetry elevation for a give exciton complex, the choice of the elevated point group of which the crystal symmetry point group is a subgroup is not unique. Karlsson \textit{et al} note that, for example, even though they use the point group $D_{3h}$ as a model that accurately predicts the measured optical transitions, the point group $C_{6v}$ has the same property, so the amount of data they have is insufficient to make any meaningful distinction between these two candidate groups, and $D_{3h}$ is conjectured as the true symmetry group only because the geometrical deformation of the wavefunctions is more intuitively probable. Therefore, many point groups will have to be assessed in the project, and additional physical arguments will have to be made to select the most probable candidates for symmetry elevation that we might find.
+
+Additionally, the spectral features of QDs have nonzero spreads, so under heavy energy splitting into tightly-spaced states (the spacing of which group theory doesn't predict), some predicted peaks might be unresolvable (as noted by Karlsson \textit{et al}, \cite{karlsson}). Hence, the spectral analysis is not a conclusive way to identify the point group symmetries of exciton complexes, but only partial evidence, in which the hypothetical experimental results for candidate models has to be considered by us. Therefore, an invaluable piece of information we will attempt to retrieve from our models will be which exact optical transitions are key in probing certain hypothesized symmetry elevations and what are their resolvabilities in context of the fine-structure spectrum and the respective polarisations of the surrounding decay modes.
 
 \begin{thebibliography}{10}
 
@@ -119,6 +146,27 @@ Jacak, L., Krasnyj, J., Wójs, A. (1997), Spin-orbit interaction in the quantum 
 
 \bibitem{dresselhaus}
 Dresselhaus, M. S. (2002), \textit{Applications of Group Theory to the Physics of Solids}. Massachusetts Institute of Technology
+
+\bibitem{pyramidal_qds}
+Hartmann, A. \textit{et al} (1997), Self-limiting growth of quantum dot heterostructures on nonplanar $\{111\}B$ substrates. \textit{Applied Physics Letters}, \textbf{71} 1314
+
+\bibitem{altmann}
+Altmann, S. L., Herzig, P. (1994), \textit{Point-Group Theory Tables}. Oxford: Clarendon Press
+
+\bibitem{pyramid_dynamics}
+Baier, M. H., Malko, A., Pelucchi, E., Oberli, D. Y., Kapon, E. (2006), Quantum-dot exciton dynamics probed by photon-correlation spectroscopy. \textit{Physical Review B}, \textbf{73} 205321
+
+\bibitem{pyramid_temperature}
+Karlsson, K. F., Moskalenko, E. S., Holtz, P. O., Monemar, B., Schoenfeld, W. V., García, J. M., Petroff, P. M. (2001), Temperature influence on optical charging of self-assembled InAs/GaAs semiconductor quantum dots. \textit{Applied Physics Letters}, \textbf{78} 2952
+
+\bibitem{fermion_periodicity}
+Werner, S.A., Colella, R., Overhauser, A.W., Eagen, C.F. (1975), Observation of the Phase Shift of a Neutron Due to Precession in a Magnetic Field. \textit{Physical Review Letters}, \textbf{16} 1053
+
+\bibitem{heine}
+Heine, V. (1960), \textit{Group Theory in Quantum Mechanics: An Introduction to its Present Usage}. Oxford: Pergamon Press
+
+\bibitem{dupertuis}
+Dupertuis, M. A., Karlsson, K. F., Oberli, D. Y., Pelucchi, E., Rudra, A., Holtz, P. O., Kapon, E. (2011), Symmetries and the Polarized Optical Spectra of Exciton Complexes in Quantum Dots. \textit{Physical Review Letters}, \textbf{107} 127403
 
 %Steer, M. B. (2010) \textit{Microwave and RF design: A systems approach}. Beta edn. North Carolina State University: SciTech Publishing Inc.
 
