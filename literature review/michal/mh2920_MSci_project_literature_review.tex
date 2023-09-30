@@ -49,16 +49,15 @@ The utility of group theory in the study of spin-orbit interaction stems from th
 
 The main research paper our project will draw from shall be \cite{karlsson}, as it directly studies the structural properties of pyramidal GaAs quantum dots with (presumed) $C_{3v}$ symmetry that have been studied by Hartmann \textit{et al} in \cite{pyramidal_qds}, employing in order all the techniques that we wish to implement for the study of our system.
 
-why polarisation in data? -> group theory prediciton
-
-why temperature data> -> to separate heavy-like and light-like
-
-classify sources
-
-classify steps
-
 \subsection{Exciton analysis}
 First, the specifics of the Brillouin zones of the QD crystallic structure can allow multiple characters of involved elementary particles -- for example, zincblende quantum wells have two different effective masses for holes in the valence band, referred to as heavy-like and light-like holes, which are labelled by separate quantum numbers and are associated with different polarisations \cite{karlsson2}. As noted by Karlsson \textit{et al} in \cite{karlsson}, the photoluminiscence intensity in the different hole regimes scales differently with crystal temperature, which Karlsson \textit{et al} conjectures to be the result of acoustic phonon relaxation bottleneck, an effect predicted by Bockelmann and Bastard \cite{bastard} and observed by Brunner \textit{et al} \cite{brunner}. This allows us to identify the characters of holes in transitions associated with peaks in the spectrum based on how the intensity of the peak changes with temperature, combined with the change in polarisation of emitted photons. Then, a range of methods can be used to label certain peaks with a corresponding exciton complex decay transition.
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.6]{figures/temperature_dependence}
+\end{center}
+\caption{Illustration of differing temperature dependence for various exciton complex-associated optical transitions for a pyramidal QD. This effect can be used to identify the major spectral features for other QDs as well. Figure courtesy of Karlsson \textit{et al}, \cite{karlsson}.}
+\end{figure}
 
 \subsection{Coulomb interaction analysis}
 Karlsson \textit{et al} employ the analysis of Coulomb interaction of exciton complexes to label the remaining peaks in the spectrum. More specifically, they use first-order approximations of Coulomb interactions between a system of electrons and holes in a quantum well to create a system of linear equations which relates the energies of decay transitions between several exciton complexes. By considering this approximation also for decays that have already been labelled by direct exciton analysis, Karlsson \textit{et al} are able to draw conclusions about the ordering of magnitudes of these decays, as well as the magnitudes of their variations on the spectral diagram, which is used both to finalise the labelling of all spectral features, as well as predicting the scaling of each peak with parameters such as the depth of the quantum well and its dimensions.
@@ -71,20 +70,13 @@ We have thus far summarised the methods of labelling spectral features of quantu
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.4]{figures/quantum_dot_symmetries}
+\includegraphics[scale=0.45]{figures/quantum_dot_symmetries}
 \end{center}
 \caption{Examples of symmetries for QD states for individual carriers and their exciton complexes. To obtain the spin-orbit coupling splitting levels, we first need to label the individual carriers by irreducible representations on the basis of simple symmetry arguments as per the work of Dupertuis \textit{et al} \cite{dupertuis}, and then consider the reducible representations of single excitons using the approach described by Dresselhaus \cite[Ch. 19]{dresselhaus}. Labelling multi-electron exciton complexes usually requires additional consideration of the Pauli exclusion principle, which forces certain symmetries. Figure courtesy of Dupertuis \textit{et al}, \cite{dupertuis}.}
 \end{figure}
 
 Double groups are groups built upon classic point groups that model symmetries of crystallic structures. When a half-integer spin particle, such as an electron, is introduced, states with half-integer angular momentum become allowed, expanding the number of symmetry operators. More specifically, the wavefunctions of eigenstates are now no longer periodic under rotation with a period of $2\pi$, but rather with a period of $4\pi$, as a $2\pi$ rotation requires the change of sign of a half-integer angular momentum wavefunction--this $4\pi$-periodicity has been confirmed experimentally by Werner \textit{et al} in \cite{fermion_periodicity}. Therefore, the identity element $E$ can now be understood as a rotation by $4\pi$, and rotation by $2\pi$ becomes a new symetry operation commonly denoted $\mathcal{R}, \mathcal{R}^2=E$. Consequently, for each symmetry operator $g$ a new symmetry operator is introduced, equal to $\mathcal{R}g$, doubling the group order (hence the name double group). A complex but trivial technique as shown in \cite{heine} is then used to find the new conjugacy classes and irreducible representations, the amounts of which are usually less than double of that for the original point group. One of these new representations, the representation of the spin function ($E_{1/2}$ in Mulliken notation), is unique since pure spin states transform as this representation. Therefore, if we consider the eigenfunctions of the new Hamiltonian as linear combinations of pure spin-up and pure spin-down Bloch eigenfunctions of the original crystallic structure, we see that they have to transform as both the representation of the specific Bloch eigenfunction and the dipole representation. Therefore the representations of the new eigenstates will usually be reducible, and can be decomposed from $\Gamma_i\otimes E_{1/2}$ into several irreducible representations of the double group, each labelling an energy level. Therefore, this directly gives us the energy levels of the fine-structure splitting and their degeneracies.
 %the spin-orbit interaction term of the Hamiltonian%
-
-\begin{figure}
-\begin{center}
-\includegraphics[scale=0.15]{figures/symmetry_breaking_door}
-\end{center}
-\caption{Depiction of symmetry breaking and its effect on allowed transitions. A perturbation breaks the $\mathbf{D_2}$ point group symmetry of the door, which results in fine-structure splitting between the bedroom state and the hallway state, and forbids any direct transition between these two states.}
-\end{figure}
 
 The variance in polarisation of the emitted photons, which was used in classifying heavy-like and light-like electron holes, is also invaluable for assessing the predictions of group-theoretical analysis of symmetry, since it also includes information about polarisation associated with energy levels that emerge from fine-structure splitting. This is a simple consequence of the fact that these energy levels are labelled by irreducible representations of the point group of the quantum dot symmetries, such that all the eigenstates associated with a specific energy level transform as its irreducible representation \cite[Ch. 5]{dresselhaus}. Karlsson \textit{et al} employ the dipole approximation to consider how differently polarised photons transform according to different irreducible representations (the basis functions of irreducible representations can be found in standard tables, such as \cite{altmann}), which allows them to predict the polarisation of all allowed transitions.
 
