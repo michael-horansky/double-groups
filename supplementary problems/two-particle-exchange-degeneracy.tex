@@ -1,0 +1,51 @@
+\documentclass[12pt]{article}
+\usepackage{stdheadstart}
+\usepackage{xargs}
+\usepackage{physics}
+\usepackage{amsmath,amssymb}
+\insheadstart{images/}
+
+
+\begin{document}
+
+	\section{Description}
+	
+	The following is a reformulation of the toy problem we presented during the meeting on 6 Oct. It regards the questions we have on the degeneracy of systems constructed as tensor products of two or more Hilbert spaces.
+	
+	\section{Toy problem: two-particle system}
+	
+	Suppose we have a Hamiltonian $\hat{H}^0$ acting on particle $A$ in a Hilbert space $\mathcal{H}_A$. Let $\hat{H}^0$ be chosen such that it has no symmetry operators in $\mathcal{H}_A$ that commute with it. We can then see that, up to possible accidental degeneracy, there are no degeneracies for the eigenstates of $\hat{H}^0$ and we can label these eigenstates in $\mathcal{H}_A$ sequentially, ordered by the magnitude of their corresponding energies: $\ket{1}_{\mathcal{H}_A}, \ket{2}_{\mathcal{H}_A}, \ket{3}_{\mathcal{H}_A}\dots \ket{m}_{\mathcal{H}_A}\dots$, with energies $E_1, E_2, E_3 \dots E_m \dots$.
+	
+	Now suppose we have another particle, particle $B$, which is distinguishable from particle $A$, which exists in Hiblert space $\mathcal{H}_B$ that is identical to $\mathcal{H}_A$, and within which the Hamiltonian of particle $B$ is $\hat{H}^0$, identical to the Hamiltonian of particle $A$. Then the eigenstates and energies of this particle are $\ket{1}_{\mathcal{H}_B}, \ket{2}_{\mathcal{H}_B}, \ket{3}_{\mathcal{H}_B}\dots \ket{n}_{\mathcal{H}_B}\dots$ and $E_1, E_2, E_3 \dots E_n \dots$, respectively.
+	
+	Now, suppose we consider both of these particles simultaneously. The full Hilbert space is then $\mathcal{H}=\mathcal{H}_A\otimes\mathcal{H}_B$. Since we introduce no interaction term, the full Hamiltonian can be understood as the sum of the two Hamiltonians acting on each respective particle; written rigorously, this becomes
+	$$\hat{H}_{\mathcal{H}_A\otimes\mathcal{H}_B}=\hat{H}^0_{\mathcal{H}_A} \otimes \hat{\mathbb{I}}_{\mathcal{H}_B}+\hat{\mathbb{I}}_{\mathcal{H}_A} \otimes \hat{H}^0_{\mathcal{H}_B}$$
+	where $\hat{\mathbb{I}}$ is the identity operator.
+	
+	Now: notice that the tensor products of the original eigenstates of the respective particles will form the new eigenstates of the full system. If we label $\ket{mn}_{\mathcal{H}_A\otimes\mathcal{H}_B}=\ket{m}_{\mathcal{H}_A}\otimes\ket{n}_{\mathcal{H}_B}$, then
+	\begin{eqnarray*}
+	\hat{H}_{\mathcal{H}_A\otimes\mathcal{H}_B} \ket{mn}_{\mathcal{H}_A\otimes\mathcal{H}_B} &=& \left(\hat{H}^0_{\mathcal{H}_A} \otimes \hat{\mathbb{I}}_{\mathcal{H}_B}+\hat{\mathbb{I}}_{\mathcal{H}_A} \otimes \hat{H}^0_{\mathcal{H}_B}\right) \ket{m}_{\mathcal{H}_A}\otimes\ket{n}_{\mathcal{H}_B}\\
+	&=& \hat{H}^0_{\mathcal{H}_A} \otimes \hat{\mathbb{I}}_{\mathcal{H}_B} \ket{m}_{\mathcal{H}_A}\otimes\ket{n}_{\mathcal{H}_B} + \hat{\mathbb{I}}_{\mathcal{H}_A} \otimes \hat{H}^0_{\mathcal{H}_B} \ket{m}_{\mathcal{H}_A}\otimes\ket{n}_{\mathcal{H}_B}\\
+	&=& E_m \ket{m}_{\mathcal{H}_A}\otimes\ket{n}_{\mathcal{H}_B} + E_n \ket{m}_{\mathcal{H}_A}\otimes\ket{n}_{\mathcal{H}_B}\\
+	&=& (E_m + E_n) \ket{mn}_{\mathcal{H}_A\otimes\mathcal{H}_B}
+	\end{eqnarray*}
+	
+	Now, since particles $A$ and $B$ are distinguishable, the states $\ket{mn}_{\mathcal{H}_A\otimes\mathcal{H}_B}$ and $\ket{nm}_{\mathcal{H}_A\otimes\mathcal{H}_B}$ are two separate states, but they both correspond to the energy level of $E_m+E_n$. Hence, there is a $2$-fold degeneracy for each state $\ket{mn}_{\mathcal{H}_A\otimes\mathcal{H}_B}$ where $m\neq n$ (states where $m=n$ are non-degenerate).
+	
+	We would expect to be able to label these energy states by an irrep of the full Hamiltonian with dimensionality of $2$. However, we first need to construct the point group of symmetries of $\hat{H}_{\mathcal{H}_A\otimes\mathcal{H}_B}$. From the specific construction of this Hamiltonian, we see that the only symmetry operation that commutes with $\hat{H}_{\mathcal{H}_A\otimes\mathcal{H}_B}$ other than the identity $\hat{P}_\mathbb{I}=\hat{\mathbb{I}}_{\mathcal{H}_A\otimes\mathcal{H}_B}$ is the exchange operator $\hat{P}_X$ defined such that
+	$$\hat{P}_X \ket{mn}_{\mathcal{H}_A\otimes\mathcal{H}_B} = \ket{nm}_{\mathcal{H}_A\otimes\mathcal{H}_B}$$
+	We see that this operator transforms one degenerate eigenstate into its non-equivalent partner, hence this is not an accidental degeneracy.
+	
+	However, since the group of the Hamiltonian is of order $2$, it must be isomorphic to $C_2$, which has the trivial character table:
+	\begin{center}
+	\begin{tabular}{c | c c}
+	$C_2$ & $\{\hat{P}_{\mathbb{I}}\}$ & $\{\hat{P}_X\}$ \\
+	\hline
+	$\Gamma_1$ & $1$ & $1$\\
+	$\Gamma_2$ & $1$ & $-1$
+	\end{tabular}
+	\end{center}
+	
+	We see that there is no irrep with dimension $2$ with which we could label the $2$-fold degenerate states $\ket{mn}_{\mathcal{H}_A\otimes\mathcal{H}_B}, m\neq n$.
+	
+\end{document}
