@@ -9,8 +9,11 @@ from improper_rotations import *
 
 class Group():
     
-    def __init__(self, conjugacy_classes, representations, character_table):
+    rounding_decimals = 10
+    
+    def __init__(self, conjugacy_classes, representations, conjugacy_class_sizes, character_table):
         # conjugacy_classes and representations are lists of labels for these respectively, OR integer lengths of these if no labels are necessary
+        
         self.conjugacy_classes = conjugacy_classes
         if type(conjugacy_classes) == int:
             self.conjugacy_classes = []
@@ -22,6 +25,8 @@ class Group():
             self.representations = []
             for i in range(representations):
                 self.representations.append(str(i))
+                
+        self.conjugacy_class_sizes = conjugacy_class_sizes
         
         # Character table MUST be the dimension [len(representations)][len(conjugacy_classes)]
         
@@ -37,7 +42,24 @@ class Group():
     def add_symmetry_operation(self, group_element, conjugacy_class_index):
         self.conjugacy_class_elements[conjugacy_class_index].append(group_element)
         self.group_elements[group_element] = conjugacy_class_index
-        
+    
+    def reduce_representation(self, reducible_representation):
+        coefs = [0] * len(self.character_table)
+
+        for i in range(len(self.character_table)):
+            #s = 0
+            for j in range(len(self.character_table[i])):
+                coefs[i] += reducible_representation[j] * self.character_table[i][j] * self.conjugacy_class_sizes[j]
+            coefs[i] /= sum(self.conjugacy_class_sizes)
+            coefs[i] = np.round(coefs[i], decimals = Group.rounding_decimals)
+            
+        human_readable_output = ""
+        for i in range(len(coefs)):
+            if coefs[i] != 0.0:
+                human_readable_output += str(int(coefs[i])) + "." + self.representations[i] + " + "
+
+        return(coefs, human_readable_output[:-3])
+            
         
 
 
@@ -223,11 +245,11 @@ Cdia_2 = Cy_2 + Cz_4
 #print(((Cz_4 + Cy_2) + (Cz_4 + Cy_2)) == E)
 
 
-operations, cayley = generate_group({"e" : E, "a" : Cz_4, "b" : Cy_2})
+"""operations, cayley = generate_group({"e" : E, "a" : Cz_4, "b" : Cy_2})
 
 print(list(operations.keys()))
 
-print(cayley)
+print(cayley)"""
 
 
 """
