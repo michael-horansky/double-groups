@@ -82,7 +82,7 @@ class ImproperRotation():
         
         res = np.round(res, decimals = ImproperRotation.rounding_decimals)
         
-        return(res)
+        return(np.matrix(res))
             
         
     

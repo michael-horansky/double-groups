@@ -1,6 +1,7 @@
 
 import copy
 
+import spgrep
 from improper_rotations import *
 
 
@@ -67,6 +68,104 @@ class Group():
 
 # ------------------- Group generation methods ---------------------------
 
+def name_irreps(irreps, group_operations, convention = "altmann"):
+    
+    # deduces the names for irreps using a specified convention
+    
+    final_names = []
+    reorder_indices = []
+    
+    letter_dictionary = {
+        "altmann" : [["A", "B"], "E", "T", "F", "H", "I"]
+        }
+    
+    count_number = [[0, 0], 0, 0, 0, 0, 0]
+    
+    group_elements = list(group_operations.keys())
+    
+    # first, identify the indices of group operations that are rotations about [0, 0, 1]
+    z_rot_indices = []
+    for i in range(len(group_elements)):
+        if np.dot(group_operations[group_elements[i]].axis, np.array([0.0, 0.0, 1.0])) == 1.0:
+            z_rot_indices.append(i)
+    
+    
+    
+    def check_if_complex_conjugate(i1, i2):
+        irrep1 = irreps[i1]
+        irrep2 = irreps[i2]
+        for i in range(len(irrep1)):
+            if not np.all(irrep1[i].conjugate() == irrep2[i]):
+                return(False)
+        return(True)
+    
+    def check_if_symmetric(irrep_i):
+        for index in z_rot_indices:
+            if irreps[irrep_i][index][0][0] != 1.0:
+                return(False)
+        return(True)
+    
+    # first, classify irreps by their dimension
+    irreps_by_dim = [] # [[dim1, [[irrep1 index], [irrep2 i, irrep2 c.c. i]...]], [dim2, [[irrep3], [irrep4]...]], ...]
+    for i in range(len(irreps)):
+        cur_dim = irreps[i].shape[1]
+        irrep_placed = False
+        biggest_smaller_dim_index = -1
+        for j in range(len(irreps_by_dim)):
+            if irreps_by_dim[j][0] == cur_dim:
+                
+                # check if there's a complex conjugate irrep present
+                cc_found = False
+                for k in range(len(irreps_by_dim[j][1])):
+                    if len(irreps_by_dim[j][1][k]) > 1:
+                        continue
+                    if check_if_complex_conjugate(i, irreps_by_dim[j][1][k][0]):
+                        cc_found = True
+                        irrep_placed = True
+                        #final_names[i] = "1" + letter_dictionary[convention][cur_dim * 2]
+                        #final_names[irreps_by_dim[j][1][k][0]] = "2" + letter_dictionary[convention][cur_dim * 2]
+                        #irreps_by_dim[j][1].pop(k) # removes both reps
+                        irreps_by_dim[j][1][k].append(i)
+                        break
+                if not cc_found:
+                    irreps_by_dim[j][1].append([i])
+                    irrep_placed = True
+                break
+            elif irreps_by_dim[j][0] < cur_dim:
+                biggest_smaller_dim_index = j
+        if not irrep_placed:
+            irreps_by_dim.insert(biggest_smaller_dim_index + 1, [cur_dim, [[i]]])
+    
+    for i in range(len(irreps_by_dim)):
+        cur_dim = irreps_by_dim[i][0]
+        for j in range(len(irreps_by_dim[i][1])):
+            if len(irreps_by_dim[i][1][j]) == 1:
+                cur_i = irreps_by_dim[i][1][j][0]
+                reorder_indices.append(cur_i)
+                if cur_dim == 1:
+                    # check for antisymmetricity ALTMANN P 63
+                    if check_if_symmetric(cur_i):
+                        count_number[cur_dim - 1][0] += 1
+                        final_names.append(letter_dictionary[convention][cur_dim-1][0] + "_" + str(count_number[cur_dim - 1][0]))
+                    else:
+                        count_number[cur_dim - 1][1] += 1
+                        final_names.append(letter_dictionary[convention][cur_dim-1][1] + "_" + str(count_number[cur_dim - 1][1]))
+                else:
+                    count_number[cur_dim - 1] += 1
+                    final_names.append(letter_dictionary[convention][cur_dim-1] + "_" + str(count_number[cur_dim - 1]))
+            elif len(irreps_by_dim[i][1][j]) == 2:
+                cur_i1 = irreps_by_dim[i][1][j][0]
+                cur_i2 = irreps_by_dim[i][1][j][1]
+                reorder_indices.append(cur_i1)
+                reorder_indices.append(cur_i2)
+                final_names.append("1" + letter_dictionary[convention][cur_dim*2-1])
+                final_names.append("2" + letter_dictionary[convention][cur_dim*2-1])
+    
+    return(reorder_indices, final_names)
+                
+
+
+
 
 def group_from_multiplication_table(group_operations, multiplication_table):
     
@@ -109,6 +208,9 @@ def group_from_multiplication_table(group_operations, multiplication_table):
         return(False)
     
     conjugacy_classes_dict = {}
+    
+    indices_of_representative_elements = []
+    
     for order in range(h):
         headers_of_current_classes = []
         while(len(orders_list[order]) > 0):
@@ -123,8 +225,11 @@ def group_from_multiplication_table(group_operations, multiplication_table):
             if not element_placed:
                 headers_of_current_classes.append(cur_element)
                 conjugacy_classes_dict[group_elements[cur_element]] = [group_elements[cur_element]]
+                indices_of_representative_elements.append(cur_element)
     
-    print(conjugacy_classes_dict)
+    #print(conjugacy_classes_dict)
+    #print("------------------------------------------")
+    #print(indices_of_representative_elements)
     
     
     # Second: we find the dimensions of the irreps. This is the diophantine eq sum d^2 = h, where the number of irreps = number of classes
@@ -157,6 +262,38 @@ def group_from_multiplication_table(group_operations, multiplication_table):
     print(irrep_dimensions)
     
     # at this point, we ask the user to fill out the character table themselves because difficult to automate
+    
+    rotation_matrices = np.zeros((len(group_elements), 3, 3))
+    for i in range(len(group_elements)):
+        rotation_matrices[i] = group_operations[group_elements[i]].cartesian_rep()
+    
+    print(rotation_matrices)
+    
+    irreps = spgrep.irreps.enumerate_unitary_irreps(rotation_matrices)[0]
+    
+    irrep_reordering, irrep_names = name_irreps(irreps, group_operations)
+    
+    irreps = [irreps[i] for i in irrep_reordering]
+    
+    for i in range(len(irreps)):
+        print(irrep_names[i], irreps[i])
+    
+    characters = []
+    for irrep in irreps:
+        characters.append(spgrep.representation.get_character(irrep))
+    
+    conjugacy_class_names = list(conjugacy_classes_dict.keys())
+    conjugacy_class_sizes = []
+    for i in range(len(conjugacy_class_names)):
+        conjugacy_class_sizes.append(len(conjugacy_classes_dict[conjugacy_class_names[i]]))
+    
+    character_table = np.zeros((len(irreps), len(irreps)))
+    
+    return(Group(conjugacy_class_names, irrep_names, conjugacy_class_sizes, character_table))
+    
+    
+    #print(characters)
+    
     
     # for automation, check https://github.com/gap-system/gap, https://www.gap-system.org/Overview/Capabilities/representations.html
     
@@ -245,11 +382,11 @@ Cdia_2 = Cy_2 + Cz_4
 #print(((Cz_4 + Cy_2) + (Cz_4 + Cy_2)) == E)
 
 
-"""operations, cayley = generate_group({"e" : E, "a" : Cz_4, "b" : Cy_2})
+operations, cayley = generate_group({"e" : E, "a" : Cz_4, "b" : Cy_2})
 
 print(list(operations.keys()))
 
-print(cayley)"""
+#print(cayley)
 
 
 """
