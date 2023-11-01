@@ -54,6 +54,7 @@ class ImproperRotation():
     
     def __init__(self, axis, angle, inversion):
         
+        #print(np.linalg.norm(axis))
         self.axis = np.round(np.array(axis) / np.linalg.norm(axis), decimals = ImproperRotation.rounding_decimals)
         self.angle = np.round(constrained_angle(angle), decimals = ImproperRotation.rounding_decimals)
         self.inversion = inversion
@@ -83,7 +84,29 @@ class ImproperRotation():
         res = np.round(res, decimals = ImproperRotation.rounding_decimals)
         
         return(np.matrix(res))
-            
+    
+    def SU2_rep(self):
+        # matrix as list of rows
+        
+        res  = np.zeros((2, 2), dtype = np.complex_)
+        t    = self.angle
+        w    = np.cos(t / 2.0)
+        norm = np.abs(np.sin(t / 2.0))
+        u_x  = self.axis[0] * norm
+        u_y  = self.axis[1] * norm
+        u_z  = self.axis[2] * norm
+        
+        res[0][0] = complex(w, u_x)
+        res[0][1] = complex(-u_y, u_z)
+        res[1][0] = complex(u_y, u_z)
+        res[1][1] = complex(w, -u_x)
+        
+        if self.inversion:
+            # TODO FIGURE THIS OUT!!!!!!
+            print("inversion ignored!!!")
+        
+        res = np.round(res, decimals = ImproperRotation.rounding_decimals)
+        return(np.matrix(res))
         
     
     def __eq__(self, SO):
@@ -141,6 +164,13 @@ class ImproperRotation():
         else:
             new_inversion = True
         
+        # if new axis has zero norm, this has to be the identity matrix
+        if np.round(np.linalg.norm(new_axis), ImproperRotation.rounding_decimals) == 0.0:
+            if new_inversion == True:
+                return(identity_inversion)
+            if new_inversion == False:
+                return(identity_rotation)
+        
         # rounding here
         new_axis = np.round(new_axis, decimals = ImproperRotation.rounding_decimals)
         new_angle = np.round(new_angle, decimals = ImproperRotation.rounding_decimals)
@@ -159,5 +189,6 @@ class ImproperRotation():
 # ------------------- Common instances ---------------------
 
 identity_rotation = ImproperRotation([1.0, 0.0, 0.0], 0.0, False)
+identity_inversion = ImproperRotation([1.0, 0.0, 0.0], 0.0, True)
 
 

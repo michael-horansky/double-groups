@@ -68,7 +68,7 @@ class Group():
 
 # ------------------- Group generation methods ---------------------------
 
-def name_irreps(irreps, group_operations, convention = "altmann"):
+def name_irreps(irreps, group_elements, faithful_rep, convention = "altmann"):
     
     # deduces the names for irreps using a specified convention
     
@@ -81,13 +81,25 @@ def name_irreps(irreps, group_operations, convention = "altmann"):
     
     count_number = [[0, 0], 0, 0, 0, 0, 0]
     
-    group_elements = list(group_operations.keys())
+    #group_elements = list(group_operations.keys())
     
     # first, identify the indices of group operations that are rotations about [0, 0, 1]
     z_rot_indices = []
-    for i in range(len(group_elements)):
+    
+    # This is either SO'3 or SU 2
+    if faithful_rep.shape[1] == 3:
+        # SO'3
+        for i in range(len(group_elements)):
+            if np.all(np.matmul(faithful_rep[i], np.array([0.0, 0.0, 1.0])) == np.array([0.0, 0.0, 1.0])):
+                z_rot_indices.append(i)
+    elif faithful_rep.shape[1] == 2:
+        # SU 2
+        for i in range(len(group_elements)):
+            if faithful_rep[i][0][0] == faithful_rep[i][1][1] and faithful_rep[i][0][1] == faithful_rep[i][1][0]:
+                z_rot_indices.append(i)
+    """for i in range(len(group_elements)):
         if np.dot(group_operations[group_elements[i]].axis, np.array([0.0, 0.0, 1.0])) == 1.0:
-            z_rot_indices.append(i)
+            z_rot_indices.append(i)"""
     
     
     
@@ -164,19 +176,40 @@ def name_irreps(irreps, group_operations, convention = "altmann"):
     return(reorder_indices, final_names)
                 
 
-
-
-
-def group_from_multiplication_table(group_operations, multiplication_table):
+def find_irrep_dimensions(conjugacy_classes_dict):
+    # We find the dimensions of the irreps. This is the diophantine eq sum d^2 = h, where the number of irreps = number of classes
+    number_of_classes = len(conjugacy_classes_dict.keys())
     
-    # group_operations is a dictionary {'label' : ImproperRotation}
-    # multiplication_table is a matrix [i][j] = (element[i] . element[j]).label
+    # the first rep has trivially d = 1
+    def square_sum(l):
+        res = 0
+        for x in l:
+            res += x * x
+        return(res)
     
-    group_elements = list(group_operations.keys())
+    target_sum = h - 1
+    maximum_d = int(np.floor(np.sqrt(target_sum)))
+    irrep_dimensions = [1] * (number_of_classes - 1) # monotonously increasing - check all possibilities
+    while(square_sum(irrep_dimensions) != target_sum):
+        index_of_increasable_irrep = len(irrep_dimensions) - 1
+        while(irrep_dimensions[index_of_increasable_irrep] == maximum_d and index_of_increasable_irrep > -1):
+            index_of_increasable_irrep -= 1
+        if index_of_increasable_irrep == -1:
+            # We have failed: no solution exists / was found
+            print("ERROR: no solution to the irrep dimensionality equations was found")
+            return(-1)
+        
+        # increase that irrep's d by 1 and set all the subsequent d's to the same value
+        new_d = irrep_dimensions[index_of_increasable_irrep] + 1
+        for i in range(index_of_increasable_irrep, len(irrep_dimensions)):
+            irrep_dimensions[i] = new_d
+    irrep_dimensions = [1] + irrep_dimensions
+    return(irrep_dimensions)
+
+def conjugacy_classes_from_multiplication_table(group_elements, multiplication_table):
+    # group_elements are the labels, multiplication_table is a table [i][j] = element[i] . element[j]
     
     h = len(group_elements)
-    
-    # First, we find the conjugacy classes
     # elements i, j are conjugate if there exists k such that multi[i][k] = multi[k][j]
     
     # For optimalization, we classify the elements by their order:
@@ -187,10 +220,12 @@ def group_from_multiplication_table(group_operations, multiplication_table):
     
     for i in range(h):
         j = 1
-        x = group_operations[group_elements[i]]
-        while(x != identity_rotation):
+        #x = group_operations[group_elements[i]]
+        x = i
+        while(x != 0):
             j += 1
-            x += group_operations[group_elements[i]]
+            #x += group_operations[group_elements[i]]
+            x = group_elements.index(multiplication_table[x][i])
             
             #safety break
             if j > h:
@@ -227,79 +262,130 @@ def group_from_multiplication_table(group_operations, multiplication_table):
                 conjugacy_classes_dict[group_elements[cur_element]] = [group_elements[cur_element]]
                 indices_of_representative_elements.append(cur_element)
     
-    #print(conjugacy_classes_dict)
-    #print("------------------------------------------")
-    #print(indices_of_representative_elements)
-    
-    
-    # Second: we find the dimensions of the irreps. This is the diophantine eq sum d^2 = h, where the number of irreps = number of classes
-    number_of_classes = len(conjugacy_classes_dict.keys())
-    
-    # the first rep has trivially d = 1
-    def square_sum(l):
-        res = 0
-        for x in l:
-            res += x * x
-        return(res)
-    
-    target_sum = h - 1
-    maximum_d = int(np.floor(np.sqrt(target_sum)))
-    irrep_dimensions = [1] * (number_of_classes - 1) # monotonously increasing - check all possibilities
-    while(square_sum(irrep_dimensions) != target_sum):
-        index_of_increasable_irrep = len(irrep_dimensions) - 1
-        while(irrep_dimensions[index_of_increasable_irrep] == maximum_d and index_of_increasable_irrep > -1):
-            index_of_increasable_irrep -= 1
-        if index_of_increasable_irrep == -1:
-            # We have failed: no solution exists / was found
-            print("ERROR: no solution to the irrep dimensionality equations was found")
-            return(-1)
-        
-        # increase that irrep's d by 1 and set all the subsequent d's to the same value
-        new_d = irrep_dimensions[index_of_increasable_irrep] + 1
-        for i in range(index_of_increasable_irrep, len(irrep_dimensions)):
-            irrep_dimensions[i] = new_d
-    irrep_dimensions = [1] + irrep_dimensions
-    print(irrep_dimensions)
-    
-    # at this point, we ask the user to fill out the character table themselves because difficult to automate
-    
-    rotation_matrices = np.zeros((len(group_elements), 3, 3))
-    for i in range(len(group_elements)):
-        rotation_matrices[i] = group_operations[group_elements[i]].cartesian_rep()
-    
-    print(rotation_matrices)
-    
-    irreps = spgrep.irreps.enumerate_unitary_irreps(rotation_matrices)[0]
-    
-    irrep_reordering, irrep_names = name_irreps(irreps, group_operations)
-    
-    irreps = [irreps[i] for i in irrep_reordering]
-    
-    for i in range(len(irreps)):
-        print(irrep_names[i], irreps[i])
-    
+    return(conjugacy_classes_dict, indices_of_representative_elements)
+
+
+def get_character_table(irreps, conjugacy_classes_dict, indices_of_representative_elements, tolerance_decimals = 5):
     characters = []
     for irrep in irreps:
         characters.append(spgrep.representation.get_character(irrep))
     
     conjugacy_class_names = list(conjugacy_classes_dict.keys())
+    #conjugacy_class_sizes = []
+    #for i in range(len(conjugacy_class_names)):
+    #    conjugacy_class_sizes.append(len(conjugacy_classes_dict[conjugacy_class_names[i]]))
+    
+    character_table = np.zeros((len(irreps), len(irreps)), dtype=np.complex_)
+    
+    for i_irrep in range(len(irreps)):
+        for i_cc in range(len(conjugacy_class_names)):
+            character_table[i_irrep][i_cc] = np.round(characters[i_irrep][indices_of_representative_elements[i_cc]], decimals = 5)
+    
+    return(character_table)
+
+def get_regular_representation(group_elements, multiplication_table):
+    # assume the neutral element is first in group_elements
+    h = len(group_elements)
+    group_element_indices = {}
+    for i in range(len(group_elements)):
+        group_element_indices[group_elements[i]] = i
+    
+    # First, we rearrange the mult_table so that E is along the main diagonal
+    mt = np.array(multiplication_table)
+    # we do this by swapping rows
+    for i in range(1, h):
+        # we want to find the row which has E as its i-th element
+        if mt[i][i] == group_elements[0]:
+            continue
+        for j in range(i + 1, h + 1):
+            if j == h:
+                print("ERROR: multiplication table isn't proper")
+                #continue
+                return(-1)
+            if mt[j][i] == group_elements[0]:
+                # swap i and j rows, in mt and group_elements
+                mt[[i, j]] = mt[[j, i]]
+                break
+    
+    # By swapping rows, the first index of mt no longer corresponds to its group_element item, but rather its inverse
+    
+    regular_rep = np.zeros((h, h, h))
+    for i in range(h):
+        for j in range(h):
+            regular_rep[group_element_indices[mt[i][j]]][i][j] = 1.0
+    return(regular_rep)
+
+
+
+def group_from_group_operations(group_operations, multiplication_table):
+    
+    # group_operations is a dictionary {'label' : ImproperRotation}
+    # multiplication_table is a matrix [i][j] = (element[i] . element[j]).label
+    
+    group_elements = list(group_operations.keys())
+    
+    h = len(group_elements)
+    
+    # First, we find the conjugacy classes
+    conjugacy_classes_dict, indices_of_representative_elements = conjugacy_classes_from_multiplication_table(group_elements, multiplication_table)
+    
+    rotation_matrices = np.zeros((len(group_elements), 3, 3))
+    for i in range(len(group_elements)):
+        rotation_matrices[i] = group_operations[group_elements[i]].cartesian_rep()
+    
+    irreps = spgrep.irreps.enumerate_unitary_irreps(rotation_matrices)[0]
+    
+    irrep_reordering, irrep_names = name_irreps(irreps, group_elements, rotation_matrices)
+    irreps = [irreps[i] for i in irrep_reordering]
+    
+    character_table = get_character_table(irreps, conjugacy_classes_dict, indices_of_representative_elements)
+    
+    conjugacy_class_names = list(conjugacy_classes_dict.keys())
     conjugacy_class_sizes = []
     for i in range(len(conjugacy_class_names)):
         conjugacy_class_sizes.append(len(conjugacy_classes_dict[conjugacy_class_names[i]]))
-    
-    character_table = np.zeros((len(irreps), len(irreps)))
+        conjugacy_class_names[i] = str(conjugacy_class_sizes[i]) + conjugacy_class_names[i]
     
     return(Group(conjugacy_class_names, irrep_names, conjugacy_class_sizes, character_table))
+    # for automation, check https://github.com/gap-system/gap, https://www.gap-system.org/Overview/Capabilities/representations.html
+    
+
+def group_from_multiplication_table(group_elements, multiplication_table):
+    
+    # group_elements is a list of labels
+    # multiplication_table is a matrix [i][j] = (element[i] . element[j]).label
+    
+    h = len(group_elements)
+    
+    # First, we find the conjugacy classes
+    conjugacy_classes_dict, indices_of_representative_elements = conjugacy_classes_from_multiplication_table(group_elements, multiplication_table)
+    
+    # Here we find the regular representation
+    regular_rep = get_regular_representation(group_elements, multiplication_table)
+    #for i in range(len(group_elements)):
+    #    print(group_elements[i], regular_rep[i])
+    
+    irreps = spgrep.irreps.enumerate_unitary_irreps_from_regular_representation(regular_rep)
     
     
-    #print(characters)
     
+    #irrep_reordering, irrep_names = name_irreps(irreps, group_elements, rotation_matrices)
+    #irreps = [irreps[i] for i in irrep_reordering]
     
+    character_table = get_character_table(irreps, conjugacy_classes_dict, indices_of_representative_elements)
+    
+    conjugacy_class_names = list(conjugacy_classes_dict.keys())
+    conjugacy_class_sizes = []
+    for i in range(len(conjugacy_class_names)):
+        conjugacy_class_sizes.append(len(conjugacy_classes_dict[conjugacy_class_names[i]]))
+        conjugacy_class_names[i] = str(conjugacy_class_sizes[i]) + conjugacy_class_names[i]
+    
+    return(Group(conjugacy_class_names, len(irreps), conjugacy_class_sizes, character_table))
     # for automation, check https://github.com/gap-system/gap, https://www.gap-system.org/Overview/Capabilities/representations.html
     
     
 
-def generate_group(generators):
+def generate_multiplication_table(generators):
     # generators is a dictionary of the form {'label' : ImproperRotation}, where the first element is 'e' : identity
     
     group_elements = list(generators.keys())
@@ -320,6 +406,8 @@ def generate_group(generators):
             products_to_check.append([(i, j), group_operations[group_elements[i]] + group_operations[group_elements[j]]])
     
     while(len(products_to_check) > 0):
+        
+        print(group_elements)
         
         cur_product = products_to_check.pop(0)
         component_i, component_j = cur_product[0]
@@ -359,9 +447,18 @@ def generate_group(generators):
     
     # Make it into a group
     
-    res_group = group_from_multiplication_table(group_operations, multiplication_table)
+    #haha_group = group_from_multiplication_table(group_elements, multiplication_table)
+    
+    #res_group = group_from_group_operations(group_operations, multiplication_table)
     
     return(group_operations, multiplication_table)
+    
+    #return(group_operations, multiplication_table)
+
+def generate_group(generators):
+    group_operations, multiplication_table = generate_multiplication_table(generators)
+    res_group = group_from_group_operations(group_operations, multiplication_table)
+    return(res_group)
 
 
 # ------------------ Example: D_4 -> D_2 -----------------
@@ -369,12 +466,25 @@ def generate_group(generators):
 E = identity_rotation
 Cz_4 = ImproperRotation([0.0, 0.0, 1.0], np.pi / 2.0, False)
 Cz_2 = ImproperRotation([0.0, 0.0, 1.0], np.pi, False)
+Cz_3 = ImproperRotation([0.0, 0.0, 1.0], 2.0 * np.pi / 3.0, False)
 Cz_43 = ImproperRotation([0.0, 0.0, 1.0], 3.0 * np.pi / 2.0, False)
+Cz_5 = ImproperRotation([0.0, 0.0, 1.0], 2.0 * np.pi / 5.0, False)
 
 Cx_2 = ImproperRotation([1.0, 0.0, 0.0], np.pi, False)
 Cy_2 = ImproperRotation([0.0, 1.0, 0.0], np.pi, False)
 Cdia_1 = Cz_4 + Cy_2
 Cdia_2 = Cy_2 + Cz_4
+
+"""
+print(Cx_2.SU2_rep())
+print(Cz_5.SU2_rep())
+print((Cx_2 + Cz_5).SU2_rep())
+print(np.matmul(Cx_2.SU2_rep(), Cz_5.SU2_rep()))
+print(np.all(np.matmul(Cx_2.SU2_rep(), Cz_5.SU2_rep()) == (Cx_2 + Cz_5).SU2_rep())) #WAHOOO
+print("-------------------------------")
+print(np.matmul(Cx_2.SU2_rep(), Cx_2.SU2_rep()))
+print(np.all(np.matmul(Cx_2.SU2_rep(), Cx_2.SU2_rep()) == (Cx_2 + Cx_2).SU2_rep())) #WAHOOO
+"""
 
 #print(Cdia_2 == Cz_4 + Cz_4 + Cz_4 + Cy_2) #LETSGOOO THIS IS TRUEEEEEEE
 
@@ -382,9 +492,22 @@ Cdia_2 = Cy_2 + Cz_4
 #print(((Cz_4 + Cy_2) + (Cz_4 + Cy_2)) == E)
 
 
-operations, cayley = generate_group({"e" : E, "a" : Cz_4, "b" : Cy_2})
+#operations, cayley = generate_group({"e" : E, "a" : Cz_4, "b" : Cy_2})
 
-print(list(operations.keys()))
+
+D4_group = generate_group({"e" : E, "a" : Cz_4, "b" : Cy_2})
+print(D4_group.conjugacy_classes)
+print(D4_group.representations)
+print(D4_group.character_table)
+
+
+D6_group = generate_group({"E" : E, "Cz_3" : Cz_3, "Cz_2" : Cz_2, "C'_2" : ImproperRotation([1.0, 1.0, 0.0], np.pi, False)})
+print(D6_group.conjugacy_classes)
+print(D6_group.representations)
+print(D6_group.character_table)
+
+
+#print(list(operations.keys()))
 
 #print(cayley)
 
