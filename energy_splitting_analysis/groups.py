@@ -384,6 +384,31 @@ def group_from_multiplication_table(group_elements, multiplication_table):
     # for automation, check https://github.com/gap-system/gap, https://www.gap-system.org/Overview/Capabilities/representations.html
     
     
+def get_product_label(a, b, contraction = True):
+    
+    if not contraction:
+        return(f"{a}.{b}")
+    
+    last_atom_a = a.split(".")[-1].split("^")
+    first_atom_b = b.split(".")[0].split("^")
+    
+    
+    if last_atom_a[0] == first_atom_b[0]:
+        if len(last_atom_a) == 1:
+            last_atom_a.append("1")
+        if len(first_atom_b) == 1:
+            first_atom_b.append("1")
+        total_len_a = len(last_atom_a[0] + last_atom_a[1])
+        total_len_b = len(first_atom_b[0] + first_atom_b[1])
+    
+        new_power = str(int(last_atom_a[1]) + int(first_atom_b[1]))
+        new_atom = last_atom_a[0] + "^" + new_power
+        trim_a = a[:-total_len_a]
+        trim_b = b[total_len_b:]
+        return(trim_a + new_atom + trim_b)
+    return(a + "." + b)
+    
+
 
 def generate_multiplication_table(generators):
     # generators is a dictionary of the form {'label' : ImproperRotation}, where the first element is 'e' : identity
@@ -407,7 +432,7 @@ def generate_multiplication_table(generators):
     
     while(len(products_to_check) > 0):
         
-        print(group_elements)
+        #print(group_elements)
         
         cur_product = products_to_check.pop(0)
         component_i, component_j = cur_product[0]
@@ -426,7 +451,7 @@ def generate_multiplication_table(generators):
             continue
         
         #If doesn't, it forms a new group element and elongates the list
-        new_label = f"{group_elements[component_i]}.{group_elements[component_j]}"
+        new_label = get_product_label(group_elements[component_i], group_elements[component_j])#f"{group_elements[component_i]}.{group_elements[component_j]}"
         group_operations[new_label] = cur_product[1]
         group_elements.append(new_label)
         
@@ -457,13 +482,18 @@ def generate_multiplication_table(generators):
 
 def generate_group(generators):
     group_operations, multiplication_table = generate_multiplication_table(generators)
-    res_group = group_from_group_operations(group_operations, multiplication_table)
+    
+    #print(group_operations, multiplication_table)
+    
+    #res_group = group_from_group_operations(group_operations, multiplication_table)
+    res_group = group_from_multiplication_table(list(group_operations.keys()), multiplication_table)
     return(res_group)
 
 
 # ------------------ Example: D_4 -> D_2 -----------------
 
 E = identity_rotation
+"""
 Cz_4 = ImproperRotation([0.0, 0.0, 1.0], np.pi / 2.0, False)
 Cz_2 = ImproperRotation([0.0, 0.0, 1.0], np.pi, False)
 Cz_3 = ImproperRotation([0.0, 0.0, 1.0], 2.0 * np.pi / 3.0, False)
@@ -472,8 +502,29 @@ Cz_5 = ImproperRotation([0.0, 0.0, 1.0], 2.0 * np.pi / 5.0, False)
 
 Cx_2 = ImproperRotation([1.0, 0.0, 0.0], np.pi, False)
 Cy_2 = ImproperRotation([0.0, 1.0, 0.0], np.pi, False)
+"""
+Cz_4 = ImproperRotation([0.0, 0.0, 1.0], [1, 4], False)
+Cz_2 = ImproperRotation([0.0, 0.0, 1.0], [1, 2], False)
+Cz_3 = ImproperRotation([0.0, 0.0, 1.0], [1, 3], False)
+Cz_43 = ImproperRotation([0.0, 0.0, 1.0], [3, 4], False)
+Cz_5 = ImproperRotation([0.0, 0.0, 1.0], [1, 5], False)
+
+Cx_2 = ImproperRotation([1.0, 0.0, 0.0], [1, 2], False)
+Cy_2 = ImproperRotation([0.0, 1.0, 0.0], [1, 2], False)
 Cdia_1 = Cz_4 + Cy_2
 Cdia_2 = Cy_2 + Cz_4
+
+u = Cz_4 + Cy_2 + Cy_2 + Cz_4 + Cz_4
+
+v = Cz_4 + Cz_4 + Cz_4
+
+"""print("Cz_2 =", Cz_2.axis, Cz_2.multiplicity)
+print(u.axis, u.multiplicity)
+print(v.axis, v.multiplicity)
+
+print(inverse_angle([1, 4]))
+
+print(u == v)"""
 
 """
 print(Cx_2.SU2_rep())
@@ -501,7 +552,7 @@ print(D4_group.representations)
 print(D4_group.character_table)
 
 
-D6_group = generate_group({"E" : E, "Cz_3" : Cz_3, "Cz_2" : Cz_2, "C'_2" : ImproperRotation([1.0, 1.0, 0.0], np.pi, False)})
+D6_group = generate_group({"E" : E, "Cz_3" : Cz_3, "Cz_2" : Cz_2, "C'_2" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], False)})
 print(D6_group.conjugacy_classes)
 print(D6_group.representations)
 print(D6_group.character_table)
