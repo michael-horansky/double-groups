@@ -63,7 +63,55 @@ class Group():
             
         
 
+# --------------------- Double group methods -----------------------------
 
+def find_closest_matrix(matrices, m):
+    i = -1
+    smallest_difference = 1e9
+    m_flat = np.array(m.flatten())
+    for j in range(len(matrices)):
+        ar_dif = (m_flat - np.array(matrices[j].flatten()))
+        cur_dif = np.real(np.sum(ar_dif * np.conjugate(ar_dif)))
+        if cur_dif < smallest_difference:
+            smallest_difference = cur_dif
+            i = j
+    #print(smallest_difference)
+    return(i)
+
+
+def get_double_group(group_operations):
+    
+    group_elements = list(group_operations.keys())
+    h = len(group_elements)
+    
+    element_matrices = [0] * h * 2
+    
+    # {"label" : ImproperRotation}
+    
+    
+    
+    #group_element_indices = [0] * 2 * h
+    
+    for i in range(h):
+        element_matrices[i]     = group_operations[group_elements[i]].SU2_rep()
+        element_matrices[i + h] = - group_operations[group_elements[i]].SU2_rep()
+        group_elements.append("R" + group_elements[i])
+        #group_element_indices[i] = group_elements[i]
+        #group_element_indices[i + h] = group_elements[i + h]
+        
+    
+    # now we generate and populate the new multiplication table
+    
+    new_mt = []
+    for i in range(2 * h):
+        new_mt.append([])
+        for j in range(2 * h):
+            product_m = np.matmul(element_matrices[i], element_matrices[j])
+            product_index = find_closest_matrix(element_matrices, product_m)
+            new_mt[i].append(group_elements[product_index])
+    
+    return(group_elements, new_mt)
+        
 
 
 # ------------------- Group generation methods ---------------------------
@@ -489,6 +537,17 @@ def generate_group(generators):
     res_group = group_from_multiplication_table(list(group_operations.keys()), multiplication_table)
     return(res_group)
 
+def generate_double_group(generators):
+    group_operations, _ = generate_multiplication_table(generators)
+    
+    print(_)
+    
+    group_elements, multiplication_table = get_double_group(group_operations)
+    
+    print(multiplication_table)
+    res_group = group_from_multiplication_table(group_elements, multiplication_table)
+    return(res_group)
+
 
 # ------------------ Example: D_4 -> D_2 -----------------
 
@@ -514,9 +573,12 @@ Cy_2 = ImproperRotation([0.0, 1.0, 0.0], [1, 2], False)
 Cdia_1 = Cz_4 + Cy_2
 Cdia_2 = Cy_2 + Cz_4
 
-u = Cz_4 + Cy_2 + Cy_2 + Cz_4 + Cz_4
 
-v = Cz_4 + Cz_4 + Cz_4
+a = np.matmul(Cz_4.SU2_rep(), Cz_4.SU2_rep())
+b = -Cz_2.SU2_rep()
+
+#print(find_closest_matrix([Cz_4.SU2_rep(), a], b))
+
 
 """print("Cz_2 =", Cz_2.axis, Cz_2.multiplicity)
 print(u.axis, u.multiplicity)
@@ -552,10 +614,16 @@ print(D4_group.representations)
 print(D4_group.character_table)
 
 
-D6_group = generate_group({"E" : E, "Cz_3" : Cz_3, "Cz_2" : Cz_2, "C'_2" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], False)})
+D6_group = generate_double_group({"E" : E, "Cz_3" : Cz_3, "Cz_2" : Cz_2, "C'_2" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], False)})
 print(D6_group.conjugacy_classes)
 print(D6_group.representations)
 print(D6_group.character_table)
+
+"""
+C3v_group = generate_group({"E" : E, "Cz_3" : Cz_3, "s" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], True)})
+print(C3v_group.conjugacy_classes)
+print(C3v_group.representations)
+print(C3v_group.character_table)"""
 
 
 #print(list(operations.keys()))
