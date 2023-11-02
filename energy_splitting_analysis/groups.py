@@ -21,6 +21,7 @@ def find_closest_matrix(matrices, m):
     #print(smallest_difference)
     return(i)
 
+
 def get_product_label(a, b, contraction = True):
     
     if not contraction:
@@ -85,9 +86,52 @@ class Group():
         
         self.z_rot_elements = [] # list of element names that are rotations around the z axis - useful for altmann naming convention
         self.indices_of_representative_elements = [] # indices in self.group_elements of the first group elements in respective conjugacy classes
+        self.multiplicities = {} # {"group element" : multiplicity} - a dictionary of rotation multiplicities associated with each group element
         
         self.regular_representation = []
     
+    def print_character_table(self, cc_separation = 2):
+        
+        def st(a, w):
+            if len(a) >= w:
+                return(a)
+            else:
+                diff = w - len(a)
+                return(" " * int(np.floor(diff / 2.0)) + a + " " * int(np.ceil(diff / 2.0)))
+        
+        max_len_irrep = len(self.name)
+        for irrep in self.irrep_names:
+            if len(irrep) > max_len_irrep:
+                max_len_irrep = len(irrep)
+        cc_len = []
+        for cc in self.conjugacy_class_names:
+            cc_len.append(len(cc))
+        
+        printing_character_table = []
+        
+        for j in range(len(self.conjugacy_class_names)):
+            printing_character_table.append([])
+            for i in range(len(self.irrep_names)):
+                if np.imag(self.character_table[j][i]) == 0.0:
+                    cur_char = f"{np.real(self.character_table[j][i]):.3g}"
+                    #real
+                else:
+                    cur_char = f"{self.character_table[j][i]:.3g}"
+                printing_character_table[j].append(cur_char)
+                if cc_len[i] < len(cur_char):
+                    cc_len[i] = len(cur_char)
+        
+        header_str = st(self.name, max_len_irrep) + "|"
+        for i in range(len(self.conjugacy_class_names)):
+            header_str += st(self.conjugacy_class_names[i], cc_len[i] + cc_separation)
+        print(header_str)
+        print("-" * len(header_str))
+        for i in range(len(self.irrep_names)):
+            cur_str = st(self.irrep_names[i], max_len_irrep) + "|"
+            for j in range(len(self.conjugacy_class_names)):
+                cur_str += st(printing_character_table[i][j], cc_len[j] + cc_separation)
+            print(cur_str)
+            
     
     # --------------- property management methods
     
@@ -195,6 +239,10 @@ class Group():
         
         count_number = [[0, 0], 0, 0, 0, 0, 0]
         
+        characters = []
+        for irrep in irreps:
+            characters.append(spgrep.representation.get_character(irrep))
+        
         #group_elements = list(group_operations.keys())
         """
         # first, identify the indices of group operations that are rotations about [0, 0, 1]
@@ -224,12 +272,16 @@ class Group():
                 z_rot_indices.append(self.group_elements.index(z_rot_element))
         
         def check_if_complex_conjugate(i1, i2):
+            # deducing from the T group character table in Altmann, this refers to a relation between the _characters_ of the irreps
+            
+            return(np.all(np.round(characters[i1].conjugate(), 5) == np.round(characters[i2], 5)))
+            """
             irrep1 = irreps[i1]
             irrep2 = irreps[i2]
             for i in range(len(irrep1)):
                 if not np.all(irrep1[i].conjugate() == irrep2[i]):
                     return(False)
-            return(True)
+            return(True)"""
         
         def check_if_symmetric(irrep_i):
             for index in z_rot_indices:
@@ -376,11 +428,13 @@ class Group():
                 products_to_check.append([(len(self.group_elements) - 1, i), self.group_operations[self.group_elements[len(self.group_elements) - 1]] + self.group_operations[self.group_elements[i]]])
             products_to_check.append([(len(self.group_elements) - 1, len(self.group_elements) - 1), self.group_operations[self.group_elements[len(self.group_elements) - 1]] + self.group_operations[self.group_elements[len(self.group_elements) - 1]]])
         
-        # now, we check which elements are rotations around the z axis:
+        # now, we check which elements are rotations around the z axis, and commit multiplicities to memory:
         self.z_rot_elements = []
+        self.multiplicities = {}
         for group_element in self.group_elements:
             if np.all(np.matmul(self.group_operations[group_element].cartesian_rep(), np.array([0.0, 0.0, 1.0])) == np.array([0.0, 0.0, 1.0])):
                 self.z_rot_elements.append(group_element)
+            self.multiplicities[group_element] = self.group_operations[group_element].multiplicity
         
         self.order = len(self.group_elements)
         
@@ -396,16 +450,16 @@ class Group():
         
         element_matrices = [0] * self.order * 2
         
-        # {"label" : ImproperRotation}
-        
-        
-        
-        #group_element_indices = [0] * 2 * self.order
-        
         for i in range(self.order):
             element_matrices[i]     = self.group_operations[self.group_elements[i]].SU2_rep()
             element_matrices[i + self.order] = - self.group_operations[self.group_elements[i]].SU2_rep()
-            self.group_elements.append("R" + self.group_elements[i])
+            if i == 0:
+                new_label = "R"
+            else:
+                new_label = "R" + self.group_elements[i]
+            self.group_elements.append(new_label)
+            if self.group_elements[i] in self.z_rot_elements:
+                self.z_rot_elements.append(new_label)
             
         
         # now we generate and populate the new multiplication table
@@ -418,10 +472,18 @@ class Group():
                 product_index = find_closest_matrix(element_matrices, product_m)
                 new_mt[i].append(self.group_elements[product_index])
         
-        self.order = len(self.group_elements)
         self.multiplication_table = new_mt
+        # update the group operations and multiplicities
+        # the multiplicity of a time reversal rotation is unconstrained - angle is bigger than 2pi
         for i in range(len(self.group_elements)):
             self.group_operations[self.group_elements[i]] = element_matrices[i]
+        for i in range(self.order):
+            p = self.multiplicities[self.group_elements[i]][0]
+            q = self.multiplicities[self.group_elements[i]][1]
+            self.multiplicities[self.group_elements[i + self.order]] = [p + q, q]
+        
+        # Now we update the group order
+        self.order = len(self.group_elements)
             
 
     
@@ -485,6 +547,9 @@ class Group():
                     headers_of_current_classes.append(cur_element)
                     conjugacy_classes_dict[self.group_elements[cur_element]] = [self.group_elements[cur_element]]
                     self.indices_of_representative_elements.append(cur_element)
+        
+        # TODO rename dictionary keys here (use d['new'] = d.pop('old'))
+        # Add conjugacy class sizes and x + Rx to relevant ccs
         
         self.set_conjugacy_classes(conjugacy_classes_dict)
     
@@ -584,7 +649,14 @@ class Group():
         self.initialize_from_multiplication_table()
     
     
-    
+    def generate_double_group(self, generators):
+        
+        # A wrapper for self.generate_multiplication_table(), self.get_double_group(), and self.initialize_from_multiplication_table()
+        self.generate_multiplication_table(generators)
+        self.get_double_group()
+        self.initialize_from_multiplication_table()
+        
+        
     
     
     
@@ -593,28 +665,65 @@ class Group():
         self.group_elements[group_element] = conjugacy_class_index
     
     def reduce_representation(self, reducible_representation):
+        
+        # This is either a dict {"conjugacy class name" : character} or a list [cc_i] = character
+        
         coefs = [0] * len(self.character_table)
-
-        for i in range(len(self.character_table)):
-            #s = 0
-            for j in range(len(self.character_table[i])):
-                coefs[i] += reducible_representation[j] * self.character_table[i][j] * self.conjugacy_class_sizes[j]
-            coefs[i] /= sum(self.conjugacy_class_sizes)
-            coefs[i] = np.round(coefs[i], decimals = Group.rounding_decimals)
-            
+        
+        if type(reducible_representation) == dict:
+            for i in range(len(self.character_table)):
+                for j in range(len(self.character_table[i])):
+                    coefs[i] += reducible_representation[self.conjugacy_class_names[j]] * self.character_table[i][j] * self.conjugacy_class_sizes[j]
+                coefs[i] /= self.order
+                coefs[i] = np.round(coefs[i], decimals = Group.rounding_decimals)
+                
+                if np.imag(coefs[i]) != 0.0:
+                    print("CAREFUL! The input rep has imaginary coefficients in its reduction; this has been omitted, but requires manual checking!!!")
+                coefs[i] = np.real(coefs[i])
+                
+        else:
+            for i in range(len(self.character_table)):
+                #s = 0
+                for j in range(len(self.character_table[i])):
+                    coefs[i] += reducible_representation[j] * self.character_table[i][j] * self.conjugacy_class_sizes[j]
+                coefs[i] /= sum(self.conjugacy_class_sizes)
+                coefs[i] = np.round(coefs[i], decimals = Group.rounding_decimals)
+                
+                if np.imag(coefs[i]) != 0.0:
+                    print("CAREFUL! The input rep has imaginary coefficients in its reduction; this has been omitted, but requires manual checking!!!")
+                coefs[i] = np.real(coefs[i])
+                
         human_readable_output = ""
         for i in range(len(coefs)):
             if coefs[i] != 0.0:
-                human_readable_output += str(int(coefs[i])) + "." + self.representations[i] + " + "
+                if coefs[i] == 1:
+                    human_readable_output += self.irrep_names[i] + " + "
+                else:
+                    human_readable_output += str(int(coefs[i])) + "." + self.irrep_names[i] + " + "
 
         return(coefs, human_readable_output[:-3])
-            
+    
+    def angular_representation(self, j, symmetry = "g"):
+        # for a given j value, this creates the reducible angular representation (as a subgroup of the full rotation group)
+        # if symmetry = "g" (gerade), then characters dont flip sign for inversions; for symmetry = "u" (ungerade), they do
         
-
-# --------------------- Double group methods -----------------------------
-
-
-
+        rep = {}
+        for i in range(len(self.conjugacy_class_names)):
+            cur_mult = self.multiplicities[self.group_elements[self.indices_of_representative_elements[i]]]
+            cur_angle = 2.0 * np.pi * cur_mult[0] / cur_mult[1]
+            if cur_angle == 0:
+                # identity class - this gives (j + 1/2) / (1/2) = 2j + 1
+                rep[self.conjugacy_class_names[i]] = 2 * j + 1
+            elif cur_angle == 2.0 * np.pi:
+                # time reversal class - for integer j, this is 2j+1; for half-integer j, this is -(2j+1)
+                if (2 * j) % 2 == 1:
+                    rep[self.conjugacy_class_names[i]] = - (2 * j + 1)
+                else:
+                    rep[self.conjugacy_class_names[i]] = 2 * j + 1
+            else:
+                rep[self.conjugacy_class_names[i]] = np.sin((j + 0.5) * cur_angle) / np.sin(0.5 * cur_angle)
+        return(rep)
+        
 
 
 # ------------------- Group generation methods ---------------------------
@@ -690,16 +799,6 @@ def group_from_group_operations(group_operations, multiplication_table):
 
 
 
-def generate_double_group(generators):
-    group_operations, _ = generate_multiplication_table(generators)
-    
-    print(_)
-    
-    group_elements, multiplication_table = get_double_group(group_operations)
-    
-    print(multiplication_table)
-    res_group = group_from_multiplication_table(group_elements, multiplication_table)
-    return(res_group)
 
 
 # ------------------ Example: D_4 -> D_2 -----------------
@@ -760,24 +859,28 @@ print(np.all(np.matmul(Cx_2.SU2_rep(), Cx_2.SU2_rep()) == (Cx_2 + Cx_2).SU2_rep(
 
 #operations, cayley = generate_group({"e" : E, "a" : Cz_4, "b" : Cy_2})
 
-
+"""
 D4_group = Group("D4")
-D4_group.generate_group({"e" : E, "a" : Cz_4, "b" : Cy_2})
+D4_group.generate_double_group({"e" : E, "a" : Cz_4, "b" : Cy_2})
 #print(D4_group.conjugacy_classes)
 print(D4_group.irrep_names)
 print(D4_group.character_table)
 
-"""
+
 D6_group = generate_double_group({"E" : E, "Cz_3" : Cz_3, "Cz_2" : Cz_2, "C'_2" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], False)})
 print(D6_group.conjugacy_classes)
 print(D6_group.representations)
 print(D6_group.character_table)"""
-"""
-T_group = generate_double_group({"E" : E, "Cz_2" : Cz_2, "Cy_2" : Cy_2, "C'_3" : ImproperRotation([1.0, 1.0, 1.0], [1, 3], False)})
-print(T_group.conjugacy_classes)
-print(T_group.representations)
-print(T_group.character_table)"""
 
+T_group = Group("T")
+T_group.generate_double_group({"E" : E, "Cz_2" : Cz_2, "Cy_2" : Cy_2, "C'_3" : ImproperRotation([1.0, 1.0, 1.0], [1, 3], False)})
+#print(T_group.conjugacy_class_names)
+#print(T_group.irrep_names)
+#print(T_group.character_table)
+T_group.print_character_table()
+
+a = T_group.angular_representation(5/2)
+print(T_group.reduce_representation(a))
 
 
 #TODO - direct product of groups
