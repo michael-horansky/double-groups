@@ -118,7 +118,6 @@ class ImproperRotation():
         u_y = self.axis[1]
         u_z = self.axis[2]
         t   = m_to_angle(self.multiplicity)
-        print(t / (2.0 * np.pi))
         res[0][0] = np.cos(t) + u_x * u_x * (1.0 - np.cos(t))
         res[0][1] = u_x * u_y * (1.0 - np.cos(t)) - u_z * np.sin(t)
         res[0][2] = u_x * u_z * (1.0 - np.cos(t)) + u_y * np.sin(t)
