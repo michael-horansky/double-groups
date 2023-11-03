@@ -21,6 +21,21 @@ def find_closest_matrix(matrices, m):
     #print(smallest_difference)
     return(i)
 
+def find_closest_improper_SU2(operations, m):
+    i = -1
+    smallest_difference = 1e9
+    m_flat = np.array(m.SU2_matrix.flatten())
+    for j in range(len(operations)):
+        if operations[j].inversion != m.inversion:
+            continue
+        ar_dif = (m_flat - np.array(operations[j].SU2_matrix.flatten()))
+        cur_dif = np.real(np.sum(ar_dif * np.conjugate(ar_dif)))
+        if cur_dif < smallest_difference:
+            smallest_difference = cur_dif
+            i = j
+    #print(smallest_difference)
+    return(i)
+
 
 def get_product_label(a, b, contraction = True):
     
@@ -87,8 +102,13 @@ class Group():
         self.z_rot_elements = [] # list of element names that are rotations around the z axis - useful for altmann naming convention
         self.indices_of_representative_elements = [] # indices in self.group_elements of the first group elements in respective conjugacy classes
         self.multiplicities = {} # {"group element" : multiplicity} - a dictionary of rotation multiplicities associated with each group element
+        self.element_conjugacy_classes = {} # dict {"group element" : conjugacy class name}
         
         self.regular_representation = []
+        
+        # group operation properties
+        self.subgroup_element_relations = {} # dict {"subgroup name" : [instance of group, {"subgroup el." : "group el."}]}
+        self.subgroup_conjugacy_relations = {} # dict {"subgroup name" : [instance of group, {"subgroup cc." : "group cc."}]}
     
     def print_character_table(self, cc_separation = 2):
         
@@ -131,10 +151,16 @@ class Group():
             for j in range(len(self.conjugacy_class_names)):
                 cur_str += st(printing_character_table[i][j], cc_len[j] + cc_separation)
             print(cur_str)
+        print("-" * len(header_str))
             
     
     # --------------- property management methods
     
+    def set_element_conjugacy_classes(self):
+        self.element_conjugacy_classes = {}
+        for cc in self.conjugacy_class_names:
+            for element in self.conjugacy_classes[cc]:
+                self.element_conjugacy_classes[element] = cc
     
     def set_conjugacy_classes(self, arg1, arg2 = -1):
         
@@ -147,6 +173,7 @@ class Group():
             self.conjugacy_class_sizes = []
             for i in range(len(self.conjugacy_class_names)):
                 self.conjugacy_class_sizes.append(len(self.conjugacy_classes[self.conjugacy_class_names[i]]))
+            self.set_element_conjugacy_classes()
         
         else:
             self.conjugacy_classes = {}
@@ -452,7 +479,7 @@ class Group():
         
         for i in range(self.order):
             element_matrices[i]     = self.group_operations[self.group_elements[i]].SU2_rep()
-            element_matrices[i + self.order] = - self.group_operations[self.group_elements[i]].SU2_rep()
+            element_matrices[i + self.order] = element_matrices[i].reverse()#- self.group_operations[self.group_elements[i]].SU2_rep()
             if i == 0:
                 new_label = "R"
             else:
@@ -468,8 +495,8 @@ class Group():
         for i in range(2 * self.order):
             new_mt.append([])
             for j in range(2 * self.order):
-                product_m = np.matmul(element_matrices[i], element_matrices[j])
-                product_index = find_closest_matrix(element_matrices, product_m)
+                product_m = element_matrices[i] * element_matrices[j]#np.matmul(element_matrices[i], element_matrices[j])
+                product_index = find_closest_improper_SU2(element_matrices, product_m)
                 new_mt[i].append(self.group_elements[product_index])
         
         self.multiplication_table = new_mt
@@ -499,14 +526,16 @@ class Group():
         # For optimalization, we classify the elements by their order:
         element_order = {}
         orders_list = []
-        for i in range(self.order):
+        for i in range(self.order): # since the maximum allowed order is the group order, which needs to be the highest ALLOWED index - so we shift indices by 1
             orders_list.append([])
+        
         
         for i in range(self.order):
             j = 1
             #x = group_operations[self.group_elements[i]]
             x = i
             while(x != 0):
+                #print(j, x)
                 j += 1
                 #x += group_operations[self.group_elements[i]]
                 x = self.group_elements.index(self.multiplication_table[x][i])
@@ -516,7 +545,7 @@ class Group():
                     print("ERROR: something broke in the order calculation, chief.")
                     return(-1)
             element_order[self.group_elements[i]] = j
-            orders_list[j].append(i)
+            orders_list[j - 1].append(i)
         
         # Within each order list, categorize by classes
         
@@ -659,10 +688,7 @@ class Group():
         
     
     
-    
-    def add_symmetry_operation(self, group_element, conjugacy_class_index):
-        self.conjugacy_class_elements[conjugacy_class_index].append(group_element)
-        self.group_elements[group_element] = conjugacy_class_index
+    # ------------------------ representation methods
     
     def reduce_representation(self, reducible_representation):
         
@@ -673,7 +699,8 @@ class Group():
         if type(reducible_representation) == dict:
             for i in range(len(self.character_table)):
                 for j in range(len(self.character_table[i])):
-                    coefs[i] += reducible_representation[self.conjugacy_class_names[j]] * self.character_table[i][j] * self.conjugacy_class_sizes[j]
+                    if self.conjugacy_class_names[j] in reducible_representation:
+                        coefs[i] += reducible_representation[self.conjugacy_class_names[j]] * self.character_table[i][j] * self.conjugacy_class_sizes[j]
                 coefs[i] /= self.order
                 coefs[i] = np.round(coefs[i], decimals = Group.rounding_decimals)
                 
@@ -723,6 +750,57 @@ class Group():
             else:
                 rep[self.conjugacy_class_names[i]] = np.sin((j + 0.5) * cur_angle) / np.sin(0.5 * cur_angle)
         return(rep)
+    
+    
+    
+    
+    # ---------------------- group methods
+    
+    def add_subgroup(self, subgroup):
+        
+        # initializes subgroup relations
+        # NOTE "subgroup" needs to be an instance of the class Group
+        
+        # REQUIREMENTS: both self and subgroup need their group_operations to contain a faithful rep (not necessarily an ImproperRotation)
+        
+        new_element_relations = {}
+        new_conjugacy_relations = {}
+        
+        for s_i in range(len(subgroup.group_elements)):
+            related_element_found = False
+            for i in range(len(self.group_elements)):
+                if np.all(subgroup.group_operations[subgroup.group_elements[s_i]] == self.group_operations[self.group_elements[i]]):
+                    related_element_found = True
+                    break
+            if not related_element_found:
+                # the input subgroup is not a true subgroup of self
+                print(f"ERROR: The input subgroup {subgroup.name} is not a true subgroup of {self.name}.")
+                return(-1)
+            new_element_relations[subgroup.group_elements[s_i]] = self.group_elements[i]
+            new_conjugacy_relations[subgroup.element_conjugacy_classes[subgroup.group_elements[s_i]]] = self.element_conjugacy_classes[self.group_elements[i]]
+        
+        
+        self.subgroup_element_relations[subgroup.name] = [subgroup, new_element_relations]
+        self.subgroup_conjugacy_relations[subgroup.name] = [subgroup, new_conjugacy_relations]
+        
+    def rep_to_subgroup_rep(self, subgroup_name, representation):
+        
+        # subgroup_name is the name of an initialized subgroup
+        # REQUIREMENTS: subgroup relations
+        
+        new_rep = {}
+        if type(representation) == dict:
+            for sub_cc in self.subgroup_conjugacy_relations[subgroup_name][1].keys():
+                new_rep[sub_cc] = representation[self.subgroup_conjugacy_relations[subgroup_name][1][sub_cc]]
+            return(new_rep)
+        
+        else:
+            # a list over conjugacy classes
+            for sub_cc in self.subgroup_conjugacy_relations[subgroup_name][1].keys():
+                cc = self.subgroup_conjugacy_relations[subgroup_name][1][sub_cc]
+                i = self.conjugacy_class_names.index(cc)
+                new_rep[sub_cc] = representation[i]
+            return(new_rep)
         
 
 
@@ -826,8 +904,8 @@ Cdia_1 = Cz_4 + Cy_2
 Cdia_2 = Cy_2 + Cz_4
 
 
-a = np.matmul(Cz_4.SU2_rep(), Cz_4.SU2_rep())
-b = -Cz_2.SU2_rep()
+a = Cz_4.SU2_rep() * Cz_4.SU2_rep()
+b = Cz_2.SU2_rep().reverse()
 
 #print(find_closest_matrix([Cz_4.SU2_rep(), a], b))
 
@@ -872,15 +950,59 @@ print(D6_group.conjugacy_classes)
 print(D6_group.representations)
 print(D6_group.character_table)"""
 
+D2_group = Group("D2")
+
+D2_group.generate_double_group({"E" : E, "Cz_2" : Cz_2, "Cy_2" : Cy_2})
+
+
+D2_group.print_character_table()
+
 T_group = Group("T")
 T_group.generate_double_group({"E" : E, "Cz_2" : Cz_2, "Cy_2" : Cy_2, "C'_3" : ImproperRotation([1.0, 1.0, 1.0], [1, 3], False)})
 #print(T_group.conjugacy_class_names)
 #print(T_group.irrep_names)
 #print(T_group.character_table)
+
 T_group.print_character_table()
+
+
+print(D2_group.conjugacy_classes)
+print(T_group.conjugacy_classes)
 
 a = T_group.angular_representation(5/2)
 print(T_group.reduce_representation(a))
+
+T_group.add_subgroup(D2_group)
+
+print(T_group.subgroup_conjugacy_relations)
+
+print("---------------------- symmetry breakage -------------------")
+
+og_rep = T_group.character_table[-1]
+rep = T_group.rep_to_subgroup_rep("D2", og_rep)
+print("In T:", og_rep)
+print("In D2:", rep)
+print(D2_group.reduce_representation(rep))
+
+
+print("------------------ improper groups study -------------------")
+
+Ci_group = Group("C_i")
+
+Ci_group.generate_double_group({"E" : E, "i" : ImproperRotation([0.0, 0.0, 1.0], [0, 1], True)})
+
+#Ci_group.initialize_from_multiplication_table()
+
+Ci_group.print_character_table()
+
+Ci_group = Group("C_s")
+Ci_group.generate_double_group({"E" : E, "i" : ImproperRotation([1.0, 0.0, 0.0], [1, 2], True)})
+Ci_group.print_character_table()
+
+C3v_group = Group("C3v")
+C3v_group.generate_double_group({"E" : E, "C_3" : ImproperRotation([0.0, 0.0, 1.0], [1, 3], False), "sigma" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], True)})
+C3v_group.print_character_table()
+
 
 
 #TODO - direct product of groups

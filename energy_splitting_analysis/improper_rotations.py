@@ -93,6 +93,29 @@ def Euler_Rodriguez_decoder(a, b, c, d):
     return(axis, angle)
 
 
+class ImproperSU2():
+    # an instance is an element (SU(2), inversion)
+    # a * b = (SU(2)_a matmul SU_2(2)_b, i_a . i_b)
+    
+    def __init__(self, SU2_matrix, inversion):
+        # SU2_matrix is an element of SU(2)
+        # inversion is a boolean
+        self.SU2_matrix = np.matrix(SU2_matrix)
+        self.inversion = inversion
+    
+    def reverse(self):
+        return(ImproperSU2(- self.SU2_matrix.copy(), self.inversion))
+    
+    
+    def __add__(self, other):        
+        return(ImproperSU2(np.matmul(self.SU2_matrix, other.SU2_matrix), self.inversion != other.inversion))
+    def __mul__(self, other):
+        return(self + other)
+    
+    def __eq__(self, other):
+        return(np.all(self.SU2_matrix == other.SU2_matrix) and self.inversion == other.inversion)
+
+
 class ImproperRotation():
     
     # Static variables
@@ -153,12 +176,8 @@ class ImproperRotation():
         res[1][0] = complex(u_y, u_z)
         res[1][1] = complex(w, -u_x)
         
-        if self.inversion:
-            # TODO FIGURE THIS OUT!!!!!!
-            print("inversion ignored!!!")
-        
         res = np.round(res, decimals = ImproperRotation.rounding_decimals)
-        return(np.matrix(res))
+        return(ImproperSU2(np.matrix(res), self.inversion))
         
     
     def __eq__(self, SO):
