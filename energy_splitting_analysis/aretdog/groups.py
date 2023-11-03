@@ -1,40 +1,28 @@
+# ---------------------------------------------------------
+#
+#   The leading src file of the AReTDoG package
+#   AReTDoG: Algorithmic Representation Theory of Double Groups
+#   Import this file to access the full scope of AReTDoG
+#
+#   This file provides:
+#       class Group()
+# ---------------------------------------------------------
+#   Created: 3 November 2023
+#   Author: Michal Horansky (michal.horansky20@imperial.ac.uk)
+#
+# ---------------------------------------------------------
+
 
 import copy
 
 import spgrep
-from improper_rotations import *
+from .improper_rotations import *
 
 
 #TODO add basis functions idk
 
 
-def find_closest_matrix(matrices, m):
-    i = -1
-    smallest_difference = 1e9
-    m_flat = np.array(m.flatten())
-    for j in range(len(matrices)):
-        ar_dif = (m_flat - np.array(matrices[j].flatten()))
-        cur_dif = np.real(np.sum(ar_dif * np.conjugate(ar_dif)))
-        if cur_dif < smallest_difference:
-            smallest_difference = cur_dif
-            i = j
-    #print(smallest_difference)
-    return(i)
 
-def find_closest_improper_SU2(operations, m):
-    i = -1
-    smallest_difference = 1e9
-    m_flat = np.array(m.SU2_matrix.flatten())
-    for j in range(len(operations)):
-        if operations[j].inversion != m.inversion:
-            continue
-        ar_dif = (m_flat - np.array(operations[j].SU2_matrix.flatten()))
-        cur_dif = np.real(np.sum(ar_dif * np.conjugate(ar_dif)))
-        if cur_dif < smallest_difference:
-            smallest_difference = cur_dif
-            i = j
-    #print(smallest_difference)
-    return(i)
 
 
 def get_product_label(a, b, contraction = True):
@@ -496,7 +484,7 @@ class Group():
             new_mt.append([])
             for j in range(2 * self.order):
                 product_m = element_matrices[i] * element_matrices[j]#np.matmul(element_matrices[i], element_matrices[j])
-                product_index = find_closest_improper_SU2(element_matrices, product_m)
+                product_index = product_m.find_closest_operation(element_matrices)
                 new_mt[i].append(self.group_elements[product_index])
         
         self.multiplication_table = new_mt
@@ -950,58 +938,7 @@ print(D6_group.conjugacy_classes)
 print(D6_group.representations)
 print(D6_group.character_table)"""
 
-D2_group = Group("D2")
 
-D2_group.generate_double_group({"E" : E, "Cz_2" : Cz_2, "Cy_2" : Cy_2})
-
-
-D2_group.print_character_table()
-
-T_group = Group("T")
-T_group.generate_double_group({"E" : E, "Cz_2" : Cz_2, "Cy_2" : Cy_2, "C'_3" : ImproperRotation([1.0, 1.0, 1.0], [1, 3], False)})
-#print(T_group.conjugacy_class_names)
-#print(T_group.irrep_names)
-#print(T_group.character_table)
-
-T_group.print_character_table()
-
-
-print(D2_group.conjugacy_classes)
-print(T_group.conjugacy_classes)
-
-a = T_group.angular_representation(5/2)
-print(T_group.reduce_representation(a))
-
-T_group.add_subgroup(D2_group)
-
-print(T_group.subgroup_conjugacy_relations)
-
-print("---------------------- symmetry breakage -------------------")
-
-og_rep = T_group.character_table[-1]
-rep = T_group.rep_to_subgroup_rep("D2", og_rep)
-print("In T:", og_rep)
-print("In D2:", rep)
-print(D2_group.reduce_representation(rep))
-
-
-print("------------------ improper groups study -------------------")
-
-Ci_group = Group("C_i")
-
-Ci_group.generate_double_group({"E" : E, "i" : ImproperRotation([0.0, 0.0, 1.0], [0, 1], True)})
-
-#Ci_group.initialize_from_multiplication_table()
-
-Ci_group.print_character_table()
-
-Ci_group = Group("C_s")
-Ci_group.generate_double_group({"E" : E, "i" : ImproperRotation([1.0, 0.0, 0.0], [1, 2], True)})
-Ci_group.print_character_table()
-
-C3v_group = Group("C3v")
-C3v_group.generate_double_group({"E" : E, "C_3" : ImproperRotation([0.0, 0.0, 1.0], [1, 3], False), "sigma" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], True)})
-C3v_group.print_character_table()
 
 
 
