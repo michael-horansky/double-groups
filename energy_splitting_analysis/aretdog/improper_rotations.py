@@ -60,7 +60,7 @@ class ImproperRotation():
         res  = np.zeros((2, 2), dtype = np.complex_)
         t    = m_to_angle(self.multiplicity)
         w    = np.cos(t / 2.0)
-        norm = np.sin(t / 2.0) #np.abs(np.sin(t / 2.0))
+        norm = np.abs(np.sin(t / 2.0)) #np.sin(t / 2.0)
         u_x  = self.axis[0] * norm
         u_y  = self.axis[1] * norm
         u_z  = self.axis[2] * norm

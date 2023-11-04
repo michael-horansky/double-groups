@@ -3,7 +3,7 @@
 
 from aretdog.groups import *
 
-
+"""
 
 
 D2_group = Group("D2")
@@ -14,31 +14,22 @@ D2_group.generate_double_group({"E" : E, "a" : Cz_2, "b" : Cy_2})
 D2_group.print_character_table()
 
 
-
-
-
-
-
 T_group = Group("T")
 T_group.generate_double_group({"E" : E, "Cz_2" : Cz_2, "Cy_2" : Cy_2, "C'_3" : ImproperRotation([1.0, 1.0, 1.0], [1, 3], False)})
 
 
 T_group.print_character_table()
 
-print(T_group.conjugacy_classes)
-print(T_group.element_spatial_properties["Cz_2.C'_3^2"][1])
-print(T_group.element_spatial_properties["RCz_2.C'_3.Cz_2.C'_3"][1]) #these two elements are in the same class but not the same multiplicity. this is ok for thirds but TODO conjugacy class naming and also ????? and characters of angular rep???????
-
 print("j = 1/2:",T_group.angular_representation(1/2), T_group.reduce_representation(T_group.angular_representation(1/2)))
 print("j = 3/2:", T_group.reduce_representation(T_group.angular_representation(3/2)))
 print("j = 5/2:", T_group.reduce_representation(T_group.angular_representation(5/2)))
 print("j = 7/2:", T_group.reduce_representation(T_group.angular_representation(7/2)))
-"""
+
 T_group.add_subgroup(D2_group)
 
 print("---------------------- symmetry breakage -------------------")
 
-og_rep = T_group.character_table[-1]
+og_rep = T_group.character_table[3]
 
 
 
@@ -59,6 +50,9 @@ C3v_group = Group("C3v")
 C3v_group.generate_double_group({"E" : E, "Cz_3" : ImproperRotation([0.0, 0.0, 1.0], [1, 3], False), "sigma" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], True)})
 C3v_group.print_character_table()
 
+
+"""
+
 D3h_group = Group("D3h")
 D3h_group.generate_double_group({"E" : E, "Cz_3" : ImproperRotation([0.0, 0.0, 1.0], [1, 3], False), "m" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], True), "m'" : ImproperRotation([0.0, 0.0, 1.0], [1, 2], True)})
 D3h_group.print_character_table()
@@ -75,7 +69,7 @@ print(C3v_group.reduce_representation(hh_rep_in_C3v))
 #for g in D3h_group.group_elements:
 #    print(D3h_group.element_spatial_properties[g][1])
 
-"""
+
 
 """
 a = T_group.angular_representation(5/2)
