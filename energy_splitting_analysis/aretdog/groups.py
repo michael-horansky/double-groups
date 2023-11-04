@@ -210,6 +210,7 @@ class Group():
             else:
                 number_of_unclassifiable_multiplicities[notation] = 1
                 return(marker)
+                
         
         sanitized_conjugacy_classes = {}
         
@@ -220,6 +221,7 @@ class Group():
         self.is_inversion_symmetry_determinable = False # only true if there exists an inversion in a class by itself
         
         skip_classes = [] # if we take care of a reversed class, we can skip it when encountering its index
+        time_reversal_pairs = {}
         for cc_i in range(len(conjugacy_class_proposal)):
             if cc_i in skip_classes:
                 continue
@@ -297,12 +299,13 @@ class Group():
                     continue
                 else:
                     reversed_cc_index = cc_i + 1 + find_reversed_class(cc, conjugacy_class_proposal[cc_i + 1:])
-                    # by convention: the first class is non-reversed, the other one is reversed
+                    # One of the pair is time-reversed; which one it is is determined by the characters of the spinor irrep
                     skip_classes.append(reversed_cc_index)
                     if size > 1:
                         size_prefix = f"{size}"
                     else:
                         size_prefix = ""
+                    time_reversal_pairs[f"{size_prefix}{axis_desc}"] = f"{size_prefix}R{axis_desc}"
                     sanitized_conjugacy_classes[f"{size_prefix}{axis_desc}"] = cc
                     sanitized_conjugacy_classes[f"{size_prefix}R{axis_desc}"] = conjugacy_class_proposal[reversed_cc_index]
                     self.conjugacy_class_time_reversal[f"{size_prefix}{axis_desc}"] = False
@@ -316,6 +319,38 @@ class Group():
                 sanitized_conjugacy_classes[final_name] = cc
                 self.conjugacy_class_time_reversal[final_name] = False
                 continue
+        
+        
+        if self.is_double:
+            # we'll need the spinor rep to determine which ccs are time-reversed
+            irreps = spgrep.irreps.enumerate_unitary_irreps_from_regular_representation(self.regular_representation)
+            for i in range(len(irreps)):
+                irreps[i] = np.round(irreps[i], decimals = 12)
+            ccs = list(sanitized_conjugacy_classes.keys())
+            rep_el = []
+            for i in range(len(ccs)):
+                rep_el.append(self.group_elements.index(sanitized_conjugacy_classes[ccs[i]][0]))
+            
+            for irrep in irreps:
+                is_spin_rep = True
+                for i in range(len(ccs)):
+                    if ccs[i] in time_reversal_pairs.keys():
+                        if np.trace(irrep[rep_el[i]]) != -np.trace(irrep[rep_el[ccs.index(time_reversal_pairs[ccs[i]])]]):
+                            is_spin_rep = False
+                            break
+                if is_spin_rep:
+                    spin_rep = irrep
+                    break
+            for i in range(len(ccs)):
+                if ccs[i] in time_reversal_pairs.keys():
+                    if np.trace(spin_rep[rep_el[i]]) < 0:
+                        # we need to switch the content of ccs
+                        switch_help = sanitized_conjugacy_classes[ccs[i]]
+                        sanitized_conjugacy_classes[ccs[i]] = sanitized_conjugacy_classes[time_reversal_pairs[ccs[i]]]
+                        sanitized_conjugacy_classes[time_reversal_pairs[ccs[i]]] = switch_help
+                        #self.conjugacy_class_time_reversal[ccs[i]] = not self.conjugacy_class_time_reversal[ccs[i]]
+                        #self.conjugacy_class_time_reversal[time_reversal_pairs[ccs[i]]] = not self.conjugacy_class_time_reversal[time_reversal_pairs[ccs[i]]]
+        
         self.set_conjugacy_classes(sanitized_conjugacy_classes)
                 
     
@@ -673,13 +708,14 @@ class Group():
         
         def name_spin_irreps_classified_by_dim(irreps_by_dim, improperness_suffix = ""):
             final_names, reorder_indices = name_nonspin_irreps_classified_by_dim(irreps_by_dim, improperness_suffix)
-            """unlabelled_irreps = reorder_indices.copy()
-            j_double = 1
+            unlabelled_irreps = reorder_indices.copy()
             if improperness_suffix == "_u":
                 symmetry = "u"
             else:
                 symmetry = "g"
-            while(len(unlabelled_irreps) > 0):
+            for j_double in range(1, len(unlabelled_irreps) + 1):
+                if len(unlabelled_irreps) == 0:
+                    break
                 new_present_irreps = decompose_angular_rep(j_double / 2.0, symmetry)
                 print("remaining:", unlabelled_irreps)
                 print("newly labelled:", new_present_irreps)
@@ -688,7 +724,7 @@ class Group():
                         name_index = reorder_indices.index(i)
                         unlabelled_irreps.remove(i)
                         final_names[name_index] += f"(j={j_double}/2)"
-            """
+            
             return(final_names, reorder_indices)
             
         
@@ -1108,11 +1144,11 @@ class Group():
         
         self.order = len(self.group_elements)
         
+        # Here we find the regular representation
+        self.get_regular_representation()
         # First, we find the conjugacy classes
         self.conjugacy_classes_from_multiplication_table()
         
-        # Here we find the regular representation
-        self.get_regular_representation()
         #for i in range(len(group_elements)):
         #    print(group_elements[i], regular_rep[i])
         
@@ -1202,15 +1238,18 @@ class Group():
         is_j_half_integer = (int(2.0 * j) % 2 == 1)
         for cc in self.conjugacy_class_names:
             cur_mult = self.element_spatial_properties[self.group_elements[self.indices_of_representative_elements[cc]]][1]
-            cur_angle = 2.0 * np.pi * cur_mult[0] / cur_mult[1]
+            cur_angle = 2.0 * np.pi / cur_mult[1] #TODO what??
+            #cur_angle = 2.0 * np.pi * cur_mult[0] / cur_mult[1]
             if cur_angle == 0:
                 # identity class or time reversal class - this gives (j + 1/2) / (1/2) = 2j + 1
                 rep[cc] = 2 * j + 1
             else:
                 rep[cc] = np.sin((j + 0.5) * cur_angle) / np.sin(0.5 * cur_angle)
+            print(cc, cur_mult, cur_angle, rep[cc])
             # time reversal classes - for half-integer j, we flip the signs
             if self.is_double:
                 if self.conjugacy_class_time_reversal[cc] and is_j_half_integer:
+                    print("JUCHUUUUUU")
                     rep[cc] *= -1
             if self.is_inversion_symmetry_determinable:
                 if self.element_spatial_properties[self.group_elements[self.indices_of_representative_elements[cc]]][3] and symmetry == "u":

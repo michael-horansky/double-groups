@@ -24,7 +24,10 @@ T_group.generate_double_group({"E" : E, "Cz_2" : Cz_2, "Cy_2" : Cy_2, "C'_3" : I
 
 
 T_group.print_character_table()
-print(T_group.character_dictionary)
+
+print(T_group.conjugacy_classes)
+print(T_group.element_spatial_properties["Cz_2.C'_3^2"][1])
+print(T_group.element_spatial_properties["RCz_2.C'_3.Cz_2.C'_3"][1]) #these two elements are in the same class but not the same multiplicity. this is ok for thirds but TODO conjugacy class naming and also ????? and characters of angular rep???????
 
 print("j = 1/2:",T_group.angular_representation(1/2), T_group.reduce_representation(T_group.angular_representation(1/2)))
 print("j = 3/2:", T_group.reduce_representation(T_group.angular_representation(3/2)))
