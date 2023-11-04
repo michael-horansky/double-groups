@@ -18,14 +18,7 @@ def reduce_frac(frac):
 def m_to_angle(multiplicity):
     return(2.0 * np.pi * multiplicity[0] / multiplicity[1])
 
-def angle_to_m(angle, max_q = 12):
-    # nontrivial - a rational fraction approximator
-    
-    if np.round(angle, 10) == 0.0:
-        return([0, 1])
-    
-    x = angle / (2.0 * np.pi)
-    
+def float_to_fraction(x, max_q = 100):
     best_q = -1
     best_p = -1
     best_offset = 1e9
@@ -37,7 +30,24 @@ def angle_to_m(angle, max_q = 12):
             best_q = q
             best_p = int(cur_numer)
             best_offset = offset
-    return(constrained_angle(reduce_frac([best_p, best_q])))
+    return([best_p, best_q])
+
+
+def angle_to_m(angle, max_q = 12):
+    # nontrivial - a rational fraction approximator
+    
+    while angle < 0.0:
+        angle += 2.0 * np.pi
+    while angle >= 2.0 * np.pi:
+        angle -= 2.0 * np.pi
+    
+    if np.round(angle, 10) == 0.0:
+        return([0, 1])
+    
+    x = angle / (2.0 * np.pi)
+    
+    
+    return(constrained_angle(reduce_frac(float_to_fraction(x, max_q))))
     
 
 def constrained_angle(multiplicity):
@@ -60,6 +70,51 @@ def add_multiplicities(m1, m2):
     new_p = m1[0] * m2[1] + m2[0] * m1[1]
     new_q = m1[1] * m2[1]
     return(reduce_frac([new_p, new_q]))
+
+def seitz_notation(axis, foldedness, inversion):
+    
+    sign_list = []
+    rational_axis = np.array(axis)
+    for i in range(len(rational_axis)):
+        sign_list.append(rational_axis[i] < 0.0)
+        if rational_axis[i] == 0.0:
+            continue
+        rational_axis /= rational_axis[i]
+    
+    list_of_fractions = [[], []]
+    for i in range(len(rational_axis)):
+        if rational_axis[i] == 0.0:
+            continue
+        cur_frac = float_to_fraction(rational_axis[i], 12)
+        list_of_fractions[0].append(cur_frac[0])
+        list_of_fractions[1].append(cur_frac[1])
+    q_gcd = np.gcd.reduce(list_of_fractions[1])
+    p_gcd = np.gcd.reduce(list_of_fractions[0])
+    product_factor = np.prod(list_of_fractions[1])
+    factor = product_factor / (q_gcd * p_gcd)
+    str_axis = ""
+    j = 0
+    for i in range(len(rational_axis)):
+        if sign_list[i]:
+            str_axis += "-"
+        if rational_axis[i] == 0.0:
+            str_axis += "0"
+        else:
+            str_axis += str(int(factor * list_of_fractions[0][j] / list_of_fractions[1][j]))
+            j += 1
+    
+    str_operation = ""
+    
+    if inversion:
+        # either a reflection, an inversion, or a rotoinversion
+        if foldedness == 2:
+            # reflextion
+            str_operation = "m"
+        else:
+            str_operation = "-" + str(int(foldedness))
+    else:
+        str_operation = str(int(foldedness))
+    return(f"{str_operation}_{str_axis}")
 
 
 def Euler_Rodriguez_encoder(axis, angle):

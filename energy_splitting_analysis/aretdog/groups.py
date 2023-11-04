@@ -86,10 +86,14 @@ class Group():
         self.group_elements = [] # ["group element"] - the list of names of group elements
         self.multiplication_table = [] # [i][j] = "group element" - a list of lists
         self.multiplication_dictionary = {} # {"group element" : {"group element" : "group element"}} - a dict of dicts - ONLY FOR CONVENIENCE
+        self.character_table = [] # [irrep index][cc index] = character
+        self.character_dictionary = {} # {"irrep name" : {"cc name" : character}}
         
         self.z_rot_elements = [] # list of element names that are rotations around the z axis - useful for altmann naming convention
-        self.indices_of_representative_elements = [] # indices in self.group_elements of the first group elements in respective conjugacy classes
-        self.multiplicities = {} # {"group element" : multiplicity} - a dictionary of rotation multiplicities associated with each group element
+        self.indices_of_representative_elements = {} # {"cc name" : index in self.group_elements of the first group elements in respective conjugacy class}
+        self.conjugacy_class_time_reversal = {} # {"conjugacy class name" = is this class associated with time reversal?}
+        self.example_properness_conjugacy_class_pair = ["E"] # pair of two conjugacy classes that differ only in properness
+        self.element_spatial_properties = {} # {"group element" : [axis, multiplicity, time reversal, inversion]} - a dictionary of properties associated with each group element
         self.element_conjugacy_classes = {} # dict {"group element" : conjugacy class name}
         
         self.regular_representation = []
@@ -97,6 +101,11 @@ class Group():
         # group operation properties
         self.subgroup_element_relations = {} # dict {"subgroup name" : [instance of group, {"subgroup el." : "group el."}]}
         self.subgroup_conjugacy_relations = {} # dict {"subgroup name" : [instance of group, {"subgroup cc." : "group cc."}]}
+        
+        # self descriptors
+        self.is_proper = True
+        self.is_double = False
+        self.is_inversion_symmetry_determinable = False
     
     def print_character_table(self, cc_separation = 2):
         
@@ -173,6 +182,143 @@ class Group():
                 for i in range(len(self.conjugacy_class_sizes)):
                     self.conjugacy_class_names.append(str(self.conjugacy_class_sizes[i]) + "A_" + str(i + 1))
         
+        self.indices_of_representative_elements = {}
+        for cc in self.conjugacy_class_names:
+            self.indices_of_representative_elements[cc] = self.group_elements.index(self.conjugacy_classes[cc][0])
+    
+    
+    def classify_conjugacy_classes(self, conjugacy_class_proposal):
+        # either a dict (with provisional names) or a list
+        # this method a) names all conjugacy classes in a sane way, b) determines their time-reversality, and c) changes self.indices_of_representative_elements
+        
+        def is_contracted(cc):
+            # a 'contracted' cc contains Rg for each g contained therein
+            # this is uniquely determined by whether this is true for any single element - we check for the first one
+            return("R" + cc[0] in cc or cc[0][1:] in cc) # a dirty check! depends on our naming convention
+        
+        def find_reversed_class(cc, other_classes):
+            # for a non-contracted cc, finds a cc which contains Rg for all g in the original cc
+            # this is uniquely determined by any single element
+            for j in range(len(other_classes)):
+                if "R" + cc[0] in other_classes[j] or cc[0][1:] in other_classes[j]:
+                    return(j)
+        
+        def get_nondescript_desc(notation, marker = "'"):
+            if notation in number_of_unclassifiable_multiplicities:
+                number_of_unclassifiable_multiplicities[notation] += 1
+                return(marker * number_of_unclassifiable_multiplicities[notation])
+            else:
+                number_of_unclassifiable_multiplicities[notation] = 1
+                return(marker)
+        
+        sanitized_conjugacy_classes = {}
+        
+        number_of_unclassifiable_multiplicities = {}
+        if type(conjugacy_class_proposal) == dict:
+            conjugacy_class_proposal = list(conjugacy_class_proposal.values())
+            
+        self.is_inversion_symmetry_determinable = False # only true if there exists an inversion in a class by itself
+        
+        skip_classes = [] # if we take care of a reversed class, we can skip it when encountering its index
+        for cc_i in range(len(conjugacy_class_proposal)):
+            if cc_i in skip_classes:
+                continue
+            cc = conjugacy_class_proposal[cc_i]
+            # First, the size
+            size = len(cc)
+            rep_spatial = self.element_spatial_properties[cc[0]]
+            
+            # If cc of size 1, we can label it by its only element (takes care of identities, time reversals, inversions, and mirrors)
+            if size == 1:
+                if not rep_spatial[2] and rep_spatial[3]:
+                    # elementary improper operation, which always exists in a conjugacy class by itself
+                    self.is_inversion_symmetry_determinable = True
+                    self.example_properness_conjugacy_class_pair.append(cc)
+                sanitized_conjugacy_classes[cc[0]] = cc
+                self.conjugacy_class_time_reversal[cc[0]] = rep_spatial[2]
+                continue
+            # First, check if cc is proper (this is uniquely determined by any element inside)
+            if rep_spatial[3]:
+                # improper
+                # 2-fold rotoinversions are mirrors - we denote such classes as "m"
+                # larger foldednesses are denoted by S_f
+                if rep_spatial[1][1] == 2:
+                    # mirror
+                    # first, we describe the axis
+                    axis_desc = "m"
+                    if rep_spatial[0][0] == 1.0:
+                        axis_desc += "_x"
+                    elif rep_spatial[0][1] == 1.0:
+                        axis_desc += "_y"
+                    elif rep_spatial[0][2] == 1.0:
+                        axis_desc += "_z"
+                    else:
+                        axis_desc += get_nondescript_desc("m")
+                else:
+                    # rotoinversion
+                    axis_desc = "S"
+                    if rep_spatial[0][0] == 1.0:
+                        axis_desc += "x"
+                    elif rep_spatial[0][1] == 1.0:
+                        axis_desc += "y"
+                    elif rep_spatial[0][2] == 1.0:
+                        axis_desc += "z"
+                    else:
+                        axis_desc += get_nondescript_desc(f"S_{rep_spatial[1][1]}^{rep_spatial[1][0]}")
+                    if rep_spatial[1][0] > 1:
+                        axis_desc += f"_{rep_spatial[1][1]}^{rep_spatial[1][0]}"
+                    else:
+                        axis_desc += f"_{rep_spatial[1][1]}"
+            else:
+                # proper
+                axis_desc = "C"
+                if rep_spatial[0][0] == 1.0:
+                    axis_desc += "x"
+                elif rep_spatial[0][1] == 1.0:
+                    axis_desc += "y"
+                elif rep_spatial[0][2] == 1.0:
+                    axis_desc += "z"
+                else:
+                    axis_desc += get_nondescript_desc(f"C_{rep_spatial[1][1]}^{rep_spatial[1][0]}")
+                if rep_spatial[1][0] > 1:
+                    axis_desc += f"_{rep_spatial[1][1]}^{rep_spatial[1][0]}"
+                else:
+                    axis_desc += f"_{rep_spatial[1][1]}"
+                        
+                    
+            if self.is_double:
+                if is_contracted(cc):
+                    if size > 3:
+                        final_name = f"{int(size / 2)}{axis_desc}+{int(size / 2)}R{axis_desc}"
+                    else:
+                        final_name = f"{axis_desc}+R{axis_desc}"
+                    sanitized_conjugacy_classes[final_name] = cc
+                    self.conjugacy_class_time_reversal[final_name] = False # this doesn't matter - all half-integer j reps will be zero here. This is just convention.
+                    continue
+                else:
+                    reversed_cc_index = cc_i + 1 + find_reversed_class(cc, conjugacy_class_proposal[cc_i + 1:])
+                    # by convention: the first class is non-reversed, the other one is reversed
+                    skip_classes.append(reversed_cc_index)
+                    if size > 1:
+                        size_prefix = f"{size}"
+                    else:
+                        size_prefix = ""
+                    sanitized_conjugacy_classes[f"{size_prefix}{axis_desc}"] = cc
+                    sanitized_conjugacy_classes[f"{size_prefix}R{axis_desc}"] = conjugacy_class_proposal[reversed_cc_index]
+                    self.conjugacy_class_time_reversal[f"{size_prefix}{axis_desc}"] = False
+                    self.conjugacy_class_time_reversal[f"{size_prefix}R{axis_desc}"] = True
+                    continue
+            else:
+                if size > 1:
+                    final_name = f"{size}{axis_desc}"
+                else:
+                    final_name = f"{axis_desc}"
+                sanitized_conjugacy_classes[final_name] = cc
+                self.conjugacy_class_time_reversal[final_name] = False
+                continue
+        self.set_conjugacy_classes(sanitized_conjugacy_classes)
+                
+    
     
     def set_irreducible_representations(self, arg1, arg2 = -1):
         
@@ -249,11 +395,6 @@ class Group():
         # deduces the names for irreps using a specified convention and saves them as a dictionary
         # this function can be called INSTEAD of self.set_irreducible_representations()
         
-        final_names = []
-        reorder_indices = []
-        
-        count_number = [[0, 0], 0, 0, 0, 0, 0]
-        
         characters = []
         for irrep in irreps:
             characters.append(spgrep.representation.get_character(irrep))
@@ -304,8 +445,197 @@ class Group():
                     return(False)
             return(True)
         
+        def classify_irreps_by_dim(set_of_irrep_indices):
+            irreps_by_dim = {} # {dim1 : [[irrep1 index], [irrep2 i, irrep2 c.c. i]...], dim2 : [[irrep3], [irrep4]...]], ...}
+            for i in set_of_irrep_indices:
+                cur_dim = irreps[i].shape[1]
+                if cur_dim in irreps_by_dim.keys():
+                    # check if there's a complex conjugate irrep present
+                    cc_found = False
+                    for k in range(len(irreps_by_dim[cur_dim])):
+                        if len(irreps_by_dim[cur_dim][k]) > 1:
+                            continue
+                        if check_if_complex_conjugate(i, irreps_by_dim[cur_dim][k][0]):
+                            cc_found = True
+                            irreps_by_dim[cur_dim][k].append(i)
+                            break
+                    if not cc_found:
+                        irreps_by_dim[cur_dim].append([i])
+                else:
+                    irreps_by_dim[cur_dim] = [[i]]
+            return(irreps_by_dim)
+        
+        def name_nonspin_irreps_classified_by_dim(irreps_by_dim, improperness_suffix = ""):
+            # if improper group, specify suffix as either "_g" or "_u"
+            
+            final_names = []
+            reorder_indices = []
+        
+            count_number = [[0, 0], 0, 0, 0, 0, 0]
+            
+            for cur_dim in sorted(irreps_by_dim.keys()):
+                for j in range(len(irreps_by_dim[cur_dim])):
+                    if len(irreps_by_dim[cur_dim][j]) == 1:
+                        cur_i = irreps_by_dim[cur_dim][j][0]
+                        reorder_indices.append(cur_i)
+                        if cur_dim == 1:
+                            # check for antisymmetricity ALTMANN P 63
+                            if self.z_rot_elements == []:
+                                count_number[cur_dim - 1][0] += 1
+                                count_number[cur_dim - 1][1] += 1
+                                cur_letter = f"{Group.irrep_letter_dictionary[convention][cur_dim-1][0]}/{Group.irrep_letter_dictionary[convention][cur_dim-1][1]}"
+                                final_names.append(cur_letter + "_" + str(count_number[cur_dim - 1][0]) + improperness_suffix)
+                            else:
+                                if check_if_symmetric(cur_i):
+                                    count_number[cur_dim - 1][0] += 1
+                                    final_names.append(Group.irrep_letter_dictionary[convention][cur_dim-1][0] + "_" + str(count_number[cur_dim - 1][0]) + improperness_suffix)
+                                else:
+                                    count_number[cur_dim - 1][1] += 1
+                                    final_names.append(Group.irrep_letter_dictionary[convention][cur_dim-1][1] + "_" + str(count_number[cur_dim - 1][1]) + improperness_suffix)
+                        else:
+                            count_number[cur_dim - 1] += 1
+                            final_names.append(Group.irrep_letter_dictionary[convention][cur_dim-1] + "_" + str(count_number[cur_dim - 1]) + improperness_suffix)
+                    elif len(irreps_by_dim[cur_dim][j]) == 2:
+                        cur_i1 = irreps_by_dim[cur_dim][j][0]
+                        cur_i2 = irreps_by_dim[cur_dim][j][1]
+                        reorder_indices.append(cur_i1)
+                        reorder_indices.append(cur_i2)
+                        final_names.append("1" + Group.irrep_letter_dictionary[convention][cur_dim*2-1] + improperness_suffix)
+                        final_names.append("2" + Group.irrep_letter_dictionary[convention][cur_dim*2-1] + improperness_suffix)
+            return(final_names, reorder_indices)
+        
+        def decompose_angular_rep(j, symmetry = "g"):
+            present_irreps = []
+            coefs = np.zeros(len(irreps))
+            rep = np.zeros(len(self.group_elements))
+            for i in range(len(self.group_elements)):
+                cur_mult = self.element_spatial_properties[self.group_elements[i]][1]
+                cur_angle = 2.0 * np.pi * cur_mult[0] / cur_mult[1]
+                if cur_angle == 0:
+                    # identity class or time reversal class - this gives (j + 1/2) / (1/2) = 2j + 1
+                    rep[i] = 2 * j + 1
+                else:
+                    rep[i] = np.sin((j + 0.5) * cur_angle) / np.sin(0.5 * cur_angle)
+                # time reversal classes - for half-integer j, we flip the signs
+                if self.is_double:
+                    if self.element_spatial_properties[self.group_elements[i]][2] and (int(2.0 * j) % 2 == 1):
+                        rep[i] *= -1
+                if self.is_inversion_symmetry_determinable:
+                    if self.element_spatial_properties[self.group_elements[i]][3] and symmetry == "u":
+                        rep[i] *= -1
+            for i in range(len(irreps)):
+                for j in range(len(self.group_elements)):
+                    coefs[i] += rep[j] * characters[i][j]
+                if np.round(np.real(coefs[i]), decimals = 5) != 0.0:
+                    present_irreps.append(i)
+            return(present_irreps)
+            
+                
+        
+        
+        def name_spin_irreps_classified_by_dim(irreps_by_dim, improperness_suffix = ""):
+            final_names, reorder_indices = name_nonspin_irreps_classified_by_dim(irreps_by_dim, improperness_suffix)
+            """unlabelled_irreps = reorder_indices.copy()
+            j_double = 1
+            if improperness_suffix == "_u":
+                symmetry = "u"
+            else:
+                symmetry = "g"
+            while(len(unlabelled_irreps) > 0):
+                new_present_irreps = decompose_angular_rep(j_double / 2.0, symmetry)
+                print("remaining:", unlabelled_irreps)
+                print("newly labelled:", new_present_irreps)
+                for i in new_present_irreps:
+                    if i in unlabelled_irreps:
+                        name_index = reorder_indices.index(i)
+                        unlabelled_irreps.remove(i)
+                        final_names[name_index] += f"(j={j_double}/2)"
+            """
+            return(final_names, reorder_indices)
+            
+        
+        # First classify irreps by whether or not they're spin irreps and by their gerade/ungerade properties
+        if self.is_inversion_symmetry_determinable:
+            noninversion_index = self.indices_of_representative_elements[self.example_properness_conjugacy_class_pair[0]]
+            inversion_index = self.indices_of_representative_elements[self.example_properness_conjugacy_class_pair[1]]
+        if self.is_double:
+            E_index = self.indices_of_representative_elements["E"]
+            R_index = self.indices_of_representative_elements["R"]
+            if self.is_inversion_symmetry_determinable:
+                nonspin_irreps_g = []
+                nonspin_irreps_u = []
+                spin_irreps_g = []
+                spin_irreps_u = []
+                for i in range(len(irreps)):
+                    if characters[i][E_index] == -characters[i][R_index]:
+                        if characters[i][noninversion_index] == characters[i][inversion_index]:
+                            spin_irreps_g.append(i)
+                        else:
+                            spin_irreps_u.append(i)
+                    else:
+                        if characters[i][noninversion_index] == characters[i][inversion_index]:
+                            nonspin_irreps_g.append(i)
+                        else:
+                            nonspin_irreps_u.append(i)
+                # Here we name and classify indices for an improper double group
+                nonspin_irreps_g_by_dim = classify_irreps_by_dim(nonspin_irreps_g)
+                nonspin_irreps_u_by_dim = classify_irreps_by_dim(nonspin_irreps_u)
+                spin_irreps_g_by_dim = classify_irreps_by_dim(spin_irreps_g)
+                spin_irreps_u_by_dim = classify_irreps_by_dim(spin_irreps_u)
+                
+                nonspin_names_g, nonspin_reorderings_g = name_nonspin_irreps_classified_by_dim(nonspin_irreps_g_by_dim, "_g")
+                nonspin_names_u, nonspin_reorderings_u = name_nonspin_irreps_classified_by_dim(nonspin_irreps_u_by_dim, "_u")
+                spin_names_g, spin_reorderings_g = name_spin_irreps_classified_by_dim(spin_irreps_g_by_dim, "_g")
+                spin_names_u, spin_reorderings_u = name_spin_irreps_classified_by_dim(spin_irreps_u_by_dim, "_u")
+                names = nonspin_names_g + nonspin_names_u + spin_names_g + spin_names_u
+                reorderings = nonspin_reorderings_g + nonspin_reorderings_u + spin_reorderings_g + spin_reorderings_u
+            else:
+                nonspin_irreps = []
+                spin_irreps = []
+                for i in range(len(irreps)):
+                    if characters[i][E_index] == -characters[i][R_index]:
+                        spin_irreps.append(i)
+                    else:
+                        nonspin_irreps.append(i)
+                # Here we name and classify indices for a proper double group
+                
+                print("nonspin irreps:", nonspin_irreps)
+                for i in nonspin_irreps:
+                    print(characters[i][0])
+                
+                
+                nonspin_irreps_by_dim = classify_irreps_by_dim(nonspin_irreps)
+                spin_irreps_by_dim = classify_irreps_by_dim(spin_irreps)
+                
+                nonspin_names, nonspin_reorderings = name_nonspin_irreps_classified_by_dim(nonspin_irreps_by_dim, "")
+                spin_names, spin_reorderings = name_spin_irreps_classified_by_dim(spin_irreps_by_dim, "")
+                names = nonspin_names + spin_names
+                reorderings = nonspin_reorderings + spin_reorderings
+                
+        else:
+            if self.is_inversion_symmetry_determinable:
+                irreps_g = []
+                irreps_u = []
+                for i in range(len(irreps)):
+                    if characters[i][noninversion_index] == characters[i][inversion_index]:
+                        irreps_g.append(i)
+                    else:
+                        irreps_u.append(i)
+                # Here we name and classify indices for an improper group
+                irreps_g_by_dim = classify_irreps_by_dim(irreps_g)
+                irreps_u_by_dim = classify_irreps_by_dim(irreps_u)
+                
+                names_g, reorderings_g = name_nonspin_irreps_classified_by_dim(irreps_g_by_dim, "_g")
+                names_u, reorderings_u = name_nonspin_irreps_classified_by_dim(irreps_u_by_dim, "_u")
+                names = names_g + names_u
+                reorderings = reorderings_g + reorderings_u
+            else:
+                # Here we name and classify indices for a proper group
+                irreps_by_dim = classify_irreps_by_dim(irreps)
+                names, reorderings = name_nonspin_irreps_classified_by_dim(irreps_by_dim, "")
+        
         # first, classify irreps by their dimension
-        irreps_by_dim = [] # [[dim1, [[irrep1 index], [irrep2 i, irrep2 c.c. i]...]], [dim2, [[irrep3], [irrep4]...]], ...]
+        """irreps_by_dim = [] # [[dim1, [[irrep1 index], [irrep2 i, irrep2 c.c. i]...]], [dim2, [[irrep3], [irrep4]...]], ...]
         for i in range(len(irreps)):
             cur_dim = irreps[i].shape[1]
             irrep_placed = False
@@ -333,8 +663,9 @@ class Group():
                 elif irreps_by_dim[j][0] < cur_dim:
                     biggest_smaller_dim_index = j
             if not irrep_placed:
-                irreps_by_dim.insert(biggest_smaller_dim_index + 1, [cur_dim, [[i]]])
+                irreps_by_dim.insert(biggest_smaller_dim_index + 1, [cur_dim, [[i]]])"""
         
+        """
         for i in range(len(irreps_by_dim)):
             cur_dim = irreps_by_dim[i][0]
             for j in range(len(irreps_by_dim[i][1])):
@@ -364,14 +695,17 @@ class Group():
                     reorder_indices.append(cur_i1)
                     reorder_indices.append(cur_i2)
                     final_names.append("1" + Group.irrep_letter_dictionary[convention][cur_dim*2-1])
-                    final_names.append("2" + Group.irrep_letter_dictionary[convention][cur_dim*2-1])
+                    final_names.append("2" + Group.irrep_letter_dictionary[convention][cur_dim*2-1])"""
         
         # reorder irreps, since dict remembers insertion order
         
+        print(reorderings, names)
+        
         irrep_dict = {}
-        for i in range(len(reorder_indices)):
-            j = reorder_indices[i]
-            irrep_dict[final_names[j]] = irreps[j]
+        for i in range(len(reorderings)):
+            j = reorderings[i]
+            irrep_dict[names[i]] = irreps[j]
+            #irrep_dict[names[j]] = irreps[j]
         self.set_irreducible_representations(irrep_dict)
         
         
@@ -443,13 +777,16 @@ class Group():
                 products_to_check.append([(len(self.group_elements) - 1, i), self.group_operations[self.group_elements[len(self.group_elements) - 1]] + self.group_operations[self.group_elements[i]]])
             products_to_check.append([(len(self.group_elements) - 1, len(self.group_elements) - 1), self.group_operations[self.group_elements[len(self.group_elements) - 1]] + self.group_operations[self.group_elements[len(self.group_elements) - 1]]])
         
-        # now, we check which elements are rotations around the z axis, and commit multiplicities to memory:
+        # now, we check which elements are rotations around the z axis, and commit spatial properties to memory:
         self.z_rot_elements = []
-        self.multiplicities = {}
+        self.element_spatial_properties = {}
         for group_element in self.group_elements:
-            if np.all(np.matmul(self.group_operations[group_element].cartesian_rep(), np.array([0.0, 0.0, 1.0])) == np.array([0.0, 0.0, 1.0])):
+            #if np.all(np.matmul(self.group_operations[group_element].cartesian_rep(), np.array([0.0, 0.0, 1.0])) == np.array([0.0, 0.0, 1.0])):
+            if np.all(self.group_operations[group_element].axis == [0.0, 0.0, 1.0]) and self.group_operations[group_element].inversion == False:
                 self.z_rot_elements.append(group_element)
-            self.multiplicities[group_element] = self.group_operations[group_element].multiplicity
+            if self.group_operations[group_element].inversion:
+                self.is_proper = False
+            self.element_spatial_properties[group_element] = [self.group_operations[group_element].axis, self.group_operations[group_element].multiplicity, False, self.group_operations[group_element].inversion]
         
         self.order = len(self.group_elements)
         
@@ -466,7 +803,7 @@ class Group():
         element_matrices = [0] * self.order * 2
         
         for i in range(self.order):
-            element_matrices[i]     = self.group_operations[self.group_elements[i]].SU2_rep()
+            element_matrices[i]     = self.group_operations[self.group_elements[i]].SU2_rep()#ImproperSpinRotation_rep()
             element_matrices[i + self.order] = element_matrices[i].reverse()#- self.group_operations[self.group_elements[i]].SU2_rep()
             if i == 0:
                 new_label = "R"
@@ -488,17 +825,17 @@ class Group():
                 new_mt[i].append(self.group_elements[product_index])
         
         self.multiplication_table = new_mt
-        # update the group operations and multiplicities
+        # update the group operations and spatial properties
         # the multiplicity of a time reversal rotation is unconstrained - angle is bigger than 2pi
         for i in range(len(self.group_elements)):
             self.group_operations[self.group_elements[i]] = element_matrices[i]
         for i in range(self.order):
-            p = self.multiplicities[self.group_elements[i]][0]
-            q = self.multiplicities[self.group_elements[i]][1]
-            self.multiplicities[self.group_elements[i + self.order]] = [p + q, q]
+            self.element_spatial_properties[self.group_elements[i + self.order]] = self.element_spatial_properties[self.group_elements[i]].copy()
+            self.element_spatial_properties[self.group_elements[i + self.order]][2] = True # we change the time reversal property
         
-        # Now we update the group order
+        # Now we update the group order and self descriptors
         self.order = len(self.group_elements)
+        self.is_double = True
             
 
     
@@ -545,10 +882,6 @@ class Group():
         
         conjugacy_classes_dict = {}
         
-        # TODO: conjugacy_class_names, add x+Rx naming convention
-        
-        self.indices_of_representative_elements = []
-        
         for order in range(self.order):
             headers_of_current_classes = []
             while(len(orders_list[order]) > 0):
@@ -563,12 +896,9 @@ class Group():
                 if not element_placed:
                     headers_of_current_classes.append(cur_element)
                     conjugacy_classes_dict[self.group_elements[cur_element]] = [self.group_elements[cur_element]]
-                    self.indices_of_representative_elements.append(cur_element)
         
-        # TODO rename dictionary keys here (use d['new'] = d.pop('old'))
-        # Add conjugacy class sizes and x + Rx to relevant ccs
-        
-        self.set_conjugacy_classes(conjugacy_classes_dict)
+        #self.set_conjugacy_classes(conjugacy_classes_dict)
+        self.classify_conjugacy_classes(conjugacy_classes_dict)
     
     def get_character_table(self, tolerance_decimals = 5):
         
@@ -581,15 +911,21 @@ class Group():
         for irrep in self.irrep_names:
             characters.append(spgrep.representation.get_character(self.irreps[irrep]))
         
+        print(self.irrep_names)
+        
         #conjugacy_class_sizes = []
         #for i in range(len(conjugacy_class_names)):
         #    conjugacy_class_sizes.append(len(conjugacy_classes_dict[conjugacy_class_names[i]]))
         
         self.character_table = np.zeros((len(self.irreps), len(self.irreps)), dtype=np.complex_)
+        self.character_dictionary = {}
         
         for i_irrep in range(len(self.irreps)):
+            self.character_dictionary[self.irrep_names[i_irrep]] = {}
             for i_cc in range(len(self.conjugacy_class_names)):
-                self.character_table[i_irrep][i_cc] = np.round(characters[i_irrep][self.indices_of_representative_elements[i_cc]], decimals = tolerance_decimals)
+                new_char = np.round(characters[i_irrep][self.indices_of_representative_elements[self.conjugacy_class_names[i_cc]]], decimals = tolerance_decimals)
+                self.character_dictionary[self.irrep_names[i_irrep]][self.conjugacy_class_names[i_cc]] = new_char
+                self.character_table[i_irrep][i_cc] = new_char
     
     def get_regular_representation(self):
         
@@ -648,8 +984,10 @@ class Group():
             irreps[i] = np.round(irreps[i], decimals = 12)
         
         # We name and classify irreps
+        print("LMAOOOOO", len(irreps))
         self.name_and_set_irreps(irreps)
         
+        print("LMAOOOOO", self.irrep_names)
         
         #irrep_reordering, irrep_names = name_irreps(irreps, group_elements, rotation_matrices)
         #irreps = [irreps[i] for i in irrep_reordering]
@@ -723,20 +1061,23 @@ class Group():
         # if symmetry = "g" (gerade), then characters dont flip sign for inversions; for symmetry = "u" (ungerade), they do
         
         rep = {}
-        for i in range(len(self.conjugacy_class_names)):
-            cur_mult = self.multiplicities[self.group_elements[self.indices_of_representative_elements[i]]]
+        is_j_half_integer = (int(2.0 * j) % 2 == 1)
+        for cc in self.conjugacy_class_names:
+            cur_mult = self.element_spatial_properties[self.group_elements[self.indices_of_representative_elements[cc]]][1]
             cur_angle = 2.0 * np.pi * cur_mult[0] / cur_mult[1]
             if cur_angle == 0:
-                # identity class - this gives (j + 1/2) / (1/2) = 2j + 1
-                rep[self.conjugacy_class_names[i]] = 2 * j + 1
-            elif cur_angle == 2.0 * np.pi:
-                # time reversal class - for integer j, this is 2j+1; for half-integer j, this is -(2j+1)
-                if (2 * j) % 2 == 1:
-                    rep[self.conjugacy_class_names[i]] = - (2 * j + 1)
-                else:
-                    rep[self.conjugacy_class_names[i]] = 2 * j + 1
+                # identity class or time reversal class - this gives (j + 1/2) / (1/2) = 2j + 1
+                rep[cc] = 2 * j + 1
             else:
-                rep[self.conjugacy_class_names[i]] = np.sin((j + 0.5) * cur_angle) / np.sin(0.5 * cur_angle)
+                rep[cc] = np.sin((j + 0.5) * cur_angle) / np.sin(0.5 * cur_angle)
+            # time reversal classes - for half-integer j, we flip the signs
+            if self.is_double:
+                if self.conjugacy_class_time_reversal[cc] and is_j_half_integer:
+                    rep[cc] *= -1
+            if self.is_inversion_symmetry_determinable:
+                if self.element_spatial_properties[self.group_elements[self.indices_of_representative_elements[cc]]][3] and symmetry == "u":
+                    rep[cc] *= -1
+                
         return(rep)
     
     

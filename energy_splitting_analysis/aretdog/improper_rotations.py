@@ -4,7 +4,7 @@
 
 # We only deal with proper and improper rotations here; no funky shit
 
-from .ImproperSU2 import *
+from .improper_spin_rotations import *
 
 
 inversion_matrix = np.array([[-1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0.0, 0.0, -1.0]])
@@ -60,7 +60,7 @@ class ImproperRotation():
         res  = np.zeros((2, 2), dtype = np.complex_)
         t    = m_to_angle(self.multiplicity)
         w    = np.cos(t / 2.0)
-        norm = np.abs(np.sin(t / 2.0))
+        norm = np.sin(t / 2.0) #np.abs(np.sin(t / 2.0))
         u_x  = self.axis[0] * norm
         u_y  = self.axis[1] * norm
         u_z  = self.axis[2] * norm
@@ -72,6 +72,9 @@ class ImproperRotation():
         
         res = np.round(res, decimals = ImproperRotation.rounding_decimals)
         return(ImproperSU2(np.matrix(res), self.inversion))
+    
+    def ImproperSpinRotation_rep(self):
+        return(ImproperSpinRotation(self.axis, self.multiplicity, False, self.inversion))
         
     
     def __eq__(self, SO):
