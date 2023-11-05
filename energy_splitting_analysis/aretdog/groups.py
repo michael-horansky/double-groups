@@ -238,7 +238,7 @@ class Group():
                 if not rep_spatial[2] and rep_spatial[3]:
                     # elementary improper operation, which always exists in a conjugacy class by itself
                     self.is_inversion_symmetry_determinable = True
-                    self.example_properness_conjugacy_class_pair.append(cc)
+                    self.example_properness_conjugacy_class_pair.append(cc[0])
                 sanitized_conjugacy_classes[cc[0]] = cc
                 self.conjugacy_class_time_reversal[cc[0]] = rep_spatial[2]
                 continue
@@ -331,6 +331,7 @@ class Group():
             #   char(E) = 2
             #   char(Rg) = -char(g)
             #   char(g) = real
+            #   char(g) is nonzero for rotations with multiplicity different to [1, 2]
             #   this determines it uniquely
             
             irreps = spgrep.irreps.enumerate_unitary_irreps_from_regular_representation(self.regular_representation)
@@ -353,6 +354,10 @@ class Group():
                             if np.trace(irrep[rep_el[i]]) != 2.0:
                                 is_spin_rep = False
                                 break
+                    if np.trace(irrep[rep_el[i]]) == 0.0:
+                        if self.element_spatial_properties[self.group_elements[rep_el[i]]][1] != [1, 2]:
+                            is_spin_rep = False
+                            break
                     if ccs[i] in time_reversal_pairs.keys():
                         if np.trace(irrep[rep_el[i]]) != -np.trace(irrep[rep_el[ccs.index(time_reversal_pairs[ccs[i]])]]):
                             is_spin_rep = False
@@ -363,6 +368,15 @@ class Group():
             if not is_spin_rep:
                 print("ERROR!!! Spin rep (gerade) not found!")
                 return(-1)
+            
+            # TODO the identifying of E_1/2 has an issue - E_1/2 must have a positive character for each non-time reversed cc. But this contains circular logic. See D3h
+            # maybe this is fine, actually - if we exchange both the conjugacy classes and the irreps (E_1/2 and E_5/2), the group behaves in the same way?
+            
+            """print("----------SPINOR REP SELECTED-------------")
+            for i in range(len(ccs)):
+                cur_character = np.trace(spin_rep[rep_el[i]])
+                print(ccs[i], ":", cur_character)"""
+            
             self.conjugacy_class_associated_angle = {}
             for i in range(len(ccs)):
                 cur_character = np.trace(spin_rep[rep_el[i]])
@@ -450,144 +464,6 @@ class Group():
             for i in range(len(self.irrep_names)):
                 for j in range(len(self.conjugacy_class_names)):
                     self.character_table[i][j] = character_table[i][j]
-    
-    
-    
-    
-    def old_name_and_set_irreps(self, irreps, convention = "altmann"):
-    
-        # deduces the names for irreps using a specified convention and saves them as a dictionary
-        # this function can be called INSTEAD of self.set_irreducible_representations()
-        
-        final_names = []
-        reorder_indices = []
-        
-        count_number = [[0, 0], 0, 0, 0, 0, 0]
-        
-        characters = []
-        for irrep in irreps:
-            characters.append(spgrep.representation.get_character(irrep))
-        
-        #group_elements = list(group_operations.keys())
-        """
-        # first, identify the indices of group operations that are rotations about [0, 0, 1]
-        z_rot_indices = []
-        
-        # This is either SO'3 or SU 2
-        if faithful_rep.shape[1] == 3:
-            # SO'3
-            for i in range(len(group_elements)):
-                if np.all(np.matmul(faithful_rep[i], np.array([0.0, 0.0, 1.0])) == np.array([0.0, 0.0, 1.0])):
-                    z_rot_indices.append(i)
-        elif faithful_rep.shape[1] == 2:
-            # SU 2
-            for i in range(len(group_elements)):
-                if faithful_rep[i][0][0] == faithful_rep[i][1][1] and faithful_rep[i][0][1] == faithful_rep[i][1][0]:
-                    z_rot_indices.append(i)"""
-        """for i in range(len(group_elements)):
-            if np.dot(group_operations[group_elements[i]].axis, np.array([0.0, 0.0, 1.0])) == 1.0:
-                z_rot_indices.append(i)"""
-        
-        if self.z_rot_elements == []:
-            # we don't know which elements are rotations about the z axis - for 1D reps we use "A/B"
-            z_rot_indices = []
-        else:
-            z_rot_indices = []
-            for z_rot_element in self.z_rot_elements:
-                z_rot_indices.append(self.group_elements.index(z_rot_element))
-        
-        def check_if_complex_conjugate(i1, i2):
-            # deducing from the T group character table in Altmann, this refers to a relation between the _characters_ of the irreps
-            
-            return(np.all(np.round(characters[i1].conjugate(), 5) == np.round(characters[i2], 5)))
-            """
-            irrep1 = irreps[i1]
-            irrep2 = irreps[i2]
-            for i in range(len(irrep1)):
-                if not np.all(irrep1[i].conjugate() == irrep2[i]):
-                    return(False)
-            return(True)"""
-        
-        def check_if_symmetric(irrep_i):
-            for index in z_rot_indices:
-                if irreps[irrep_i][index][0][0] != 1.0:
-                    return(False)
-            return(True)
-        
-        # first, classify irreps by their dimension
-        irreps_by_dim = [] # [[dim1, [[irrep1 index], [irrep2 i, irrep2 c.c. i]...]], [dim2, [[irrep3], [irrep4]...]], ...]
-        for i in range(len(irreps)):
-            cur_dim = irreps[i].shape[1]
-            irrep_placed = False
-            biggest_smaller_dim_index = -1
-            for j in range(len(irreps_by_dim)):
-                if irreps_by_dim[j][0] == cur_dim:
-                    
-                    # check if there's a complex conjugate irrep present
-                    cc_found = False
-                    for k in range(len(irreps_by_dim[j][1])):
-                        if len(irreps_by_dim[j][1][k]) > 1:
-                            continue
-                        if check_if_complex_conjugate(i, irreps_by_dim[j][1][k][0]):
-                            cc_found = True
-                            irrep_placed = True
-                            #final_names[i] = "1" + letter_dictionary[convention][cur_dim * 2]
-                            #final_names[irreps_by_dim[j][1][k][0]] = "2" + letter_dictionary[convention][cur_dim * 2]
-                            #irreps_by_dim[j][1].pop(k) # removes both reps
-                            irreps_by_dim[j][1][k].append(i)
-                            break
-                    if not cc_found:
-                        irreps_by_dim[j][1].append([i])
-                        irrep_placed = True
-                    break
-                elif irreps_by_dim[j][0] < cur_dim:
-                    biggest_smaller_dim_index = j
-            if not irrep_placed:
-                irreps_by_dim.insert(biggest_smaller_dim_index + 1, [cur_dim, [[i]]])
-        
-        for i in range(len(irreps_by_dim)):
-            cur_dim = irreps_by_dim[i][0]
-            for j in range(len(irreps_by_dim[i][1])):
-                if len(irreps_by_dim[i][1][j]) == 1:
-                    cur_i = irreps_by_dim[i][1][j][0]
-                    reorder_indices.append(cur_i)
-                    if cur_dim == 1:
-                        # check for antisymmetricity ALTMANN P 63
-                        if self.z_rot_elements == []:
-                            count_number[cur_dim - 1][0] += 1
-                            count_number[cur_dim - 1][1] += 1
-                            cur_letter = f"{Group.irrep_letter_dictionary[convention][cur_dim-1][0]}/{Group.irrep_letter_dictionary[convention][cur_dim-1][1]}"
-                            final_names.append(cur_letter + "_" + str(count_number[cur_dim - 1][0]))
-                        else:
-                            if check_if_symmetric(cur_i):
-                                count_number[cur_dim - 1][0] += 1
-                                final_names.append(Group.irrep_letter_dictionary[convention][cur_dim-1][0] + "_" + str(count_number[cur_dim - 1][0]))
-                            else:
-                                count_number[cur_dim - 1][1] += 1
-                                final_names.append(Group.irrep_letter_dictionary[convention][cur_dim-1][1] + "_" + str(count_number[cur_dim - 1][1]))
-                    else:
-                        count_number[cur_dim - 1] += 1
-                        final_names.append(Group.irrep_letter_dictionary[convention][cur_dim-1] + "_" + str(count_number[cur_dim - 1]))
-                elif len(irreps_by_dim[i][1][j]) == 2:
-                    cur_i1 = irreps_by_dim[i][1][j][0]
-                    cur_i2 = irreps_by_dim[i][1][j][1]
-                    reorder_indices.append(cur_i1)
-                    reorder_indices.append(cur_i2)
-                    final_names.append("1" + Group.irrep_letter_dictionary[convention][cur_dim*2-1])
-                    final_names.append("2" + Group.irrep_letter_dictionary[convention][cur_dim*2-1])
-        
-        # reorder irreps, since dict remembers insertion order
-        
-        irrep_dict = {}
-        for i in range(len(reorder_indices)):
-            j = reorder_indices[i]
-            irrep_dict[final_names[j]] = irreps[j]
-        self.set_irreducible_representations(irrep_dict)
-    
-    
-    
-    
-    
     
     def name_and_set_irreps(self, irreps, convention = "altmann"):
     
@@ -693,7 +569,7 @@ class Group():
                     # identity class or time reversal class - this gives (j + 1/2) / (1/2) = 2j + 1
                     rep[i] = 2 * j + 1
                 else:
-                    rep[i] = np.sin((j + 0.5) * cur_angle) / np.sin(0.5 * cur_angle)
+                    rep[i] = np.round(np.sin((j + 0.5) * cur_angle) / np.sin(0.5 * cur_angle), decimals = 8)
                 # time reversal classes - for half-integer j, we flip the signs
                 if self.is_double and (int(2.0 * j) % 2 == 1):
                     if self.conjugacy_class_time_reversal[self.element_conjugacy_classes[self.group_elements[i]]]:
@@ -702,6 +578,12 @@ class Group():
                 if self.is_inversion_symmetry_determinable:
                     if self.element_spatial_properties[self.group_elements[i]][3] and symmetry == "u":
                         rep[i] *= -1
+            
+            """DEBUG_rep = {}
+            for cc in self.conjugacy_class_names:
+                DEBUG_rep[cc] = rep[self.indices_of_representative_elements[cc]]
+            
+            print(DEBUG_rep)"""
             
             for i in range(len(irreps)):
                 for j in range(len(self.group_elements)):
@@ -717,6 +599,8 @@ class Group():
             final_names, reorder_indices = name_nonspin_irreps_classified_by_dim(irreps_by_dim, improperness_suffix)
             unlabelled_irreps = reorder_indices.copy()
             
+            #print(final_names, reorder_indices)
+            
             if improperness_suffix == "_u":
                 symmetry = "u"
             else:
@@ -725,6 +609,7 @@ class Group():
                 if len(unlabelled_irreps) == 0:
                     break
                 new_present_irreps = decompose_angular_rep((2 * j_double + 1) / 2.0, symmetry)
+                #print(f"j = {2*j_double + 1}/2: {new_present_irreps}")
                 for i in new_present_irreps:
                     if i in unlabelled_irreps:
                         name_index = reorder_indices.index(i)
@@ -1012,7 +897,7 @@ class Group():
         # this function can be called INSTEAD of self.set_character_table()
         # to have the indices of representative elements, this function should only be called after self.conjugacy_classes_from_multiplication_table
         
-        print(self.irrep_names)
+        #print(self.irrep_names)
         
         characters = []
         for irrep in self.irrep_names:
@@ -1182,6 +1067,22 @@ class Group():
         return(rep)
     
     
+    
+    def does_rep_contain_identity(self, rep):
+        # checks whether representation contains the identity representation (which has characters 1 for all CCs)
+        id_coef = 0
+        if type(reducible_representation) == dict:
+            for i in range(len(self.conjugacy_class_names)):
+                id_coef += rep[self.conjugacy_class_names[i]] * self.conjugacy_class_sizes[i]
+            id_coef /= self.order
+            id_coef = np.round(coefs[i], decimals = Group.rounding_decimals)
+        else:
+            for i in range(len(self.conjugacy_class_names)):
+                id_coef += rep[i] * self.conjugacy_class_sizes[i]
+            id_coef /= self.order
+            id_coef = np.round(coefs[i], decimals = Group.rounding_decimals)
+        return(id_coef == 0.0)
+
     
     
     # ---------------------- group methods

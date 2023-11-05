@@ -3,7 +3,7 @@
 
 from aretdog.groups import *
 
-"""
+
 
 
 D2_group = Group("D2")
@@ -44,6 +44,12 @@ print(D2_group.reduce_representation(rep))
 
 
 
+Th_group = Group("Th")
+Th_group.generate_double_group({"E" : E, "Cz_2" : Cz_2, "Cy_2" : Cy_2, "C'_3" : ImproperRotation([1.0, 1.0, 1.0], [1, 3], False), "i" : ImproperRotation([1.0, 0.0, 0.0], [0.0, 1.0], True)})
+Th_group.print_character_table()
+
+
+
 print("------------------ C3v analysis ------------------------")
 
 C3v_group = Group("C3v")
@@ -51,7 +57,7 @@ C3v_group.generate_double_group({"E" : E, "Cz_3" : ImproperRotation([0.0, 0.0, 1
 C3v_group.print_character_table()
 
 
-"""
+
 
 D3h_group = Group("D3h")
 D3h_group.generate_double_group({"E" : E, "Cz_3" : ImproperRotation([0.0, 0.0, 1.0], [1, 3], False), "m" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], True), "m'" : ImproperRotation([0.0, 0.0, 1.0], [1, 2], True)})
@@ -59,11 +65,14 @@ D3h_group.print_character_table()
 
 D3h_group.add_subgroup(C3v_group)
 
-hh_rep = D3h_group.character_table[4] #E3/2
+E_12 = D3h_group.character_table[7] #E1/2
+E_52 = D3h_group.character_table[8] #E5/2
 
-hh_rep_in_C3v = D3h_group.rep_to_subgroup_rep("C3v", hh_rep)
+E_12_in_C3v = D3h_group.rep_to_subgroup_rep("C3v", E_12)
+E_52_in_C3v = D3h_group.rep_to_subgroup_rep("C3v", E_52)
 
-print(C3v_group.reduce_representation(hh_rep_in_C3v))
+print(C3v_group.reduce_representation(E_12_in_C3v))
+print(C3v_group.reduce_representation(E_52_in_C3v)) #this is correct!!
 
 
 #for g in D3h_group.group_elements:
