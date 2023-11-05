@@ -4,7 +4,7 @@
 
 # We only deal with proper and improper rotations here; no funky shit
 
-from .improper_spin_rotations import *
+from .class_improper_spin_rotation import *
 
 
 inversion_matrix = np.array([[-1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0.0, 0.0, -1.0]])

@@ -1,6 +1,6 @@
 
 
-from .ImproperSU2 import *
+from .class_improperSU2 import *
 
 # TODO figure this out!!!!!
 

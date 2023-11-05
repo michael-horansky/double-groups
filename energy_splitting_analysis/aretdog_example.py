@@ -1,7 +1,7 @@
 
 
 
-from aretdog.groups import *
+from aretdog.class_group import *
 
 
 
@@ -29,17 +29,11 @@ T_group.add_subgroup(D2_group)
 
 print("---------------------- symmetry breakage -------------------")
 
-og_rep = T_group.character_table[3]
-
-
-
+og_rep = T_group.irrep_characters["T_1"]
 rep = T_group.rep_to_subgroup_rep("D2", og_rep)
 
-
-
-
-print("In T:", og_rep)
-print("In D2:", rep)
+print(og_rep)
+print(rep)
 print(D2_group.reduce_representation(rep))
 
 

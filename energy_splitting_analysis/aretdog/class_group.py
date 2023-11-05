@@ -16,7 +16,8 @@
 import copy
 
 import spgrep
-from .improper_rotations import *
+from .class_improper_rotation import *
+from .class_representation import *
 
 
 #TODO add basis functions idk
@@ -87,7 +88,7 @@ class Group():
         self.multiplication_table = [] # [i][j] = "group element" - a list of lists
         self.multiplication_dictionary = {} # {"group element" : {"group element" : "group element"}} - a dict of dicts - ONLY FOR CONVENIENCE
         self.character_table = [] # [irrep index][cc index] = character
-        self.character_dictionary = {} # {"irrep name" : {"cc name" : character}}
+        self.irrep_characters = {} # {"irrep name" : Representation}
         
         self.z_rot_elements = [] # list of element names that are rotations around the z axis - useful for altmann naming convention
         self.indices_of_representative_elements = {} # {"cc name" : index in self.group_elements of the first group elements in respective conjugacy class}
@@ -101,6 +102,7 @@ class Group():
         self.regular_representation = []
         
         # group operation properties
+        self.subgroups = [] # a list of subgroup names
         self.subgroup_element_relations = {} # dict {"subgroup name" : [instance of group, {"subgroup el." : "group el."}]}
         self.subgroup_conjugacy_relations = {} # dict {"subgroup name" : [instance of group, {"subgroup cc." : "group cc."}]}
         
@@ -392,6 +394,10 @@ class Group():
                         sanitized_conjugacy_classes[time_reversal_pairs[ccs[i]]] = switch_help
         
         self.set_conjugacy_classes(sanitized_conjugacy_classes)
+        if self.is_double:
+            return(irreps) # optimalization
+        else:
+            return(0) # job well done
                 
     
     
@@ -887,8 +893,8 @@ class Group():
                     headers_of_current_classes.append(cur_element)
                     conjugacy_classes_dict[self.group_elements[cur_element]] = [self.group_elements[cur_element]]
         
-        #self.set_conjugacy_classes(conjugacy_classes_dict)
-        self.classify_conjugacy_classes(conjugacy_classes_dict)
+        # We pass down the irreps if needed
+        return(self.classify_conjugacy_classes(conjugacy_classes_dict))
     
     def get_character_table(self, tolerance_decimals = 5):
         
@@ -908,14 +914,13 @@ class Group():
         #    conjugacy_class_sizes.append(len(conjugacy_classes_dict[conjugacy_class_names[i]]))
         
         self.character_table = np.zeros((len(self.irreps), len(self.irreps)), dtype=np.complex_)
-        self.character_dictionary = {}
+        self.irrep_characters = {}
         
         for i_irrep in range(len(self.irreps)):
-            self.character_dictionary[self.irrep_names[i_irrep]] = {}
             for i_cc in range(len(self.conjugacy_class_names)):
                 new_char = np.round(characters[i_irrep][self.indices_of_representative_elements[self.conjugacy_class_names[i_cc]]], decimals = tolerance_decimals)
-                self.character_dictionary[self.irrep_names[i_irrep]][self.conjugacy_class_names[i_cc]] = new_char
                 self.character_table[i_irrep][i_cc] = new_char
+            self.irrep_characters[self.irrep_names[i_irrep]] = Representation(self, self.character_table[i_irrep])
     
     def get_regular_representation(self):
         
@@ -962,15 +967,16 @@ class Group():
         # Here we find the regular representation
         self.get_regular_representation()
         # First, we find the conjugacy classes
-        self.conjugacy_classes_from_multiplication_table()
+        irreps = self.conjugacy_classes_from_multiplication_table()
         
         #for i in range(len(group_elements)):
         #    print(group_elements[i], regular_rep[i])
         
-        # We obtain the irreps
-        irreps = spgrep.irreps.enumerate_unitary_irreps_from_regular_representation(self.regular_representation)
-        for i in range(len(irreps)):
-            irreps[i] = np.round(irreps[i], decimals = 12)
+        # If irreps weren't found in conjugacy class naming, we create them now
+        if not self.is_double:
+            irreps = spgrep.irreps.enumerate_unitary_irreps_from_regular_representation(self.regular_representation)
+            for i in range(len(irreps)):
+                irreps[i] = np.round(irreps[i], decimals = 12)
         
         # We name and classify irreps
         self.name_and_set_irreps(irreps)
@@ -1008,29 +1014,21 @@ class Group():
         
         coefs = [0] * len(self.character_table)
         
-        if type(reducible_representation) == dict:
-            for i in range(len(self.character_table)):
-                for j in range(len(self.character_table[i])):
-                    if self.conjugacy_class_names[j] in reducible_representation:
-                        coefs[i] += reducible_representation[self.conjugacy_class_names[j]] * self.character_table[i][j] * self.conjugacy_class_sizes[j]
-                coefs[i] /= self.order
-                coefs[i] = np.round(coefs[i], decimals = Group.rounding_decimals)
-                
-                if np.imag(coefs[i]) != 0.0:
-                    print("CAREFUL! The input rep has imaginary coefficients in its reduction; this has been omitted, but requires manual checking!!!")
-                coefs[i] = np.real(coefs[i])
-                
-        else:
-            for i in range(len(self.character_table)):
-                #s = 0
-                for j in range(len(self.character_table[i])):
+        for i in range(len(self.character_table)):
+            for j in range(len(self.character_table[i])):
+                if type(reducible_representation) == Representation:
+                    coefs[i] += reducible_representation.characters[self.conjugacy_class_names[j]] * self.character_table[i][j] * self.conjugacy_class_sizes[j]
+                elif type(reducible_representation) == dict:
+                    #if self.conjugacy_class_names[j] in reducible_representation:
+                    coefs[i] += reducible_representation[self.conjugacy_class_names[j]] * self.character_table[i][j] * self.conjugacy_class_sizes[j]
+                else:
                     coefs[i] += reducible_representation[j] * self.character_table[i][j] * self.conjugacy_class_sizes[j]
-                coefs[i] /= sum(self.conjugacy_class_sizes)
-                coefs[i] = np.round(coefs[i], decimals = Group.rounding_decimals)
-                
-                if np.imag(coefs[i]) != 0.0:
-                    print("CAREFUL! The input rep has imaginary coefficients in its reduction; this has been omitted, but requires manual checking!!!")
-                coefs[i] = np.real(coefs[i])
+            coefs[i] /= self.order
+            coefs[i] = np.round(coefs[i], decimals = Group.rounding_decimals)
+            
+            if np.imag(coefs[i]) != 0.0:
+                print("CAREFUL! The input rep has imaginary coefficients in its reduction; this has been omitted, but requires manual checking!!!")
+            coefs[i] = np.real(coefs[i])
                 
         human_readable_output = ""
         for i in range(len(coefs)):
@@ -1064,7 +1062,7 @@ class Group():
                 if self.element_spatial_properties[self.group_elements[self.indices_of_representative_elements[cc]]][3] and symmetry == "u":
                     rep[cc] *= -1
                 
-        return(rep)
+        return(Representation(self, rep))
     
     
     
@@ -1110,28 +1108,29 @@ class Group():
             new_element_relations[subgroup.group_elements[s_i]] = self.group_elements[i]
             new_conjugacy_relations[subgroup.element_conjugacy_classes[subgroup.group_elements[s_i]]] = self.element_conjugacy_classes[self.group_elements[i]]
         
-        
+        self.subgroups.append(subgroup.name)
         self.subgroup_element_relations[subgroup.name] = [subgroup, new_element_relations]
         self.subgroup_conjugacy_relations[subgroup.name] = [subgroup, new_conjugacy_relations]
         
     def rep_to_subgroup_rep(self, subgroup_name, representation):
         
         # subgroup_name is the name of an initialized subgroup
+        # representation is an instance of the Representation class
         # REQUIREMENTS: subgroup relations
-        
         new_rep = {}
-        if type(representation) == dict:
+        if type(representation) == Representation:
+            for sub_cc in self.subgroup_conjugacy_relations[subgroup_name][1].keys():
+                new_rep[sub_cc] = representation.characters[self.subgroup_conjugacy_relations[subgroup_name][1][sub_cc]]
+        elif type(representation) == dict:
             for sub_cc in self.subgroup_conjugacy_relations[subgroup_name][1].keys():
                 new_rep[sub_cc] = representation[self.subgroup_conjugacy_relations[subgroup_name][1][sub_cc]]
-            return(new_rep)
-        
         else:
             # a list over conjugacy classes
             for sub_cc in self.subgroup_conjugacy_relations[subgroup_name][1].keys():
                 cc = self.subgroup_conjugacy_relations[subgroup_name][1][sub_cc]
                 i = self.conjugacy_class_names.index(cc)
                 new_rep[sub_cc] = representation[i]
-            return(new_rep)
+        return(Representation(self.subgroup_conjugacy_relations[subgroup_name][0], new_rep))
         
 
 
