@@ -1069,18 +1069,49 @@ class Group():
     def does_rep_contain_identity(self, rep):
         # checks whether representation contains the identity representation (which has characters 1 for all CCs)
         id_coef = 0
-        if type(reducible_representation) == dict:
-            for i in range(len(self.conjugacy_class_names)):
+        
+        for i in range(len(self.conjugacy_class_names)):
+            if type(rep) == Representation:
+                id_coef += rep.characters[self.conjugacy_class_names[i]] * self.conjugacy_class_sizes[i]
+            elif type(rep) == dict:
                 id_coef += rep[self.conjugacy_class_names[i]] * self.conjugacy_class_sizes[i]
-            id_coef /= self.order
-            id_coef = np.round(coefs[i], decimals = Group.rounding_decimals)
-        else:
-            for i in range(len(self.conjugacy_class_names)):
+            else:
                 id_coef += rep[i] * self.conjugacy_class_sizes[i]
-            id_coef /= self.order
-            id_coef = np.round(coefs[i], decimals = Group.rounding_decimals)
-        return(id_coef == 0.0)
-
+        id_coef /= self.order
+        id_coef = np.floor(np.real(id_coef))
+        return(id_coef != 0.0)
+    
+    def separate_constituent_representations(self, set_of_irreps):
+        # if set_of_irreps is a Representation, we reduce it. Otherwise it must be a list of coefficients.
+        if type(set_of_irreps) == Representation:
+            set_of_irreps = self.reduce_representation(set_of_irreps)[0]
+        result = {} # {"unique_label" : "irrep label"}
+        # we assume all coeffs are NON-NEGATIVE INTEGERS
+        for i in range(len(set_of_irreps)):
+            if set_of_irreps[i] == 0.0:
+                continue
+            for j in range(int(set_of_irreps[i])):
+                result[f"{self.irrep_names[i]}[{j+1}]"] = self.irrep_names[i]
+        return(result)
+    
+    def allowed_transitions_between_reps(self, rep1, rep2, interaction_term_rep):
+        # rep1 and rep2 can be reducible - we reduce them and then treat each component as a separate energy level
+        rep1_reduction, hr1 = self.reduce_representation(rep1)
+        rep2_reduction, hr2 = self.reduce_representation(rep2)
+        
+        energy_levels1 = self.separate_constituent_representations(rep1_reduction)
+        energy_levels2 = self.separate_constituent_representations(rep2_reduction)
+        
+        allowed_transitions = [] # ["label1 -> label2"]
+        dark_transitions = []
+        for E1 in energy_levels1.keys():
+            for E2 in energy_levels2.keys():
+                transition_rep = self.irrep_characters[energy_levels1[E1]] * self.irrep_characters[energy_levels1[E2]] * interaction_term_rep
+                if self.does_rep_contain_identity(transition_rep):
+                    allowed_transitions.append(f"{E1} -> {E2}")
+                else:
+                    dark_transitions.append(f"{E1} -> {E2}")
+        return(allowed_transitions, dark_transitions)
     
     
     # ---------------------- group methods

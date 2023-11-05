@@ -44,12 +44,13 @@ class Representation():
             for cc in other.characters.keys():
                 res[cc] = binary_operation(self_res_in_other_group.characters[cc], other.characters[cc])
             return(Representation(other.parent_group, res))
-        
+        print("Two provided reps aren't castable to any provided group")
+        return(-1)
     
     
     def __add__(self, other):
-        self.elementwise_binary_operation(other, lambda x, y: x+y)
+        return(self.elementwise_binary_operation(other, lambda x, y: x+y))
     def __mul__(self, other):
-        self.elementwise_binary_operation(other, lambda x, y: x*y)
+        return(self.elementwise_binary_operation(other, lambda x, y: x*y))
         
 
