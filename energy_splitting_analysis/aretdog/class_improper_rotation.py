@@ -50,7 +50,7 @@ class ImproperRotation():
         if self.inversion:
             res = np.matmul(res, inversion_matrix)
         
-        res = np.round(res, decimals = ImproperRotation.rounding_decimals)
+        #res = np.round(res, decimals = ImproperRotation.rounding_decimals)
         
         return(np.matrix(res))
     

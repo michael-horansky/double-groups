@@ -79,7 +79,7 @@ class Group():
         self.name = name
         
         self.conjugacy_class_sizes = []
-        self.irrep_dimensions = []
+        self.irrep_dimensions = {}
         
         self.generators = {}
         
@@ -98,6 +98,8 @@ class Group():
         self.element_conjugacy_classes = {} # dict {"group element" : conjugacy class name}
         
         self.conjugacy_class_associated_angle = {} # {"conjugacy class name" : angle such that char(E_1/2) = 2 cos (angle/2) times time reversal}
+        
+        self.cartesian_basis = {}
         
         self.regular_representation = []
         
@@ -130,6 +132,15 @@ class Group():
         
         printing_character_table = []
         
+        basis_column_name = "basis"
+        basis_function_labels = []
+        for irrep in self.irrep_names:
+            if irrep in self.cartesian_basis.keys():
+                basis_function_labels.append("(" + "); (".join(self.cartesian_basis[irrep]) + ")")
+            else:
+                basis_function_labels.append("")
+        cc_len.append(len(basis_column_name))
+        
         for j in range(len(self.conjugacy_class_names)):
             printing_character_table.append([])
             for i in range(len(self.irrep_names)):
@@ -141,16 +152,21 @@ class Group():
                 printing_character_table[j].append(cur_char)
                 if cc_len[i] < len(cur_char):
                     cc_len[i] = len(cur_char)
+            printing_character_table[j].append(basis_function_labels[j])
+            if cc_len[-1] < len(basis_function_labels[j]):
+                cc_len[-1] = len(basis_function_labels[j])
         
-        header_str = st(self.name, max_len_irrep) + "|"
+        header_str = st(self.name, max_len_irrep + cc_separation) + "|"
         for i in range(len(self.conjugacy_class_names)):
             header_str += st(self.conjugacy_class_names[i], cc_len[i] + cc_separation)
+        header_str += "|" + st(basis_column_name, cc_len[-1] + cc_separation)
         print(header_str)
         print("-" * len(header_str))
         for i in range(len(self.irrep_names)):
-            cur_str = st(self.irrep_names[i], max_len_irrep) + "|"
+            cur_str = st(self.irrep_names[i], max_len_irrep + cc_separation) + "|"
             for j in range(len(self.conjugacy_class_names)):
                 cur_str += st(printing_character_table[i][j], cc_len[j] + cc_separation)
+            cur_str += "|" + st(printing_character_table[i][-1], cc_len[-1] + cc_separation)
             print(cur_str)
         print("-" * len(header_str))
             
@@ -409,9 +425,9 @@ class Group():
         if type(arg1) == dict:
             self.irreps = arg1.copy()
             self.irrep_names = list(self.irreps.keys())
-            self.irrep_dimensions = []
-            for i in range(len(self.irrep_names)):
-                self.irrep_dimensions.append(self.irreps[self.irrep_names[i]].shape[1])
+            self.irrep_dimensions = {}
+            for irrep in self.irrep_names:
+                self.irrep_dimensions[irrep] = self.irreps[irrep].shape[1]
         
         elif type(arg1[0]) == np.ndarray or type(arg1[0]) == list:
             # unnamed but full irrep knowledge
@@ -441,14 +457,14 @@ class Group():
         
         # If irrep dimensions are an empty list - no irreps specified, their order is determined by the character table
         # We always assume that conjugacy classes are initialized, with the first one being the identity class
-        if self.irrep_dimensions == []:
+        if self.irrep_dimensions == {}:
             if type(character_table) == dict:
                 self.irrep_names = list(character_table.keys())
-                for i in range(len(self.irrep_names)):
-                    self.irrep_dimensions.append(int(character_table[self.irrep_names[i]][self.conjugacy_class_names[0]]))
+                for irrep in self.irrep_names:
+                    self.irrep_dimensions[irrep] = int(character_table[irrep][self.conjugacy_class_names[0]])
             else:
                 for i in range(len(character_table)):
-                    self.irrep_dimensions.append(int(character_table[i][0]))
+                    self.irrep_dimensions[self.irrep_names[i]] = int(character_table[i][0])
                 self.irrep_names = []
                 count_number = [0, 0, 0, 0, 0, 0]
                 for i in range(len(self.irrep_dimensions)):
@@ -957,6 +973,110 @@ class Group():
                 self.regular_representation[group_element_indices[mt[i][j]]][i][j] = 1.0
     
     
+    def find_cartesian_basis_irreps(self):
+        
+        # This method finds out which irreps have (x,y,z) or subsets of thereof as their basis functions
+        
+        # First we find out how the three cartesian unit vectors transform
+        # When the 3d cartesian rep gets multiplied from the right by the identity matrix, we get a matrix of column vectors
+        
+        def old_is_this_basis_to_irrep(irrep, basis):
+            # basis is an ORTHONORMAL set of cartesian vectors
+            # D(R)_ab = <a|R|b> (Dresselhaus, p. 77)
+            irrep_dim = self.irrep_dimensions[irrep]
+            for i in range(len(self.group_elements)):
+                # we determine the transformed basis vectors
+                cur_spatial_props = self.element_spatial_properties[self.group_elements[i]]
+                cur_matrix = ImproperRotation(cur_spatial_props[0], cur_spatial_props[1], cur_spatial_props[3]).cartesian_rep()
+                transformed_basis = []
+                for vec in basis:
+                    transformed_basis.append(np.reshape(np.array(np.matmul(cur_matrix, vec)), len(vec)))
+                #print(self.irreps)
+                for a in range(irrep_dim):
+                    for b in range(irrep_dim):
+                        matrix_element = np.dot(basis[a], transformed_basis[b])
+                        
+                        if irrep == "E_1" and basis[0][0] == 1.0 and basis[1][1] == 1.0:
+                            print(f"a:{a},b:{b} : {matrix_element} vs {self.irreps[irrep][i][a][b]}")
+                        
+                        
+                        # NOTE this WOULD work for C3v if we took the real part - but why do we have to do that???? Why are non-spin irreps complex in double groups??
+                        if np.round(matrix_element, decimals = 5) != np.round(self.irreps[irrep][i][a][b], decimals = 5):
+                            return(False)
+            return(True)
+        
+        def is_this_basis_to_irrep(irrep, basis):
+            # basis is an ORTHONORMAL set of cartesian vectors
+            # D(R)_ab = <a|R|b> (Dresselhaus, p. 77)
+            irrep_dim = self.irrep_dimensions[irrep]
+            for i in range(len(self.group_elements)):
+                # we determine the transformed basis vectors
+                cur_spatial_props = self.element_spatial_properties[self.group_elements[i]]
+                cur_matrix = ImproperRotation(cur_spatial_props[0], cur_spatial_props[1], cur_spatial_props[3]).cartesian_rep()
+                transformed_basis = []
+                for vec in basis:
+                    transformed_basis.append(np.reshape(np.array(np.matmul(cur_matrix, vec)), len(vec)))
+                # Checks only diagonally
+                current_trace = 0.0
+                for a in range(irrep_dim):
+                    current_trace += np.dot(basis[a], transformed_basis[a])
+                # NOTE this WOULD work for C3v if we took the real part - but why do we have to do that???? Why are non-spin irreps complex in double groups??
+                if np.round(current_trace, decimals = 5) != np.round(np.trace(self.irreps[irrep][i]), decimals = 5):
+                    return(False)
+            return(True)
+            
+        
+        x_transformed = {}
+        y_transformed = {}
+        z_transformed = {}
+        
+        cartesian_rep = {}
+        
+        for cc in self.conjugacy_class_names:
+            cur_spatial_props = self.element_spatial_properties[self.group_elements[self.indices_of_representative_elements[cc]]]
+            cur_matrix = np.transpose(ImproperRotation(cur_spatial_props[0], cur_spatial_props[1], cur_spatial_props[3]).cartesian_rep()) #(x,y,z) cannot be basis funcs of spinor reps
+            cartesian_rep[cc] = np.trace(cur_matrix)
+        
+        cartesian_rep_decomposition = self.reduce_representation(cartesian_rep)
+        
+        cartesian_unit_vectors = {"x" : np.array([1.0, 0.0, 0.0]), "y" : np.array([0.0, 1.0, 0.0]), "z" : np.array([0.0, 0.0, 1.0])}
+        possible_basis_combinations = [
+            [["x"]    , ["y"]    , ["z"]    ], # 1-dimensional
+            [["x","y"], ["y","z"], ["z","x"]],
+            [["x","y","z"]]
+        ]
+        self.cartesian_basis = {} # {"irrep" : ["polarisation label"]}
+        for i in range(len(cartesian_rep_decomposition[0])):
+            if int(cartesian_rep_decomposition[0][i]) > 0:
+                self.cartesian_basis[self.irrep_names[i]] = []
+                # this irrep has at least one of the three unit vectors as its basis
+                cur_irrep_dim = self.irrep_dimensions[self.irrep_names[i]]
+                for possible_basis in possible_basis_combinations[cur_irrep_dim-1]:
+                    cur_basis_vectors = []
+                    for label in possible_basis:
+                        cur_basis_vectors.append(cartesian_unit_vectors[label])
+                    if is_this_basis_to_irrep(self.irrep_names[i], cur_basis_vectors):
+                        self.cartesian_basis[self.irrep_names[i]].append(",".join(possible_basis))
+                
+        """
+        for i in range(len(self.group_elements)):
+            element = self.group_elements[i]
+            cur_spatial_props = self.element_spatial_properties[element]
+            # a matrix is a list of rows, so for a list of columns we take the transpose:
+            cur_matrix = np.transpose(ImproperRotation(cur_spatial_props[0], cur_spatial_props[1], cur_spatial_props[3]).cartesian_rep()) #(x,y,z) cannot be basis funcs of spinor reps
+            x_transformed[element] = cur_matrix[0]
+            y_transformed[element] = cur_matrix[1]
+            z_transformed[element] = cur_matrix[2]
+            """
+            # for each irrep, we check if it could take any subset of (x,y,z) as its bases.
+            # For 1D irreps, we check individual x, y, z, for 2D irreps we check (x,y), (x, z) and (y, z)
+            
+    
+    
+    
+    # -------------------- initializer wrappers
+    
+    
     def initialize_from_multiplication_table(self):
         
         # REQUIREMENTS: self.group_elements, self.multiplication_table
@@ -986,6 +1106,9 @@ class Group():
         
         # We set the character table
         self.get_character_table()
+        
+        # Determine cartesian basis
+        self.find_cartesian_basis_irreps()
         
         # for automation, check https://github.com/gap-system/gap, https://www.gap-system.org/Overview/Capabilities/representations.html
     
@@ -1096,6 +1219,7 @@ class Group():
     
     def allowed_transitions_between_reps(self, rep1, rep2, interaction_term_rep):
         # rep1 and rep2 can be reducible - we reduce them and then treat each component as a separate energy level
+        # Returns {"polarisation" : [allowed transitions, dark transitions]}
         rep1_reduction, hr1 = self.reduce_representation(rep1)
         rep2_reduction, hr2 = self.reduce_representation(rep2)
         
@@ -1113,6 +1237,29 @@ class Group():
                     dark_transitions.append(f"{E1} -> {E2}")
         return(allowed_transitions, dark_transitions)
     
+    def allowed_transitions_between_reps(self, rep1, rep2):
+        # rep1 and rep2 can be reducible - we reduce them and then treat each component as a separate energy level
+        # Returns {"polarisation" : [allowed transitions, dark transitions]}
+        rep1_reduction, hr1 = self.reduce_representation(rep1)
+        rep2_reduction, hr2 = self.reduce_representation(rep2)
+        
+        energy_levels1 = self.separate_constituent_representations(rep1_reduction)
+        energy_levels2 = self.separate_constituent_representations(rep2_reduction)
+        
+        result = {}
+        for interaction_irrep in self.cartesian_basis.keys():
+            # All polarisations with the same dipole term rep will have the same transitions, so we combine them
+            allowed_transitions = [] # ["label1 -> label2"]
+            dark_transitions = []
+            for E1 in energy_levels1.keys():
+                for E2 in energy_levels2.keys():
+                    transition_rep = self.irrep_characters[energy_levels1[E1]] * self.irrep_characters[energy_levels1[E2]] * self.irrep_characters[interaction_irrep]
+                    if self.does_rep_contain_identity(transition_rep):
+                        allowed_transitions.append(f"{E1} -> {E2}")
+                    else:
+                        dark_transitions.append(f"{E1} -> {E2}")
+            result["(" + "); (".join(self.cartesian_basis[interaction_irrep]) + ")"] = [allowed_transitions.copy(), dark_transitions.copy()]
+        return(result)
     
     # ---------------------- group methods
     

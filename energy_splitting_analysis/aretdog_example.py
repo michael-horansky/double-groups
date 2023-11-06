@@ -3,7 +3,9 @@
 
 from aretdog.class_group import *
 
-
+C_i = Group("C_i")
+C_i.generate_group({"E" : E, "i" : ImproperRotation([1.0, 0.0, 0.0], [0, 1], True)})
+C_i.print_character_table()
 
 
 D2_group = Group("D2")
@@ -57,6 +59,7 @@ D3h_group = Group("D3h")
 D3h_group.generate_double_group({"E" : E, "Cz_3" : ImproperRotation([0.0, 0.0, 1.0], [1, 3], False), "m" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], True), "m'" : ImproperRotation([0.0, 0.0, 1.0], [1, 2], True)})
 D3h_group.print_character_table()
 
+
 D3h_group.add_subgroup(C3v_group)
 
 two_X_11 = C3v_group.irrep_characters["E_1(j=1/2)"] * (C3v_group.irrep_characters["1E(j=3/2)"] + C3v_group.irrep_characters["2E(j=3/2)"])
@@ -69,16 +72,25 @@ print("2X_11 has energy leveles as", C3v_group.reduce_representation(two_X_11)[1
 print("X_10 has energy leveles as", C3v_group.reduce_representation(X_10)[1])
 print("X_01 has energy leveles as", C3v_group.reduce_representation(X_01)[1])
 
-allowed, dark = C3v_group.allowed_transitions_between_reps(two_X_11, X_10, C3v_dipole_rep)
+X_11_to_X_10 = C3v_group.allowed_transitions_between_reps(two_X_11, X_10)
+
+for polarisation in X_11_to_X_10:
+    print(polarisation + "-polarised transitions in 2X_11 -> X_10:")
+    print("  Allowed: ", X_11_to_X_10[polarisation][0])
+    print("  Dark:    ", X_11_to_X_10[polarisation][1])
+
+X_01_to_vacuum = C3v_group.allowed_transitions_between_reps(X_01, vacuum)
+for polarisation in X_01_to_vacuum:
+    print(polarisation + "-polarised transitions in X_01 -> vacuum:")
+    print("  Allowed: ", X_01_to_vacuum[polarisation][0])
+    print("  Dark:    ", X_01_to_vacuum[polarisation][1])
+
+"""
 print("Allowed isotropically-polarised transitions in 2X_11 -> X_10:", allowed)
 print("Dark isotropically-polarised transitions in 2X_11 -> X_10:", dark)
 allowed, dark = C3v_group.allowed_transitions_between_reps(X_01, vacuum, C3v_dipole_rep)
 print("Allowed isotropically-polarised transitions in 2X_11 -> X_10:", allowed)
-print("Dark isotropically-polarised transitions in 2X_11 -> X_10:", dark)
+print("Dark isotropically-polarised transitions in 2X_11 -> X_10:", dark)"""
 
-E_12 = D3h_group.character_table[7] #E1/2
-E_52 = D3h_group.character_table[8] #E5/2
 
-E_12_in_C3v = D3h_group.rep_to_subgroup_rep("C3v", E_12)
-E_52_in_C3v = D3h_group.rep_to_subgroup_rep("C3v", E_52)
 
