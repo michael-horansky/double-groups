@@ -52,5 +52,9 @@ class Representation():
         return(self.elementwise_binary_operation(other, lambda x, y: x+y))
     def __mul__(self, other):
         return(self.elementwise_binary_operation(other, lambda x, y: x*y))
+    def __truediv__(self, other):
+        return(self.elementwise_binary_operation(other, lambda x, y: x/y)) #UNSAFE
+    def __sub__(self, other):
+        return(self.elementwise_binary_operation(other, lambda x, y: x-y))
         
 

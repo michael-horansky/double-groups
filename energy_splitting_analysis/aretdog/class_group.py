@@ -1147,7 +1147,7 @@ class Group():
                 else:
                     coefs[i] += reducible_representation[j] * self.character_table[i][j] * self.conjugacy_class_sizes[j]
             coefs[i] /= self.order
-            coefs[i] = np.round(coefs[i], decimals = Group.rounding_decimals)
+            coefs[i] = np.round(coefs[i], decimals = 3)
             
             if np.imag(coefs[i]) != 0.0:
                 print("CAREFUL! The input rep has imaginary coefficients in its reduction; this has been omitted, but requires manual checking!!!")
@@ -1217,7 +1217,7 @@ class Group():
                 result[f"{self.irrep_names[i]}[{j+1}]"] = self.irrep_names[i]
         return(result)
     
-    def allowed_transitions_between_reps(self, rep1, rep2, interaction_term_rep):
+    """def allowed_transitions_between_reps(self, rep1, rep2, interaction_term_rep):
         # rep1 and rep2 can be reducible - we reduce them and then treat each component as a separate energy level
         # Returns {"polarisation" : [allowed transitions, dark transitions]}
         rep1_reduction, hr1 = self.reduce_representation(rep1)
@@ -1225,6 +1225,8 @@ class Group():
         
         energy_levels1 = self.separate_constituent_representations(rep1_reduction)
         energy_levels2 = self.separate_constituent_representations(rep2_reduction)
+        
+        
         
         allowed_transitions = [] # ["label1 -> label2"]
         dark_transitions = []
@@ -1235,7 +1237,7 @@ class Group():
                     allowed_transitions.append(f"{E1} -> {E2}")
                 else:
                     dark_transitions.append(f"{E1} -> {E2}")
-        return(allowed_transitions, dark_transitions)
+        return(allowed_transitions, dark_transitions)"""
     
     def allowed_transitions_between_reps(self, rep1, rep2):
         # rep1 and rep2 can be reducible - we reduce them and then treat each component as a separate energy level
@@ -1253,7 +1255,7 @@ class Group():
             dark_transitions = []
             for E1 in energy_levels1.keys():
                 for E2 in energy_levels2.keys():
-                    transition_rep = self.irrep_characters[energy_levels1[E1]] * self.irrep_characters[energy_levels1[E2]] * self.irrep_characters[interaction_irrep]
+                    transition_rep = self.irrep_characters[energy_levels1[E1]] * self.irrep_characters[energy_levels2[E2]] * self.irrep_characters[interaction_irrep]
                     if self.does_rep_contain_identity(transition_rep):
                         allowed_transitions.append(f"{E1} -> {E2}")
                     else:
