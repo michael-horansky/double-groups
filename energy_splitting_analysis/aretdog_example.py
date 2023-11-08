@@ -1,7 +1,7 @@
 
 
 
-from aretdog.class_group import *
+from aretdog.class_QD_group import *
 
 C_i = Group("C_i")
 C_i.generate_group({"E" : E, "i" : ImproperRotation([1.0, 0.0, 0.0], [0, 1], True)})
@@ -48,14 +48,14 @@ Th_group.print_character_table()"""
 
 print("------------------ C3v analysis ------------------------")
 
-C3v_group = Group("C3v")
+C3v_group = QDGroup("C3v")
 C3v_group.generate_double_group({"E" : E, "Cz_3" : ImproperRotation([0.0, 0.0, 1.0], [1, 3], False), "sigma" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], True)})
 C3v_group.print_character_table()
 
 
 
 
-D3h_group = Group("D3h")
+D3h_group = QDGroup("D3h")
 D3h_group.generate_double_group({"E" : E, "Cz_3" : ImproperRotation([0.0, 0.0, 1.0], [1, 3], False), "m" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], True), "m'" : ImproperRotation([0.0, 0.0, 1.0], [1, 2], True)})
 D3h_group.print_character_table()
 
@@ -90,10 +90,22 @@ for polarisation in X_01_to_vacuum:
 print("------------------ exciton complex labelling analysis ------------------------")
 
 
+
 print("C3v:")
 
 
+# Hole irreps: angular rep of orbital x angular rep of spin = (heavy holes + light holes + split-off)
 
+print("s-orbital irrep :", C3v_group.reduce_representation(C3v_group.angular_representation(0))[1])
+print("p-orbital irrep :", C3v_group.reduce_representation(C3v_group.angular_representation(1))[1])
+
+print("s-orbital x j=1/2:", C3v_group.reduce_representation(C3v_group.angular_representation(0) * C3v_group.angular_representation(1/2))[1])
+print("p-orbital x j=1/2:", C3v_group.reduce_representation(C3v_group.angular_representation(1) * C3v_group.angular_representation(1/2))[1])
+
+print("LH + HH:", C3v_group.reduce_representation(C3v_group.angular_representation(1) * C3v_group.angular_representation(1/2) - C3v_group.angular_representation(1/2))[1])
+
+print(C3v_group.classify_fermions(0, 1/2, "conduction").keys())
+print(C3v_group.classify_fermions(1, 1/2, "valence").keys())
 
 print("D3h:")
 
@@ -102,19 +114,31 @@ print("D3h:")
 print("s-orbital irrep :", D3h_group.reduce_representation(D3h_group.angular_representation(0))[1])
 print("p-orbital irrep :", D3h_group.reduce_representation(D3h_group.angular_representation(1))[1])
 
-print("p-orbital x j=3/2:", D3h_group.reduce_representation(D3h_group.angular_representation(1) * D3h_group.angular_representation(3/2))[1])
-
-print("p-orbital x j=3/2 MINUS j=3/2 (split-off):", D3h_group.reduce_representation(D3h_group.angular_representation(1) * D3h_group.angular_representation(3/2) - D3h_group.angular_representation(3/2))[1])
-
-# this is bullshit since the reason hole has j=3/2 is because we coupled l=1 with s=1/2. This is double coupling = wrong
+print("s-orbital x j=1/2:", D3h_group.reduce_representation(D3h_group.angular_representation(0) * D3h_group.angular_representation(1/2))[1])
 print("p-orbital x j=1/2:", D3h_group.reduce_representation(D3h_group.angular_representation(1) * D3h_group.angular_representation(1/2))[1])
 
+print("LH + HH with wrong geradeness:", D3h_group.reduce_representation(D3h_group.angular_representation(1) * D3h_group.angular_representation(1/2) - D3h_group.angular_representation(1/2))[1])
+# this doesnt work because the symmetry of j=1/2 here is gerade, but it should be ungerade. This would have to be manually put into the angular rep for j=1/2
+print("LH + HH:", D3h_group.reduce_representation((D3h_group.angular_representation(1) - D3h_group.irrep_characters["A_3"]) * D3h_group.angular_representation(1/2))[1])
+print("LH + HH:", D3h_group.reduce_representation((D3h_group.angular_representation(1) - D3h_group.angular_representation(0, "u")) * D3h_group.angular_representation(1/2))[1])
+
+print(D3h_group.classify_fermions(0, 1/2, "conduction").keys())
+print(D3h_group.classify_fermions(1, 1/2, "valence").keys())
+
+C3v_group.classify_electrons("s")
+C3v_group.classify_holes("p")
+D3h_group.classify_electrons("s")
+D3h_group.classify_holes("p")
+
+print(f"C3v | electrons: {C3v_group.electron_irreps} | holes: {C3v_group.hole_irreps}")
+print(f"D3h | electrons: {D3h_group.electron_irreps} | holes: {D3h_group.hole_irreps}")
 
 
-print("A_3 * E(j=1/2) = ", D3h_group.reduce_representation(D3h_group.irrep_characters["A_3"]*D3h_group.irrep_characters["E_2(j=1/2)"])[1])
-print("A_3 * E(j=3/2) = ", D3h_group.reduce_representation(D3h_group.irrep_characters["A_3"]*D3h_group.irrep_characters["E_1(j=3/2)"])[1])
+print("2X_11 has energy leveles as", C3v_group.reduce_representation(C3v_group.exciton_rep([2], [1, 1]))[1])
+print("X_10 has energy leveles as", C3v_group.reduce_representation(C3v_group.exciton_rep([1], [1, 0]))[1])
+print("X_01 has energy leveles as", C3v_group.reduce_representation(C3v_group.exciton_rep([1], [0, 1]))[1])
+print("Vacuum has energy leveles as", C3v_group.reduce_representation(C3v_group.exciton_rep([0], [0, 0]))[1])
 
-print("Hence ASSUMING the envelope symmetry of holes is always the inversion parity rep, we could construct hole states like", D3h_group.reduce_representation(D3h_group.irrep_characters["A_3"]*D3h_group.angular_representation(3/2))[1])
 
 # THIS IS IT!! the spin parts of the hole wavefunctions are the j=3/2, j_z = (+-3/2) for HH and (+-1/2) for LH
 # however there's also the spatial envelope function A_3 (A_1'' in Altmann) which we gotta multiply that with!!

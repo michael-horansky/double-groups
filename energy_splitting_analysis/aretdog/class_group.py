@@ -112,6 +112,8 @@ class Group():
         self.is_proper = True
         self.is_double = False
         self.is_inversion_symmetry_determinable = False
+        self.inversion_irrep = "" # this is the label of the inversion irrep (char(proper) = 1, char(rotoinversion) = -1). For proper groups this is the identity rep.
+        self.complex_conjugate_irreps = {} # {"1gamma" : "2gamma"}
     
     def print_character_table(self, cc_separation = 2):
         
@@ -492,6 +494,8 @@ class Group():
         # deduces the names for irreps using a specified convention and saves them as a dictionary
         # this function can be called INSTEAD of self.set_irreducible_representations()
         
+        complex_conjugate_irrep_indices = {} # {index 1 : index 2}
+        
         characters = []
         for irrep in irreps:
             characters.append(spgrep.representation.get_character(irrep))
@@ -579,6 +583,7 @@ class Group():
                         reorder_indices.append(cur_i2)
                         final_names.append("1" + Group.irrep_letter_dictionary[convention][cur_dim*2-1] + improperness_suffix)
                         final_names.append("2" + Group.irrep_letter_dictionary[convention][cur_dim*2-1] + improperness_suffix)
+                        complex_conjugate_irrep_indices[cur_i1] = cur_i2
             return(final_names, reorder_indices)
         
         def decompose_angular_rep(j, symmetry = "g"):
@@ -723,6 +728,30 @@ class Group():
             j = reorderings[i]
             irrep_dict[names[i]] = irreps[j]
             #irrep_dict[names[j]] = irreps[j]
+        
+        # Find the inversion irrep
+        for irrep in irrep_dict.keys():
+            is_inversion_irrep = True
+            for i in range(len(irrep_dict[irrep])):
+                if self.element_spatial_properties[self.group_elements[i]][3]:
+                    # rotoinversion
+                    if np.round(np.trace(irrep_dict[irrep][i]), decimals = 3) != -1:
+                        is_inversion_irrep = False
+                        break
+                else:
+                    #rotation
+                    if np.round(np.trace(irrep_dict[irrep][i]), decimals = 3) != 1:
+                        is_inversion_irrep = False
+                        break
+            if is_inversion_irrep:
+                self.inversion_irrep = irrep
+                break
+        
+        # Commit complex conjugate pairs to memory
+        for i1, i2 in complex_conjugate_irrep_indices.items():
+            #self.complex_conjugate_irreps[names[reorderings[i1]]] = names[reorderings[i2]]
+            self.complex_conjugate_irreps[names[reorderings.index(i1)]] = names[reorderings.index(i2)]
+        
         self.set_irreducible_representations(irrep_dict)
         
         
@@ -1163,9 +1192,26 @@ class Group():
 
         return(coefs, human_readable_output[:-3])
     
-    def angular_representation(self, j, symmetry = "g"):
+    def angular_representation(self, j, inversion_symmetry = "unspecified"):
         # for a given j value, this creates the reducible angular representation (as a subgroup of the full rotation group)
         # if symmetry = "g" (gerade), then characters dont flip sign for inversions; for symmetry = "u" (ungerade), they do
+        
+        
+        # This is the character of an irrep based on the Wigner D-matrices.
+        # For odd j = ungerade, for even j = gerade. For half-integer j: no idea but let's use gerade as a convention
+        # Idea: with (-1)^j, half-integer js should multiply rotoinversions by i or -i (1/2 or 3/2). Try this!!
+        
+        if inversion_symmetry == "unspecified":
+            if np.round(j) == j:
+                if j % 2 == 0: #evem
+                    inversion_symmetry = "g"
+                elif j % 2 == 1: #evem
+                    inversion_symmetry = "u"
+        
+        # One way to resolve the half-integer j case is to say: from C_i we see that inversion commutes with R, so we can say
+        # j=1/2 has a special rep (which is the E(j=1/2) irrep) and then the angular rep of l+1/2 = ang.rep(l) + E(j=1/2). Yay!!
+        
+        #inversion_factor = np.power(1j, j*2)
         
         rep = {}
         is_j_half_integer = (int(2.0 * j) % 2 == 1)
@@ -1181,9 +1227,9 @@ class Group():
             if self.is_double:
                 if self.conjugacy_class_time_reversal[cc] and is_j_half_integer:
                     rep[cc] *= -1
-            if self.is_inversion_symmetry_determinable:
-                if self.element_spatial_properties[self.group_elements[self.indices_of_representative_elements[cc]]][3] and symmetry == "u":
-                    rep[cc] *= -1
+            #if self.is_inversion_symmetry_determinable:
+            if self.element_spatial_properties[self.group_elements[self.indices_of_representative_elements[cc]]][3] and inversion_symmetry == "u":
+                rep[cc] *= -1
                 
         return(Representation(self, rep))
     
@@ -1204,7 +1250,7 @@ class Group():
         id_coef = np.floor(np.real(id_coef))
         return(id_coef != 0.0)
     
-    def separate_constituent_representations(self, set_of_irreps):
+    def separate_constituent_representations(self, set_of_irreps, clump_conjugate_irreps = True):
         # if set_of_irreps is a Representation, we reduce it. Otherwise it must be a list of coefficients.
         if type(set_of_irreps) == Representation:
             set_of_irreps = self.reduce_representation(set_of_irreps)[0]
@@ -1213,8 +1259,13 @@ class Group():
         for i in range(len(set_of_irreps)):
             if set_of_irreps[i] == 0.0:
                 continue
-            for j in range(int(set_of_irreps[i])):
-                result[f"{self.irrep_names[i]}[{j+1}]"] = self.irrep_names[i]
+            if clump_conjugate_irreps and self.irrep_names[i] in self.complex_conjugate_irreps.keys():
+                set_of_irreps[self.irrep_names.index(self.complex_conjugate_irreps[self.irrep_names[i]])] -= int(set_of_irreps[i]) # assuming this is always the same
+                for j in range(int(set_of_irreps[i])):
+                    result[f"{self.irrep_names[i]}+{self.complex_conjugate_irreps[self.irrep_names[i]]}[{j+1}]"] = self.irrep_characters[self.irrep_names[i]] + self.irrep_characters[self.complex_conjugate_irreps[self.irrep_names[i]]]
+            else:
+                for j in range(int(set_of_irreps[i])):
+                    result[f"{self.irrep_names[i]}[{j+1}]"] = self.irrep_characters[self.irrep_names[i]]#self.irrep_names[i]
         return(result)
     
     """def allowed_transitions_between_reps(self, rep1, rep2, interaction_term_rep):
@@ -1255,13 +1306,15 @@ class Group():
             dark_transitions = []
             for E1 in energy_levels1.keys():
                 for E2 in energy_levels2.keys():
-                    transition_rep = self.irrep_characters[energy_levels1[E1]] * self.irrep_characters[energy_levels2[E2]] * self.irrep_characters[interaction_irrep]
+                    transition_rep = energy_levels1[E1] * energy_levels2[E2] * self.irrep_characters[interaction_irrep]
                     if self.does_rep_contain_identity(transition_rep):
                         allowed_transitions.append(f"{E1} -> {E2}")
                     else:
                         dark_transitions.append(f"{E1} -> {E2}")
             result["(" + "); (".join(self.cartesian_basis[interaction_irrep]) + ")"] = [allowed_transitions.copy(), dark_transitions.copy()]
         return(result)
+    
+    
     
     # ---------------------- group methods
     

@@ -23,6 +23,11 @@ class Representation():
         for cc in self.characters.keys():
             res += f" '{cc}' = {self.characters[cc]},"
         return(res[:-1])
+    def __repr__(self):
+        res = f"Rep in group {self.parent_group.name}:"
+        for cc in self.characters.keys():
+            res += f" '{cc}' = {self.characters[cc]},"
+        return(res[:-1])
     
     # ---------------------- rep combination methods
     
