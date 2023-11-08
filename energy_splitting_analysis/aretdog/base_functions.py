@@ -158,3 +158,21 @@ def find_closest_matrix(matrices, m):
             i = j
     #print(smallest_difference)
     return(i)
+
+
+def integer_partitions(total_sum, number_of_constituents):
+    # returns a list where each element is a list of length number_of_constituents and sum total_sum
+    # fermionic occupancies for a given macrostate
+    if total_sum == 0:
+        return([[0] * number_of_constituents])
+    if number_of_constituents == 1:
+        return([[total_sum]])
+    else:
+        result = []
+        for leftmost_element in range(0, total_sum + 1):
+            cur_partitions = integer_partitions(total_sum - leftmost_element, number_of_constituents - 1)
+            for partition in cur_partitions:
+                result.append([leftmost_element] + partition)
+        return(result)
+
+

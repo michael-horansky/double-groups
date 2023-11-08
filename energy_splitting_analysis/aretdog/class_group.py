@@ -112,6 +112,7 @@ class Group():
         self.is_proper = True
         self.is_double = False
         self.is_inversion_symmetry_determinable = False
+        self.identity_irrep = "" # name
         self.inversion_irrep = "" # this is the label of the inversion irrep (char(proper) = 1, char(rotoinversion) = -1). For proper groups this is the identity rep.
         self.complex_conjugate_irreps = {} # {"1gamma" : "2gamma"}
     
@@ -728,6 +729,18 @@ class Group():
             j = reorderings[i]
             irrep_dict[names[i]] = irreps[j]
             #irrep_dict[names[j]] = irreps[j]
+        
+        # find identity irrep
+        self.identity_irrep
+        for irrep in irrep_dict.keys():
+            is_identity_irrep = True
+            for i in range(len(irrep_dict[irrep])):
+                if np.round(np.trace(irrep_dict[irrep][i]), decimals = 3) != 1:
+                    is_identity_irrep = False
+                    break
+            if is_identity_irrep:
+                self.identity_irrep = irrep
+                break
         
         # Find the inversion irrep
         for irrep in irrep_dict.keys():
