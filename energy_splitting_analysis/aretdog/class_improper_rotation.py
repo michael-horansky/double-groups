@@ -71,7 +71,7 @@ class ImproperRotation():
         res[1][1] = complex(w, -u_x)
         
         res = np.round(res, decimals = ImproperRotation.rounding_decimals)
-        return(ImproperSU2(np.matrix(res), self.inversion))
+        return(ImproperSU2(np.matrix(res), self.inversion, self))
     
     def ImproperSpinRotation_rep(self):
         return(ImproperSpinRotation(self.axis, self.multiplicity, False, self.inversion))

@@ -1112,8 +1112,13 @@ class Group():
             """
             # for each irrep, we check if it could take any subset of (x,y,z) as its bases.
             # For 1D irreps, we check individual x, y, z, for 2D irreps we check (x,y), (x, z) and (y, z)
-            
     
+    
+    def find_wigner_representation(self, j):
+        result = {}
+        for g in self.group_elements:
+            result[g] = self.group_operations[g].wigner_d_matrix(j)
+        return(result)
     
     
     # -------------------- initializer wrappers
@@ -1246,8 +1251,6 @@ class Group():
                 
         return(Representation(self, rep))
     
-    
-    
     def does_rep_contain_identity(self, rep):
         # checks whether representation contains the identity representation (which has characters 1 for all CCs)
         id_coef = 0
@@ -1267,7 +1270,7 @@ class Group():
         # if set_of_irreps is a Representation, we reduce it. Otherwise it must be a list of coefficients.
         if type(set_of_irreps) == Representation:
             set_of_irreps = self.reduce_representation(set_of_irreps)[0]
-        result = {} # {"unique_label" : "irrep label"}
+        result = {} # {"unique_label" : Rep}
         # we assume all coeffs are NON-NEGATIVE INTEGERS
         for i in range(len(set_of_irreps)):
             if set_of_irreps[i] == 0.0:
@@ -1302,6 +1305,68 @@ class Group():
                 else:
                     dark_transitions.append(f"{E1} -> {E2}")
         return(allowed_transitions, dark_transitions)"""
+    
+    def reduce_representation_and_divide_basis(self, representation, clump_conjugate_irreps = True):
+        
+        # This method not only reduces the rep, but also assigns the indices in the original basis (D-dim vector) to each constituent irrep 
+        
+        # representation is either a Representation, a list of matrices ordered the same way as self.group_elements or a dictionary with said group_elements as keys
+        
+        reducible_rep = []
+        if type(representation) == dict:
+            for g in self.group_elements:
+                reducible_rep.append(representation[g])
+        else:
+            reducible_rep = representation.copy()
+        reducible_rep = np.array(reducible_rep)
+        
+        D = reducible_rep.shape[1]
+        
+        conjugate_class_characters = {}
+        for cc in self.conjugacy_class_names:
+            conjugate_class_characters[cc] = np.trace(reducible_rep[self.indices_of_representative_elements[cc]])
+        
+        constituent_reps = list(self.separate_constituent_representations(Representation(self, conjugate_class_characters), clump_conjugate_irreps).values())
+        
+        unclassified_basis_indices = []
+        for i in range(D):
+            unclassified_basis_indices.append(i)
+        
+        resulting_irrep_basis = [] # [[Representation, [i1, i2, i3...]], ...]
+        
+        for i in range(len(constituent_reps)):
+            cur_dim = int(np.real(constituent_reps[i].characters[self.example_properness_conjugacy_class_pair[0]]))
+            possible_basis_indices_i = index_sublists(len(unclassified_basis_indices), cur_dim)
+            basis_indices_sublist_found = False
+            for j in range(len(possible_basis_indices_i)):
+                possible_basis_indices = []
+                for index in possible_basis_indices_i[j]:
+                    possible_basis_indices.append(unclassified_basis_indices[index])
+                # Check if these basis indices are correct
+                is_basis_indices_subset_correct = True
+                for cc in self.conjugacy_class_names:
+                    cur_subtrace = 0.0
+                    for b_i in possible_basis_indices:
+                        cur_subtrace += reducible_rep[self.indices_of_representative_elements[cc]][b_i][b_i]
+                    if np.round(cur_subtrace, decimals = 5) != np.round(constituent_reps[i].characters[cc]):
+                        is_basis_indices_subset_correct = False
+                        break
+                if is_basis_indices_subset_correct:
+                    basis_indices_sublist_found = True
+                    break
+            if not basis_indices_sublist_found:
+                # whut?
+                print(f"ERROR: subtrace index sublist not found for rep {self.reduce_representation(constituent_reps[i])[1]}")
+                return(-1)
+            else:
+                resulting_irrep_basis.append([constituent_reps[i], possible_basis_indices])
+                # We delete the used basis indices
+                possible_basis_indices_i[j].reverse()
+                for used_basis_index in possible_basis_indices_i[j]:
+                    del unclassified_basis_indices[used_basis_index]
+        return(resulting_irrep_basis)
+    
+    
     
     def allowed_transitions_between_reps(self, rep1, rep2):
         # rep1 and rep2 can be reducible - we reduce them and then treat each component as a separate energy level

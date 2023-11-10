@@ -21,16 +21,33 @@ D3h.print_exciton_complexes()
 D3h.find_transition_chain()
 print(D3h.transition_chain)
 
+
+print("----------------- Unit sphere -------------------")
+
+my_j = 2/2
+wigner_rep = C3v.find_wigner_representation(my_j)
+print(C3v.reduce_representation(C3v.angular_representation(my_j))[1]) #NOTE add inversions to wigner d matrices - done but check if it's actually sensible pls
+"""
+print(wigner_rep)
+
+for cc in C3v.conjugacy_class_names:
+    print(f"{cc} : {np.trace(wigner_rep[C3v.conjugacy_classes[cc][0]])}")"""
+
+reduced_wigner = C3v.reduce_representation_and_divide_basis(wigner_rep)
+print("Wigner for j =", my_j)
+for rep in reduced_wigner:
+    print(f"    {C3v.reduce_representation(rep[0])[1]} : {rep[1]}")
+
 """
 
-print("X_01:", QDG.reduce_representation(X_01)[1])
-print("vacuum:", QDG.reduce_representation(vacuum)[1])
+The C3v -> D3h elevation study
+
+both have rotoinversions, but C3v only has a 2-fold one (the three sigmas), so all the spinor reps have their characters be zero for it
+Hence the multiplication of half-integer j angular reps by the inversion parity rep doesn't change anything
+
+ONCE A GROUP CONTAINS A ROTOINVERSION WITH A FOLDEDNESS HIGHER THAN 2, THE SPINOR REPS ARE NO LONGER INVARIANT UNDER MULTIPLICATION BY THE PARITY REP.
+
+basically not having that rotoinversion creates a degeneracy, as |1/2, +-1/2> and |3/2, +-1/2> form simultaneous bases.
 
 
-transitions = QDG.allowed_transitions_between_reps(X_01, vacuum)
-
-for polarisation in transitions:
-    print(polarisation + "-polarised transitions in X_01 -> vacuum:")
-    print("  Allowed: ", transitions[polarisation][0])
-    print("  Dark:    ", transitions[polarisation][1])
 """

@@ -1,0 +1,45 @@
+\documentclass[12pt]{article}
+\usepackage{stdheadstart}
+\usepackage{xargs}
+\usepackage{physics}
+\usepackage{amsmath,amssymb}
+\insheadstart{images/}
+
+
+\newtheorem{basis_mixing}
+{Lemma}
+
+\begin{document}
+
+	\begin{basis_mixing}
+	Let $\ket{\Gamma_nA}, \ket{\Gamma_nB}$ be basis function partners for an irreducible representation $\Gamma_n$ in group $G$. Then $\exists \hat{R}\in G$ such that $\mel{\Gamma_nA}{\hat{R}}{\Gamma_nB}\neq 0$.
+	\end{basis_mixing}
+	
+	\textit{Proof.} From the definition of the basis, we have
+	$$\mel{\Gamma_nA}{\hat{R}}{\Gamma_nB} = D^{\left(\Gamma_n\right)}(\hat{R})_{AB}$$
+	We will prove the lemma by contradiction. Assume $\forall \hat{R}\in G$ we have $\mel{\Gamma_nA}{\hat{R}}{\Gamma_nB}=0$. Then $\forall \hat{R}\in G: D^{\left(\Gamma_n\right)}(\hat{R})_{AB}=0$.
+	
+	Then, following the approach of Dresselhaus, we define the projection operator $\hat{P}^{\left(\Gamma_n\right)}_{AB}$ like so:
+	\begin{eqnarray*}		
+	\hat{P}^{\left(\Gamma_n\right)}_{AB}\ket{\Gamma_nB}&=&\ket{\Gamma_nA}\\
+	\hat{P}^{\left(\Gamma_n\right)}_{AB}\ket{\Psi}&=&0 \qq{for} \braket{\Gamma_n B}{\Psi}=0
+	\end{eqnarray*}
+	
+	From the orthogonality of basis functions we see immediately that $[\hat{H},\hat{P}^{\left(\Gamma_n\right)}_{AB}]$, hence it can be expressed as the linear combination of the elements of $G$:
+	
+	\begin{eqnarray*}
+	\hat{P}^{\left(\Gamma_n\right)}_{AB}&=&\sum_{R}A_{AB}(\hat{R})\hat{R}\\
+	\mel{\Gamma_nA}{\hat{P}^{\left(\Gamma_n\right)}_{AB}}{\Gamma_nB}&=&\braket{\Gamma_nA}{\Gamma_nA}=\sum_{R}A_{AB}(\hat{R})\mel{\Gamma_nA}{\hat{R}}{\Gamma_nB}\\
+	1&=&\sum_{R}A_{AB}(\hat{R})D^{\left(\Gamma_n\right)}(\hat{R})_{AB}
+	\end{eqnarray*}
+	
+	We have Schur's Wonderful Orthogonality Theorem:
+	$$\sum_{R}D^{\left(\Gamma_n\right)}(\hat{R})_{AB}^* D^{\left(\Gamma_n\right)}(\hat{R})_{AB} = \frac{|G|}{l_n}$$
+	where $l_n$ is the dimension of $\Gamma_n$. Hence we identify
+	$$A_{AB}(\hat{R})=\frac{l_n}{|G|}D^{\left(\Gamma_n\right)}(\hat{R})_{AB}^*$$
+	Then
+	$$\hat{P}^{\left(\Gamma_n\right)}_{AB}=\frac{l_n}{|G|}\sum_{R}D^{\left(\Gamma_n\right)}(\hat{R})_{AB}^*\hat{R}=0$$
+	But $0\ket{\Gamma_nB}=0\neq\ket{\Gamma_nA}$, which is a contradiction. This finishes the proof--either $\ket{\Gamma_nA},\ket{\Gamma_nB}$ aren't basis partners of $\Gamma_n$ or $\Gamma_n$ is reducible, with $\ket{\Gamma_nA},\ket{\Gamma_nB}$ belonging to different its subspaces.
+	
+	
+\end{document}

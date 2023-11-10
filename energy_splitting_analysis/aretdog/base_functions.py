@@ -175,4 +175,91 @@ def integer_partitions(total_sum, number_of_constituents):
                 result.append([leftmost_element] + partition)
         return(result)
 
+def index_sublists(list_length, sublist_length, reverse_order = False):
+    # returns a list of all lists of length sublist_length where elements are in strictly increasing order and for each 0<=x<list_length
+    result = []
+    if sublist_length == 1:
+        for i in range(list_length):
+            if reverse_order:
+                result.append([list_length-i-1])
+            else:
+                result.append([i])
+        return(result)
+    if list_length == sublist_length:
+        for i in range(list_length):
+            if reverse_order:
+                result.append(list_length-i-1)
+            else:
+                result.append(i)
+        return([result])
+    for i in range(list_length - sublist_length+1):
+        partition_res = index_sublists(list_length - i - 1, sublist_length - 1)
+        for part in partition_res:
+            new_part = [i]
+            for j in range(len(part)):
+                if reverse_order:
+                    new_part = [i + part[j] + 1] + new_part
+                else:
+                    new_part.append(i + part[j] + 1)
+            result.append(new_part)
+    return(result)
+
+def unordered_sublists(item_list, sublist_length):
+    possible_indices = index_sublists(len(item_list), sublist_length)
+    result = []
+    for item in possible_indices:
+        result.append([])
+        for index in item:
+            result[-1].append(item_list[index])
+    return(result)
+
+def unit_sphere_vector(theta, phi):
+    
+    # [theta, phi] -> [x, y, z]
+    
+    return(np.array([np.sin(theta) * np.cos(phi), np.sin(theta) * np.sin(phi), np.cos(theta)]))
+
+def populate_unit_sphere(target_sample_size, include_poles = True):
+    # when we want to compare spherical harmonics functions, we do so by comparing values on a target_sample_size
+    # This sample draws from a unit spherical surface, with the local euclidean density roughly (lol) constant
+    
+    sample = []
+    N = target_sample_size
+    # Add the poles
+    if include_poles:
+        sample.append(np.array([0.0, 0.0, 1.0]))
+        sample.append(np.array([0.0, 0.0, -1.0]))
+        N -= 2
+    
+    delta_theta = np.sqrt((4.0 * np.pi) / N)
+    
+    for theta in np.arange(delta_theta, np.pi, delta_theta):
+        for phi in np.arange(0.0, 2.0 * np.pi, 4.0 * np.pi / (N * np.sin(theta) * delta_theta)):
+            sample.append(unit_sphere_vector(theta, phi))
+    return(sample)
+
+
+def wigner_small_d_matrix(beta, j):
+    dim = int(2*j+1)
+    result = np.zeros((dim, dim), dtype=complex)
+    for a in range(dim):
+        m_a = -j + a
+        for b in range(dim):
+            m_b = -j + b
+            partial_sum = 0.0
+            for s in range(max(0, int(m_a - m_b)), min(int(j + m_a), int(j - m_b)) + 1):
+                if m_b - m_a + s % 2 == 0:
+                    pre_factor = 1
+                else:
+                    pre_factor = -1
+                new_term = pre_factor * np.power(np.cos(beta / 2.0), 2*j+m_a-m_b-2*s) * np.power(np.sin(beta / 2.0), m_b-m_a+2*s)
+                new_term /= (np.math.factorial(j + m_a - s) * np.math.factorial(s) * np.math.factorial(m_b - m_a + s) * np.math.factorial(j - m_b - s))
+                partial_sum += new_term
+            result[b][a] = partial_sum * np.sqrt(np.math.factorial(j+m_b) * np.math.factorial(j-m_b) * np.math.factorial(j+m_a) * np.math.factorial(j-m_a))
+    return(result)
+            
+
+
+
+
 
