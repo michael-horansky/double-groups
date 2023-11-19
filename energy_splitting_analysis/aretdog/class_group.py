@@ -1223,7 +1223,7 @@ class Group():
             if np.round(j) == j:
                 if j % 2 == 0: #evem
                     inversion_symmetry = "g"
-                elif j % 2 == 1: #evem
+                elif j % 2 == 1: #odd
                     inversion_symmetry = "u"
         
         # One way to resolve the half-integer j case is to say: from C_i we see that inversion commutes with R, so we can say

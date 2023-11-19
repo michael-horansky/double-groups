@@ -1,0 +1,26 @@
+\documentclass[12pt]{article}
+\usepackage{stdheadstart}
+\usepackage{xargs}
+\usepackage{physics}
+\usepackage{amsmath,amssymb}
+\insheadstart{images/}
+
+
+\newtheorem{largest_basis_subgroup}
+{Lemma}
+
+\begin{document}
+
+	\begin{largest_basis_subgroup}
+	For each pair of angular momenta quantum numbers $j, j'$ and sets of projective angular momenta quantum numbers $m_a\in\{m\}, m_a'\in\{m'\}$, there exists a group $G(j,j',m_a,m_a')$ that is a subgroup of $SU(2)\otimes C_i$ such that all groups $H$ for which $\ket{j,\pm m_a}$ and $\ket{j',\pm m_a'}$ form the basis (or a part of the basis) for the same irreducible representation of $H$ are subgroups of $G(j,j',m_a,m_a')$.
+	\end{largest_basis_subgroup}
+	\textit{Proof.} just a fiddly sketch of the proof:
+	\begin{enumerate}
+	\item all improper point groups are subgroups of $SU(2)\otimes C_i$. (self-evident)
+	\item $\ket{j,m}, m=-j,-j+1\dots j-1, j$ form a basis of a representation that is irreducible in $SU(2)\otimes C_i$, which is given by the Wigner D-matrices times parity bullshit. Hence for all subgroups this either holds or doesn't. Whether it does is entirely given by the presence of certain symmetry operations that mix these states up (if Lemma 1 is proven to be an equivalence then this follows directly--those would be the rotations that have $\mel{j,m}{R}{j,m'}\neq 0$. And Lemma 1 is obviously an equivalence (in the way that if two states are partners of gamma then they belong to the same non-reducible subspace, hence they form partners for SOME irreducible rep) because if such rotation exists then the projection operator exists.)
+	\item Following up on the previous point, if $\mel{j,m}{R}{j,m'}\neq 0$ then $\mel{j,m}{R}{j,-m'}\neq 0$, hence $\ket{j,\pm m}$ are \textit{always} basis partners. (How to prove: just check the wigner matrix trace elements, easy). ACTUALLY that condition isn't necessarily true--a sufficient and necessary condition is that $\exists R:\mel{j,m}{R}{j,-m}\neq 0$
+	\item Proof by construction that if two groups $H_1, H_2$ satisfy the basis breakage then there is a group that does also of which both are subgroups. (ACTUALLY this might not be true: consider $C_6$ a basis-breaking element. A group $\{E, C_3, C_3^2\}$ doesn't have it and group $\{E, C_2\}$ doesn't have it, but their smallest co-supergroup does have it--$Z_6$. Do they have a bigger supergroup that doesn't have it? No, because of closure!! you can always construct $C_3^2C_2$ which is just $C_6$ or $C_6^7$ for double groups. HENCE LEMMA 2 ISNT TRUE. but maybe a weaker version that specifies all the basis overlaps is? Anyway we could just classify elevation by the presence of basis breakage elements.)
+	\end{enumerate}
+	
+	
+\end{document}

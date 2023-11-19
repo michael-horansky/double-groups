@@ -1,0 +1,258 @@
+\documentclass[12pt]{article}
+\usepackage{stdheadstart}
+\usepackage{xargs}
+\usepackage{physics}
+\usepackage{amsmath,amssymb}
+\insheadstart{images/}
+
+
+
+\begin{document}
+
+	\title{Treatment of parity in angular momentum quantum states}
+	\author{Michal Horanský}
+	\maketitle
+	
+	\begin{abstract}
+	By considering parity under spatial inversion, the group of proper rotations--$SO(3)$ for spinless particles, $SU(2)$ for particles with spin--can be shown to be insufficient to describe how eigenstates of angular momenta couple when interaction terms are introduced to the Hamiltonian. To resolve this, we first introduce the concept of minimal Hilbert spaces, which we then use to show that Hamiltonian eigenstates for Hamiltonians commuting with rotoinversions cannot be fully expressed as wavefunctions on a unit sphere. By considering angular momentum eigenstates with seemingly paradoxical inversion parities, we propose a new rule for angular momentum coupling, which we then demonstrate to be necessary to explain labellings of exciton complexes in a $C_{3v}$ quantum dot.
+	\end{abstract}
+	
+	\section{Minimal Hilbert space}
+	
+	\subsection{Definition of minimal Hilbert Space}
+	
+	Consider a group $G$ of the hamiltonian $\hat{H}$ with irreps labelled by index $a$: $\Gamma_a$. Each irrep has a dimensionality $d_a$, and hence a basis consisting of $d_a$ basis vectors. The basis vectors of irrep $\Gamma_a$ can then be labelled as $\ket{a,m}$, where $m=1,2\dots d_a$. As proven by Tinkham in \cite[p.41-2]{tinkham}:
+	$$\braket{a,m}{a',m'}=\delta_{a,a'}\delta_{m,m'}$$
+	Then, we shall define the \textit{minimal Hilbert space} $\mathcal{H}_G\in\mathcal{H}_{\hat{H}}$ of $G$ as such Hilbert space so that
+	\begin{enumerate}
+	\item Each irrep of $G$ has a basis in $\mathcal{H}_G$
+	\item The choice of a basis for any irrep of $G$ in $\mathcal{H}_G$ is unique, where each partner basis vector is a pure vector $\ket{a,m}$ (up to a reordering of the degeneracy quantum number $m$).
+	\end{enumerate}
+	We see that the choice of $\mathcal{H}_G$ isn't generally unique, but all $\mathcal{H}_G$ are bijective to each other, by the uniqueness of quantum number pair $a,m$.
+	
+	A way to construct $\mathcal{H}_G$ is to consider all the basis vectors $\ket{a,m}$--$\mathcal{H}_G$ is just the Hilbert space spanned by all the basis vectors.
+	
+	We see then that the group elements of $G$ are operators in the minimal Hilbert space $\mathcal{H}_G$.
+	
+	From standard results we know that the basis of $\Gamma_a$ consists of $d_a$ degenerate eigenstates of $\hat{H}$; there might be accidental degeneracy between bases of two distinct irreps.
+	
+	\subsection{Direct products of groups}
+	
+	Consider groups $G_A, G_B$, with irreps labelled as $\Gamma_a$ and $\Gamma_b$ respectivelty. Then, we can immediately write down their minimal Hilbert spaces:
+	$$\mathcal{H}_{G_A}\text{ is spanned by }\{\ket{a,m}, m=1,2\dots d_a\}; \mathcal{H}_{G_B}\text{ is spanned by }\{\ket{b,n}, n=1,2\dots d_b\}$$
+	Now, consider the direct product of these groups: $G=G_A\otimes G_B$. It is a known result that all possible direct products of irreps $\Gamma_a\otimes\Gamma_b$ form the full set of irreps of $G$: these can be labelles by the pair of indices $a,b$:
+	$$\Gamma_{a.b}=\Gamma_a\otimes\Gamma_b$$
+	This relation can be written in terms of the matrices for a general group element of $G$:
+	$$D^{\left(\Gamma_{a,b}\right)}(g_a \otimes g_b)=D^{\left(\Gamma_{a}\right)}(g_a) \otimes D^{\left(\Gamma_{b}\right)}(g_b)$$
+	Since we can construct the full set of irreps of $G$, we can also write down its minimal Hilbert space; we see that each basis vector of $\mathcal{H}_G$ will be labelled by the pair $a,b$ to denote which irrep it belongs to and also by the pair $m,n$ to denote its index among the set of degenerate partner basis vectors of that irrep:
+	$$\mathcal{H}_G\text{ is spanned by }\{\ket{a,b,m,n}, m=1,2\dots d_a,n=1,2\dots d_b\}$$
+	But each basis vector in $\mathcal{H}_G$ can be decomposed into a direct product of basis vectors in $\mathcal{H}_{G_A},\mathcal{H}_{G_B}$:
+	$$\ket{a,b,m,n}\to\ket{a,m}\otimes\ket{b,n}$$
+	And each pair of basis vectors in $\mathcal{H}_{G_A},\mathcal{H}_{G_B}$ can be written as a basis vector in $\mathcal{H}_G$:
+	$$\ket{a,m}\otimes\ket{b,n}\to\ket{a,b,m,n}$$
+	Hence there exists a bijection between $\mathcal{H}_{G_A}\otimes\mathcal{H}_{G_B}$ and $\mathcal{H}_G$; hence we can construct it as
+	$$\mathcal{H}_G=\mathcal{H}_{G_A}\otimes\mathcal{H}_{G_B}$$
+	
+	\section{Proper and improper rotation groups}
+	\subsection{The minimal Hilbert space of angular momentum eigenstates}
+	
+	Consider the group of 3D spatial proper rotations $SO(3)$. The irreps of this group can be labelled by $l$, the angular momentum quantum number, $l=0,1\dots$, and $d_l=2l+1$. The minimal Hilbert space of $SO(3)$ is then spanned by the vectors
+	
+	\begin{center}
+	\begin{tabular}{c|c c c c c}
+	$\Gamma_0$ & & & $\ket{l=0, m=0}$ & &\\
+	$\Gamma_1$ & & $\ket{l=1,m=-1}$ & $\ket{l=1,m=0}$ & $\ket{l=1,m=1}$ & \\
+	$\Gamma_2$ & $\ket{l=2,m=-2}$ & $\ket{l=2,m=-1}$ & $\ket{l=2,m=0}$ & $\ket{l=2,m=1}$ & $\ket{l=2,m=2}$\\
+	$\vdots$ & & & $\vdots$ & &
+	\end{tabular}
+	\end{center}
+	
+	Here we shifted the intervals of $m$ so that they are centered about $0$; this is convenient, as $m$ now represents a real physical quantity--that is, the projection of the angular momentum onto the $z$-axis. This is conventional and does not affect our formalism.
+	
+	Now: consider the 3D unit sphere $S^2$, parametrised by $\vec{\alpha}=(\theta, \phi)$. It can be shown that there exists a mapping $\mathcal{H}_{SO(3)}\to \{f:S^2\to\mathbb{C}\}$ such that orthogonality relations are preserved and the space of functions $f:S^2\to\mathbb{C}$ is fully spanned by the linear combinations of vectors in $\mathcal{H}_{SO(3)}$:
+	
+	$$\ket{l,m}_{\mathcal{H}_{SO(3)}}\to \braket{\hat{\vec{\alpha}}}{l,m}=Y_l^m(\theta, \phi):S^2\to\mathbb{C}$$
+	
+	where $Y_l^m(\theta, \phi)$ are the usual spherical harmonics, normalized such that
+	$$\int_{S^2}Y_l^m(\theta, \phi)^*Y_{l'}^{m'}(\theta, \phi)\dd{V}_{S^2}=\delta_{l,l'}\delta_{m,m'}$$
+	where the integral is over the unit sphere and $\dd{V}_{S^2}=\sin{\theta}\dd{\theta} \dd{\phi}$ is the volume differential.
+	
+	Then, as per the standard results, any function $f(\theta,\phi):S^2\to\mathbb{C}$ can be uniquely decomposed into spherical harmonics:
+	$$f(\theta,\phi)=\sum_{l=0}^\infty \sum_{m=-l}^l c_{lm} Y_l^m(\theta,\phi)$$
+	where
+	$$c_{lm}=\int_{S^2}Y_l^m(\theta, \phi)^*f(\theta, \phi)\dd{V}_{S^2}$$
+	Hence there exists a mapping from $f:S^2\to\mathbb{C}$ onto $\mathcal{H}_{SO(3)}$:
+	$$f(\theta,\phi)=\sum_{l=0}^\infty \sum_{m=-l}^l c_{lm} \braket{\hat{\vec{\alpha}}}{l,m}\to \sum_{l=0}^\infty \sum_{m=-l}^l c_{lm} \ket{l,m}_{\mathcal{H}_{SO(3)}}$$	
+	
+	We see that there exists a mapping between the Hilbert space of $SO(3)$ and the space of functions $f:S^2\to \mathbb{C}$ which is bijective, continuous, and its inverse is continuous as well. Hence there exists a homeomorphism (topological isomorphism) between these  two spaces. We can also identify the functions $f:S^2\to \mathbb{C}$ as wavefunctions (omitting the $r$ dependence). Hence $\mathcal{H}_{SO(3)}$ is homeomorphic to the space of wavefunctions on the unit sphere.
+	
+	\subsection{The inversion symmetry of a rotationally symmetric single particle}
+	
+	Consider a Hamiltonian of a single particle in the form
+	
+	$$\hat{H}=\text{kinetic term}+\text{potential term}=-\frac{\hbar^2}{2m}\nabla^2+V(\hat{\vec{r}}, t)$$
+	
+	Suppose this Hamiltonian possesses symmetry under 3D spatial proper rotations--that is, $SO(3)$ symmetry. The kinetic term automatically possesses this symmetry, and for the potential term to posses this symmetry we require $V$ to be be independent on $\theta,\phi$ in spherical coordinates:
+	$$\hat{H}_{SO(3)}=-\frac{\hbar^2}{2m}\nabla^2+V(\hat{r}, t)$$
+	where $\hat{r}$ is the radial distance operator. Now, consider the spatial inversion operator $\hat{i}:\vec{r}\to-\vec{r}$. We see that the kinetic term is symmetric under inversion; and since inversion preserves $|\vec{r}|$, a potential term only dependent on $\hat{r},t$ must be symmetric under inversion. Hence, $\hat{H}$ is symmetric under inversion.
+	
+	From this we see that if the Hamiltonian of a \textit{single particle} is symmetric under rotations, it is also symmetric under rotoinversions--hence the group of the Hamiltonian is not $SO(3)$ but $O(3)$. This is not in general true for Hamiltonians of mutliple particles, even if they're non-interacting.
+	
+	Now, consider the group $C_i=\{\hat{E},\hat{i}\}$, where $\hat{E}$ is the identity operator and $\hat{i}$ is spatial inversion. It is trivial to show that
+	$$O(3)=SO(3)\otimes C_i$$
+	
+	Then, as per our previous result:
+	
+	$$\mathcal{H}_{O(3)}=\mathcal{H}_{SO(3)}\otimes\mathcal{H}_{C_i}$$
+	
+	We already know $\mathcal{H}_{SO(3)}$. To obtain $\mathcal{H}_{C_i}$ we consult standard tables \cite[p.138]{altmann_inversion_group} to see that $C_i$ has two irreps, characterised by the character table
+	
+	\begin{center}
+	\begin{tabular}{c | c c}
+	$C_i$ & $E$ & $i$\\
+	\hline
+	$\Gamma_1$ & $1$ & $1$\\
+	$\Gamma_2$ & $1$ & $-1$
+	\end{tabular}
+	\end{center}
+	
+	Since both irreps are $1$-dimensional, we can write down the basis vectors of $\mathcal{H}_{C_i}$: $\ket{n=1}, \ket{n=2}$. For later convenience, we will relabel the quantum number to have a physical meaning: $\ket{p=1}=\ket{n=1}, \ket{p=-1}=\ket{n=2}$. Here $p$ represents the parity of the vectors, which we shall define as the eigenvalue of the inversion operator. For a state with a parity $p$, we have 
+	$$\hat{i}\ket{p}=p\ket{p}$$
+	
+	This gives us the shape of $\mathcal{H}_{C_i}$, and we can now write down the basis vectors of $\mathcal{H}_{O(3)}$. $\mathcal{H}_{O(3)}$ is spanned by vectors labelled by $\ket{l,m,p}$, where
+	$$l=0, 1\dots; m=-l,-l+1\dots l-1,l; p=1\text{ or }-1$$
+	
+	Now, however, an issue arises: we have shown that $\mathcal{H}_{SO(3)}$ is homeomorphic to the space of wavefunctions on $S^2$. Hence $\mathcal{H}_{O(3)}$ \textit{cannot} be homeomorphic to this space, and is rather homeomorphic to a space of wavefunctions on $2S^2$, which represents \textit{two} disconnected unit spheres, one labelled by $p=1$ and the other by $p=-1$. Hence, the wavefunction of a general quantum state can be expressed as
+	$$\braket{\hat{\vec{\alpha}}}{\Psi}=\Psi_g(\theta,\phi)\ket{p=1}+\Psi_u(\theta,\phi)\ket{p=-1}$$
+	where "g" and "u" mean \textit{gerade} and \textit{ungerade}. \textit{Note}: the kets on the right side of the equation no longer represent Hilbert vectors, but they label the $S^2$ subspace of the $2S^2$ space which their respective spatial functions act on.
+	
+	The wavefunction of a basis vector $\ket{l,m,p}$ is then a spherical harmonic that has definite parity:
+	$$\braket{\hat{\vec{\alpha}}}{l,m,p}=Y_l^m(\theta,\phi)\ket{p}$$
+	Here it is important to note that we deliberately disregard the effect of inversion on the spherical harmonic functions. Indeed, if we interpret the inversion operator as taking $\vec{r}\to-\vec{r}$, we would obtain the relation
+	$$\hat{i}Y_l^m(\theta,\phi)=(-1)^lY_l^m(\theta,\phi)$$
+	However, the $O(3)$ group element $\hat{i}$ doesn't act on the full minimal Hilbert space $\mathcal{H}_{O(3)}$. By construction of the group as a direct product, this operator acts solely on $\mathcal{H}_{C_i}$. In other words, if we write a basis Hilbert vector in $\mathcal{H}_{O(3)}$ as a direct product like so:
+	$$\ket{l,m,p}_{\mathcal{H}_{O(3)}}=\ket{l,m}_{\mathcal{H}_{SO(3)}}\otimes \ket{p}_{\mathcal{H}_{C_i}}$$
+	then the inversion operator becomes:
+	$$\hat{i}_{\mathcal{H}_{O(3)}}=\hat{E}_{\mathcal{H}_{SO(3)}}\otimes \hat{i}_{\mathcal{H}_{C_i}}$$
+	This justifies our formalism for basis wavefunctions.
+	
+	One might think it is contradictive to construct eigenfunctions which are odd spherical harmonics but have even inversion parity (or vice-versa). However, this doesn't actually affect the single-particle system at all, since as its spherically symmetric Hamiltonian can be expressed as a sum of a function of only the $\hat{L}$ operator and a purely radial function, then quantum states differing only in parity will always be degenerate, and all physical predictions stay the same. However, there will be consequences to the parity of Hamiltonian eigenstates when we consider multi-particle systems that, for example, only enjoy the symmetries of a subgroup of $O(3)$ (or $SU(2)\otimes C_i$, as shall be discussed later). There we will see a physical consequence to having a particle transforming according to an even angular momentum but to an odd inversion parity (or vice versa).
+	
+	\subsection{Spin states and the SU(2) group}
+	
+	If we consider a particle with a definite angular momentum and an uncoupled spin, its group of the Hamiltonian can be written as a direct product of the angular momentum group $O(3)$ and any symmetry group that the spin-dependent part of the Hamiltonian enjoys. However, in general spin couples with angular momentum via its intrinsic magnetic moment, which corresponds to a half-integer total angular momentum eigenstate. It can be shown that the group of the Hamiltonian of a spin-orbit coupled particle is (disregarding inversions) $SU(2)$. Then the basis vectors of $\mathcal{H}_{SU(2)}$ can be labelled by $j,m$ analogously to $l,m$ for the $SO(3)$ group, but $j$, the total angular momentum, can now be half-integer:
+	
+	\begin{center}
+	\begin{tabular}{c|c c c c c}
+	$\Gamma_0$ & & & $\ket{j=0, m=0}$ & &\\
+	$\Gamma_{1/2}$ & & $\ket{j=\frac{1}{3},m=-\frac{1}{2}}$ & & $\ket{j=\frac{1}{3},m=\frac{1}{2}}$ &\\
+	$\Gamma_1$ & $\ket{j=1,m=-1}$ & & $\ket{j=1,m=0}$ & & $\ket{j=1,m=1}$\\
+	$\vdots$ & & & $\vdots$ & &
+	\end{tabular}
+	\end{center}
+	
+	Analogously to $SO(3)$, when we add rotoinversions, the group of the Hamiltonian becomes $SU(2)\otimes C_i$, and its Hilbert space basis vectors will be $\ket{j,m,p}$. Each quantum number here is a function of the eigenvalue of a specific operator:
+	\begin{eqnarray*}
+	\hat{J}\ket{j,m,p}&=&\hbar^2 j(j+1)\ket{j,m,p}\\
+	\hat{J_z}\ket{j,m,p}&=&\hbar m\ket{j,m,p}\\
+	\hat{i}\ket{j,m,p}&=&p\ket{j,m,p}
+	\end{eqnarray*}
+	And a general quantum state has a corresponding wavefunction acting on a space topologically isomorphic to $4S^2$:
+	\begin{eqnarray*}		
+	\braket{\hat{\vec{\alpha}}}{\Psi}&=&\Psi_g^+(\theta,\phi)\ket{\uparrow,p=1}+\Psi_u^+(\theta,\phi)\ket{\uparrow,p=-1}\\
+	&&+\Psi_g^-(\theta,\phi)\ket{\downarrow,p=1}+\Psi_u^-(\theta,\phi)\ket{\downarrow,p=-1}
+	\end{eqnarray*}
+	Note that this formulation assumes $s=1/2$, which isn't necessarily the case--for higher spin numbers, we would require more pure-spin eigenstates. However, the homeomorphism still holds, as decomposing $j$ into $l,s$ eigenstates is ambiguous.
+	
+	\subsection{Determining parity of total angular momentum eigenstates in proper groups}
+	
+	Often, it is needed to reduce $J$-eigenstates into groups that enable improper rotations from supergroups that do not (most generally $SU(2)$). In that case, we can determine the parities of the eigenstates under symmetry elevation that enables improper rotations by considering their \textit{intrinsic} spatial parities directly from their wavefunctions, and subsequently carry out the symmetry breakage as needed using standard methods. For zero-spin quantum states, we know $j$ must be an integer, and a result analogous to $SO(3)$ follows:
+	$$\hat{i}\ket{j,m}\eval_{s=0}=(-1)^j\ket{j,m}$$
+	For $1/2$-spin quantum states, we utilise the explicit wavefunction form as stated by Biedenham \cite[p. 283]{spinor_spherical_harmonics}:
+	$$\hat{i}\ket{j,m}\eval_{s=1/2}=
+	\begin{cases}
+	(-1)^{j-1/2}\ket{j,m} & j = l + s\\
+	(-1)^{j+1/2}\ket{j,m} & j = l - s
+	\end{cases}$$
+	For higher-spin particles, the natural inversion parity may follow a different relation, but for treatise of electrons and electron holes these two relations suffice wholly.
+	
+	\subsection{Total angular coupling and parity}
+	
+	\subsubsection{Coupling for proper rotations and naive generalisation}
+	Suppose we have two $J$-eigenstates that transform as $\Gamma_{j}$ and $\Gamma_{j'}$ respectively. Disregarding any interaction between them, the system transforms as $\Gamma_{j}\otimes\Gamma_{j'}$, with a $(2j+1)(2j'+1)$ degeneracy. If we include an interaction term that couples the total angular momenta of these separate states, we will be able to label the resulting Hamiltonian eigenstates by $j'',m''$, and to obtain their irreps we therefore need to reduce the direct product into irreps of $SU(2)$. We can utilise a standard result\footnote{This can be proven by evaluating the characters from the formula $\chi^{\left(\Gamma_j\right)}(R(\alpha))=\sin{\left[(j+1/2)\alpha\right]}\sin^{-1}\alpha/2$ for any rotation by an angle $\alpha$, and showing the sum holds. Since a reduction into irreps is unique by the Wonderful Orthogonality Theorem, this is sufficient proof.}:
+	$$\Gamma_j\otimes\Gamma_{j'}=\bigoplus_{j''=|j-j'|}^{j+j'}\Gamma_{j''}$$
+	Limiting $s=0$ or $s=1/2$ \textit{and} $j=l+s$ we can immediately write down the parities of the eigenstates:
+	$$\hat{i}\ket{j,m}=\begin{cases}
+	(-1)^j\ket{j,m} & j\in\mathbb{N}\\
+	(-1)^{j-1/2}\ket{j,m} & j+1/2\in\mathbb{N}
+	\end{cases}$$
+	The limitation to $j=l+s$ might seem arbitrary, but we are indeed just anticipating the simplification we will be able to do in the problem we shall apply these results to. Without this limitation, it is of course necessary to separate the cases of $j=l\pm s$ and apply a different parity property to each.
+	
+	Looking at the decomposition relation, we immediately see the problem: if the group of the Hamiltonian permits rotoinversions, then the left side of the equation has a definite parity (product of the parities of $j$ and $j'$, respectively), but the right side does not, as the terms in the direct sum alternate in parities, as $j$ increments by $1$. Therefore, this relation cannot hold in general, since the characters of the two sides of the equations do not match, and hence the transformation properties are ill-informed. To mitigate for this, we need to employ the machinery derived above, since a general decomposition of coupled eigenstates in an improper group may span Hilbert vectors that are not present in the minimal Hilbert space of the proper subgroup.
+	
+	\subsubsection{Coupling for improper rotations}
+	
+	Suppose we couple eigenstates with total angular momenta $j,j'$ and parities $p,p'$. If we mandate there be eigenstates of $j''=|j-j'|, |j-j'|+1\dots j+j'-1, j+j'$ in the decomposition of $\Gamma_{j,p}\otimes\Gamma_{j',p'}$, then the reduction of this direct product into irreps of $SU(2)\otimes C_i$ is uniquely determined precisely by mandating that all the terms of the reduction sum have the same parity, which is necessary to make the equation hold for any general reduction:
+	$$\Gamma_{j,p}\otimes\Gamma_{j',p'}=\bigoplus_{j''=|j-j'|}^{j+j'}\Gamma_{j'',p\cdot p'}$$
+	
+	This is the necessarily the "true" formulation of the transformation law for angular momentum coupling when inversion commutes with the Hamiltonian.
+	
+	For simple Hamiltonians, this only constitutes a change of formalism. If the Hamiltonian doesn't contain the $\hat{i}$ operator, in simple cases it is reasonable to expect $\Gamma_{j,p=1}$ and $\Gamma_{j,p=-1}$ to be accidentally degenerate. Then, this parity change can hardly be detected unless specifically probed for. Whilst it may contain predictions for selection laws for complex transitions on e.g. atomic orbitals, there is a way to test whether this formalism is correct on a simpler case--that is, by breaking the aforementioned accidental degeneracy by applying only a subgroup of $SU(2)\otimes C_i$. One of such cases can be studied in excitonic transitions in quantum dots.
+	
+	\section{Predictive power of parity quantum number inclusion--quantum dots}
+	
+	\subsection{Description of the physical system}
+	Consider a semiconductor whose valence band corresponds to a $p$-orbital and whose conduction band corresponds to an $s$-orbital. An electron ($s=1/2$) excited to the conduction band would in $SU(2)\otimes C_i$ transform according to the $\Gamma_{1/2,1}$ irrep, in accordance with previous results. A corresponding electron hole ($s=1/2$) undergoes spin-orbit coupling which leaves it with two possible total angualar momenta, $j=1/2$ and $j=3/2$. The $j=1/2$ state corresponds to the split-off band which nas a lower maximum energy than the valence band populated by $j=3/2$ holes, hence we can disregard it in the experiment outlined below. The $j=3/2$ holes transform according to $\Gamma_{3/2,-1}$, once again in accordance to previous results.
+	
+	Now, consider a quantum dot grown on this semiconductor which enjoys a $C_{3v}$ symmetry group. This group permits both proper and improper rotations, therefore its double group (describing the symmetries of spin-orbit coupled quantum states in this quantum dot) is a subgroup of $SU(2)\otimes C_i$. If we have a free hole in this quantum dot, we see its irrep in the full rotation group undergoes reduction to two irreps of $C_{3v}$:
+	$$\Gamma_{3/2,-1}=E_{1/2}\oplus (1E_{3/2}\oplus 2E_{3/2})$$
+	The complex-conjugate irreps can be lumped together: $(1E_{3/2}\oplus 2E_{3/2})\equiv E_{3/2}$
+	These two "physical" irreps $E_{1/2}, E_{3/2}$ then describe the two characters of holes in this quantum dot, light-like and heavy-like respectively \cite{karlsson}. This allows two one-electron-one-hole exciton complexes to exist, labelled by Karlsson as $X_{10}$ and $X_{01}$ for heavy-like and light-like holes respectively. We can then label each exciton complex by the irrep decomposition of its symmetries, which are given by the product of the irrep of the constituent electron and hole (note that the electron irrep gets reduced to $E_{1/2}$):
+	\begin{eqnarray*}
+	X_{10}\quad &:& \quad E_{3/2} \otimes E_{1/2} = 2E\\
+	X_{01}\quad &:& \quad E_{1/2} \otimes E_{1/2} = A_1 \oplus A_2 \oplus E\\
+	X_{10} + X_{01} \quad &:& \quad A_1 \oplus A_2 \oplus 3E
+	\end{eqnarray*}
+	This is the result Karlsson et al obtains, and using dipole approximation, it yields 4 predicted transitions to vacuum in total.
+	\subsection{Naive coupling interpretation}
+	If we used the naive angular momentum eigenstate coupling decomposition rule which disregards parity, we would obtain a different result. The two exciton complexes $X_{10}$ and $X_{01}$ together constitute the coupling between a $j=1/2$ state (electron) and $j=3/2$ state (hole in either characteristic) yields the decomposition in $SU(2)$:
+	$$\Gamma_{j=3/2}\otimes \Gamma_{j=1/2} = \Gamma_{j=1}\oplus \Gamma_{j=2}$$
+	Naively assigning odd parity to $\Gamma_{j=1}$ and even parity to $\Gamma_{j=2}$, we would obtain the following irrep decomposition in $C_{3v}$ of the two excitonic complexes together:
+	$$X_{10} + X_{01} \quad : \quad 2A_1 \oplus 3E$$
+	This predicts 5 transitions to vacuum in total, which is \textit{not} in agreement with Karlsson et al.
+	
+	\subsection{Corrected coupling interpretation}
+	Repeating the same interpretation of $X_{10}+X_{01}$ as angular momentum coupling, we now carry this out in the full improper rotation double group $SU(2)\otimes C_i$. The $j=1/2$ electrons transform as $\Gamma_{1/2,1}$ and the $j=3/2$ holes transform as $\Gamma_{3/2, -1}$. They therefore decompose as
+	$$\Gamma_{j=3/2,p=-1}\otimes \Gamma_{j=1/2, p=1} = \Gamma_{j=1, p=-1}\oplus \Gamma_{j=2, p=-1}$$
+	The $j=2$ state is now odd, in contrast to the naive case, when it is even! Reducing this further into $C_{3v}$ irreps:
+	$$X_{10} + X_{01} \quad : \quad A_1 \oplus A_2 \oplus 3E$$
+	This retrieves the result Karlsson et al arrive at.
+	
+	\subsection{Addenda}
+	\subsubsection{Note on alternative approach}
+	For the total angular momentum quantum number, the fact an integer value of $j$ can have two different parities can be resolved by refusing to interpret it as a $Y_j^m(\theta, \phi)$ spherical harmonic (which it isn't), but rather keeping track of the part of $j$ that lives in spin space. For example, consider two $s=1/2$ particles. Together, they form a $s=0$ singlet and $s=1$ triplet, which under spin-orbit coupling (if we place them on a $s$-type orbital) can be interpreted as $j=0$ and $j=1$ eigenstates. The triplet, however, was constructed from mixing three states that live entirely in spin space, with no spatial dependence, and hence an implicit even parity which should be preserved under the coupling. This approach is not sufficient in this form, however, because in spin-orbit coupling neither $s$ nor $l$ is preserved--hence for full treatment we would have to consider \textit{all} possible pairs $l,s$ for each $j$, their parities (dictated by $l$ alone), and how they mix together when spin-orbit coupling is introduced! Truly, the formalism developed in this treatment is much more efficient and requires less knowledge of the underlying physics of spin-orbit coupling.
+	
+	Moreover, this alternative approach cannot be used for spinless systems which enjoy $O(3)$ symmetries, where the parity problem in coupling still manifests.
+	
+	\subsubsection{Note on Karlsson's data}
+	
+	In the paper cited, there were only 3 transitions between $X_{10},X_{01}$ and vacuum detected. This was attributed to symmetry elevation which, for these exciton complexes, approximated the symmetry of the quantum dot to $D_{3h}$, a supergroup of $C_{3v}$. For $D_{3h}$, both the naive and the corrected angular momentum coupling approach yield the same number of transitions predicted. However, the symmetry elevation isn't precise, as it only weakens certain transition photoluminiscence peaks which don't posses all $D_{3h}$ symmetry planes, and 2 weakened peaks would be easier to resolve than just 1. Moreover, the labelling of exciton complexes by $C_{3v}$ irreps obtained by Karlsson still contradicts the naive approach.
+	
+\begin{thebibliography}{10}
+
+\bibitem{tinkham}
+Tinham, M. (1964), \textit{Group Theory and Quantum Mechanics}. New York: McGraw-Hill Book Company.
+
+\bibitem{altmann_inversion_group}
+Altmann, S. L., Herzig, P. (1994), \textit{Point-Group Theory Tables}. Oxford: Clarendon Press
+
+\bibitem{spinor_spherical_harmonics}
+Biedenham, L. C., Louck, J. D. (1981), \textit{Angular momentum in Quantum Physics: Theory and Application}, Encyclopedia of Mathematics, vol. 8
+
+\bibitem{karlsson}
+Karlsson, K. F. \textit{et al} (2015), Spectral signatures of high-symmetry quantum dots and effects of symmetry breaking. \textit{New Journal of Physics}, \textbf{17} 103017
+
+
+\end{thebibliography}	
+	
+\end{document}

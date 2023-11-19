@@ -1,0 +1,53 @@
+\documentclass[12pt]{article}
+\usepackage{stdheadstart}
+\usepackage{xargs}
+\usepackage{physics}
+\usepackage{amsmath,amssymb}
+\insheadstart{images/}
+
+
+\newtheorem{basis_mixing}
+{Lemma}
+
+\begin{document}
+
+	\begin{basis_mixing}
+	The following two statements are equivalent:
+	\begin{enumerate}[label=(P\arabic*)]
+	\item If $\ket{\Gamma_nA}, \ket{\Gamma_nB}$ are partners in a basis for \textit{some} representation $\Gamma_n$ of a group $G$, then there exists an irreducible representation $\Gamma_m^i\in \{\Gamma^i(G)\}$ for which they form partners in its basis.
+	\item $\exists \hat{R}\in G$ such that $\mel{\Gamma_nA}{\hat{R}}{\Gamma_nB}\neq 0$
+	\end{enumerate}
+	\end{basis_mixing}
+	
+	\textit{Proof.} We will first prove $(P1)\rightarrow (P2)$ and then $(P2)\rightarrow (P1)$. From the definition of the basis, we have
+	$$\mel{\Gamma_nA}{\hat{R}}{\Gamma_nB} = D^{\left(\Gamma_n\right)}(\hat{R})_{AB}$$
+	We will prove $(P1)\rightarrow (P2)$ by contradiction. Assume $\forall \hat{R}\in G$ we have $\mel{\Gamma_nA}{\hat{R}}{\Gamma_nB}=0$. Then $\forall \hat{R}\in G: D^{\left(\Gamma_n\right)}(\hat{R})_{AB}=0$.
+	
+	Then, following the approach of Dresselhaus, we define the projection operator $\hat{P}^{\left(\Gamma_n\right)}_{AB}$ like so:
+	\begin{eqnarray*}		
+	\hat{P}^{\left(\Gamma_n\right)}_{AB}\ket{\Gamma_nB}&=&\ket{\Gamma_nA}\\
+	\hat{P}^{\left(\Gamma_n\right)}_{AB}\ket{\Psi}&=&0 \qq{for} \braket{\Gamma_n B}{\Psi}=0
+	\end{eqnarray*}
+	
+	From the orthogonality of basis functions we see immediately that $[\hat{H},\hat{P}^{\left(\Gamma_n\right)}_{AB}]$, hence it can be expressed as the linear combination of the elements of $G$:
+	
+	\begin{eqnarray*}
+	\hat{P}^{\left(\Gamma_n\right)}_{AB}&=&\sum_{R}A_{AB}(\hat{R})\hat{R}\\
+	\mel{\Gamma_nA}{\hat{P}^{\left(\Gamma_n\right)}_{AB}}{\Gamma_nB}&=&\braket{\Gamma_nA}{\Gamma_nA}=\sum_{R}A_{AB}(\hat{R})\mel{\Gamma_nA}{\hat{R}}{\Gamma_nB}\\
+	1&=&\sum_{R}A_{AB}(\hat{R})D^{\left(\Gamma_n\right)}(\hat{R})_{AB}
+	\end{eqnarray*}
+	
+	We have Schur's Wonderful Orthogonality Theorem:
+	$$\sum_{R}D^{\left(\Gamma_n\right)}(\hat{R})_{AB}^* D^{\left(\Gamma_n\right)}(\hat{R})_{AB} = \frac{|G|}{l_n}$$
+	where $l_n$ is the dimension of $\Gamma_n$. Hence we identify
+	$$A_{AB}(\hat{R})=\frac{l_n}{|G|}D^{\left(\Gamma_n\right)}(\hat{R})_{AB}^*$$
+	Then
+	$$\hat{P}^{\left(\Gamma_n\right)}_{AB}=\frac{l_n}{|G|}\sum_{R}D^{\left(\Gamma_n\right)}(\hat{R})_{AB}^*\hat{R}=0$$
+	But $0\ket{\Gamma_nB}=0\neq\ket{\Gamma_nA}$, which is a contradiction. This proves $(P1)\rightarrow (P2)$.
+	
+	Now we prove $(P2)\rightarrow (P1)$ in almost the same fashion: we consider the representation $\Gamma_n$ of which $\ket{\Gamma_nA}, \ket{\Gamma_nB}$ are partner basis vectors. From $(P2)$ we see that $\hat{P}^{\left(\Gamma_n\right)}_{AB}\neq 0$, since all elements $\hat{R}\in G$ are linearly independent in its group-element space. Now: either $\Gamma_n$ is itself an irrep of $G$ or it can be decomposed into irreps of $G$. In the former case, the proof is finished; in the latter case:
+	$$D^{\left(\Gamma_n\right)}(\hat{R})=\bigoplus_{a}c_aD^{\left(\Gamma_a^i\right)}(\hat{R})$$
+	such that $D^{\left(\Gamma_n\right)}(\hat{R})_{XY}=0$ if $X,Y$ don't belong to the same subspace of $\Gamma_n$--this is the definition of the block-diagonal form. However, if this were the case for $A,B$, then $\hat{P}^{\left(\Gamma_n\right)}_{AB}= 0$, which contradicts $(P2)$. Hence $\ket{\Gamma_nA}, \ket{\Gamma_nB}$ belong to the same subspace of $\Gamma_n$ and form partners in the basis of one of its constituent irreducible representations, $\Gamma_m^i$. QED.
+	
+	
+\end{document}
