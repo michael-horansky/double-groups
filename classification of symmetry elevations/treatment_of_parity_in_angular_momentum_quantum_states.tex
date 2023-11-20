@@ -23,7 +23,7 @@
 	
 	Consider a group $G$ of the hamiltonian $\hat{H}$ with irreps labelled by index $a$: $\Gamma_a$. Each irrep has a dimensionality $d_a$, and hence a basis consisting of $d_a$ basis vectors. The basis vectors of irrep $\Gamma_a$ can then be labelled as $\ket{a,m}$, where $m=1,2\dots d_a$. As proven by Tinkham in \cite[p.41-2]{tinkham}:
 	$$\braket{a,m}{a',m'}=\delta_{a,a'}\delta_{m,m'}$$
-	Then, we shall define the \textit{minimal Hilbert space} $\mathcal{H}_G\in\mathcal{H}_{\hat{H}}$ of $G$ as such Hilbert space so that
+	Then, we shall define the \textit{minimal Hilbert space} $\mathcal{H}_G$ of $G$ as such Hilbert space so that
 	\begin{enumerate}
 	\item Each irrep of $G$ has a basis in $\mathcal{H}_G$
 	\item The choice of a basis for any irrep of $G$ in $\mathcal{H}_G$ is unique, where each partner basis vector is a pure vector $\ket{a,m}$ (up to a reordering of the degeneracy quantum number $m$).
@@ -176,7 +176,7 @@
 	\end{cases}$$
 	For higher-spin particles, the natural inversion parity may follow a different relation, but for treatise of electrons and electron holes these two relations suffice wholly.
 	
-	\subsection{Total angular coupling and parity}
+	\subsection{Total angular momentum coupling and parity}
 	
 	\subsubsection{Coupling for proper rotations and naive generalisation}
 	Suppose we have two $J$-eigenstates that transform as $\Gamma_{j}$ and $\Gamma_{j'}$ respectively. Disregarding any interaction between them, the system transforms as $\Gamma_{j}\otimes\Gamma_{j'}$, with a $(2j+1)(2j'+1)$ degeneracy. If we include an interaction term that couples the total angular momenta of these separate states, we will be able to label the resulting Hamiltonian eigenstates by $j'',m''$, and to obtain their irreps we therefore need to reduce the direct product into irreps of $SU(2)$. We can utilise a standard result\footnote{This can be proven by evaluating the characters from the formula $\chi^{\left(\Gamma_j\right)}(R(\alpha))=\sin{\left[(j+1/2)\alpha\right]}\sin^{-1}\alpha/2$ for any rotation by an angle $\alpha$, and showing the sum holds. Since a reduction into irreps is unique by the Wonderful Orthogonality Theorem, this is sufficient proof.}:
@@ -199,6 +199,18 @@
 	
 	For simple Hamiltonians, this only constitutes a change of formalism. If the Hamiltonian doesn't contain the $\hat{i}$ operator, in simple cases it is reasonable to expect $\Gamma_{j,p=1}$ and $\Gamma_{j,p=-1}$ to be accidentally degenerate. Then, this parity change can hardly be detected unless specifically probed for. Whilst it may contain predictions for selection laws for complex transitions on e.g. atomic orbitals, there is a way to test whether this formalism is correct on a simpler case--that is, by breaking the aforementioned accidental degeneracy by applying only a subgroup of $SU(2)\otimes C_i$. One of such cases can be studied in excitonic transitions in quantum dots.
 	
+	\subsection{The relationship between the Hilbert space of the Hamiltonian and the minimal Hilbert space of its symmetry group}
+	
+	Studying a non-interacting spinless particle in a spherically symmetric potential, an interesting phenomenon emerges. The Hamiltonian $\hat{H}$ is an operator on some Hilbert space. This operator must be able to act on each eigenstate of the Hamiltonian, and we could consider the smallest Hilbert space which can contain $\hat{H}$ to be the one spanned by all of these eigenstates. For example, the single non-interacting spinless particle in a spherically symmetric potential has a Hamiltonian which can be written in terms of the angular momentum operator $\hat{L}$ and some radial part that is not of interest to us right now. Therefore the Hamiltonian can be emplyed as an operator on a Hilbert space spanned by angular momentum eigenstates $\ket{l,m}$, which coincides with the minimal Hilbert space of $SO(3)$. However, we have shown that the group of this Hamiltonian is $O(3)$, and thus its minimal Hilbert space is larger. The smallest Hilbert space $\hat{H}$ can act on is a subspace of the minimal Hilbert space of the symmetry group of $\hat{H}$!
+	
+	These two Hilbert spaces would coincide if $\hat{H}$ gained a term dependent on $\hat{i}$, which would break the "accidental" symmetry between irreps of $O(3)$ that only differ in parity. However, it is a profound result that even though $\hat{H}$ can be an operator acting on the minimal Hilbert space of $SO(3)$, its full symmetry group implies another set of eigenstates which become important when e.g. interaction terms that couple two particles' angular momenta is introduced.
+	
+	It is important to note that the minimal Hilbert space isn't always a superspace of the smallest Hilbert space the Hamiltonian needs to act on. This is because we specifically omit eigenstates in the minimal Hilbert space of the symmetry group if they form repeated bases of a single irrep. For the continuous groups treated in this article--$SO(3),O(3),SU(2),SU(2)\otimes C_i$, we find there are no repeated bases, in which case that ordering holds. However, in the general case, and typically for finite point groups, to construct the smallest Hilbert that contains all the possible eigenstates of the Hamiltonian, one needs to find the smallest Hilbert spaces of which
+	\begin{enumerate}
+	\item the smallest Hilbert space the operators in the Hamiltonian can be embedded in
+	\item the minimal Hilbert space of the group of the Hamiltonian
+	\end{enumerate}
+	are both subspaces.
 	\section{Predictive power of parity quantum number inclusion--quantum dots}
 	
 	\subsection{Description of the physical system}
@@ -237,6 +249,14 @@
 	\subsubsection{Note on Karlsson's data}
 	
 	In the paper cited, there were only 3 transitions between $X_{10},X_{01}$ and vacuum detected. This was attributed to symmetry elevation which, for these exciton complexes, approximated the symmetry of the quantum dot to $D_{3h}$, a supergroup of $C_{3v}$. For $D_{3h}$, both the naive and the corrected angular momentum coupling approach yield the same number of transitions predicted. However, the symmetry elevation isn't precise, as it only weakens certain transition photoluminiscence peaks which don't posses all $D_{3h}$ symmetry planes, and 2 weakened peaks would be easier to resolve than just 1. Moreover, the labelling of exciton complexes by $C_{3v}$ irreps obtained by Karlsson still contradicts the naive approach.
+	
+	\section{Summary}
+	
+	A Hamiltonian implies a Hilbert space which it acts on by the operators it consists of--it seems straightforward to write down their quantum numbers (or quantum number pairs, if degeneracies occur) and say the Hamiltonian is fully embedded in the Hilbert space spanned by the resulting basis vectors. However, the group of the Hamiltonian may contain irreps which don't have basis vectors in the aforementioned Hilbert space. Then if interactions occur between particles living in the system described by our Hamiltonian which couple their quantum numbers, we might by reducing the resulting representations of existing eigenstates obtain subspaces which transform according to these basis-less irreps! Therefore, we need to admit all quantum states in the Hilbert space which wholly contains not only the apparently sufficiently labelled Hamiltonian eigenstates, but also the minimal Hilbert space of the symmetry group of the Hamiltonian.
+	
+	By applying this to angular momentum and total angular momentum eigenstates, we find that they necessitate an addition of a third quantum number, the parity number $p$. Therefore to each state $l,m$ two Hamiltonian eigenstate correspond: $\ket{l,m,p=1}$ and $\ket{l,m,p=-1}$. The same principle holds for total angular momentum eigenstates labelled by $j,m$--the full labelling of the Hamiltonian eigenstates must be $\ket{j,m,p}$. This third quantum number is the eigenvalue of the spatial inversion operator $\hat{i}$. It is important to note that for $SO(3)$ the eigenstates $\ket{l,m}$ imply a parity which matches the parity of the quantum number $l$, however, we must admit eigenstates with the opposite parity as well. This seeming paradox is resolved by the fact that the Hilbert space spanned by these eigenstates can no longer by homeomorphically mapped onto the space of wavefunctions on the unit sphere, and thus a purely spatial representation of the eigenstates wouldn't be complete.
+	
+	These additional eigenstates become important when angular momentum coupling is considered, and they make predictions for transition selection rules for exciton complexes in crystals with finite symmetry point groups.
 	
 \begin{thebibliography}{10}
 
