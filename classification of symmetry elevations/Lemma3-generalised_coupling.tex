@@ -1,0 +1,76 @@
+\documentclass[12pt]{article}
+\usepackage{stdheadstart}
+\usepackage{xargs}
+\usepackage{physics}
+\usepackage{amsmath,amssymb}
+\insheadstart{images/}
+
+
+\newtheorem{full_hilbert}
+{Lemma}
+\newtheorem{two_particle_coupling}
+{Lemma}
+
+\begin{document}
+
+	\begin{full_hilbert}\label{Lemma:full_hilbert}
+	Consider an operator $\hat{A}$ which is a function of some simultaneously diagonalizable operators $\hat{a}_1,\hat{a}_2\dots \hat{a}_n$ with respective eigenstates $\ket{a_1, b_1},\ket{a_2, b_2}\dots\ket{a_n, b_n}$, where the degeneracy of quantum number $a_m$ of the operator $\hat{a}_m$ is $d_m(a_m)$. Then the Hilbert space spanned by the eigenstates of $\hat{A}$ is a subspace of the Hilbert space spanned by vectors $\ket{a_1,a_2\dots a_n, B}$, where $B=1,2\dots \prod_{i=1}^n d_i(a_i)$.
+	\end{full_hilbert}
+	\textit{Proof.} Suppose
+	$$\hat{A}=A(\hat{a}_1,\hat{a}_2\dots \hat{a}_n)$$
+	Then the vector $\ket{a_1,a_2\dots a_n, B}$ is an eigenstate of $\hat{A}$:
+	$$\hat{A}\ket{a_1,a_2\dots a_n, B}=A(a_1, a_2\dots a_n)\ket{a_1,a_2\dots a_n, B}$$
+	And since $\hat{A}$ is simultaneously diagonalisable with all of the operators $\hat{a}_1,\hat{a}_2\dots\hat{a}_n$, any of its eigenstates must be an eigenstate of each of these operators, hence it must be expressable in this form. To each sequence $b_1,b_2\dots b_n$ we assign one unique degeneracy quantum number $B$, hence the Hilbert space spanned by $\ket{a_1,a_2\dots a_n, B}$ must contain all the eigenstates of $\hat{A}$. However, this doesn't have to be the smallest such Hilbert space, if there exist two different sequences $a_m, a_m'$ for which $A(a_m)=A(a_m')$. Then the corresponding basis vectors in the full Hilbert space may be equal, in which case by erasing the duplicates we obtain a subspace of the full Hilbert space. By removing basis vectors so that all basis vectors are unique, we obtain the smallest Hilbert space containing all eigenstates of $\hat{A}$.
+
+	\begin{two_particle_coupling}
+	Consider an operator $\hat{a}$ acting on particle 1 with eigenstates $\ket{a, b}$ spanning a Hilbert space $\mathcal{H}_a$, where $\hat{a}\ket{a,b}=f(a)\ket{a,b}$ and $b$ separates the degenerate eigenstates with equal eigenvalues of $\hat{a}$. Consider a coupling operator $\hat{A}=\hat{a}_1+\hat{a}_2+\hat{C}$, where the eigenvalues of $C$ are a function of the eigenvalues $a_1,b_1,a_2,b_2$. When we couple two states associated with quantum numbers $a_1,a_2$, the eigenstates of the coupling operator $\hat{A}$ can be either labelled by $\ket{a_3,b_3}$, where these vectors span $\mathcal{H}_a$, or by $\ket{a_3, b_1, b_2}$, which is a Hilbert space constructed from $\mathcal{H}_a$ by a specific procedure.
+	\end{two_particle_coupling}
+	
+	\textit{Proof.} If the degeneracy of $\ket{a}$ is $d_a$, then there are $d_a$ values of $b$ allowed for that value of $a$. We shall relabel these eigenstates by a canonized degeneracy label $c$, where
+	$$c=-\frac{d_a-1}{2},-\frac{d_a-1}{2}+1\dots \frac{d_a-1}{2}-1, \frac{d_a-1}{2}$$
+	Then the operator $\hat{c}$ shall retrieve $c$ as its eigenvalue:
+	$$\hat{c}\ket{a,c}=c\ket{a,c}$$
+	
+	Then we construct a vector operator $\hat{\vec{a}}$ so that $\hat{\vec{a}}\ket{a,c}=\vec{a}\ket{a,c}$, where $\vec{a}$ satisfies the following conditions:
+	\begin{eqnarray*}
+	\vec{a}&\in &\mathbb{R}^2\\
+	\vec{a}\cdot\vec{a}&=&f(a)\\
+	\vec{a}\cdot \mqty(1 \\ 0) &=& c
+	\end{eqnarray*}
+	From this we see that
+	$$\hat{\vec{a}}\cdot \hat{\vec{a}} = \hat{a}$$
+	and the quantum numbers $a$ and $c$ are determined by the magnitude and direction of the vector $\vec{a}$, respectively. Hence each eigenstate corresponds to a vector $\vec{a}$ and thus the operator $\hat{C}$ which describes the interaction between \textit{two} particles must be a function of $\hat{\vec{a}}_1$ and $\hat{\vec{a}}_2$:
+	$$\hat{C}=C(\hat{\vec{a}}_1, \hat{\vec{a}}_2)$$
+	This is a scalar operator, and hence can be written out like so\footnote{This is because the dot product of $\vec{a}$ with an arbitrary vector in $\mathbb{R}^2$ can be written as a function of the dot product of $\vec{a}$ with some fixed vector $\vec{u}$ and the square magnitude of the vector $\vec{a}\cdot\vec{a}$.}:
+	$$\hat{C}=C\left(\hat{\vec{a}}_1\cdot\hat{\vec{a}}_1,\hat{\vec{a}}_2\cdot\hat{\vec{a}}_2,\hat{\vec{a}}_1\cdot\hat{\vec{a}}_2,\hat{\vec{a}}_1\cdot \vec{u},\hat{\vec{a}}_2\cdot \vec{u}\right),\quad \vec{u}=\mqty(1\\0)$$
+	
+	We can write out the most general form of $\hat{C}$:
+	
+	$$\hat{C}=C\left(\hat{a}_1,\hat{a}_2,\hat{c}_1,\hat{c}_2,\hat{\vec{a}}_1\cdot\hat{\vec{a}}_2\right)$$
+	
+	We can express the vector mixing term as
+	$$\hat{\vec{a}}_1\cdot\hat{\vec{a}}_2=\frac{1}{2}\left[\left(\hat{\vec{a}}_1+\hat{\vec{a}}_2\right)\cdot \left(\hat{\vec{a}}_1+\hat{\vec{a}}_2\right) - \hat{a}_1 - \hat{a}_2\right]$$
+	Consider a new eigenstate of $\hat{a}$ which correspods to the vector
+	$$\vec{a}_T=\hat{\vec{a}}_1+\hat{\vec{a}}_2$$
+	Then we can write down the following expression:
+	$$\hat{\vec{a}}_1\cdot\hat{\vec{a}}_2=\frac{1}{2}\left[\hat{a}_T- \hat{a}_1 - \hat{a}_2\right]$$
+	
+	Therefore $\hat{C}$ can be expressed with a different function like so:
+	$$\hat{C}=C'\left(\hat{a}_1,\hat{a}_2,\hat{c}_1,\hat{c}_2,\hat{a}_T\right)$$
+	From the definition of $\vec{a}_T$ and its relation to $a_T$, we see that in this expression, the quentum number $a_T$ can only obtain values lying on the closed interval $[|a_1-a_2|,a_1+a_2]$ and which are possible eigenvalues of $\hat{a}$.
+	Since $\hat{a}_1$ and $\hat{a}_2$ operate on different particles, they are simultaneously diagonalizable. By definition, $\hat{a}_T$ commutes with both of these operators, and all of these operators commute with $\hat{c}_1$ and $\hat{c}_2$. This means all of these operators are simultaneously diagonalizable, and hence by \ref{Lemma:full_hilbert} the eigenstates of $\hat{A}$ span a Hilbert subspace of the Hilbert space spanned by $\ket{a_1,a_2,a_T,c_1,c_2,c_T}$. However, we can reduce this upper bound Hilbert space by quite a lot.
+	
+	We couple states associated with $a_1,a_2$, hence these are determined and are not quantum numbers in the Hilbert space of the coupled quantum states. However, we did not specify the quantum numbers $b_1,b_2$ (and hence equivalently $c_1,c_2$), since without coupling these are degenerate in the eigenstates of $\hat{a}_1$ and $\hat{a}_2$ respectively. Now there are two options:
+	\begin{enumerate}
+	\item $C'$ doesn't depend on $\hat{c}_1$ and $\hat{c}_2$. Then $c_1,c_2$ are redundant quantum numbers and the eigenstates of $\hat{A}$ become $\ket{a_T,b_T}$, where $a_T$ takes values of allowed eigenstates of $\hat{a}$ lying on the interval $[|a_1-a_2|, a_1+a_2]$.
+	\item $C'$ depends on $\hat{c}_1$ or $\hat{c}_2$. Since we assume the particles to be symmetric under interchange, dependence on one of these operators imply dependence on the other one. Hence $C'$ is dependent on $\hat{c}_1$ and $\hat{c}_2$, and $c_1,c_2$ become good quantum numbers. However:
+	$$c_T=\vec{a}_T\cdot \mqty(1\\0)=\left(\vec{a}_1+\vec{a}_2\right)\cdot\mqty(1\\0)=c_1+c_2$$, hence $c_T$ is uniquely determined by $c_1,c_2$ and is no longer a quantum number. By a similar argument, specifying $c_1,c_2$ for specified values specifies $\vec{a}_1,\vec{a}_2$ and hence uniquely determines $\vec{a}_T$ and therefore $a_T$ also. $a_T$ ceases to be a quantum number and the eigenvalues of $\hat{A}$ become $\ket{c_1,c_2}$.
+	\end{enumerate}
+	
+	Note: these must have the same degeneracy--what does this impose on the conditions for when $\vec{a}$ can be constructed? (e.g. well-ordered f(a), condition on $d_a$ etc)
+	
+	\textit{Note}--another property: when coupling multiple particles, the order of coupling reduction should not matter
+	
+	
+	
+\end{document}

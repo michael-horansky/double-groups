@@ -5,23 +5,24 @@
 \usepackage{amsmath,amssymb}
 \insheadstart{images/}
 
-
+\newtheorem{full_coupling_hilbert_space}
+{Theorem}
 
 \begin{document}
 
-	\title{Treatment of parity in angular momentum quantum states}
+	\title{Treatment of Hilbert spaces spanned by quantum states coupling under interaction Hamiltonians and their demand of parity quantum number in angular momentum eigenstates}
 	\author{Michal Horanský}
 	\maketitle
 	
 	\begin{abstract}
-	By considering parity under spatial inversion, the group of proper rotations--$SO(3)$ for spinless particles, $SU(2)$ for particles with spin--can be shown to be insufficient to describe how eigenstates of angular momenta couple when interaction terms are introduced to the Hamiltonian. To resolve this, we first introduce the concept of minimal Hilbert spaces, which we then use to show that Hamiltonian eigenstates for Hamiltonians commuting with rotoinversions cannot be fully expressed as wavefunctions on a unit sphere. By considering angular momentum eigenstates with seemingly paradoxical inversion parities, we propose a new rule for angular momentum coupling, which we then demonstrate to be necessary to explain labellings of exciton complexes in a $C_{3v}$ quantum dot.
+	By considering parity under spatial inversion, the group of proper rotations--$SO(3)$ for spinless particles, $SU(2)$ for particles with spin--can be shown to be insufficient to describe how eigenstates of angular momenta couple when interaction terms are introduced to the Hamiltonian. To resolve this, we first introduce the concept of minimal Hilbert spaces of groups, which we then use to show that Hamiltonian eigenstates for Hamiltonians commuting with rotoinversions cannot be fully expressed as wavefunctions on a unit sphere. By considering angular momentum eigenstates with seemingly paradoxical inversion parities, we propose a new rule for angular momentum coupling, which we then generalise to total angular momentum coupling and demonstrate it to be necessary to explain labellings of exciton complexes in a $C_{3v}$ quantum dot.
 	\end{abstract}
 	
 	\section{Minimal Hilbert space}
 	
-	\subsection{Definition of minimal Hilbert Space}
+	\subsection{Definition of minimal Hilbert space of a group}
 	
-	Consider a group $G$ of the hamiltonian $\hat{H}$ with irreps labelled by index $a$: $\Gamma_a$. Each irrep has a dimensionality $d_a$, and hence a basis consisting of $d_a$ basis vectors. The basis vectors of irrep $\Gamma_a$ can then be labelled as $\ket{a,m}$, where $m=1,2\dots d_a$. As proven by Tinkham in \cite[p.41-2]{tinkham}:
+	Consider a group $G$ of the Hamiltonian $\hat{H}$ with irreps labelled by index $a$: $\Gamma_a$. Each irrep has a dimensionality $d_a$, and hence a basis consisting of $d_a$ basis vectors. The basis vectors of irrep $\Gamma_a$ can then be labelled as $\ket{a,m}$, where $m=1,2\dots d_a$. As proven by Tinkham in \cite[p.41-2]{tinkham}:
 	$$\braket{a,m}{a',m'}=\delta_{a,a'}\delta_{m,m'}$$
 	Then, we shall define the \textit{minimal Hilbert space} $\mathcal{H}_G$ of $G$ as such Hilbert space so that
 	\begin{enumerate}
@@ -30,9 +31,7 @@
 	\end{enumerate}
 	We see that the choice of $\mathcal{H}_G$ isn't generally unique, but all $\mathcal{H}_G$ are bijective to each other, by the uniqueness of quantum number pair $a,m$.
 	
-	A way to construct $\mathcal{H}_G$ is to consider all the basis vectors $\ket{a,m}$--$\mathcal{H}_G$ is just the Hilbert space spanned by all the basis vectors.
-	
-	We see then that the group elements of $G$ are operators in the minimal Hilbert space $\mathcal{H}_G$.
+	A method to construct $\mathcal{H}_G$ is to consider all the basis vectors $\ket{a,m}$ of the irreps $\Gamma_a$ of the group--$\mathcal{H}_G$ is just the Hilbert space spanned by all the basis vectors. We see then that the group elements of $G$ are operators in the minimal Hilbert space $\mathcal{H}_G$.
 	
 	From standard results we know that the basis of $\Gamma_a$ consists of $d_a$ degenerate eigenstates of $\hat{H}$; there might be accidental degeneracy between bases of two distinct irreps.
 	
@@ -53,7 +52,47 @@
 	Hence there exists a bijection between $\mathcal{H}_{G_A}\otimes\mathcal{H}_{G_B}$ and $\mathcal{H}_G$; hence we can construct it as
 	$$\mathcal{H}_G=\mathcal{H}_{G_A}\otimes\mathcal{H}_{G_B}$$
 	
-	\section{Proper and improper rotation groups}
+	\subsection{Minimal Hilbert space of a quantum operator}
+	
+	The notion of a minimal Hilbert space can be applied to a general quantum operator $\hat{P}$ as well. Here, the definition will be different to that of a minimal Hilbert space of a group, although an analogy can be drawn between the two cases. We shall define the minimal Hilbert space $\mathcal{H}_{\hat{P}}$ as the Hilbert space spanned by the eigenstates $\ket{p}$ of $\hat{P}$. An equivalent definition is the smallest Hilbert space on which $\hat{P}$ is a well-defined operator.
+	
+	If we consider $\hat{P}$ acting on some Hilbert space $\mathcal{H}$, then $\mathcal{H}_{\hat{P}}$ is a subspace of $\mathcal{H}$, as each eigenstate $\ket{p}$ picks up a degeneracy quantum number $p_i=1,2\dots d_p$, where $d_p$ is the degeneracy of $\ket{p}$ in $\mathcal{H}$. Then $\mathcal{H}$ is isomorphic to the Hilbert space spanned by $\ket{p, p_i}$.
+	
+	Note that the symmetry group of an operator already comes equipped with degeneracies which stem from the dimensions of its irreps. It is a subtle but important point that the group is not only constructed from the operator, but also from some arbitrary Hilbert space equipped with that operator which determines the set of commuting symmetry operators we consider! Indeed, a different choice of this arbitrary Hilbert space would result in a different symmetry group of the same operator. This is in analogy to how a different choice of the arbitrary Hilbert space directly affects the degeneracies of the eigenstates of our operator.
+	
+	\subsection{Full coupling Hilbert space}\label{coupling_space}
+	In this section, we prove the following theorem:
+	\begin{full_coupling_hilbert_space}
+	Consider an operator $\hat{A}_{\mathcal{H}}$ acting on some Hilbert space $\mathcal{H}$. Consider a coupling operator $\hat{C}_{\mathcal{H}_1\otimes\mathcal{H}_2}=\hat{A}_{\mathcal{H}_1}\otimes \hat{E}_{\mathcal{H}_2}+\hat{E}_{\mathcal{H}_1}\otimes\hat{A}_{\mathcal{H}_2}+\hat{A}^{\text{int}}_{\mathcal{H}_1\otimes\mathcal{H}_2}$, where $\hat{E}$ is the identity operator. Then the eigenstates of the coupling operator $\ket{c, d}$ that occur by coupling the eigenstates $\ket{a_1},\ket{a_2}$ of $\hat{A}$ in the Hilbert spaces $\mathcal{H}_1,\mathcal{H}_2$ respectively don't necessarily belong to $\mathcal{H}_1\otimes\mathcal{H}_2$.
+	\end{full_coupling_hilbert_space}
+	\textit{Proof.} Denote the set of integers $\{1,2\dots k\}$ as $\mathbb{N}_k$. $\mathcal{H}$ can be spanned by eigenstates of $\hat{A}$, denoted $\ket{a, b}$, where $b$ is the degeneracy label which is needed due to the fact that $\mathcal{H}$ might be larger than the minimal Hilbert space of $\hat{A}$. We shall denote the degeneracy of quantum number $a$ as $d(a)$, so that $b\in\mathbb{N}_{d(a)}$.
+	
+	Now consider the group $G_A$ of all operators $\hat{P}$ on $\mathcal{H}$ such that $[\hat{P},\hat{A}]=0$. Following standard results, each degenerate set of eigenvectors $\{\ket{a,b}, b\in\mathbb{N}_{d(a)}\}$ forms a basis to some irrep $\Gamma_{\alpha}$ of $G_A$, so that there exists a mapping $f:a\to\alpha$. If we denote the dimension of $\Gamma_{\alpha}$ as $\Delta(\alpha)$, from this mapping we know that $d(a)=\Delta(f(a))$. Also, we shall denote the minimal Hilbert space of $G_A$ as $\mathcal{H}_{G_A}$.
+	
+	Consider now the coupling operator $\hat{C}$ acting on $\mathcal{H}_1\otimes \mathcal{H}_2$. We denote $\hat{A}_1=\hat{A}_{\mathcal{H}_1}\otimes \hat{E}_{\mathcal{H}_2}$ and $\hat{A}_2=\hat{E}_{\mathcal{H}_1}\otimes\hat{A}_{\mathcal{H}_2}$, so that the coupling operator can be concisely expressed as
+	$$\hat{C}=\hat{A}_1+\hat{A}_2+\hat{A}^{\text{int}}$$
+	Now, if $\hat{A}^{\text{int}}=0$, there is no coupling, in which case the eigenstates of $\hat{C}$ are most generally $\ket{a_1, a_2, b_1, b_2}$, where $b_1,b_2$ together form the degeneracy label with degeneracy $d(a_1)d(a_2)$. Then the group of the coupling operator is simply $G_C=G_A\otimes G_A$. In this case, the eigenstates of $\hat{C}$ which result from coupling of $\ket{a_1}_{\mathcal{H}_1},\ket{a_2}_{\mathcal{H}_2}$ trivially belong to $\mathcal{H}_1\otimes\mathcal{H}_2$.
+	
+	Now suppose $\hat{A}^{\text{int}}\neq 0$. This might limit the number of operators on $\mathcal{H}_1\otimes\mathcal{H}_2$ which commute with $\hat{C}$, and so $G_C$ becomes a subgroup of $G_A\otimes G_A$. Now consider all the states in $\mathcal{H}_1\otimes\mathcal{H}_2$ which are eigenstates of both $\hat{A}_1$ and $\hat{A}_2$. Adding the non-zero interaction term causes \textit{symmetry breakage}, which means the irrep product $\Gamma_{f(a_1)}\otimes\Gamma_{f(a_2)}$ might be reducible in $G_C$, and this set of simultaneous eigenstates of $\hat{A}_1,\hat{A}_2$ might be reducible into basis vectors of several different irreps of $G_C$ which therefore correspond to different eigenstates of $\hat{C}$ up to accidental degeneracy:
+	\begin{eqnarray*}
+	\Gamma_{f(a_1)}\otimes\Gamma_{f(a_2)}&=&\bigoplus_{c\in X(a_1,a_2)} \Gamma_{g(c)}\\
+	\{\ket{a_1,a_2,b_1,b_2},\quad b_1\in\mathbb{N}_{d(a_1)},\quad b_2\in\mathbb{N}_{d(a_2)}\}&=&\{\ket{c,d},\quad c\in X(a_1,a_2),\quad d\in\mathbb{N}_{d_c(c)}\}
+	\end{eqnarray*}
+	where $g(c)$ is the mapping from eigenvalues of $\hat{C}$ onto the labels of $G_C$ irreps of which the corresponding eigenstates form basis vectors, $X(a_1,a_2)$ is the set of eigenvalues of $\hat{C}$ which emerge during the coupling of $\ket{a_1},\ket{a_2}$, and $d_c(c)$ is the degeneracy of $\ket{c}$. Notice that since we claim that the eigenstates $\ket{c,d}$ cannot be fully contained in $\mathcal{H}_1\otimes\mathcal{H}_2$, this degeneracy cannot be constructed so that $\ket{c,d}$ spans $\mathcal{H}_1\otimes\mathcal{H}_2$, but it is still required to include it in here, so that the total number of states on both sides of the equation is equal, since all the states on each side of the equation are orthogonal to each other. In other words, we require
+	$$\sum_{c\in X(a_1,a_2)}d_c(c)=d(a_1)d(a_2)$$
+	
+	Now: suppose $f$ is non-surjective. An example would be the angular-momentum-squared operator acting on the Hilbert space isomorphic to the space of wavefunctions on a unit sphere, which has $O(3)$ symmetry on this Hilbert space, but half of the irreps of $O(3)$ don't have a basis in this Hilbert space. As per the example, $f$ being non-surjective implies the possibility of
+	$$\mathcal{H}_{G_A}\notin \mathcal{H}$$
+	which directly leads to
+	$$\mathcal{H}_{G_A\otimes G_A}\notin \mathcal{H}_1\otimes\mathcal{H}_2$$
+	Since for the minimal Hilbert space of the group $G_C$ only has the condition $\mathcal{H}_{G_C}\in\mathcal{H}_{G_A\otimes G_A}$ imposed on it, it is in general possible to have
+	$$\mathcal{H}_{G_C}\notin \mathcal{H}_1\otimes\mathcal{H}_2$$
+	In this case there exist irreps of $G_C$ of which the basis doesn't belong to $\mathcal{H}_1\otimes\mathcal{H}_2$. However, there is no condition on the coupling symmetry breakage saying that $X(a_1,a_2)$ cannot contain elements $c$ so that $\Gamma_{g(c)}$ doesn't have a basis in $\mathcal{H}_1\otimes\mathcal{H}_2$, as will be demonstrated for angular momentum operators acting on wavefunctions on a unit sphere in \ref{example}. Therefore, in general, the coupling of $\ket{a_1},\ket{a_2}$ may yield quantum states which do not belong to $\mathcal{H}_1\otimes\mathcal{H}_2$, quod erat demonstrandum. The Hilbert space spanned by all quantum states obtainable from coupling for a specific interaction operator $\hat{A}^{\text{int}}_{\mathcal{H}_1\otimes\mathcal{H}_2}$, dubbed the full coupling Hilbert space, is in general a Hilbert space containing both $\mathcal{H}_{G_C}$ and $\mathcal{H}_1\otimes\mathcal{H}_2$ as subspaces, and its construction is in general nontrivial.
+	
+	\textit{Note.} It might seem strange to say that the eigenstates of $\hat{C}$ which acts on $\mathcal{H}_1\otimes\mathcal{H}_2$ don't necessarily belong to $\mathcal{H}_1\otimes\mathcal{H}_2$. However it is important to note that $\hat{C}$ can always be constructed equivalently to act on the full Hilbert space spanned by the eigenstates which occur from coupling. This equivalence means that there will be accidental\footnote{The word "accidental" here means they transform according to different irreps, i.e. no symmetry operator transforms between states of some two subsets of the full set of degenerate states.} degeneracy between irreps of $G_C$ if their basis vectors project onto the same vector in $\mathcal{H}_1\otimes\mathcal{H}_2$. Indeed, this theorem is a consequence of the fact that the minimal Hilbert space of a symmetry group of an operator does not have to be a subspace of the Hilbert space we construct this group from! Coupling is an easy way of reaching these states whilst preserving the accidental degeneracy. However, the accidental degeneracy gets broken when we break the symmetry of the system, as will be demonstrated in \ref{accidental_breakage}.
+	
+	
+	\section{Proper and improper rotation groups}\label{example}
 	\subsection{The minimal Hilbert space of angular momentum eigenstates}
 	
 	Consider the group of 3D spatial proper rotations $SO(3)$. The irreps of this group can be labelled by $l$, the angular momentum quantum number, $l=0,1\dots$, and $d_l=2l+1$. The minimal Hilbert space of $SO(3)$ is then spanned by the vectors
@@ -96,7 +135,7 @@
 	$$\hat{H}_{SO(3)}=-\frac{\hbar^2}{2m}\nabla^2+V(\hat{r}, t)$$
 	where $\hat{r}$ is the radial distance operator. Now, consider the spatial inversion operator $\hat{i}:\vec{r}\to-\vec{r}$. We see that the kinetic term is symmetric under inversion; and since inversion preserves $|\vec{r}|$, a potential term only dependent on $\hat{r},t$ must be symmetric under inversion. Hence, $\hat{H}$ is symmetric under inversion.
 	
-	From this we see that if the Hamiltonian of a \textit{single particle} is symmetric under rotations, it is also symmetric under rotoinversions--hence the group of the Hamiltonian is not $SO(3)$ but $O(3)$. This is not in general true for Hamiltonians of mutliple particles, even if they're non-interacting.
+	From this we see that if the Hamiltonian of a \textit{single particle} is symmetric under rotations, it is also symmetric under rotoinversions--hence the group of the Hamiltonian is not $SO(3)$ but $O(3)$. This is not true in general for Hamiltonians of multiple particles, even if they're non-interacting.
 	
 	Now, consider the group $C_i=\{\hat{E},\hat{i}\}$, where $\hat{E}$ is the identity operator and $\hat{i}$ is spatial inversion. It is trivial to show that
 	$$O(3)=SO(3)\otimes C_i$$
@@ -120,7 +159,7 @@
 	$$\hat{i}\ket{p}=p\ket{p}$$
 	
 	This gives us the shape of $\mathcal{H}_{C_i}$, and we can now write down the basis vectors of $\mathcal{H}_{O(3)}$. $\mathcal{H}_{O(3)}$ is spanned by vectors labelled by $\ket{l,m,p}$, where
-	$$l=0, 1\dots; m=-l,-l+1\dots l-1,l; p=1\text{ or }-1$$
+	$$l=0, 1\dots;\quad m=-l,-l+1\dots l-1,l;\quad p=1\text{ or }-1$$
 	
 	Now, however, an issue arises: we have shown that $\mathcal{H}_{SO(3)}$ is homeomorphic to the space of wavefunctions on $S^2$. Hence $\mathcal{H}_{O(3)}$ \textit{cannot} be homeomorphic to this space, and is rather homeomorphic to a space of wavefunctions on $2S^2$, which represents \textit{two} disconnected unit spheres, one labelled by $p=1$ and the other by $p=-1$. Hence, the wavefunction of a general quantum state can be expressed as
 	$$\braket{\hat{\vec{\alpha}}}{\Psi}=\Psi_g(\theta,\phi)\ket{p=1}+\Psi_u(\theta,\phi)\ket{p=-1}$$
@@ -136,7 +175,7 @@
 	$$\hat{i}_{\mathcal{H}_{O(3)}}=\hat{E}_{\mathcal{H}_{SO(3)}}\otimes \hat{i}_{\mathcal{H}_{C_i}}$$
 	This justifies our formalism for basis wavefunctions.
 	
-	One might think it is contradictive to construct eigenfunctions which are odd spherical harmonics but have even inversion parity (or vice-versa). However, this doesn't actually affect the single-particle system at all, since as its spherically symmetric Hamiltonian can be expressed as a sum of a function of only the $\hat{L}$ operator and a purely radial function, then quantum states differing only in parity will always be degenerate, and all physical predictions stay the same. However, there will be consequences to the parity of Hamiltonian eigenstates when we consider multi-particle systems that, for example, only enjoy the symmetries of a subgroup of $O(3)$ (or $SU(2)\otimes C_i$, as shall be discussed later). There we will see a physical consequence to having a particle transforming according to an even angular momentum but to an odd inversion parity (or vice versa).
+	One might think it is contradictive to construct eigenfunctions which are odd spherical harmonics but have even inversion parity (or vice-versa). However, this doesn't actually affect the single-particle system at all, since as its spherically symmetric Hamiltonian can be expressed as a sum of a function of only the $\hat{L}$ operator and a purely radial function, then quantum states differing only in parity will always be degenerate, and all physical predictions stay the same. However, there will be consequences to the parity of Hamiltonian eigenstates when we consider multi-particle systems that, for example, only enjoy the symmetries of a subgroup of $O(3)$ (or $SU(2)\otimes C_i$, as shall be discussed later). There we will see a physical consequence to having a state transform according to an even angular momentum but to an odd inversion parity (or vice versa).
 	
 	\subsection{Spin states and the SU(2) group}
 	
@@ -145,7 +184,7 @@
 	\begin{center}
 	\begin{tabular}{c|c c c c c}
 	$\Gamma_0$ & & & $\ket{j=0, m=0}$ & &\\
-	$\Gamma_{1/2}$ & & $\ket{j=\frac{1}{3},m=-\frac{1}{2}}$ & & $\ket{j=\frac{1}{3},m=\frac{1}{2}}$ &\\
+	$\Gamma_{1/2}$ & & $\ket{j=\frac{1}{2},m=-\frac{1}{2}}$ & & $\ket{j=\frac{1}{2},m=\frac{1}{2}}$ &\\
 	$\Gamma_1$ & $\ket{j=1,m=-1}$ & & $\ket{j=1,m=0}$ & & $\ket{j=1,m=1}$\\
 	$\vdots$ & & & $\vdots$ & &
 	\end{tabular}
@@ -166,7 +205,9 @@
 	
 	\subsection{Determining parity of total angular momentum eigenstates in proper groups}
 	
-	Often, it is needed to reduce $J$-eigenstates into groups that enable improper rotations from supergroups that do not (most generally $SU(2)$). In that case, we can determine the parities of the eigenstates under symmetry elevation that enables improper rotations by considering their \textit{intrinsic} spatial parities directly from their wavefunctions, and subsequently carry out the symmetry breakage as needed using standard methods. For zero-spin quantum states, we know $j$ must be an integer, and a result analogous to $SO(3)$ follows:
+	As discussed in \ref{coupling_space}, coupling can yield all vectors from the full coupling Hilbert space. However, for a single particle, we have not proven that it can enjoy quantum states which do not belong to the Hilbert space equipped with its Hamiltonian. It is indeed an open question, but following intuition we assume that without coupling, only "standard" eigenstates can be reached. This assumption provides us with a tool--if we study a system of particles with coupling angular momenta, we can determine the inversion parity of each particle on its own, which gives us the parity of the coupled eigenstates of the interactive Hamiltonian. Here we outline how to find these \textit{intrinsic} parities for some special cases within the $SU(2)$ symmetry group.
+	
+	For zero-spin quantum states, we know $j$ must be an integer, and a result analogous to $SO(3)$ follows:
 	$$\hat{i}\ket{j,m}\eval_{s=0}=(-1)^j\ket{j,m}$$
 	For $1/2$-spin quantum states, we utilise the explicit wavefunction form as stated by Biedenham \cite[p. 283]{spinor_spherical_harmonics}:
 	$$\hat{i}\ket{j,m}\eval_{s=1/2}=
@@ -195,23 +236,12 @@
 	Suppose we couple eigenstates with total angular momenta $j,j'$ and parities $p,p'$. If we mandate there be eigenstates of $j''=|j-j'|, |j-j'|+1\dots j+j'-1, j+j'$ in the decomposition of $\Gamma_{j,p}\otimes\Gamma_{j',p'}$, then the reduction of this direct product into irreps of $SU(2)\otimes C_i$ is uniquely determined precisely by mandating that all the terms of the reduction sum have the same parity, which is necessary to make the equation hold for any general reduction:
 	$$\Gamma_{j,p}\otimes\Gamma_{j',p'}=\bigoplus_{j''=|j-j'|}^{j+j'}\Gamma_{j'',p\cdot p'}$$
 	
-	This is the necessarily the "true" formulation of the transformation law for angular momentum coupling when inversion commutes with the Hamiltonian.
+	This is necessarily the "true" formulation of the transformation law for angular momentum coupling when inversion commutes with the Hamiltonian.
 	
 	For simple Hamiltonians, this only constitutes a change of formalism. If the Hamiltonian doesn't contain the $\hat{i}$ operator, in simple cases it is reasonable to expect $\Gamma_{j,p=1}$ and $\Gamma_{j,p=-1}$ to be accidentally degenerate. Then, this parity change can hardly be detected unless specifically probed for. Whilst it may contain predictions for selection laws for complex transitions on e.g. atomic orbitals, there is a way to test whether this formalism is correct on a simpler case--that is, by breaking the aforementioned accidental degeneracy by applying only a subgroup of $SU(2)\otimes C_i$. One of such cases can be studied in excitonic transitions in quantum dots.
 	
-	\subsection{The relationship between the Hilbert space of the Hamiltonian and the minimal Hilbert space of its symmetry group}
 	
-	Studying a non-interacting spinless particle in a spherically symmetric potential, an interesting phenomenon emerges. The Hamiltonian $\hat{H}$ is an operator on some Hilbert space. This operator must be able to act on each eigenstate of the Hamiltonian, and we could consider the smallest Hilbert space which can contain $\hat{H}$ to be the one spanned by all of these eigenstates. For example, the single non-interacting spinless particle in a spherically symmetric potential has a Hamiltonian which can be written in terms of the angular momentum operator $\hat{L}$ and some radial part that is not of interest to us right now. Therefore the Hamiltonian can be emplyed as an operator on a Hilbert space spanned by angular momentum eigenstates $\ket{l,m}$, which coincides with the minimal Hilbert space of $SO(3)$. However, we have shown that the group of this Hamiltonian is $O(3)$, and thus its minimal Hilbert space is larger. The smallest Hilbert space $\hat{H}$ can act on is a subspace of the minimal Hilbert space of the symmetry group of $\hat{H}$!
-	
-	These two Hilbert spaces would coincide if $\hat{H}$ gained a term dependent on $\hat{i}$, which would break the "accidental" symmetry between irreps of $O(3)$ that only differ in parity. However, it is a profound result that even though $\hat{H}$ can be an operator acting on the minimal Hilbert space of $SO(3)$, its full symmetry group implies another set of eigenstates which become important when e.g. interaction terms that couple two particles' angular momenta is introduced.
-	
-	It is important to note that the minimal Hilbert space isn't always a superspace of the smallest Hilbert space the Hamiltonian needs to act on. This is because we specifically omit eigenstates in the minimal Hilbert space of the symmetry group if they form repeated bases of a single irrep. For the continuous groups treated in this article--$SO(3),O(3),SU(2),SU(2)\otimes C_i$, we find there are no repeated bases, in which case that ordering holds. However, in the general case, and typically for finite point groups, to construct the smallest Hilbert that contains all the possible eigenstates of the Hamiltonian, one needs to find the smallest Hilbert spaces of which
-	\begin{enumerate}
-	\item the smallest Hilbert space the operators in the Hamiltonian can be embedded in
-	\item the minimal Hilbert space of the group of the Hamiltonian
-	\end{enumerate}
-	are both subspaces.
-	\section{Predictive power of parity quantum number inclusion--quantum dots}
+	\section{Predictive power of parity quantum number inclusion--quantum dots}\label{accidental_breakage}
 	
 	\subsection{Description of the physical system}
 	Consider a semiconductor whose valence band corresponds to a $p$-orbital and whose conduction band corresponds to an $s$-orbital. An electron ($s=1/2$) excited to the conduction band would in $SU(2)\otimes C_i$ transform according to the $\Gamma_{1/2,1}$ irrep, in accordance with previous results. A corresponding electron hole ($s=1/2$) undergoes spin-orbit coupling which leaves it with two possible total angualar momenta, $j=1/2$ and $j=3/2$. The $j=1/2$ state corresponds to the split-off band which nas a lower maximum energy than the valence band populated by $j=3/2$ holes, hence we can disregard it in the experiment outlined below. The $j=3/2$ holes transform according to $\Gamma_{3/2,-1}$, once again in accordance to previous results.
@@ -257,6 +287,66 @@
 	By applying this to angular momentum and total angular momentum eigenstates, we find that they necessitate an addition of a third quantum number, the parity number $p$. Therefore to each state $l,m$ two Hamiltonian eigenstate correspond: $\ket{l,m,p=1}$ and $\ket{l,m,p=-1}$. The same principle holds for total angular momentum eigenstates labelled by $j,m$--the full labelling of the Hamiltonian eigenstates must be $\ket{j,m,p}$. This third quantum number is the eigenvalue of the spatial inversion operator $\hat{i}$. It is important to note that for $SO(3)$ the eigenstates $\ket{l,m}$ imply a parity which matches the parity of the quantum number $l$, however, we must admit eigenstates with the opposite parity as well. This seeming paradox is resolved by the fact that the Hilbert space spanned by these eigenstates can no longer by homeomorphically mapped onto the space of wavefunctions on the unit sphere, and thus a purely spatial representation of the eigenstates wouldn't be complete.
 	
 	These additional eigenstates become important when angular momentum coupling is considered, and they make predictions for transition selection rules for exciton complexes in crystals with finite symmetry point groups.
+	
+	\appendix
+	
+	\section{Appendix: The coupling of angular momenta}
+	
+	Here we prove that the coupling of the angular momenta of two particles preserves inversion symmetry.
+	
+	The Hamiltonian of a single particle in a spherically symmetric potential can be expressed as
+	$$\hat{H}=\frac{1}{2m\hat{r}^2}\hat{L^2}+\hat{H}_r$$
+	where $\hat{H}_r=V(\hat{r})$ is the radial dependence term and is of no interest to us, since $[\hat{r}, \hat{i}]=0$. Also, disregarding the radial dependence, we rewrite the factor in front of $\hat{L^2}$ as some constant $a$. We have shown that $[\hat{H}, \hat{i}]=0$, which means $[\hat{L^2},\hat{i}]=0$. However, we can do better than that.
+	
+	Considering the angular momentum vector operator:
+	$$\hat{\vec{L}}=\hat{\vec{r}}\times \hat{\vec{p}}$$
+	we can express the angular Hamiltonian like so:
+	$$\hat{H}_{\text{ang}}=a\hat{L^2}=a\hat{\vec{L}}\cdot\hat{\vec{L}}$$
+	We want to determine whether $\hat{\vec{L}}$ commutes with spatial inversions. To do this, we write out $\hat{\vec{p}}$ in spatial coordinates:
+	\begin{eqnarray*}
+	\hat{\vec{p}}&=&-i\hbar \nabla\\
+	\hat{\vec{L}}&=&-i\hbar \hat{\vec{r}}\times\nabla\\
+	\hat{L}_i&=&-i\hbar\epsilon_{ijk}\hat{r}_j\pdv{r_k}
+	\end{eqnarray*}
+	
+	Hence we recover:
+	\begin{eqnarray*}
+	[\hat{L}_i, \hat{i}]&=&-i\hbar\epsilon_{ijk}[\hat{r}_j\pdv{r_k}, \hat{i}]
+	\end{eqnarray*}
+	Acting with this on a spatial wavefunction we obtain
+	\begin{eqnarray*}
+	[\hat{L}_i, \hat{i}]f\left(\vec{r}\right)&=&-i\hbar\epsilon_{ijk}[\hat{r}_j\pdv{r_k}, \hat{i}]f\left(\vec{r}\right)\\
+	&=&-i\hbar\epsilon_{ijk}\left(\hat{r}_j\pdv{r_k}\hat{i}f\left(\vec{r}\right)-\hat{i}\hat{r}_j\pdv{r_k}f\left(\vec{r}\right)\right)\\
+	&=&-i\hbar\epsilon_{ijk}\left(\hat{r}_j\pdv{r_k}f\left(-\vec{r}\right)-\left(-\hat{r}_j\right)\pdv{r_k}f\left(\vec{r}\right)\right)\\
+	&=&-i\hbar\epsilon_{ijk}\left(\hat{r}_j\pdv{(-r_k)}{r_k}\pdv{(-r_k)}f\left(-\vec{r}\right)-\left(-\hat{r}_j\right)\pdv{r_k}f\left(\vec{r}\right)\right)\\
+	&=&-i\hbar\epsilon_{ijk}\left(\hat{r}_j(-1)\pdv{r_k}f\left(\vec{r}\right)-\left(-\hat{r}_j\right)\pdv{r_k}f\left(\vec{r}\right)\right)\\
+	&=&-i\hbar\epsilon_{ijk}\left(-\hat{r}_j\pdv{r_k}f\left(\vec{r}\right)+\hat{r}_j\pdv{r_k}f\left(\vec{r}\right)\right)\\
+	&=&0
+	\end{eqnarray*}
+	Therefore
+	$$[\hat{\vec{L}},\hat{i}]=0$$
+	This is a strong result we can use when considering the interaction term that couples the angular momenta of two particles.
+	
+	For charged particles, the coupling is caused by the interaction between their magnetic moments, which emerge from their angular momenta. The corresponding interaction term between two particles is equal to
+	$$\hat{H}^{\text{int}}=\xi(\hat{r})\hat{\vec{L}}_1\cdot\hat{\vec{L}}_2$$
+	We once again discard the radial dependence to write down the angular part of the full Hamiltonian for two particles:
+	$$\hat{H}_{\text{ang}}=a\hat{L^2}_1+a\hat{L^2}_2+b\hat{\vec{L}}_1\cdot\hat{\vec{L}}_2$$
+	Writing this out, we can rearrange:
+	\begin{eqnarray*}
+	\hat{H}_{\text{ang}}&=&\hat{\vec{L}}_1\cdot\hat{\vec{L}}_1+\hat{\vec{L}}_2\cdot\hat{\vec{L}}_2+k\hat{\vec{L}}_1\cdot\hat{\vec{L}}_2\\
+	&=&\left(\hat{\vec{L}}_1+\hat{\vec{L}}_2\right)\cdot\left(\hat{\vec{L}}_1+\hat{\vec{L}}_2\right)+(k-2)\hat{\vec{L}}_1\cdot\hat{\vec{L}}_2
+	\end{eqnarray*}
+	where $k=b/a$. We see that the dependence on $\hat{L^2}_1,\hat{L^2}_2$ can be rewritten as a dependence on a single operator, which we can define like so:
+	\begin{eqnarray*}
+	\hat{\vec{L}}_T&=&\hat{\vec{L}}_1+\hat{\vec{L}}_2\\
+	\hat{L^2}_T&=&\left(\hat{\vec{L}}_1+\hat{\vec{L}}_2\right)\cdot\left(\hat{\vec{L}}_1+\hat{\vec{L}}_2\right)
+	\end{eqnarray*}
+	Since this operator is a function of the six angular momentum component operators of the two particles which all commute with $\hat{i}$, this operator also commutes with $\hat{i}$. Therefore, $[\hat{H},\hat{i}]=0$.
+	
+	We can rewrite the Hamiltonian further still:
+	$$\hat{H}_{\text{ang}}=\frac{k}{2}\hat{L^2}_T+\left(1-\frac{k}{2}\right)\left(\hat{L^2}_1+\hat{L^2}_2\right)$$
+	
+	For a given pair of $l_1, l_2$ quantum numbers, the only free operator in this Hamiltonian is $\hat{L^2}_T$, from which the labelling of the Hamiltonian eigenstates by $\ket{l_T, m_T}$ directly follows. The usual constraint $l_T=|l_1-l_2|, |l_1-l_2|+1\dots l_1+l_2$ follows directly from the definition of $\hat{\vec{L}}_T$. Thus the Hilbert space spanned by the eigenstates of the angular momenta coupling Hamiltonian is equal to the Hilbert space spanned by the eigenstates of a single particles.
 	
 \begin{thebibliography}{10}
 
