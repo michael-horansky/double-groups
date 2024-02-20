@@ -11,6 +11,8 @@ C3v.generate_double_group({"E" : E, "Cz_3" : ImproperRotation([0.0, 0.0, 1.0], [
 C3v.print_character_table()
 C3v.classify_excitons(max_e = 3, max_h = 2)
 C3v.print_exciton_complexes()
+C3v.find_transition_chain()
+print(C3v.transition_chain)
 
 D3h = QDGroup("D3h QD")
 D3h.generate_double_group({"E" : E, "Cz_3" : ImproperRotation([0.0, 0.0, 1.0], [1, 3], False), "m" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], True), "m'" : ImproperRotation([0.0, 0.0, 1.0], [1, 2], True)})
@@ -71,3 +73,6 @@ basically not having that rotoinversion creates a degeneracy, as |1/2, +-1/2> an
 
 
 """
+
+D3h.output_tikz("\\draw[gray, thick] (-1,2) -- (2,-4);\n\\draw[gray, thick] (-1,-1) -- (2,2);\n\\filldraw[black] (0,0) circle (2pt) node[anchor=west]{Intersection point};", "test", True)
+

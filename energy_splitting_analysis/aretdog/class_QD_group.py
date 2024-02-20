@@ -13,6 +13,8 @@
 # ---------------------------------------------------------
 
 
+from tikz import *
+import os
 from .class_group import *
 
 
@@ -211,7 +213,22 @@ class QDGroup(Group):
                                 self.transition_chain[exciton_label].append(target_label)
                             else:
                                 print(f"ERROR! Encountered a possible exciton recombination ({exciton_label}, {i_e}, {i_h}) that isn't classified under excitons!")
+    
+    # ---------------------------------------------------
+    # --------------- OOUTPUT METHODS -------------------
+    # ---------------------------------------------------
+    
+    def output_tikz(self, tikz_string, filename, add_syntax_wrapping = True):
+        # prints a tikz string into a file.
         
+        os.makedirs("aretdog_outputs", exist_ok=True)
+        output_file = open("aretdog_outputs/" + filename + ".tex", "w")
+        if add_syntax_wrapping:
+            output_file.write("\\documentclass{article}\n\\usepackage{tikz}\n\\begin{document}\n\\begin{tikzpicture}\n")
+        output_file.write(tikz_string)
+        if add_syntax_wrapping:
+            output_file.write("\n\\end{tikzpicture}\n\\end{document}")
+        output_file.close()
         
     
         
