@@ -13,9 +13,31 @@
 # ---------------------------------------------------------
 
 
-from tikz import *
+import tikz
 import os
 from .class_group import *
+
+# hardcoded solutions yay!!!
+tex_readable_irrep_labels = {"D3h QD" : {
+        "A_1" : "A_1'",
+        "A_2" : "A_2''",
+        "A_3" : "A_1''",
+        "A_4" : "A_2'",
+        "E_1" : "E''",
+        "E_2" : "E'",
+        "E_1(j=3/2)" : "E_{3/2}",
+        "E_2(j=1/2)" : "E_{1/2}",
+        "E_3(j=5/2)" : "E_{5/2}"
+    }, "C3v QD" : {
+        "A_1" : "A_1",
+        "A_2" : "A_2",
+        "E_1" : "E",
+        "E_1(j=1/2)" : "E_{1/2}",
+        "1E(j=3/2)" : "{}^1E_{3/2}",
+        "2E(j=3/2)" : "{}^2E_{3/2}"
+    }}
+
+tikz_line_thickness = ["very thin", "thick", "ultra thick"]
 
 
 class QDGroup(Group):
@@ -218,17 +240,124 @@ class QDGroup(Group):
     # --------------- OOUTPUT METHODS -------------------
     # ---------------------------------------------------
     
+    def tex_readable_exciton_labels(self, x_label):
+        #return(x_label)
+        if x_label == "vacuum":
+            return("vac.")
+        # check if only one type of fermion
+        elif not "X" in x_label:
+            # we just place underscores after them shits, removing unnecessary ones
+            new_label = x_label.split("e")
+            for i in range(len(new_label)-1):
+                if new_label[i][-1] == "1":
+                    new_label[i] = new_label[i][:-1]
+            new_label = "e_".join(new_label)
+            new_label = new_label.split("h")
+            for i in range(len(new_label)-1):
+                if new_label[i][-1] == "1":
+                    new_label[i] = new_label[i][:-1]
+            new_label = "h_".join(new_label)
+            return(new_label)
+        else:
+            #exciton
+            # we assume 1 electron, two holes
+            cur_occupancies = self.exciton_occupancies[x_label]
+            electron_number = cur_occupancies[0][0]
+            hole_number = cur_occupancies[1][0]+cur_occupancies[1][1]
+            total_charge = hole_number - electron_number
+            
+            if total_charge == 0:
+                charge_label = ""
+            elif total_charge == 1:
+                charge_label = "+"
+            elif total_charge == -1:
+                charge_label = "-"
+            elif total_charge > 1:
+                charge_label = f"{total_charge}+"
+            elif total_charge < -1:
+                charge_label = f"{-total_charge}-"
+            
+            if min(electron_number, hole_number) > 1:
+                label_prefix = f"{min(electron_number, hole_number)}"
+            else:
+                label_prefix = ""
+            
+            new_label = f"{label_prefix}X_{{{cur_occupancies[1][0]},{cur_occupancies[1][1]}}}"
+            if charge_label != "":
+                new_label += "^{charge_label}"
+            return(new_label)
+
+    
     def output_tikz(self, tikz_string, filename, add_syntax_wrapping = True):
         # prints a tikz string into a file.
         
         os.makedirs("aretdog_outputs", exist_ok=True)
         output_file = open("aretdog_outputs/" + filename + ".tex", "w")
         if add_syntax_wrapping:
-            output_file.write("\\documentclass{article}\n\\usepackage{tikz}\n\\begin{document}\n\\begin{tikzpicture}\n")
+            output_file.write("\\documentclass{article}\n\\usepackage{tikz}\n\\begin{document}\n")
         output_file.write(tikz_string)
         if add_syntax_wrapping:
-            output_file.write("\n\\end{tikzpicture}\n\\end{document}")
+            output_file.write("\n\\end{document}")
         output_file.close()
+    
+    def tikz_exciton_splitting(self, exciton_complex, tikz_picture, position = (0, 0), scale = 1.0, orientation = 'h'):
+        # This method draws an energy splitting scheme of a excitonic complex (by label) into tikz_picture, an instance of pytikz Picture()
+        
+        exciton_rep = self.excitons[exciton_complex]
+        exciton_rep_reduction = self.separate_constituent_representations(exciton_rep, True)
+        
+        line_length = 2
+        line_separation = 0.5
+        line_label_distance = 0#16 #in pt
+        line_label_diagonal = 0#16# in pt
+        line_label_periodicity = 2
+        exciton_label_distance = 15#in pt
+        
+        if orientation in ['h', 'horizontal', 'x']:
+            start_x, start_y = position
+            cur_x, cur_y = position
+            line_index = 0
+            for label, rep in exciton_rep_reduction.items():
+                proper_label = label[:label.find("[")]
+                #print(proper_label)
+                if rep.characters["E"] == 1:
+                    tikz_picture.draw((cur_x, cur_y), tikz.lineto((cur_x, cur_y+line_length * scale)), tikz.node(f"${tex_readable_irrep_labels[self.name][proper_label]}$", above=f'{line_label_distance-line_label_diagonal*line_index}pt', fill='white', pos=1.0), thick = True)
+                elif rep.characters["E"] == 2:
+                    tikz_picture.draw((cur_x, cur_y), tikz.lineto((cur_x, cur_y+line_length * scale)), tikz.node(f"${tex_readable_irrep_labels[self.name][proper_label]}$", above=f'{line_label_distance-line_label_diagonal*line_index}pt', fill='white', pos=1.0), ultra_thick = True)
+                cur_x += line_separation * scale
+                line_index = (line_index + 1) % line_label_periodicity
+            cur_x -= line_separation * scale
+            tikz_picture.path((start_x, start_y+line_length * scale), tikz.lineto((cur_x, start_y+line_length * scale)), tikz.node(f"${self.tex_readable_exciton_labels(exciton_complex)}$", above=f'{exciton_label_distance}pt', fill='white', pos=0.5, scale=2))
+    
+    def tikz_decay_diagram_print(self, exciton_complex):
+        
+        decay_diagram_pic = tikz.Picture(scale=1)
+        
+        complex_distance = 6 #distance from A to B in A->B
+        complex_separation = 4 #perpendicular distance between alternative complexes
+        
+        encompassed_complexes = [[exciton_complex]] #[index in diagram:[complex 1, complex 2, ...]]
+        is_this_the_end = False
+        while(not is_this_the_end):
+            is_this_the_end = True
+            new_encompassed_complexes = []
+            for X in encompassed_complexes[-1]:
+                if len(self.transition_chain[X]) > 0:
+                    is_this_the_end = False
+                    for new_X in self.transition_chain[X]:
+                        if not new_X in new_encompassed_complexes:
+                            new_encompassed_complexes.append(new_X)
+            encompassed_complexes.append(new_encompassed_complexes)
+        
+        for i in range(len(encompassed_complexes)):
+            N = len(encompassed_complexes[i])
+            for j in range(N):
+                self.tikz_exciton_splitting(encompassed_complexes[i][j], decay_diagram_pic, (i * complex_distance, (j-N/2.0) * complex_separation),scale=1.0, orientation='h')
+        
+        self.output_tikz(decay_diagram_pic.code(), "decay_diagram_in_" + self.name)
+                
+            
+            
         
     
         

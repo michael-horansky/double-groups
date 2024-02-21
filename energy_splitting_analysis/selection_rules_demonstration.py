@@ -75,4 +75,5 @@ basically not having that rotoinversion creates a degeneracy, as |1/2, +-1/2> an
 """
 
 D3h.output_tikz("\\draw[gray, thick] (-1,2) -- (2,-4);\n\\draw[gray, thick] (-1,-1) -- (2,2);\n\\filldraw[black] (0,0) circle (2pt) node[anchor=west]{Intersection point};", "test", True)
-
+D3h.tikz_decay_diagram_print("2X[2][1,1]")
+#D3h.tikz_decay_diagram_print("1h1+1h2")
