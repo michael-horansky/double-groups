@@ -284,7 +284,7 @@ class QDGroup(Group):
             
             new_label = f"{label_prefix}X_{{{cur_occupancies[1][0]},{cur_occupancies[1][1]}}}"
             if charge_label != "":
-                new_label += "^{charge_label}"
+                new_label += f"^{charge_label}"
             return(new_label)
 
     
@@ -300,18 +300,13 @@ class QDGroup(Group):
             output_file.write("\n\\end{document}")
         output_file.close()
     
-    def tikz_exciton_splitting(self, exciton_complex, tikz_picture, position = (0, 0), scale = 1.0, orientation = 'h'):
+    def tikz_exciton_splitting(self, tikz_picture, exciton_complex, position = (0, 0), scale = 1.0, orientation = 'h',
+            line_length = 2, line_separation = 0.5, line_label_distance = 0, line_label_diagonal = 0, line_label_periodicity = 2, exciton_label_distance = 15
+            ):
         # This method draws an energy splitting scheme of a excitonic complex (by label) into tikz_picture, an instance of pytikz Picture()
         
         exciton_rep = self.excitons[exciton_complex]
         exciton_rep_reduction = self.separate_constituent_representations(exciton_rep, True)
-        
-        line_length = 2
-        line_separation = 0.5
-        line_label_distance = 0#16 #in pt
-        line_label_diagonal = 0#16# in pt
-        line_label_periodicity = 2
-        exciton_label_distance = 15#in pt
         
         if orientation in ['h', 'horizontal', 'x']:
             start_x, start_y = position
@@ -328,31 +323,176 @@ class QDGroup(Group):
                 line_index = (line_index + 1) % line_label_periodicity
             cur_x -= line_separation * scale
             tikz_picture.path((start_x, start_y+line_length * scale), tikz.lineto((cur_x, start_y+line_length * scale)), tikz.node(f"${self.tex_readable_exciton_labels(exciton_complex)}$", above=f'{exciton_label_distance}pt', fill='white', pos=0.5, scale=2))
+        return((cur_x, start_y+line_length * scale))
     
-    def tikz_decay_diagram_print(self, exciton_complex):
+    def tikz_allowed_transitions(self, tikz_picture, i_X, t_X, i_pos, t_pos, i_max, i_ind, t_max, t_ind, margin=5, spacing = 10, orientation='h'):
+        # | [margin] - [box] - [spacing] - [box] - [spacing] - [box] - [margin] |
+        # margin and spacing are in percent of box dimension
+        
+        i_total_length = i_pos[3] - i_pos[1]
+        t_total_length = t_pos[3] - t_pos[1]
+        
+        # b=T/(2*m/100+N+(N-1)*s)
+        
+        i_box_length = i_total_length / (2.0 * margin / 100.0 + i_max + (i_max - 1) * spacing / 100.0)
+        t_box_length = t_total_length / (2.0 * margin / 100.0 + t_max + (t_max - 1) * spacing / 100.0)
+        
+        i_offset_length = i_box_length * (margin / 100.0 + i_ind * (1.0 + spacing / 100.0))
+        t_offset_length = t_box_length * (margin / 100.0 + t_ind * (1.0 + spacing / 100.0))
+        
+        i_box_pos = [i_pos[0], i_pos[1] + i_offset_length, i_pos[2], i_pos[1] + i_offset_length + i_box_length]
+        t_box_pos = [t_pos[0], t_pos[1] + t_offset_length, t_pos[2], t_pos[1] + t_offset_length + t_box_length]
+        
+        
+        # now - because we want all lines parallel, the larger box_length gets limited by the smaller one
+        
+        if i_box_length > t_box_length:
+            i_change = (i_box_length - t_box_length) / 2.0
+            i_box_pos[1] += i_change
+            i_box_pos[3] -= i_change
+            box_length = t_box_length
+        elif i_box_length < t_box_length:
+            t_change = (t_box_length - i_box_length) / 2.0
+            t_box_pos[1] += t_change
+            t_box_pos[3] -= t_change
+            box_length = i_box_length
+        else:
+            box_length = i_box_length
+        
+        #delicious
+        i_X_rep = self.excitons[i_X]
+        i_X_rep_reduction = self.separate_constituent_representations(i_X_rep, True)
+        i_X_irreps = list(i_X_rep_reduction.keys())
+        t_X_rep = self.excitons[t_X]
+        t_X_rep_reduction = self.separate_constituent_representations(t_X_rep, True)
+        t_X_irreps = list(t_X_rep_reduction.keys())
+        
+        i_E_lvl_N = len(i_X_irreps)
+        if i_E_lvl_N > 1:
+            i_E_lvl_spacing = (i_pos[2] - i_pos[0]) / (i_E_lvl_N - 1)
+        else:
+            i_E_lvl_spacing = 0.0
+        t_E_lvl_N = len(t_X_irreps)
+        if t_E_lvl_N > 1:
+            t_E_lvl_spacing = (t_pos[2] - t_pos[0]) / (t_E_lvl_N - 1)
+        else:
+            t_E_lvl_spacing = 0.0
+        
+        allowed_transitions = self.allowed_transitions_between_reps(i_X_rep, t_X_rep)
+        N_transitions = 0
+        for polaris, trans in allowed_transitions.items():
+            N_transitions += len(trans[0])
+        if N_transitions == 0:
+            return(0)
+        i_mainline_y = np.linspace(i_box_pos[1], i_box_pos[3], N_transitions)
+        t_mainline_y = np.linspace(t_box_pos[1], t_box_pos[3], N_transitions)
+        if N_transitions == 1:
+            i_mainline_y = np.array([(i_box_pos[3]+i_box_pos[1])/2.0])
+            t_mainline_y = np.array([(t_box_pos[3]+t_box_pos[1])/2.0])
+        i_mainline_x = (i_box_pos[2]+i_box_pos[0]) / 2.0
+        t_mainline_x = (t_box_pos[2]+t_box_pos[0]) / 2.0
+        trans_slope = (t_mainline_y[0] - i_mainline_y[0])/(t_mainline_x - i_mainline_x)
+        trans_ind = 0
+        for polarisation, transitions in allowed_transitions.items():
+            if polarisation == "(x,y)":
+                linestyle = "solid"
+            elif polarisation == "(z)":
+                linestyle = "dashed"
+            
+            for transition in transitions[0]:
+                #print(transition, transitions)
+                X_labels = transition.split(" -> ")
+                i_E_lvl_ind = i_X_irreps.index(X_labels[0])
+                t_E_lvl_ind = t_X_irreps.index(X_labels[1])
+                
+                if i_E_lvl_N > 1:
+                    i_trans_pos_x = i_box_pos[0] + i_E_lvl_ind * i_E_lvl_spacing
+                else:
+                    i_trans_pos_x = i_mainline_x
+                i_trans_pos_y = i_mainline_y[trans_ind] + (i_trans_pos_x - i_mainline_x) * trans_slope
+                if t_E_lvl_N > 1:
+                    t_trans_pos_x = t_box_pos[0] + t_E_lvl_ind * t_E_lvl_spacing
+                else:
+                    t_trans_pos_x = t_mainline_x
+                t_trans_pos_y = t_mainline_y[trans_ind] + (t_trans_pos_x - t_mainline_x) * trans_slope
+                
+                tikz_picture.draw((i_trans_pos_x, i_trans_pos_y), tikz.lineto((t_trans_pos_x, t_trans_pos_y)), tikz.node(f"$\\nu_{trans_ind+1}$", fill='white', pos=0.5), thick = True, opt=linestyle + ",->")
+                
+                trans_ind += 1
+            
+    
+    def tikz_decay_diagram_print(self, exciton_complex,
+            line_length = 2, line_separation = 0.5, line_label_distance = 0, line_label_diagonal = 0, line_label_periodicity = 2, exciton_label_distance = 15):
         
         decay_diagram_pic = tikz.Picture(scale=1)
         
-        complex_distance = 6 #distance from A to B in A->B
-        complex_separation = 4 #perpendicular distance between alternative complexes
+        environment_width = 8
+        environment_height = 6
+        environment_pos = (0, 0)
+        environment_pos_x, environment_pos_y = environment_pos
+        base_line_length = 2
+        #complex_distance = 6 #distance from A to B in A->B
+        #complex_separation = 4 #perpendicular distance between alternative complexes
         
         encompassed_complexes = [[exciton_complex]] #[index in diagram:[complex 1, complex 2, ...]]
+        
+        number_of_transitions_in = [[0]] # same shape
+        number_of_transitions_in_taken = [[0]]
+        
+        max_complexes_in_row = 1
+        
         is_this_the_end = False
         while(not is_this_the_end):
             is_this_the_end = True
             new_encompassed_complexes = []
+            new_number_of_transitions_in = []
+            new_number_of_transitions_in_taken = []
             for X in encompassed_complexes[-1]:
-                if len(self.transition_chain[X]) > 0:
-                    is_this_the_end = False
-                    for new_X in self.transition_chain[X]:
-                        if not new_X in new_encompassed_complexes:
-                            new_encompassed_complexes.append(new_X)
-            encompassed_complexes.append(new_encompassed_complexes)
+                for new_X in self.transition_chain[X]:
+                    if not new_X in new_encompassed_complexes:
+                        new_encompassed_complexes.append(new_X)
+                        new_number_of_transitions_in.append(1)
+                        new_number_of_transitions_in_taken.append(0)
+                    else:
+                        new_number_of_transitions_in[new_encompassed_complexes.index(new_X)] += 1
+            if len(new_encompassed_complexes) > 0:
+                is_this_the_end = False
+                encompassed_complexes.append(new_encompassed_complexes)
+                number_of_transitions_in.append(new_number_of_transitions_in)
+                number_of_transitions_in_taken.append(new_number_of_transitions_in_taken)
+                if len(new_encompassed_complexes) > max_complexes_in_row:
+                    max_complexes_in_row = len(new_encompassed_complexes)
+        
+        complex_distance = environment_width / (len(number_of_transitions_in) - 1)
+        
+        position_of_complexes = []
         
         for i in range(len(encompassed_complexes)):
+            position_of_complexes.append([])
             N = len(encompassed_complexes[i])
+            cur_pos_x = environment_pos_x + i * complex_distance
+            
+            pos_y_list = np.linspace(environment_pos_y, environment_pos_y + environment_height, len(encompassed_complexes[i]))
+            if len(encompassed_complexes[i]) == 1:
+                pos_y_list = np.array([environment_pos_y / 2.0 + environment_height / 2.0])
+            
+            cur_line_length = base_line_length * max_complexes_in_row / len(encompassed_complexes[i])
             for j in range(N):
-                self.tikz_exciton_splitting(encompassed_complexes[i][j], decay_diagram_pic, (i * complex_distance, (j-N/2.0) * complex_separation),scale=1.0, orientation='h')
+                cur_pos_y = pos_y_list[j]-cur_line_length/2.0#(j-N/2.0) * complex_separation
+                final_pos_x, final_pos_y = self.tikz_exciton_splitting(decay_diagram_pic, encompassed_complexes[i][j], (cur_pos_x, cur_pos_y),scale=1.0, orientation='h', line_length = cur_line_length)
+                position_of_complexes[-1].append([cur_pos_x, cur_pos_y, final_pos_x, final_pos_y])
+        
+        # now we add the transition lines
+        for i in range(len(encompassed_complexes)-1):
+            for j in range(len(encompassed_complexes[i])):
+                cur_exciton_complex = encompassed_complexes[i][j]
+                number_of_transitions_out = len(self.transition_chain[cur_exciton_complex])
+                for k in range(number_of_transitions_out):
+                    target_exciton = self.transition_chain[cur_exciton_complex][k]
+                    target_exciton_list_index = encompassed_complexes[i+1].index(target_exciton)
+                    self.tikz_allowed_transitions(decay_diagram_pic, cur_exciton_complex, target_exciton, position_of_complexes[i][j], position_of_complexes[i+1][target_exciton_list_index], number_of_transitions_out, k, number_of_transitions_in[i+1][target_exciton_list_index], number_of_transitions_in_taken[i+1][target_exciton_list_index], margin=15, spacing = 20)
+                    number_of_transitions_in_taken[i+1][target_exciton_list_index] += 1
+                #for target_complex in self.transition_chain[encompassed_complexes[i][j]]
         
         self.output_tikz(decay_diagram_pic.code(), "decay_diagram_in_" + self.name)
                 

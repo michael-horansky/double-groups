@@ -1368,14 +1368,14 @@ class Group():
     
     
     
-    def allowed_transitions_between_reps(self, rep1, rep2):
+    def allowed_transitions_between_reps(self, rep1, rep2, clump_conjugate_irreps = True):
         # rep1 and rep2 can be reducible - we reduce them and then treat each component as a separate energy level
         # Returns {"polarisation" : [allowed transitions, dark transitions]}
         rep1_reduction, hr1 = self.reduce_representation(rep1)
         rep2_reduction, hr2 = self.reduce_representation(rep2)
         
-        energy_levels1 = self.separate_constituent_representations(rep1_reduction)
-        energy_levels2 = self.separate_constituent_representations(rep2_reduction)
+        energy_levels1 = self.separate_constituent_representations(rep1_reduction, clump_conjugate_irreps)
+        energy_levels2 = self.separate_constituent_representations(rep2_reduction, clump_conjugate_irreps)
         
         result = {}
         for interaction_irrep in self.cartesian_basis.keys():
