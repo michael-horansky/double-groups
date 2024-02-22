@@ -1263,7 +1263,7 @@ class Group():
             else:
                 id_coef += rep[i] * self.conjugacy_class_sizes[i]
         id_coef /= self.order
-        id_coef = np.floor(np.real(id_coef))
+        id_coef = np.round(np.real(id_coef))
         return(id_coef != 0.0)
     
     def separate_constituent_representations(self, set_of_irreps, clump_conjugate_irreps = True):

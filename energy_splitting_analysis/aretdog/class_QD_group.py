@@ -325,7 +325,7 @@ class QDGroup(Group):
             tikz_picture.path((start_x, start_y+line_length * scale), tikz.lineto((cur_x, start_y+line_length * scale)), tikz.node(f"${self.tex_readable_exciton_labels(exciton_complex)}$", above=f'{exciton_label_distance}pt', fill='white', pos=0.5, scale=2))
         return((cur_x, start_y+line_length * scale))
     
-    def tikz_allowed_transitions(self, tikz_picture, i_X, t_X, i_pos, t_pos, i_max, i_ind, t_max, t_ind, margin=5, spacing = 10, orientation='h'):
+    def tikz_allowed_transitions(self, tikz_picture, i_X, t_X, i_pos, t_pos, i_max, i_ind, t_max, t_ind, margin=5, spacing = 10, orientation='h', line_label_spacing = 0, line_label_periodicity = 1):
         # | [margin] - [box] - [spacing] - [box] - [spacing] - [box] - [margin] |
         # margin and spacing are in percent of box dimension
         
@@ -342,7 +342,6 @@ class QDGroup(Group):
         
         i_box_pos = [i_pos[0], i_pos[1] + i_offset_length, i_pos[2], i_pos[1] + i_offset_length + i_box_length]
         t_box_pos = [t_pos[0], t_pos[1] + t_offset_length, t_pos[2], t_pos[1] + t_offset_length + t_box_length]
-        
         
         # now - because we want all lines parallel, the larger box_length gets limited by the smaller one
         
@@ -393,6 +392,7 @@ class QDGroup(Group):
         t_mainline_x = (t_box_pos[2]+t_box_pos[0]) / 2.0
         trans_slope = (t_mainline_y[0] - i_mainline_y[0])/(t_mainline_x - i_mainline_x)
         trans_ind = 0
+        base_label_pos = 0.5 - line_label_spacing * (line_label_periodicity - 1) / 2
         for polarisation, transitions in allowed_transitions.items():
             if polarisation == "(x,y)":
                 linestyle = "solid"
@@ -416,7 +416,8 @@ class QDGroup(Group):
                     t_trans_pos_x = t_mainline_x
                 t_trans_pos_y = t_mainline_y[trans_ind] + (t_trans_pos_x - t_mainline_x) * trans_slope
                 
-                tikz_picture.draw((i_trans_pos_x, i_trans_pos_y), tikz.lineto((t_trans_pos_x, t_trans_pos_y)), tikz.node(f"$\\nu_{trans_ind+1}$", fill='white', pos=0.5), thick = True, opt=linestyle + ",->")
+                tikz_picture.draw((i_trans_pos_x, i_trans_pos_y), tikz.lineto((t_trans_pos_x, t_trans_pos_y)), thick = True, opt=linestyle + ",->")
+                tikz_picture.path((i_mainline_x, i_mainline_y[trans_ind]), tikz.lineto((t_mainline_x, t_mainline_y[trans_ind])), tikz.node(f"$\\nu_{trans_ind+1}$", fill='white', pos=base_label_pos + line_label_spacing * (trans_ind % line_label_periodicity)))
                 
                 trans_ind += 1
             
@@ -426,11 +427,11 @@ class QDGroup(Group):
         
         decay_diagram_pic = tikz.Picture(scale=1)
         
-        environment_width = 8
-        environment_height = 6
-        environment_pos = (0, 0)
+        environment_width = 14
+        environment_height = 12
+        environment_pos = (-5, 0)
         environment_pos_x, environment_pos_y = environment_pos
-        base_line_length = 2
+        base_line_length = 3.5
         #complex_distance = 6 #distance from A to B in A->B
         #complex_separation = 4 #perpendicular distance between alternative complexes
         
@@ -490,7 +491,7 @@ class QDGroup(Group):
                 for k in range(number_of_transitions_out):
                     target_exciton = self.transition_chain[cur_exciton_complex][k]
                     target_exciton_list_index = encompassed_complexes[i+1].index(target_exciton)
-                    self.tikz_allowed_transitions(decay_diagram_pic, cur_exciton_complex, target_exciton, position_of_complexes[i][j], position_of_complexes[i+1][target_exciton_list_index], number_of_transitions_out, k, number_of_transitions_in[i+1][target_exciton_list_index], number_of_transitions_in_taken[i+1][target_exciton_list_index], margin=15, spacing = 20)
+                    self.tikz_allowed_transitions(decay_diagram_pic, cur_exciton_complex, target_exciton, position_of_complexes[i][j], position_of_complexes[i+1][target_exciton_list_index], number_of_transitions_out, k, number_of_transitions_in[i+1][target_exciton_list_index], number_of_transitions_in_taken[i+1][target_exciton_list_index], margin=15, spacing = 20, line_label_spacing = 0.2, line_label_periodicity = 2)
                     number_of_transitions_in_taken[i+1][target_exciton_list_index] += 1
                 #for target_complex in self.transition_chain[encompassed_complexes[i][j]]
         
