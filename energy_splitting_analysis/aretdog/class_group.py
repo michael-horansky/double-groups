@@ -1312,21 +1312,32 @@ class Group():
         
         # representation is either a Representation, a list of matrices ordered the same way as self.group_elements or a dictionary with said group_elements as keys
         
-        reducible_rep = []
-        if type(representation) == dict:
-            for g in self.group_elements:
-                reducible_rep.append(representation[g])
-        else:
-            reducible_rep = representation.copy()
-        reducible_rep = np.array(reducible_rep)
+        # This method can take a full representation or a representation only on the conjugacy class representative names
         
-        D = reducible_rep.shape[1]
+        
+        reducible_rep = {}
+        if type(representation) == dict:
+            for cc in self.conjugacy_class_names:
+                reducible_rep[cc] = representation[self.group_elements[self.indices_of_representative_elements[cc]]]
+        elif type(representation) == Representation:
+            for cc in self.conjugacy_class_names:
+                reducible_rep[cc] = representation.characters[cc]
+        else:
+            for cc in self.conjugacy_class_names:
+                reducible_rep[cc] = representation[self.indices_of_representative_elements[cc]]
+            #reducible_rep = copy.deepcopy(representation)#.copy()
+        #reducible_rep = np.array(reducible_rep)
+        
+        D = len(reducible_rep["E"])#reducible_rep.shape[1]
         
         conjugate_class_characters = {}
         for cc in self.conjugacy_class_names:
-            conjugate_class_characters[cc] = np.trace(reducible_rep[self.indices_of_representative_elements[cc]])
+            conjugate_class_characters[cc] = np.trace(reducible_rep[cc])
         
-        constituent_reps = list(self.separate_constituent_representations(Representation(self, conjugate_class_characters), clump_conjugate_irreps).values())
+        constituent_irreps = list(self.separate_constituent_representations(Representation(self, conjugate_class_characters), clump_conjugate_irreps).values())
+        constituent_irrep_names = []
+        for i in range(len(constituent_irreps)):
+            constituent_irrep_names.append(self.reduce_representation(constituent_irreps[i])[1])
         
         unclassified_basis_indices = []
         for i in range(D):
@@ -1334,8 +1345,8 @@ class Group():
         
         resulting_irrep_basis = [] # [[Representation, [i1, i2, i3...]], ...]
         
-        for i in range(len(constituent_reps)):
-            cur_dim = int(np.real(constituent_reps[i].characters[self.example_properness_conjugacy_class_pair[0]]))
+        for i in range(len(constituent_irreps)):
+            cur_dim = int(np.real(constituent_irreps[i].characters[self.example_properness_conjugacy_class_pair[0]]))
             possible_basis_indices_i = index_sublists(len(unclassified_basis_indices), cur_dim)
             basis_indices_sublist_found = False
             for j in range(len(possible_basis_indices_i)):
@@ -1347,8 +1358,8 @@ class Group():
                 for cc in self.conjugacy_class_names:
                     cur_subtrace = 0.0
                     for b_i in possible_basis_indices:
-                        cur_subtrace += reducible_rep[self.indices_of_representative_elements[cc]][b_i][b_i]
-                    if np.round(cur_subtrace, decimals = 5) != np.round(constituent_reps[i].characters[cc]):
+                        cur_subtrace += reducible_rep[cc][b_i][b_i]
+                    if np.round(cur_subtrace, decimals = 5) != np.round(constituent_irreps[i].characters[cc]):
                         is_basis_indices_subset_correct = False
                         break
                 if is_basis_indices_subset_correct:
@@ -1356,15 +1367,17 @@ class Group():
                     break
             if not basis_indices_sublist_found:
                 # whut?
-                print(f"ERROR: subtrace index sublist not found for rep {self.reduce_representation(constituent_reps[i])[1]}")
+                print(f"ERROR: subtrace index sublist not found for rep {self.reduce_representation(constituent_irreps[i])[1]}")
                 return(-1)
             else:
-                resulting_irrep_basis.append([constituent_reps[i], possible_basis_indices])
+                resulting_irrep_basis.append([constituent_irrep_names[i], constituent_irreps[i], possible_basis_indices])
                 # We delete the used basis indices
                 possible_basis_indices_i[j].reverse()
                 for used_basis_index in possible_basis_indices_i[j]:
                     del unclassified_basis_indices[used_basis_index]
         return(resulting_irrep_basis)
+        # returns [[irrep name, irrep characters, [index1, index2, ...]], [irrep name, irrep characters, [index1,...]], ...]
+        # NOTE that if clump_complex_conjugate==True, then irrep_name will not be an actual irrep name, hence we need the characters as a definitive descriptor
     
     
     
@@ -1426,7 +1439,7 @@ class Group():
     def rep_to_subgroup_rep(self, subgroup_name, representation):
         
         # subgroup_name is the name of an initialized subgroup
-        # representation is an instance of the Representation class
+        # representation is an instance of the Representation classC6v.rep_to_subgroup_rep("C3v QD", C6v.irreps["E_2(j=5/2)"])
         # REQUIREMENTS: subgroup relations
         new_rep = {}
         if type(representation) == Representation:
@@ -1436,14 +1449,42 @@ class Group():
             for sub_cc in self.subgroup_conjugacy_relations[subgroup_name][1].keys():
                 new_rep[sub_cc] = representation[self.subgroup_conjugacy_relations[subgroup_name][1][sub_cc]]
         else:
-            # a list over conjugacy classes
-            for sub_cc in self.subgroup_conjugacy_relations[subgroup_name][1].keys():
-                cc = self.subgroup_conjugacy_relations[subgroup_name][1][sub_cc]
-                i = self.conjugacy_class_names.index(cc)
-                new_rep[sub_cc] = representation[i]
+            # a list over conjugacy classes OR elements - first we determine which
+            if len(representation) == len(self.conjugacy_classes):
+                for sub_cc in self.subgroup_conjugacy_relations[subgroup_name][1].keys():
+                    cc = self.subgroup_conjugacy_relations[subgroup_name][1][sub_cc]
+                    i = self.conjugacy_class_names.index(cc)
+                    new_rep[sub_cc] = representation[i]
+            elif len(representation) == len(self.group_elements):
+                for sub_cc in self.subgroup_conjugacy_relations[subgroup_name][1].keys():
+                    cc = self.subgroup_conjugacy_relations[subgroup_name][1][sub_cc]
+                    #i = self.conjugacy_class_names.index(cc)
+                    new_rep[sub_cc] = representation[self.indices_of_representative_elements[cc]]
+            else:
+                print("ERROR: Either a list of the wrong length or a wrong type was passed to rep_to_subgroup_rep")
+                return(-1)
         return(Representation(self.subgroup_conjugacy_relations[subgroup_name][0], new_rep))
         
-
+    
+    def basis_surjection_to_subgroup(self, subgroup_name, clump_conjugate_irreps=True):
+        # This is the most beautiful one. We decompose each irrep into irreps in a subgroup
+        # and track the basis vector indices. Hence each basis vector here maps onto a specific basis vector in the subgroup
+        
+        # We shall label each basis vector with a string "irrep name;{index}", index = 1... D
+        
+        # The output is a dictionary {"basis label" : "subgroup basis label"}
+        
+        result = {}
+        
+        for irr_n in self.irrep_names: #TODO clump conjugate irreps here as well!!!!!
+            subgroup_rep = self.rep_to_subgroup_rep(subgroup_name, self.irreps[irr_n])
+            subgroup_rep_reduction = self.subgroup_element_relations[subgroup_name][0].reduce_representation_and_divide_basis(subgroup_rep, clump_conjugate_irreps)
+            for subgroup_irrep_desc in subgroup_rep_reduction:
+                for i in range(len(subgroup_irrep_desc[2])):
+                    result[str(irr_n) + ";" + str(subgroup_irrep_desc[2][i]+1)] = str(subgroup_irrep_desc[0]) + ";" + str(i+1)
+        return(result)
+            
+    
 
 # ------------------- Group generation methods ---------------------------
                 

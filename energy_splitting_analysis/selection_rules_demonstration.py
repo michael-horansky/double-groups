@@ -74,10 +74,11 @@ basically not having that rotoinversion creates a degeneracy, as |1/2, +-1/2> an
 
 """
 
-D3h.output_tikz("\\draw[gray, thick] (-1,2) -- (2,-4);\n\\draw[gray, thick] (-1,-1) -- (2,2);\n\\filldraw[black] (0,0) circle (2pt) node[anchor=west]{Intersection point};", "test", True)
-D3h.tikz_decay_diagram_print("4X[4][2,2]")
+#D3h.output_tikz("\\draw[gray, thick] (-1,2) -- (2,-4);\n\\draw[gray, thick] (-1,-1) -- (2,2);\n\\filldraw[black] (0,0) circle (2pt) node[anchor=west]{Intersection point};", "test", True)
+C3v.tikz_decay_diagram_print("2X[2][2,1]")
 #D3h.tikz_decay_diagram_print("2X[3][1,1]")
 
+"""
 print("---------------------- debug ---------------------")
 
 d3h_e5 = D3h.irrep_characters["E_3(j=5/2)"]
@@ -96,4 +97,4 @@ print("id coef =", id_coef)
 
 lol = D3h.allowed_transitions_between_reps(d3h_e5, d3h_e1)
 for polaris, trans in lol.items():
-    print(f"  {polaris}-polar.: {'; '.join(trans[0])}")
+    print(f"  {polaris}-polar.: {'; '.join(trans[0])}")"""
