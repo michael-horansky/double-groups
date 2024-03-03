@@ -22,15 +22,48 @@
 	We shall first outline a general approach to describing a non-specific minimally symmetry-broken Hamiltonian, and then argue for why the assumptions made are justified in the case of InGaAs QDs. 
 	\subsection{Symmetry breaking as basis vector surjection}
 	
-	$\ket{E_{1/2};2}$
-	
 	picture here
 	\subsection{Domain alteration and perturbation theory}
+	Suppose now we have a system described by a Hamiltonian $\hat{H}$ equipped with a group of symmetries $G$. Let us construct a Hamiltonian $\hat{H}_+$ which is equipped with a group of symmetries $G_+$ such that $G<G_+$ and $\hat{H}$ can be modelled as a perturbation of $\hat{H}_+$ like so:
+	$$\hat{H}=\hat{H}_+ + \lambda \hat{H}',\qq{where}\lambda\ll 1, \mel{E_i;n}{\hat{H}'}{E_i;n}\sim E_i$$
+	Let us denote the eigenstates of the Hamiltonians $\hat{H},\hat{H}_+$ as $\ket{E_i;n}$ and $\ket{E^+_{i'};n'}$ respectively, where $n, n'$ are the degeneracy labels. Disregarding accidental degeneracy, we know that every set of degenerate energy levels forms a basis of (i.e. transforms according to) an irrep of the respective symmetry group:
+	$$\mqty(\ket{E_i;1}\\\ket{E_i;2}\\\vdots\\\ket{E_i;d_i})\mbox{ forms a basis to }\Gamma^{(G)}_{r(i)}; \mqty(\ket{E^+_{i'};1}\\\ket{E^+_{i'};2}\\\vdots\\\ket{E^+_{i'};d^+_{i'}})\mbox{ forms a basis to }\Gamma^{\left(G_+\right)}_{r^+(i')}$$
+	where $d_i, d^+_{i'}$ specify the total edegeneracies of the energy levels and $r,r^+$ are some surjective functions.
+	We know (TODO cite this) that under a perturbation of a set of degenerate eigenstates, the distance of the new states from the subspace $\mathcal{D}^+$ spanned by the degenerate eigenstates goes like $O(n)$. Therefore, if $\ket{E_i;n}$ arises from perturbing a degenerate subspace of energy $E^+_j$, there exists an unnormalized vector $\ket{E^+_j;P}\in\mathcal{D}^+_j$ for which
+	\begin{eqnarray*}
+	\braket{E_i;n}{E^+_j;P}&=&1-O(\lambda)\\
+	\qq{where} \braket{E^+_j;P}{E_i;n}&=&\braket{E^+_j;P'}{E_i;n}\forall \ket{E^+_j;P'}\in\mathcal{D}^+
+	\end{eqnarray*}
+	We can construct this state by projecting the perturbed eigenstate onto the original degenerate subspace:
+	\begin{eqnarray*}
+	\hat{P}^+_j&=&\sum_{m=1}^{d^+_j}\dyad{E^+_j;m}{E^+_j;m}\\
+	\ket{E^+_j;P}&=&\hat{P}^+_j\ket{E_i;n}=\sum_{m=1}^{d^+_j}\ket{E^+_j;m}\braket{E^+_j;m}{E_i;n}
+	\end{eqnarray*}
+	The projection can be calculated directly for any choice of basis of $\mathcal{D}^+$, but we can simplify the calculation. Because $\braket{E_i;n}{E^+_j;P}\approx 1$, we expect both of these states to transform according to $\Gamma^{(G)}_{r(i)}$ under rotations in $G$. In general, the perturbation might reduce the degeneracy of $\mathcal{D}^+$ and render $d_i<d^+_j$ (even though it is also possible to have $d_i=d^+_j$, which is a special case). Then we can identify the subset of basis vectors of $\mathcal{D}^+$ which transform according to 	$\Gamma^{(G)}_{r(i)}$ by reducing $\Gamma^{(G_+)}_{r^+(j)}$ into $G$ and considering the basis vector surjection, as described above. Then we can approximate $\braket{E^+_j;m}{E_i;n}\approx 0$ for $m$ which are not surjectively mapped onto $\Gamma^{(G)}_{r(i)}$.
 	
+	Now we can express a general eigenstate of $\hat{H}$ as a superposition of an eigenstate of $\hat{H}^+$ with a norm that goes like $1-O(\lambda)$ and a remainder. We normalize the components and introduce superposition coefficients:
+	$$\ket{E_i;n}=c_{ES}\ket{E^+_j;ES}+c_R\ket{R}$$
+	where the \textit{elevated symmetry component} is defined as
+	\begin{eqnarray*}
+	\ket{E^+_j;ES}&=&\ket{E^+_j;P}\abs{\braket{E^+_j;P}{E^+_j;P}}^{-1/2}\\
+	&=&\ket{E^+_j;P}\left(\sum_{m=1}^{d^+_j}\abs{\braket{E^+_j;m}{E_i;n}}^2\right)^{-1/2}\\
+	c_{ES}&=&\braket{E^+_j;ES}{E_i;n}\\
+	&=&\sqrt{\sum_{m=1}^{d^+_j}\abs{\braket{E^+_j;m}{E_i;n}}^2}\\
+	&\sim& 1-O\left(\lambda^2\right)
+	\end{eqnarray*}
+	and the \textit{residual component} then becomes
+	\begin{eqnarray*}
+	\ket{R}&=&c_R^{-1}\left(\ket{E_i;n}-c_{ES}\ket{E^+_j;ES}\right)
+	\end{eqnarray*}
+	By demanding norm 1, we obtain:
+	\begin{eqnarray*}
+	1&=&c_R^{-2}\left(\braket{E_i;n}{E_i;n}+c_{ES}^2\braket{E^+_j;ES}{E^+_j;ES}-2c_{ES}\braket{E_i;n}{E^+_j;ES}\right)\\
+	c_R&=&\sqrt{1-c_{ES}^2}\\
+	&\sim & O(\lambda)\\
+	\ket{R}&=& \left(1-c_{ES}^2\right)^{-1/2}\left(\ket{E_i;n}-c_{ES}\ket{E^+_j;ES}\right)
+	\end{eqnarray*}
 	
-	optimization problem
-	
-	multiple domain choices
+	\textit{A note about the ambiguity of construction of $\hat{H}_+$}. We see that the construction of $\hat{H}_+$ is not unique, and indeed there may be multiple options for the general shape of $\hat{H}_+$. It is important to note that we need not consider all options of $\hat{H}_+$ as if their effects were cumulative--the formulation of $\hat{H}$ as a perturbation of $\hat{H}_+$ should retrieve the same physics regardless of $\hat{H}_+$ should an infinite-order (no approximation) perturbation theory be used. However, the error associated with a 1st order perturbation analysis is inversely proportional to $\braket{E_i;n}{E_j^+;P}$, and thus a choice of $\hat{H}_+$ which maximises the norm of the elevated symmetry component will be the most precise one. Then, if a certain symmetry elevation suppresses a certain transition, then the symmetry suppression factor for a particular choice of $\hat{H}_+$ is in general a lower bound on the true symmetry suppression factor, as there might exist a different choice of $\hat{H}_+$ with a higher norm of the elevated symmetry component.
 	
 	\subsection{Evaluation of transition rates}
 	
