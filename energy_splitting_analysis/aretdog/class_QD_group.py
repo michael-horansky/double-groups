@@ -35,7 +35,18 @@ tex_readable_irrep_labels = {"D3h QD" : {
         "E_1(j=1/2)" : "E_{1/2}",
         "1E(j=3/2)" : "{}^1E_{3/2}",
         "2E(j=3/2)" : "{}^2E_{3/2}",
-        "1E(j=3/2)+2E(j=3/2)" : "E_{3/2}"
+        "1E(j=3/2)+2E(j=3/2)" : "E_{3/2}",
+        "1E(j=3/2) + 2E(j=3/2)" : "E_{3/2}"
+    }, "C6v QD" : {
+        "A_1" : "A_1",
+        "A_2" : "A_2",
+        "B_1" : "B_1",
+        "B_2" : "B_2",
+        "E_1" : "E_2",
+        "E_2" : "E_1",
+        "E_1(j=1/2)" : "E_{1/2}",
+        "E_2(j=5/2)" : "E_{5/2}",
+        "E_3(j=3/2)" : "E_{3/2}"
     }}
 
 tikz_line_thickness = ["very thin", "thick", "ultra thick"]
@@ -295,7 +306,7 @@ class QDGroup(Group):
         os.makedirs("aretdog_outputs", exist_ok=True)
         output_file = open("aretdog_outputs/" + filename + ".tex", "w")
         if add_syntax_wrapping:
-            output_file.write("\\documentclass{article}\n\\usepackage{tikz}\n\\begin{document}\n")
+            output_file.write("\\documentclass{article}\n\\usepackage{tikz}\n\\usepackage{physics}\n\\begin{document}\n")
         output_file.write(tikz_string)
         if add_syntax_wrapping:
             output_file.write("\n\\end{document}")
@@ -497,6 +508,139 @@ class QDGroup(Group):
                 #for target_complex in self.transition_chain[encompassed_complexes[i][j]]
         
         self.output_tikz(decay_diagram_pic.code(), "decay_diagram_in_" + self.name)
+    
+    
+    def tikz_basis_surjection_diagram(self, subgroup_name, clump_conjugate_irreps=True, position = (0,0), width = 5, height = 12, basis_vector_separation = 0.5, basis_vector_line_length = 1, basis_vector_label_distance = 0.7, irrep_label_distance = 2):
+        # A simple diagram of the basis vector surjection (BVS), which emphasises the irreps
+        basis_surjection_dict = self.basis_surjection_to_subgroup(subgroup_name, clump_conjugate_irreps)
+        print(basis_surjection_dict)
+        
+        subgroup_name = self.subgroup_element_relations[subgroup_name][0].name
+        
+        if clump_conjugate_irreps == False:
+            left_irreps = self.irrep_names
+            left_irrep_dimensions = self.irrep_dimensions
+            right_irreps = self.subgroup_element_relations[subgroup_name][0].irrep_names
+            right_irrep_dimensions = self.subgroup_element_relations[subgroup_name][0].irrep_dimensions
+        else:
+            left_irreps = []
+            left_irrep_dimensions = {}
+            irreps_to_skip = []
+            for irrep in self.irrep_names:
+                if irrep in irreps_to_skip:
+                    continue
+                if irrep in self.complex_conjugate_irreps.keys():
+                    new_label = f"{irrep} + {self.complex_conjugate_irreps[irrep]}"
+                    left_irreps.append(new_label)
+                    left_irrep_dimensions[new_label] = self.irrep_dimensions[irrep] + self.irrep_dimensions[self.complex_conjugate_irreps[irrep]]
+                    irreps_to_skip.append(self.complex_conjugate_irreps[irrep])
+                else:
+                    left_irreps.append(irrep)
+                    left_irrep_dimensions[irrep] = self.irrep_dimensions[irrep]
+            right_irreps = []
+            right_irrep_dimensions = {}
+            irreps_to_skip = []
+            for irrep in self.subgroup_element_relations[subgroup_name][0].irrep_names:
+                if irrep in irreps_to_skip:
+                    continue
+                if irrep in self.subgroup_element_relations[subgroup_name][0].complex_conjugate_irreps.keys():
+                    new_label = f"{irrep} + {self.subgroup_element_relations[subgroup_name][0].complex_conjugate_irreps[irrep]}"
+                    right_irreps.append(new_label)
+                    right_irrep_dimensions[new_label] = self.subgroup_element_relations[subgroup_name][0].irrep_dimensions[irrep] + self.subgroup_element_relations[subgroup_name][0].irrep_dimensions[self.subgroup_element_relations[subgroup_name][0].complex_conjugate_irreps[irrep]]
+                    irreps_to_skip.append(self.subgroup_element_relations[subgroup_name][0].complex_conjugate_irreps[irrep])
+                else:
+                    right_irreps.append(irrep)
+                    right_irrep_dimensions[irrep] = self.subgroup_element_relations[subgroup_name][0].irrep_dimensions[irrep]
+        
+        left_irreps.reverse()
+        right_irreps.reverse()
+        
+        left_box_heights = []
+        for irrep in left_irreps:
+            left_box_heights.append((left_irrep_dimensions[irrep] - 1) * basis_vector_separation)
+        right_box_heights = []
+        for irrep in right_irreps:
+            right_box_heights.append((right_irrep_dimensions[irrep] - 1) * basis_vector_separation)
+        
+        if len(left_irreps) > 0:
+            left_irrep_spacing = (height - sum(left_box_heights)) / (len(left_irreps) - 1)
+        else:
+            left_irrep_spacing = 0
+        if len(right_irreps) > 0:
+            right_irrep_spacing = (height - sum(right_box_heights)) / (len(right_irreps) - 1)
+        else:
+            right_irrep_spacing = 0
+        
+        basis_surjection_diagram_pic = tikz.Picture(scale=1)
+        
+        include_embellishments = True
+        
+        left_basis_vector_positions = {}
+        right_basis_vector_positions = {}
+        
+        start_pos_x, start_pos_y = position
+        pos_y = start_pos_y
+        for i in range(len(left_irreps)):
+            # draw the label
+            left_basis_vector_positions[left_irreps[i]] = []
+            cache_pos_y = pos_y
+            for j in range(left_irrep_dimensions[left_irreps[i]]):
+                basis_surjection_diagram_pic.draw((start_pos_x, pos_y), tikz.lineto((start_pos_x + basis_vector_line_length, pos_y)), tikz.node(f"$\\ket{{{tex_readable_irrep_labels[self.name][left_irreps[i]]};{j+1}}}$", pos = -basis_vector_label_distance), thick = True)
+                left_basis_vector_positions[left_irreps[i]].append(pos_y)
+                
+                pos_y += basis_vector_separation
+            pos_y -= basis_vector_separation
+            
+            basis_surjection_diagram_pic.draw((start_pos_x-irrep_label_distance, cache_pos_y - basis_vector_separation / 2), tikz.lineto((start_pos_x-irrep_label_distance, pos_y + basis_vector_separation / 2)), tikz.node(f"$\\ket{{{tex_readable_irrep_labels[self.name][left_irreps[i]]}}}$", pos = 0.5, left = "5pt"), ultra_thick = True)
+            
+            #embellishments
+            if include_embellishments:
+                basis_surjection_diagram_pic.draw((start_pos_x-irrep_label_distance, cache_pos_y - basis_vector_separation / 2), tikz.lineto((start_pos_x-irrep_label_distance * 0.75, cache_pos_y - basis_vector_separation / 2)), thick = True)
+                basis_surjection_diagram_pic.draw((start_pos_x-irrep_label_distance, pos_y + basis_vector_separation / 2), tikz.lineto((start_pos_x-irrep_label_distance * 0.75, pos_y + basis_vector_separation / 2)), thick = True)
+            
+            pos_y += left_irrep_spacing
+        
+        pos_y = start_pos_y
+        for i in range(len(right_irreps)):
+            # draw the label
+            right_basis_vector_positions[right_irreps[i]] = []
+            cache_pos_y = pos_y
+            for j in range(right_irrep_dimensions[right_irreps[i]]):
+                basis_surjection_diagram_pic.draw((start_pos_x+width, pos_y), tikz.lineto((start_pos_x+width - basis_vector_line_length, pos_y)), tikz.node(f"$\\ket{{{tex_readable_irrep_labels[subgroup_name][right_irreps[i]]};{j+1}}}$", pos = -basis_vector_label_distance), thick = True)
+                right_basis_vector_positions[right_irreps[i]].append(pos_y)
+                
+                pos_y += basis_vector_separation
+            pos_y -= basis_vector_separation
+            
+            basis_surjection_diagram_pic.draw((start_pos_x+width+irrep_label_distance, cache_pos_y - basis_vector_separation / 2), tikz.lineto((start_pos_x+width+irrep_label_distance, pos_y + basis_vector_separation / 2)), tikz.node(f"$\\ket{{{tex_readable_irrep_labels[subgroup_name][right_irreps[i]]}}}$", pos = 0.5, right = "5pt"), ultra_thick = True)
+            
+            #embellishments
+            if include_embellishments:
+                basis_surjection_diagram_pic.draw((start_pos_x+width+irrep_label_distance, cache_pos_y - basis_vector_separation / 2), tikz.lineto((start_pos_x+width+irrep_label_distance * 0.75, cache_pos_y - basis_vector_separation / 2)), thick = True)
+                basis_surjection_diagram_pic.draw((start_pos_x+width+irrep_label_distance, pos_y + basis_vector_separation / 2), tikz.lineto((start_pos_x+width+irrep_label_distance * 0.75, pos_y + basis_vector_separation / 2)), thick = True)
+            
+            pos_y += right_irrep_spacing
+        
+        print(right_basis_vector_positions)
+        # Now we draw the surjection itself
+        for irrep in left_irreps:
+            for i in range(left_irrep_dimensions[irrep]):
+                cur_label = str(irrep) + ";" + str(i+1)
+                target_label = basis_surjection_dict[cur_label]
+                target_label_list = target_label.split(";")
+                target_irrep = target_label_list[0]
+                target_index = int(target_label_list[1])-1
+                
+                cur_left_pos_y = left_basis_vector_positions[irrep][i]
+                cur_right_pos_y = right_basis_vector_positions[target_irrep][target_index]
+                
+                basis_surjection_diagram_pic.draw((start_pos_x+basis_vector_line_length, cur_left_pos_y), tikz.lineto((start_pos_x+width-basis_vector_line_length, cur_right_pos_y)), thick = True)
+        
+        
+        
+        self.output_tikz(basis_surjection_diagram_pic.code(), "basis_surjection_diagram_in_" + self.name + "_to_" + subgroup_name)
+        
+        
                 
             
             
