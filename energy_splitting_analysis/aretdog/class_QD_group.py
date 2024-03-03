@@ -48,6 +48,12 @@ tex_readable_irrep_labels = {"D3h QD" : {
         "E_2(j=5/2)" : "E_{5/2}",
         "E_3(j=3/2)" : "E_{3/2}"
     }}
+    
+tex_readable_group_labels = {
+    "D3h QD" : "D_{3h}",
+    "C3v QD" : "C_{3v}",
+    "C6v QD" : "C_{6v}"
+    }
 
 tikz_line_thickness = ["very thin", "thick", "ultra thick"]
 
@@ -510,7 +516,7 @@ class QDGroup(Group):
         self.output_tikz(decay_diagram_pic.code(), "decay_diagram_in_" + self.name)
     
     
-    def tikz_basis_surjection_diagram(self, subgroup_name, clump_conjugate_irreps=True, position = (0,0), width = 5, height = 12, basis_vector_separation = 0.5, basis_vector_line_length = 1, basis_vector_label_distance = 0.7, irrep_label_distance = 2):
+    def tikz_basis_surjection_diagram(self, subgroup_name, clump_conjugate_irreps=True, position = (0,0), width = 4.5, height = 13, basis_vector_separation = 0.7, basis_vector_line_length = 0.7, basis_vector_label_distance = 1.5, irrep_label_distance = 2.3, embellishment_w = 0.1, text_scale = 0.7):
         # A simple diagram of the basis vector surjection (BVS), which emphasises the irreps
         basis_surjection_dict = self.basis_surjection_to_subgroup(subgroup_name, clump_conjugate_irreps)
         print(basis_surjection_dict)
@@ -552,8 +558,8 @@ class QDGroup(Group):
                     right_irreps.append(irrep)
                     right_irrep_dimensions[irrep] = self.subgroup_element_relations[subgroup_name][0].irrep_dimensions[irrep]
         
-        left_irreps.reverse()
-        right_irreps.reverse()
+        #left_irreps.reverse()
+        #right_irreps.reverse()
         
         left_box_heights = []
         for irrep in left_irreps:
@@ -585,20 +591,20 @@ class QDGroup(Group):
             left_basis_vector_positions[left_irreps[i]] = []
             cache_pos_y = pos_y
             for j in range(left_irrep_dimensions[left_irreps[i]]):
-                basis_surjection_diagram_pic.draw((start_pos_x, pos_y), tikz.lineto((start_pos_x + basis_vector_line_length, pos_y)), tikz.node(f"$\\ket{{{tex_readable_irrep_labels[self.name][left_irreps[i]]};{j+1}}}$", pos = -basis_vector_label_distance), thick = True)
+                basis_surjection_diagram_pic.draw((start_pos_x, pos_y), tikz.lineto((start_pos_x + basis_vector_line_length, pos_y)), tikz.node(f"$\\ket{{{tex_readable_irrep_labels[self.name][left_irreps[i]]};{j+1}}}$", pos = -basis_vector_label_distance, scale = text_scale), thick = True)
                 left_basis_vector_positions[left_irreps[i]].append(pos_y)
                 
-                pos_y += basis_vector_separation
-            pos_y -= basis_vector_separation
+                pos_y -= basis_vector_separation
+            pos_y += basis_vector_separation
             
-            basis_surjection_diagram_pic.draw((start_pos_x-irrep_label_distance, cache_pos_y - basis_vector_separation / 2), tikz.lineto((start_pos_x-irrep_label_distance, pos_y + basis_vector_separation / 2)), tikz.node(f"$\\ket{{{tex_readable_irrep_labels[self.name][left_irreps[i]]}}}$", pos = 0.5, left = "5pt"), ultra_thick = True)
+            basis_surjection_diagram_pic.draw((start_pos_x-irrep_label_distance, cache_pos_y + basis_vector_separation / 2), tikz.lineto((start_pos_x-irrep_label_distance, pos_y - basis_vector_separation / 2)), tikz.node(f"${tex_readable_irrep_labels[self.name][left_irreps[i]]}$", pos = 0.5, left = "5pt", scale = 1.5 * text_scale), ultra_thick = True)
             
             #embellishments
             if include_embellishments:
-                basis_surjection_diagram_pic.draw((start_pos_x-irrep_label_distance, cache_pos_y - basis_vector_separation / 2), tikz.lineto((start_pos_x-irrep_label_distance * 0.75, cache_pos_y - basis_vector_separation / 2)), thick = True)
-                basis_surjection_diagram_pic.draw((start_pos_x-irrep_label_distance, pos_y + basis_vector_separation / 2), tikz.lineto((start_pos_x-irrep_label_distance * 0.75, pos_y + basis_vector_separation / 2)), thick = True)
+                basis_surjection_diagram_pic.draw((start_pos_x-irrep_label_distance, cache_pos_y + basis_vector_separation / 2), tikz.lineto((start_pos_x-irrep_label_distance * (1.0 - embellishment_w), cache_pos_y + basis_vector_separation / 2)), thick = True)
+                basis_surjection_diagram_pic.draw((start_pos_x-irrep_label_distance, pos_y - basis_vector_separation / 2), tikz.lineto((start_pos_x-irrep_label_distance * (1.0 - embellishment_w), pos_y - basis_vector_separation / 2)), thick = True)
             
-            pos_y += left_irrep_spacing
+            pos_y -= left_irrep_spacing
         
         pos_y = start_pos_y
         for i in range(len(right_irreps)):
@@ -606,20 +612,20 @@ class QDGroup(Group):
             right_basis_vector_positions[right_irreps[i]] = []
             cache_pos_y = pos_y
             for j in range(right_irrep_dimensions[right_irreps[i]]):
-                basis_surjection_diagram_pic.draw((start_pos_x+width, pos_y), tikz.lineto((start_pos_x+width - basis_vector_line_length, pos_y)), tikz.node(f"$\\ket{{{tex_readable_irrep_labels[subgroup_name][right_irreps[i]]};{j+1}}}$", pos = -basis_vector_label_distance), thick = True)
+                basis_surjection_diagram_pic.draw((start_pos_x+width, pos_y), tikz.lineto((start_pos_x+width - basis_vector_line_length, pos_y)), tikz.node(f"$\\ket{{{tex_readable_irrep_labels[subgroup_name][right_irreps[i]]};{j+1}}}$", pos = -basis_vector_label_distance, scale = text_scale), thick = True)
                 right_basis_vector_positions[right_irreps[i]].append(pos_y)
                 
-                pos_y += basis_vector_separation
-            pos_y -= basis_vector_separation
+                pos_y -= basis_vector_separation
+            pos_y += basis_vector_separation
             
-            basis_surjection_diagram_pic.draw((start_pos_x+width+irrep_label_distance, cache_pos_y - basis_vector_separation / 2), tikz.lineto((start_pos_x+width+irrep_label_distance, pos_y + basis_vector_separation / 2)), tikz.node(f"$\\ket{{{tex_readable_irrep_labels[subgroup_name][right_irreps[i]]}}}$", pos = 0.5, right = "5pt"), ultra_thick = True)
+            basis_surjection_diagram_pic.draw((start_pos_x+width+irrep_label_distance, cache_pos_y + basis_vector_separation / 2), tikz.lineto((start_pos_x+width+irrep_label_distance, pos_y - basis_vector_separation / 2)), tikz.node(f"${tex_readable_irrep_labels[subgroup_name][right_irreps[i]]}$", pos = 0.5, right = "5pt", scale = 1.5 * text_scale), ultra_thick = True)
             
             #embellishments
             if include_embellishments:
-                basis_surjection_diagram_pic.draw((start_pos_x+width+irrep_label_distance, cache_pos_y - basis_vector_separation / 2), tikz.lineto((start_pos_x+width+irrep_label_distance * 0.75, cache_pos_y - basis_vector_separation / 2)), thick = True)
-                basis_surjection_diagram_pic.draw((start_pos_x+width+irrep_label_distance, pos_y + basis_vector_separation / 2), tikz.lineto((start_pos_x+width+irrep_label_distance * 0.75, pos_y + basis_vector_separation / 2)), thick = True)
+                basis_surjection_diagram_pic.draw((start_pos_x+width+irrep_label_distance, cache_pos_y + basis_vector_separation / 2), tikz.lineto((start_pos_x+width+irrep_label_distance * (1.0 - embellishment_w), cache_pos_y + basis_vector_separation / 2)), thick = True)
+                basis_surjection_diagram_pic.draw((start_pos_x+width+irrep_label_distance, pos_y - basis_vector_separation / 2), tikz.lineto((start_pos_x+width+irrep_label_distance * (1.0 - embellishment_w), pos_y - basis_vector_separation / 2)), thick = True)
             
-            pos_y += right_irrep_spacing
+            pos_y -= right_irrep_spacing
         
         print(right_basis_vector_positions)
         # Now we draw the surjection itself
@@ -636,6 +642,8 @@ class QDGroup(Group):
                 
                 basis_surjection_diagram_pic.draw((start_pos_x+basis_vector_line_length, cur_left_pos_y), tikz.lineto((start_pos_x+width-basis_vector_line_length, cur_right_pos_y)), thick = True)
         
+        # Now a big label
+        basis_surjection_diagram_pic.path((start_pos_x, start_pos_y), tikz.lineto((start_pos_x+width, start_pos_y)), tikz.node(f"${tex_readable_group_labels[self.name]}\\to {tex_readable_group_labels[subgroup_name]}$", pos = 0.5, above = "10pt", scale = 3 * text_scale))
         
         
         self.output_tikz(basis_surjection_diagram_pic.code(), "basis_surjection_diagram_in_" + self.name + "_to_" + subgroup_name)

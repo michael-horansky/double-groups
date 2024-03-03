@@ -40,5 +40,6 @@ print(lmao)
 
 print("From this we see that for X_1,1 one of the E_1/2 elevates to E_5/2, which gets suppressed in the transition from 2X_2,1 (which is E_1/2 elevating to E_5/2)")
 
-C6v.tikz_basis_surjection_diagram("C3v QD")
+#C6v.tikz_basis_surjection_diagram("C3v QD")
+D3h.tikz_basis_surjection_diagram("C3v QD", position = (15, 0))
 
