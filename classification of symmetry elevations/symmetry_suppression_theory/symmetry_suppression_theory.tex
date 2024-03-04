@@ -1,9 +1,10 @@
 \documentclass[12pt]{article}
-\usepackage{stdheadstart}
+%\usepackage{stdheadstart}
 \usepackage{xargs}
 \usepackage{physics}
+\usepackage{tikz}
 \usepackage{amsmath,amssymb}
-
+%\insheadstart{images/}
 
 
 \begin{document}
@@ -22,13 +23,180 @@
 	We shall first outline a general approach to describing a non-specific minimally symmetry-broken Hamiltonian, and then argue for why the assumptions made are justified in the case of InGaAs QDs. 
 	\subsection{Symmetry breaking as basis vector surjection}
 	
-	picture here
+	The first issue we must tackle is 
+	
+	\begin{figure}[h]
+	\begin{center}
+	\begin{tikzpicture}[scale=0.5]
+\draw[thick] (0,0) -- (0.7,0) node[pos=-1.5,scale=0.7] {$\ket{A_1;1}$};
+\draw[ultra thick] (-2.3,0.35) -- (-2.3,-0.35) node[pos=0.5,left=5pt,scale=1.0499999999999998] {$A_1$};
+\draw[thick] (-2.3,0.35) -- (-2.07,0.35);
+\draw[thick] (-2.3,-0.35) -- (-2.07,-0.35);
+\draw[thick] (0,-1.1875) -- (0.7,-1.1875) node[pos=-1.5,scale=0.7] {$\ket{B_1;1}$};
+\draw[ultra thick] (-2.3,-0.8375) -- (-2.3,-1.5375) node[pos=0.5,left=5pt,scale=1.0499999999999998] {$B_1$};
+\draw[thick] (-2.3,-0.8375) -- (-2.07,-0.8375);
+\draw[thick] (-2.3,-1.5375) -- (-2.07,-1.5375);
+\draw[thick] (0,-2.375) -- (0.7,-2.375) node[pos=-1.5,scale=0.7] {$\ket{B_2;1}$};
+\draw[ultra thick] (-2.3,-2.025) -- (-2.3,-2.725) node[pos=0.5,left=5pt,scale=1.0499999999999998] {$B_2$};
+\draw[thick] (-2.3,-2.025) -- (-2.07,-2.025);
+\draw[thick] (-2.3,-2.725) -- (-2.07,-2.725);
+\draw[thick] (0,-3.5625) -- (0.7,-3.5625) node[pos=-1.5,scale=0.7] {$\ket{A_2;1}$};
+\draw[ultra thick] (-2.3,-3.2125) -- (-2.3,-3.9125) node[pos=0.5,left=5pt,scale=1.0499999999999998] {$A_2$};
+\draw[thick] (-2.3,-3.2125) -- (-2.07,-3.2125);
+\draw[thick] (-2.3,-3.9125) -- (-2.07,-3.9125);
+\draw[thick] (0,-4.75) -- (0.7,-4.75) node[pos=-1.5,scale=0.7] {$\ket{E_2;1}$};
+\draw[thick] (0,-5.45) -- (0.7,-5.45) node[pos=-1.5,scale=0.7] {$\ket{E_2;2}$};
+\draw[ultra thick] (-2.3,-4.4) -- (-2.3,-5.8) node[pos=0.5,left=5pt,scale=1.0499999999999998] {$E_2$};
+\draw[thick] (-2.3,-4.4) -- (-2.07,-4.4);
+\draw[thick] (-2.3,-5.8) -- (-2.07,-5.8);
+\draw[thick] (0,-6.6375) -- (0.7,-6.6375) node[pos=-1.5,scale=0.7] {$\ket{E_1;1}$};
+\draw[thick] (0,-7.3375) -- (0.7,-7.3375) node[pos=-1.5,scale=0.7] {$\ket{E_1;2}$};
+\draw[ultra thick] (-2.3,-6.2875) -- (-2.3,-7.6875) node[pos=0.5,left=5pt,scale=1.0499999999999998] {$E_1$};
+\draw[thick] (-2.3,-6.2875) -- (-2.07,-6.2875);
+\draw[thick] (-2.3,-7.6875) -- (-2.07,-7.6875);
+\draw[thick] (0,-8.525) -- (0.7,-8.525) node[pos=-1.5,scale=0.7] {$\ket{E_{1/2};1}$};
+\draw[thick] (0,-9.225) -- (0.7,-9.225) node[pos=-1.5,scale=0.7] {$\ket{E_{1/2};2}$};
+\draw[ultra thick] (-2.3,-8.175) -- (-2.3,-9.575) node[pos=0.5,left=5pt,scale=1.0499999999999998] {$E_{1/2}$};
+\draw[thick] (-2.3,-8.175) -- (-2.07,-8.175);
+\draw[thick] (-2.3,-9.575) -- (-2.07,-9.575);
+\draw[thick] (0,-10.4125) -- (0.7,-10.4125) node[pos=-1.5,scale=0.7] {$\ket{E_{5/2};1}$};
+\draw[thick] (0,-11.1125) -- (0.7,-11.1125) node[pos=-1.5,scale=0.7] {$\ket{E_{5/2};2}$};
+\draw[ultra thick] (-2.3,-10.0625) -- (-2.3,-11.4625) node[pos=0.5,left=5pt,scale=1.0499999999999998] {$E_{5/2}$};
+\draw[thick] (-2.3,-10.0625) -- (-2.07,-10.0625);
+\draw[thick] (-2.3,-11.4625) -- (-2.07,-11.4625);
+\draw[thick] (0,-12.3) -- (0.7,-12.3) node[pos=-1.5,scale=0.7] {$\ket{E_{3/2};1}$};
+\draw[thick] (0,-13) -- (0.7,-13) node[pos=-1.5,scale=0.7] {$\ket{E_{3/2};2}$};
+\draw[ultra thick] (-2.3,-11.95) -- (-2.3,-13.35) node[pos=0.5,left=5pt,scale=1.0499999999999998] {$E_{3/2}$};
+\draw[thick] (-2.3,-11.95) -- (-2.07,-11.95);
+\draw[thick] (-2.3,-13.35) -- (-2.07,-13.35);
+\draw[thick] (4.5,0) -- (3.8,0) node[pos=-1.5,scale=0.7] {$\ket{A_1;1}$};
+\draw[ultra thick] (6.8,0.35) -- (6.8,-0.35) node[pos=0.5,right=5pt,scale=1.0499999999999998] {$A_1$};
+\draw[thick] (6.8,0.35) -- (6.57,0.35);
+\draw[thick] (6.8,-0.35) -- (6.57,-0.35);
+\draw[thick] (4.5,-2.725) -- (3.8,-2.725) node[pos=-1.5,scale=0.7] {$\ket{A_2;1}$};
+\draw[ultra thick] (6.8,-2.375) -- (6.8,-3.075) node[pos=0.5,right=5pt,scale=1.0499999999999998] {$A_2$};
+\draw[thick] (6.8,-2.375) -- (6.57,-2.375);
+\draw[thick] (6.8,-3.075) -- (6.57,-3.075);
+\draw[thick] (4.5,-5.45) -- (3.8,-5.45) node[pos=-1.5,scale=0.7] {$\ket{E;1}$};
+\draw[thick] (4.5,-6.15) -- (3.8,-6.15) node[pos=-1.5,scale=0.7] {$\ket{E;2}$};
+\draw[ultra thick] (6.8,-5.1) -- (6.8,-6.5) node[pos=0.5,right=5pt,scale=1.0499999999999998] {$E$};
+\draw[thick] (6.8,-5.1) -- (6.57,-5.1);
+\draw[thick] (6.8,-6.5) -- (6.57,-6.5);
+\draw[thick] (4.5,-8.875) -- (3.8,-8.875) node[pos=-1.5,scale=0.7] {$\ket{E_{3/2};1}$};
+\draw[thick] (4.5,-9.575) -- (3.8,-9.575) node[pos=-1.5,scale=0.7] {$\ket{E_{3/2};2}$};
+\draw[ultra thick] (6.8,-8.525) -- (6.8,-9.925) node[pos=0.5,right=5pt,scale=1.0499999999999998] {$E_{3/2}$};
+\draw[thick] (6.8,-8.525) -- (6.57,-8.525);
+\draw[thick] (6.8,-9.925) -- (6.57,-9.925);
+\draw[thick] (4.5,-12.3) -- (3.8,-12.3) node[pos=-1.5,scale=0.7] {$\ket{E_{1/2};1}$};
+\draw[thick] (4.5,-13) -- (3.8,-13) node[pos=-1.5,scale=0.7] {$\ket{E_{1/2};2}$};
+\draw[ultra thick] (6.8,-11.95) -- (6.8,-13.35) node[pos=0.5,right=5pt,scale=1.0499999999999998] {$E_{1/2}$};
+\draw[thick] (6.8,-11.95) -- (6.57,-11.95);
+\draw[thick] (6.8,-13.35) -- (6.57,-13.35);
+\draw[thick] (0.7,0) -- (3.8,0);
+\draw[thick] (0.7,-1.1875) -- (3.8,-2.725);
+\draw[thick] (0.7,-2.375) -- (3.8,0);
+\draw[thick] (0.7,-3.5625) -- (3.8,-2.725);
+\draw[thick] (0.7,-4.75) -- (3.8,-5.45);
+\draw[thick] (0.7,-5.45) -- (3.8,-6.15);
+\draw[thick] (0.7,-6.6375) -- (3.8,-5.45);
+\draw[thick] (0.7,-7.3375) -- (3.8,-6.15);
+\draw[thick] (0.7,-8.525) -- (3.8,-12.3);
+\draw[thick] (0.7,-9.225) -- (3.8,-13);
+\draw[thick] (0.7,-10.4125) -- (3.8,-12.3);
+\draw[thick] (0.7,-11.1125) -- (3.8,-13);
+\draw[thick] (0.7,-12.3) -- (3.8,-8.875);
+\draw[thick] (0.7,-13) -- (3.8,-9.575);
+\path (0,0) -- (4.5,0) node[pos=0.5,above=10pt,scale=2.0999999999999996] {$C_{6v}\to C_{3v}$};
+\draw[thick] (15,0) -- (15.7,0) node[pos=-1.5,scale=0.7] {$\ket{A_1';1}$};
+\draw[ultra thick] (12.7,0.35) -- (12.7,-0.35) node[pos=0.5,left=5pt,scale=1.0499999999999998] {$A_1'$};
+\draw[thick] (12.7,0.35) -- (12.93,0.35);
+\draw[thick] (12.7,-0.35) -- (12.93,-0.35);
+\draw[thick] (15,-1.1875) -- (15.7,-1.1875) node[pos=-1.5,scale=0.7] {$\ket{A_2'';1}$};
+\draw[ultra thick] (12.7,-0.8375) -- (12.7,-1.5375) node[pos=0.5,left=5pt,scale=1.0499999999999998] {$A_2''$};
+\draw[thick] (12.7,-0.8375) -- (12.93,-0.8375);
+\draw[thick] (12.7,-1.5375) -- (12.93,-1.5375);
+\draw[thick] (15,-2.375) -- (15.7,-2.375) node[pos=-1.5,scale=0.7] {$\ket{A_1'';1}$};
+\draw[ultra thick] (12.7,-2.025) -- (12.7,-2.725) node[pos=0.5,left=5pt,scale=1.0499999999999998] {$A_1''$};
+\draw[thick] (12.7,-2.025) -- (12.93,-2.025);
+\draw[thick] (12.7,-2.725) -- (12.93,-2.725);
+\draw[thick] (15,-3.5625) -- (15.7,-3.5625) node[pos=-1.5,scale=0.7] {$\ket{A_2';1}$};
+\draw[ultra thick] (12.7,-3.2125) -- (12.7,-3.9125) node[pos=0.5,left=5pt,scale=1.0499999999999998] {$A_2'$};
+\draw[thick] (12.7,-3.2125) -- (12.93,-3.2125);
+\draw[thick] (12.7,-3.9125) -- (12.93,-3.9125);
+\draw[thick] (15,-4.75) -- (15.7,-4.75) node[pos=-1.5,scale=0.7] {$\ket{E'';1}$};
+\draw[thick] (15,-5.45) -- (15.7,-5.45) node[pos=-1.5,scale=0.7] {$\ket{E'';2}$};
+\draw[ultra thick] (12.7,-4.4) -- (12.7,-5.8) node[pos=0.5,left=5pt,scale=1.0499999999999998] {$E''$};
+\draw[thick] (12.7,-4.4) -- (12.93,-4.4);
+\draw[thick] (12.7,-5.8) -- (12.93,-5.8);
+\draw[thick] (15,-6.6375) -- (15.7,-6.6375) node[pos=-1.5,scale=0.7] {$\ket{E';1}$};
+\draw[thick] (15,-7.3375) -- (15.7,-7.3375) node[pos=-1.5,scale=0.7] {$\ket{E';2}$};
+\draw[ultra thick] (12.7,-6.2875) -- (12.7,-7.6875) node[pos=0.5,left=5pt,scale=1.0499999999999998] {$E'$};
+\draw[thick] (12.7,-6.2875) -- (12.93,-6.2875);
+\draw[thick] (12.7,-7.6875) -- (12.93,-7.6875);
+\draw[thick] (15,-8.525) -- (15.7,-8.525) node[pos=-1.5,scale=0.7] {$\ket{E_{3/2};1}$};
+\draw[thick] (15,-9.225) -- (15.7,-9.225) node[pos=-1.5,scale=0.7] {$\ket{E_{3/2};2}$};
+\draw[ultra thick] (12.7,-8.175) -- (12.7,-9.575) node[pos=0.5,left=5pt,scale=1.0499999999999998] {$E_{3/2}$};
+\draw[thick] (12.7,-8.175) -- (12.93,-8.175);
+\draw[thick] (12.7,-9.575) -- (12.93,-9.575);
+\draw[thick] (15,-10.4125) -- (15.7,-10.4125) node[pos=-1.5,scale=0.7] {$\ket{E_{1/2};1}$};
+\draw[thick] (15,-11.1125) -- (15.7,-11.1125) node[pos=-1.5,scale=0.7] {$\ket{E_{1/2};2}$};
+\draw[ultra thick] (12.7,-10.0625) -- (12.7,-11.4625) node[pos=0.5,left=5pt,scale=1.0499999999999998] {$E_{1/2}$};
+\draw[thick] (12.7,-10.0625) -- (12.93,-10.0625);
+\draw[thick] (12.7,-11.4625) -- (12.93,-11.4625);
+\draw[thick] (15,-12.3) -- (15.7,-12.3) node[pos=-1.5,scale=0.7] {$\ket{E_{5/2};1}$};
+\draw[thick] (15,-13) -- (15.7,-13) node[pos=-1.5,scale=0.7] {$\ket{E_{5/2};2}$};
+\draw[ultra thick] (12.7,-11.95) -- (12.7,-13.35) node[pos=0.5,left=5pt,scale=1.0499999999999998] {$E_{5/2}$};
+\draw[thick] (12.7,-11.95) -- (12.93,-11.95);
+\draw[thick] (12.7,-13.35) -- (12.93,-13.35);
+\draw[thick] (19.5,0) -- (18.8,0) node[pos=-1.5,scale=0.7] {$\ket{A_1;1}$};
+\draw[ultra thick] (21.8,0.35) -- (21.8,-0.35) node[pos=0.5,right=5pt,scale=1.0499999999999998] {$A_1$};
+\draw[thick] (21.8,0.35) -- (21.57,0.35);
+\draw[thick] (21.8,-0.35) -- (21.57,-0.35);
+\draw[thick] (19.5,-2.725) -- (18.8,-2.725) node[pos=-1.5,scale=0.7] {$\ket{A_2;1}$};
+\draw[ultra thick] (21.8,-2.375) -- (21.8,-3.075) node[pos=0.5,right=5pt,scale=1.0499999999999998] {$A_2$};
+\draw[thick] (21.8,-2.375) -- (21.57,-2.375);
+\draw[thick] (21.8,-3.075) -- (21.57,-3.075);
+\draw[thick] (19.5,-5.45) -- (18.8,-5.45) node[pos=-1.5,scale=0.7] {$\ket{E;1}$};
+\draw[thick] (19.5,-6.15) -- (18.8,-6.15) node[pos=-1.5,scale=0.7] {$\ket{E;2}$};
+\draw[ultra thick] (21.8,-5.1) -- (21.8,-6.5) node[pos=0.5,right=5pt,scale=1.0499999999999998] {$E$};
+\draw[thick] (21.8,-5.1) -- (21.57,-5.1);
+\draw[thick] (21.8,-6.5) -- (21.57,-6.5);
+\draw[thick] (19.5,-8.875) -- (18.8,-8.875) node[pos=-1.5,scale=0.7] {$\ket{E_{3/2};1}$};
+\draw[thick] (19.5,-9.575) -- (18.8,-9.575) node[pos=-1.5,scale=0.7] {$\ket{E_{3/2};2}$};
+\draw[ultra thick] (21.8,-8.525) -- (21.8,-9.925) node[pos=0.5,right=5pt,scale=1.0499999999999998] {$E_{3/2}$};
+\draw[thick] (21.8,-8.525) -- (21.57,-8.525);
+\draw[thick] (21.8,-9.925) -- (21.57,-9.925);
+\draw[thick] (19.5,-12.3) -- (18.8,-12.3) node[pos=-1.5,scale=0.7] {$\ket{E_{1/2};1}$};
+\draw[thick] (19.5,-13) -- (18.8,-13) node[pos=-1.5,scale=0.7] {$\ket{E_{1/2};2}$};
+\draw[ultra thick] (21.8,-11.95) -- (21.8,-13.35) node[pos=0.5,right=5pt,scale=1.0499999999999998] {$E_{1/2}$};
+\draw[thick] (21.8,-11.95) -- (21.57,-11.95);
+\draw[thick] (21.8,-13.35) -- (21.57,-13.35);
+\draw[thick] (15.7,0) -- (18.8,0);
+\draw[thick] (15.7,-1.1875) -- (18.8,0);
+\draw[thick] (15.7,-2.375) -- (18.8,-2.725);
+\draw[thick] (15.7,-3.5625) -- (18.8,-2.725);
+\draw[thick] (15.7,-4.75) -- (18.8,-5.45);
+\draw[thick] (15.7,-5.45) -- (18.8,-6.15);
+\draw[thick] (15.7,-6.6375) -- (18.8,-5.45);
+\draw[thick] (15.7,-7.3375) -- (18.8,-6.15);
+\draw[thick] (15.7,-8.525) -- (18.8,-8.875);
+\draw[thick] (15.7,-9.225) -- (18.8,-9.575);
+\draw[thick] (15.7,-10.4125) -- (18.8,-12.3);
+\draw[thick] (15.7,-11.1125) -- (18.8,-13);
+\draw[thick] (15.7,-12.3) -- (18.8,-12.3);
+\draw[thick] (15.7,-13) -- (18.8,-13);
+\path (15,0) -- (19.5,0) node[pos=0.5,above=10pt,scale=2.0999999999999996] {$D_{3h}\to C_{3v}$};
+\end{tikzpicture}
+	\end{center}
+	\caption{Surjective mapping of basis partners in irreps of $C_{6v}$ and $D_{3h}$ respectively onto their mutual subgroup $C_{3v}$. We see that both of these examples are trivial in the sense that no irrep decomposes into multiple irreps in the subgroup, which makes the mapping of partner states non-trivial. This typically happens when the high-symmetry group possesses irreps of high dimensions.}
+	\label{fig:basis_vector_surjection}
+	\end{figure}
 	\subsection{Domain alteration and perturbation theory}
 	Suppose now we have a system described by a Hamiltonian $\hat{H}$ equipped with a group of symmetries $G$. Let us construct a Hamiltonian $\hat{H}_+$ which is equipped with a group of symmetries $G_+$ such that $G<G_+$ and $\hat{H}$ can be modelled as a perturbation of $\hat{H}_+$ like so:
 	$$\hat{H}=\hat{H}_+ + \lambda \hat{H}',\qq{where}\lambda\ll 1, \mel{E_i;n}{\hat{H}'}{E_i;n}\sim E_i$$
 	Let us denote the eigenstates of the Hamiltonians $\hat{H},\hat{H}_+$ as $\ket{E_i;n}$ and $\ket{E^+_{i'};n'}$ respectively, where $n, n'$ are the degeneracy labels. Disregarding accidental degeneracy, we know that every set of degenerate energy levels forms a basis of (i.e. transforms according to) an irrep of the respective symmetry group:
 	$$\mqty(\ket{E_i;1}\\\ket{E_i;2}\\\vdots\\\ket{E_i;d_i})\mbox{ forms a basis to }\Gamma^{(G)}_{r(i)}; \mqty(\ket{E^+_{i'};1}\\\ket{E^+_{i'};2}\\\vdots\\\ket{E^+_{i'};d^+_{i'}})\mbox{ forms a basis to }\Gamma^{\left(G_+\right)}_{r^+(i')}$$
-	where $d_i, d^+_{i'}$ specify the total edegeneracies of the energy levels and $r,r^+$ are some surjective functions.
+	where $d_i, d^+_{i'}$ specify the total edegeneracies of the energy levels and $r,r^+$ are some functions which map energy levels onto irreps.
 	We know (TODO cite this) that under a perturbation of a set of degenerate eigenstates, the distance of the new states from the subspace $\mathcal{D}^+$ spanned by the degenerate eigenstates goes like $O(n)$. Therefore, if $\ket{E_i;n}$ arises from perturbing a degenerate subspace of energy $E^+_j$, there exists an unnormalized vector $\ket{E^+_j;P}\in\mathcal{D}^+_j$ for which
 	\begin{eqnarray*}
 	\braket{E_i;n}{E^+_j;P}&=&1-O(\lambda)\\
@@ -39,7 +207,7 @@
 	\hat{P}^+_j&=&\sum_{m=1}^{d^+_j}\dyad{E^+_j;m}{E^+_j;m}\\
 	\ket{E^+_j;P}&=&\hat{P}^+_j\ket{E_i;n}=\sum_{m=1}^{d^+_j}\ket{E^+_j;m}\braket{E^+_j;m}{E_i;n}
 	\end{eqnarray*}
-	The projection can be calculated directly for any choice of basis of $\mathcal{D}^+$, but we can simplify the calculation. Because $\braket{E_i;n}{E^+_j;P}\approx 1$, we expect both of these states to transform according to $\Gamma^{(G)}_{r(i)}$ under rotations in $G$. In general, the perturbation might reduce the degeneracy of $\mathcal{D}^+$ and render $d_i<d^+_j$ (even though it is also possible to have $d_i=d^+_j$, which is a special case). Then we can identify the subset of basis vectors of $\mathcal{D}^+$ which transform according to 	$\Gamma^{(G)}_{r(i)}$ by reducing $\Gamma^{(G_+)}_{r^+(j)}$ into $G$ and considering the basis vector surjection, as described above. Then we can approximate $\braket{E^+_j;m}{E_i;n}\approx 0$ for $m$ which are not surjectively mapped onto $\Gamma^{(G)}_{r(i)}$.
+	The projection can be calculated directly for any choice of basis of $\mathcal{D}^+$, but we can simplify the calculation. Because $\braket{E_i;n}{E^+_j;P}\approx 1$, we expect both of these states to transform according to $\Gamma^{(G)}_{r(i)}$ under rotations in $G$. In general, the perturbation might reduce the degeneracy of $\mathcal{D}^+$ and render $d_i<d^+_j$ (even though it is also possible to have $d_i=d^+_j$, which is a special case). Then we can identify the subset of basis vectors of $\mathcal{D}^+$ which transform according to 	$\Gamma^{(G)}_{r(i)}$ by reducing $\Gamma^{(G_+)}_{r^+(j)}$ into $G$ and considering the basis vector surjection, as described above. Then we can approximate $\braket{E^+_j;m}{E_i;n}\approx 0$ for $m$ which are not mapped onto $\Gamma^{(G)}_{r(i)}$.
 	
 	Now we can express a general eigenstate of $\hat{H}$ as a superposition of an eigenstate of $\hat{H}^+$ with a norm that goes like $1-O(\lambda)$ and a remainder. We normalize the components and introduce superposition coefficients:
 	$$\ket{E_i;n}=c_{ES}\ket{E^+_j;ES}+c_R\ket{R}$$
@@ -67,6 +235,28 @@
 	
 	\subsection{Evaluation of transition rates}
 	
+	Consider now two eigenstates of $\hat{H}$ at different energy levels, $\ket{E_i;n_i},\ket{E_f;n_f}$. If we perturb the system with an interaction Hamiltonian $\hat{H}'$, the rate of transition between these two states is given by Fermi's golden rule
+	$$\Gamma_{\ket{E_i;n_i}\to \ket{E_f;n_f}}=\frac{2\pi}{\hbar}\abs{\mel{E_f;n_f}{\hat{H}'}{E_i;n_i}}^2$$
+	Since the energy levels may be degenerate, the full transition rate between the two sets of degenerate states becomes
+	$$\Gamma_{E_i\to E_f}=\sum_{n_i=1}^{d_i}\sum_{n_f=1}^{d_f}\Gamma_{\ket{E_i;n_i}\to \ket{E_f;n_f}}$$
+	Let the energy levels $E_i,E_f$ be chosen such that the direct product $\Gamma^{(G)}_{r(i)}\otimes \Gamma^{(G)}_{\hat{H}'}\otimes \Gamma^{(G)}_{r(f)}$ contains the identity irrep of $G$, and hence the matrix elements do not vanish due to the selection rule. Let us now decompose the two eigenstates into elevated symmetry and residual components:
+	\begin{eqnarray*}
+	\ket{E_i;n_i}&=&c_{ES}^i\ket{E_{i'}^+;ES}+c_R^i\ket{R_i}\\
+	\ket{E_f;n_f}&=&c_{ES}^f\ket{E_{f'}^+;ES}+c_R^f\ket{R_f}
+	\end{eqnarray*}
+	where $E_{i'}^+,E_{f'}^+$ denote the energy levels of the high-symmetry Hamiltonian $\hat{H}^+$ which get perturbed into $E_i,E_f$ respectively.
+	
+	Let us now calculate the matrix element under the interaction Hamiltonian:
+	\begin{eqnarray*}
+	&&\mel{E_f;n_f}{\hat{H}'}{E_i;n_i}=\\
+	&&\left(c_{ES}^f\right)^* c_{ES}^i \mel{E_{f'}^+;ES}{\hat{H}'}{E_{i'}^+;ES}+\left(c_{ES}^f\right)^* c_R^i \mel{E_{f'}^+;ES}{\hat{H}'}{R_i} + \\
+	&&\left(c_{R}^f\right)^* c_{ES}^i\mel{R_f}{\hat{H}'}{E_{i'}^+;ES} + \left(c_{R}^f\right)^* c_R^i \mel{R_f}{\hat{H}'}{R_i}
+	\end{eqnarray*}
+	We know that $\left(c_{R}^f\right)^* c_R^i$ goes like $O\left(\lambda^2\right)$, and hence we will disregard the corresponding term. There are now two possibilities for what may occur:
+	\begin{enumerate}
+	\item \textit{The elevated symmetry matrix element does not vanish.} If $\Gamma^{\left(G_+\right)}_{r^+(i')}\otimes \Gamma^{\left(G_+\right)}_{\hat{H}'}\otimes \Gamma^{\left(G_+\right)}_{r^+(f')}$ contains the identity irrep of $G_+$, the leading term matrix element does not vanish, and forms the main contribution to the total matrix element. The leading coefficient goes like $1-O(\lambda)$.
+	\item \textit{The elevated symmetry matrix element vanishes.} If $\Gamma^{\left(G_+\right)}_{r^+(i')}\otimes \Gamma^{\left(G_+\right)}_{\hat{H}'}\otimes \Gamma^{\left(G_+\right)}_{r^+(f')}$ does not contain the identity irrep of $G_+$, the leading term matrix element vanishes due to the selection rule (since it must transform as a scalar). The only non-zero terms are now the cross-terms, which both go like $O(\lambda)$.
+	\end{enumerate}
 	
 	
 	\begin{thebibliography}{10}
