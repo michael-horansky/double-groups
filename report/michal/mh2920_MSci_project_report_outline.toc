@@ -1,0 +1,17 @@
+\babel@toc {english}{}
+\contentsline {section}{\numberline {1}Layperson's summary}{1}{section.1}%
+\contentsline {section}{\numberline {2}Abstract}{1}{section.2}%
+\contentsline {section}{\numberline {3}Contents}{1}{section.3}%
+\contentsline {section}{\numberline {4}Introduction}{2}{section.5}%
+\contentsline {section}{\numberline {5}Discussions of theory employed}{2}{section.6}%
+\contentsline {subsection}{\numberline {5.1}The InGaAs pyramidal quantum dot}{2}{subsection.7}%
+\contentsline {subsection}{\numberline {5.2}Exciton complexes and double groups}{2}{subsection.8}%
+\contentsline {section}{\numberline {6}Results}{2}{section.9}%
+\contentsline {subsection}{\numberline {6.1}Treatment of parity}{2}{subsection.10}%
+\contentsline {subsection}{\numberline {6.2}Symmetry suppression theory}{3}{subsection.11}%
+\contentsline {section}{\numberline {7}Discussion of results}{3}{section.12}%
+\contentsline {subsection}{\numberline {7.1}Symmetry suppression in pyramidal quantum dots}{3}{subsection.13}%
+\contentsline {subsection}{\numberline {7.2}Other hypothetical causes of symmetry elevation}{3}{subsection.14}%
+\contentsline {section}{\numberline {8}Conclusions}{3}{section.15}%
+\contentsline {section}{\numberline {9}Acknowledgements}{3}{section.16}%
+\contentsline {section}{\numberline {10}Bibliography}{3}{section.17}%

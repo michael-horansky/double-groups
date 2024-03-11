@@ -1,0 +1,108 @@
+\documentclass[12pt]{article}
+
+\newcommand{\reporttitle}{A group-theoretical treatment of first-order perturbations of potential boundaries in semiconducting nanocrystals}
+\newcommand{\reportauthor}{Michal Horanský}
+\newcommand{\reporttype}{CMTH-Vvedensky-3}
+\newcommand{\cid}{01881584}
+
+
+\input{includes}
+\usepackage{caption}
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\begin{document}
+
+%\title{Double Groups and Quantum Dots - Literature Review}%
+%\author{Michal Horansky}
+
+%\markboth{M. HORANSKY}%
+%{Horansky \MakeLowercase{\textit{et al.}}:}
+
+%\maketitle
+
+%\input{titlepage}
+
+\begin{huge}
+A group-theoretical treatment of first-order perturbations of potential boundaries in semiconducting nanocrystals
+\end{huge}
+
+\section{Layperson's summary}
+
+The title of the layperson's summary: "Breaking the Symmetry, or, When Crystals Are Almost Perfect". It will focus firstly on the role of symmetries in selection rules and secondly on the overlap decomposition as a quantifier of what we mean by \textit{approximate}. Technicalities such as double groups or growth of QDs shall be omitted for brevity (although \cite{hexagon} will be discussed as a motivator for the perturbative approach).
+
+\section{Abstract}
+
+In this project, we investigate the photonic properties of quantum dots employing a group-theoretical description of first-order perturbation theory. Experimental data from polarisation resolved photoluminiscence spectroscopy are investigated using the theory of exciton complexes and group theory. The major features of the spectral diagrams can be labelled by exciton state transitions immediately by considering the total angular momentum coupling of these exciton complexes. These major features also exhibit splitting caused by crystallographic symmetry breaking. The transitions between said energy levels are subject to symmetry selection rules, and we attempt to quantify the rates of these transitions by considering approximate symmetries. A list of other effects that may cause symmetry elevation is stated and reviewed.
+
+\section{Contents}
+
+
+%\renewcommand\contentsname{}
+
+%\begingroup
+%\let\clearpage\relax
+%\vspace{-1cm} % the removed space. Set as appropriate
+%\tableofcontents
+%\endgroup
+
+\section{Introduction}
+
+Firstly, a historical context of the problem and a brief literature review (namely \cite{karlsson}). Secondly, a brief review of \cite{hexagon} as a \textit{de facto} solution to symmetry elevation, and then motivating the need for a perturbative analysis under strain and imperfect growth, which favour the three pyramid-defined directions out of the six grown. Thirdly, a list of proposed solutions, with the first one, a perturbative model of a low-symmetry Hamiltonian being mathematically explored and quantified.
+
+\section{Discussions of theory employed}
+
+\subsection{The InGaAs pyramidal quantum dot} \label{sec:growth}
+A brief description of the growth process as employed by Karlsson, Pelucchi etc. A discussion of \cite{hexagon} and its arguments for the true shape. A review of effects that alter the shape (and hence the symmetry) of a quantum dot, including strain and other mechanical effects.
+
+\subsection{Exciton complexes and double groups}
+A theoretical description of exciton complexes, the decomposition of their wavefunctions into a periodic function and an envelope function, and a model of the enevlope function's "effective Hamiltonian" as a box (of a non-rectangular shape) potential with particles interacting via Coulomb interaction and magnetic momenta interaction (here we justify a first-quantization approach by asserting non-relativistic effective speeds). Total angular momentum is shown to be a good quantum number and its treatment within the full rotoinversion $SU(2)\otimes C_i$ group is described.
+
+\section{Results}
+
+\subsection{Treatment of parity}
+The theoretical treatment of parity under $l$ and $j$-coupling is shown. The program AReTDoG as an implementation of this and its agreement with \cite{karlsson} is discussed.
+
+\subsection{Symmetry suppression theory} \label{sec:suppression}
+The first-order perturbation treatment of selection rules and its applicability to low-to-high symmetry systems is shown.
+
+\section{Discussion of results}
+
+\subsection{Symmetry suppression in pyramidal quantum dots}
+The suppression theory in \ref{sec:suppression} is discussed in the context of the quantum dots grown in the mode described in \ref{sec:growth}. The limiting symmetry of the nanocrystallic structure is shown. The effects of strain and other causes of perturbation are discussed. The $C_{3v}$ probing for the $X_{\bar{1},1}$ transition is discussed and explanations are offered.
+
+\subsection{Other hypothetical causes of symmetry elevation}
+This section serves to enumerate another effects we have identified which might cause symmetry breaking or potential elevation in QDs. These include band-mixing effects and electron gas models. Since they are not mathematically developed, my goal is to identify specifically the aspects of these hypotheses that might for a basis for a change of symmetry. I also discuss why the interplay between these effects can be neglected, as that would constitute second-order effects (and I justify this claim by qualitative arguments).
+
+\section{Conclusions}
+
+The importance of \cite{hexagon} on the entire research community in the context of symmetry elevation is discussed. The treatment of parity and symmetry suppression theory are described in the perspective of their generality and other areas where they may be useful are identified. The implications of the parity treatment are discussed. I conclude that \cite{hexagon} is a satisfactory explanation for symmetry elevation, with our symmetry suppression theory justifying the dismissal of small perturbations, e.g. by mechanical means.
+
+\section{Acknowledgements}
+Our supervisor, collaborators, and my friends and others for their discussion, consultation, and support.
+
+\section{Bibliography}
+
+\begin{thebibliography}{10}
+
+\bibitem{karlsson}
+Karlsson, K. F. \textit{et al} (2015), Spectral signatures of high-symmetry quantum dots and effects of symmetry breaking. \textit{New Journal of Physics}, \textbf{17} 103017
+
+\bibitem{hexagon}
+Holsgrove, K. M. \textit{et al} (2022), Towards 3D characterisation of site-controlled InGaAs pyramidal QDs at the nanoscale. \textit{J Mater Sci}, \textbf{57}, 16383--16396
+
+\end{thebibliography}
+
+
+\bibliographystyle{unsrt}
+% use the following line to create a bibligraphy based on a .bib bibtex file (change to your filename)
+%\bibliography{michal_bibliography}
+
+
+
+
+
+% that's all folks
+\end{document}
+
+
