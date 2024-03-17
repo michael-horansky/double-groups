@@ -1,0 +1,90 @@
+\documentclass[12pt]{article}
+
+\newcommand{\reporttitle}{A group-theoretical treatment of first-order perturbations of potential boundaries in semiconducting nanocrystals}
+\newcommand{\reportauthor}{Michal Horanský}
+\newcommand{\reporttype}{CMTH-Vvedensky-3}
+\newcommand{\cid}{01881584}
+
+
+\input{includes}
+\usepackage{caption}
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\begin{document}
+
+%\title{Double Groups and Quantum Dots - Literature Review}%
+%\author{Michal Horansky}
+
+%\markboth{M. HORANSKY}%
+%{Horansky \MakeLowercase{\textit{et al.}}:}
+
+%\maketitle
+
+\input{titlepage}
+
+\include{sections/1_laypersons_summary}
+
+\section{Abstract}
+
+In this project, we investigate the photonic properties of quantum dots employing a group-theoretical description of first-order perturbation theory. Experimental data from polarisation resolved photoluminiscence spectroscopy are investigated using the theory of exciton complexes and group theory. The major features of the spectral diagrams can be labelled by exciton state transitions immediately by considering the total angular momentum coupling of these exciton complexes. These major features also exhibit splitting caused by crystallographic symmetry breaking. The transitions between said energy levels are subject to symmetry selection rules, and we attempt to quantify the rates of these transitions by considering approximate symmetries. A list of other effects that may cause symmetry elevation is stated and reviewed.
+
+\pagebreak
+
+\section{Contents}
+
+
+\renewcommand\contentsname{}
+
+\begingroup
+\let\clearpage\relax
+\vspace{-1cm} % the removed space. Set as appropriate
+\tableofcontents
+\endgroup
+
+\pagebreak
+
+\section{Introduction}
+
+Firstly, a historical context of the problem and a brief literature review (namely \cite{karlsson}). Secondly, a brief review of \cite{hexagon} as a \textit{de facto} solution to symmetry elevation, and then motivating the need for a perturbative analysis under strain and imperfect growth, which favour the three pyramid-defined directions out of the six grown. Thirdly, a list of proposed solutions, with the first one, a perturbative model of a low-symmetry Hamiltonian being mathematically explored and quantified.
+
+\pagebreak
+
+\include{sections/5_discussion_of_theory_employed}
+
+\include{sections/6_results}
+
+\include{sections/7_discussion_of_results}
+
+\include{sections/8_conclusions}
+
+\section{Acknowledgements}
+Our supervisor, collaborators, and my friends and others for their discussion, consultation, and support.
+
+\pagebreak
+
+\section{Bibliography}
+
+\begin{thebibliography}{10}
+
+\bibitem{karlsson}
+Karlsson, K. F. \textit{et al} (2015), Spectral signatures of high-symmetry quantum dots and effects of symmetry breaking. \textit{New Journal of Physics}, \textbf{17} 103017
+
+\bibitem{hexagon}
+Holsgrove, K. M. \textit{et al} (2022), Towards 3D characterisation of site-controlled InGaAs pyramidal QDs at the nanoscale. \textit{J Mater Sci}, \textbf{57}, 16383--16396
+
+\end{thebibliography}
+
+
+\bibliographystyle{unsrt}
+% use the following line to create a bibligraphy based on a .bib bibtex file (change to your filename)
+%\bibliography{michal_bibliography}
+
+
+
+
+
+% that's all folks
+\end{document}
+
+
