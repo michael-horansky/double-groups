@@ -14,6 +14,15 @@ C3v.print_exciton_complexes()
 C3v.find_transition_chain()
 print(C3v.transition_chain)
 
+C6v = QDGroup("C6v QD")
+C6v.generate_double_group({"E" : E, "Cz_6" : ImproperRotation([0.0, 0.0, 1.0], [1, 6], False), "sigma" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], True)})
+C6v.print_character_table()
+C6v.classify_excitons(max_e = 2, max_h = 3)
+C6v.print_exciton_complexes()
+C6v.find_transition_chain()
+#print(C3v.transition_chain)
+#C6v.add_subgroup(C3v)
+
 D3h = QDGroup("D3h QD")
 D3h.generate_double_group({"E" : E, "Cz_3" : ImproperRotation([0.0, 0.0, 1.0], [1, 3], False), "m" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], True), "m'" : ImproperRotation([0.0, 0.0, 1.0], [1, 2], True)})
 D3h.print_character_table()
@@ -26,6 +35,7 @@ print(D3h.transition_chain)
 
 print("----------------- Wigner analysis -------------------")
 
+
 my_j = 3/2
 wigner_rep = C3v.find_wigner_representation(my_j)
 print(C3v.reduce_representation(C3v.angular_representation(my_j))[1]) #NOTE add inversions to wigner d matrices - done but check if it's actually sensible pls
@@ -35,10 +45,11 @@ print(wigner_rep)
 for cc in C3v.conjugacy_class_names:
     print(f"{cc} : {np.trace(wigner_rep[C3v.conjugacy_classes[cc][0]])}")"""
 
+"""
 reduced_wigner = C3v.reduce_representation_and_divide_basis(wigner_rep)
 print("Wigner for j =", my_j)
 for rep in reduced_wigner:
-    print(f"    {C3v.reduce_representation(rep[0])[1]} : {rep[1]}")
+    print(f"    {C3v.reduce_representation(rep[0])[1]} : {rep[1]}")"""
 
 
 print("Geradeness analysis")
@@ -75,7 +86,8 @@ basically not having that rotoinversion creates a degeneracy, as |1/2, +-1/2> an
 """
 
 #D3h.output_tikz("\\draw[gray, thick] (-1,2) -- (2,-4);\n\\draw[gray, thick] (-1,-1) -- (2,2);\n\\filldraw[black] (0,0) circle (2pt) node[anchor=west]{Intersection point};", "test", True)
-C3v.tikz_decay_diagram_print("2X[2][2,1]")
+#C3v.tikz_decay_diagram_print("2X[2][2,1]")
+C6v.tikz_decay_diagram_print("2X[2][2,1]")
 #D3h.tikz_decay_diagram_print("2X[3][1,1]")
 
 """
