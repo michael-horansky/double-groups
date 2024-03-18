@@ -1,0 +1,56 @@
+\documentclass[12pt]{article}
+\usepackage{stdheadstart}
+\usepackage{xargs}
+\usepackage{physics}
+\usepackage{amsmath,amssymb}
+\insheadstart{images/}
+
+\newtheorem{full_coupling_hilbert_space}
+{Theorem}
+
+\begin{document}
+
+	Motivated by the possible similarity of the top-down shape of the quantum dot to a 3+3 hexagon (regular angles, three alternating sides of length $a$ and three alternating sides of length $b$), we model its Hamiltonian $\hat{H}$ as a perturbation from the Hamiltonian $\hat{H}_+$ of a quantum dot of the shape of a regular hexagon inscribed into the true shape. The accuracy of this model for a specific exciton is dependent on the shape of its wavefunction; if it is strongly localised in the centre of the dot, its overlap with the exciton wavefunction in $\hat{H}_+$ is close to $1$, and the exciton enjoyes an elevated bulk symmetry. If it is not localised in the centre or localised around the border, the overlap integral goes down and the predictive power of the perturbative model weakens--the exciton enjoys the lower structure symmetry. For our QD, the bulk symmetry is $C_{6v}$, and the structure symmetry is $C_{3v}$.
+	
+	We simplify the problem by modelling excitons as many-body systems of interacting particles in a box, with their total angular momenta $j$ coupled by orbit-orbit and spin-orbit interactions and their envelope functions strongly perturbed by Coulomb interaction. Analogous to Coulomb scattering, the effect of the Coulomb interaction between two particles deviates their wavefunctions from free-body eigenfunctions in proportion to their masses, with heavier particles being affected weakly and lighter particles being affected strongly. To determine whether an exciton complex enjoys bulk symmetry or structure symmetry, we consider its constituent fermions: in InGaAs, electrons and light holes both have the effective mass of about $0.05m_e$, and heavy holes are approximately ten times heavier, with an effective mass of $0.5m_e$. If an exciton complex contains particles of equal charge and mass, their wavefunctions should differ only up to a phase change, since the interaction Hamiltonian is symmetrical under particle exchange. However, if the exciton contains particles of equal charge and different effective masses, they will repel in a way that selects one particle which gets localised around the center (we predict this is the heavier particle), and the other particle will be localised around the border, hence enjoying structure symmetry.
+	
+	Hence we predict that excitons with no light holes will undergo symmetry elevation; excitons with both heavy holes and light holes will \textit{not} undergo symmetry elevation; and the model is inconclusive regarding excitons with purely light holes, since these may not be sufficiently localised around the centre of the quantum dot even without being repelled by heavier positively charged particles. However, by considering the $X^-_{01}\to e$ transition, we see that the structure symmetry $C_{3v}$ predicts one $z$-polarised emission line and the bulk symmetry $X_{6v}$ predicts zero $z$-polarised emission lines; Karlsson's data features a strongly resolved $z$-polarised emission line, which means this exciton complex strongly probes for the structure symmetry. This leads us to believe that purely light-hole excitons are not localised in the centre in the QD and hence probe for its structure symmetry.
+	
+	For many transitions, the predicted number of emission lines will be the same for both the bulk symmetry group and the structure symmetry group; below is a compiled table listing all predicted numbers of emission lines which require the model to select between different predictions from the bulk symmetry and the structure symmetry. Agreement of experimental data with this table would be strong evidence that this theoretical model offers a good description of symmetry elevation.
+	
+	\begin{center}
+	\begin{tabular}{ c|c c c|c c c }
+	Transition & $C_{3v}$ ($\sigma$) & $C_{6v}$ ($\sigma$) & Pred. ($\sigma$) & $C_{3v}$ ($z$) & $C_{6v}$ ($z$) & Pred. ($z$)\\
+	\hline
+	$X_{10}\to vac.$ & 2 & 1 & 1 & 0 & 1 & 1 (weak)\\
+	$X^+_{11}\to h_1$ & 2 & 3 & 2 & 2 & 1 & 2\\
+	$X^+_{11}\to h_2$ & 4 & 2 & 4 & & &\\
+	$X^+_{20}\to h_1$ & & & & 0 & 1 & 1 (weak)\\
+	$X^-_{01}\to e$ & & & & 1 & 0 & 1\\
+	$X^-_{10}\to e$ & & & & 0 & 1 & 1 (weak)\\
+	$2X_{02}\to X_{01}$ & & & & 1 & 0 & 1\\
+	$2X_{11}\to X_{01}$ & 6 & 2 & 6 & & &\\
+	$2X_{11}\to X_{10}$ & 4 & 3 & 4 & 4 & 1 & 4\\
+	$2X_{20}\to X_{10}$ & 2 & 1 & 1 & 0 & 1 & 1 (weak)\\
+	$2X^+_{03}\to X^+_{02}$ & & & & 1 & 0 & 1\\
+	$2X^+_{12}\to X^+_{02}$ & & & & 0 & 1 & 0\\
+	$2X^+_{12}\to X^+_{11}$ & 2 & 3 & 2 & 2 & 1 & 2\\
+	$2X^+_{21}\to X^+_{11}$ & 4 & 2 & 4 & & &\\
+	$2X^+_{21}\to X^+_{20}$ & & & & 1 & 0 & 1\\
+	$2X^+_{30}\to X^+_{20}$ & & & & 0 & 1 & 1 (weak)\\
+	$2X^-_{02}\to X^-_{01}$ & & & & 1 & 0 & 1\\
+	$2X^-_{11}\to X^-_{01}$ & 4 & 2 & 4 & & &\\
+	$2X^-_{11}\to X^-_{10}$ & 2 & 3 & 2 & 2 & 1 & 2\\
+	$2X^-_{20}\to X^-_{10}$ & & & & 0 & 1 & 1 (weak)
+	\end{tabular}\\\hfill\\
+	(($\sigma$) denotes polarisation in the $x-y$ plane, ($z$) denotes polarisation in the $z$ plane; \textit{Pred.} denotes the number of emission lines in this transition predicted by our model. Items where predictions do not differ between $C_{3v}$ and $C_{6v}$ have been left blank.)
+	\end{center}
+	
+	Note that for heavy-hole recombination, the $z$-polarised emission lines are predicted to be very weak, and emission lines which are dark in the structure symmetry but bright in the bulk symmetry will be very faint both because of this and because of the fact that the bulk symmetry does not govern the entire wavefunction of the excitons, and is only approximate. It is interesting to note that seemingly \textit{every} pure heavy-hole exciton predicts under symmetry elevation a single $z$-polarised emission line which is forbidden under structure symmetry. These lines are also forbidden under $D_{3h}$ symmetry, which was speculated by Karlsson et al. as the symmetry group the dot elevates to, so detecting these faint lines would be a good evidence for our model's accuracy. However, their detected intensity needs to be considered when taking into account that the selection rules employed rely on dipole approximation and as such ignore second-order effects; these second-order effects might be the true cause for the faint $z$-polarised peaks in the case our model is wrong.
+	
+	The last important thing to note is that the observed number of resolvable emission lines might be lower than expected because of the unresolvability of two or more lines with closely matching frequencies; consider e.g. the transition $2X^+_{21}\to X^+_{11}$, for which $C_{3v}$ symmetry predicts 4 $\sigma$-polarised emission lines; even though Karlsson et al. can only resolve 3 lines, they note that two lines are concealed into one due to overlap with another excitonic transition.
+	
+	The qualitative predictions this model makes are, for this QD, as follows: excitons with no heavy holes are not localised in the QD centre; and, only excitons with no light holes will enjoy the elevated bulk symmetry $C_{6v}$.
+	
+	
+\end{document}
