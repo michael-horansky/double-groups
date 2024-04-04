@@ -6,13 +6,15 @@
 \contentsline {section}{\numberline {5}Discussions of theory employed}{5}{section.6}%
 \contentsline {subsection}{\numberline {5.1}The InGaAs pyramidal quantum dot}{5}{subsection.7}%
 \contentsline {subsection}{\numberline {5.2}Exciton complexes and double groups}{5}{subsection.8}%
-\contentsline {subsection}{\numberline {5.3}Photoluminiscence spectrum and evidence of symmetry elevation}{5}{subsection.9}%
-\contentsline {section}{\numberline {6}Results}{6}{section.10}%
-\contentsline {subsection}{\numberline {6.1}Treatment of parity}{6}{subsection.11}%
-\contentsline {subsection}{\numberline {6.2}Symmetry suppression theory}{6}{subsection.12}%
-\contentsline {section}{\numberline {7}Discussion of results}{7}{section.13}%
-\contentsline {subsection}{\numberline {7.1}Symmetry suppression in pyramidal quantum dots}{7}{subsection.14}%
-\contentsline {subsection}{\numberline {7.2}Other hypothetical causes of symmetry elevation}{7}{subsection.15}%
-\contentsline {section}{\numberline {8}Conclusions}{8}{section.16}%
-\contentsline {section}{\numberline {9}Acknowledgements}{9}{section.17}%
-\contentsline {section}{\numberline {10}Bibliography}{10}{section.18}%
+\contentsline {subsubsection}{\numberline {5.2.1}Envelope functions, periodic functions, and their symmetries}{6}{subsubsection.9}%
+\contentsline {subsubsection}{\numberline {5.2.2}Total angular momentum and double groups}{6}{subsubsection.10}%
+\contentsline {subsection}{\numberline {5.3}Photoluminiscence spectrum and evidence of symmetry elevation}{6}{subsection.11}%
+\contentsline {section}{\numberline {6}Results}{7}{section.12}%
+\contentsline {subsection}{\numberline {6.1}Treatment of parity}{7}{subsection.13}%
+\contentsline {subsection}{\numberline {6.2}Symmetry suppression theory}{7}{subsection.14}%
+\contentsline {section}{\numberline {7}Discussion of results}{8}{section.15}%
+\contentsline {subsection}{\numberline {7.1}Symmetry suppression in pyramidal quantum dots}{8}{subsection.16}%
+\contentsline {subsection}{\numberline {7.2}Other hypothetical causes of symmetry elevation}{8}{subsection.17}%
+\contentsline {section}{\numberline {8}Conclusions}{9}{section.18}%
+\contentsline {section}{\numberline {9}Acknowledgements}{10}{section.19}%
+\contentsline {section}{\numberline {10}Bibliography}{11}{section.20}%

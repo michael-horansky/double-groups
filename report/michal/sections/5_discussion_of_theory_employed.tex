@@ -6,5 +6,31 @@ A brief description of the growth process as employed by Karlsson, Pelucchi etc.
 \subsection{Exciton complexes and double groups}
 A theoretical description of exciton complexes, the decomposition of their wavefunctions into a periodic function and an envelope function, and a model of the enevlope function's "effective Hamiltonian" as a box (of a non-rectangular shape) potential with particles interacting via Coulomb interaction and magnetic momenta interaction (here we justify a first-quantization approach by asserting non-relativistic effective speeds). Total angular momentum is shown to be a good quantum number and its treatment within the full rotoinversion $SU(2)\otimes C_i$ group is described.
 
+NOTES:
+\begin{itemize}
+\item In the semi-classical tight-binding model, we consider excited fermions in the nanocrystal as "particles in a box", confined to a spatial domain in which they move freely, and the effects of the atomic structure on the free particles are encoded in the effective mass parameter.
+\item We can use the effective mass formulation because the nanocrystals are big enough to have a band-structure (cite Dresselhaus).
+\item The full wavefunction $\Psi\left(\vec{r}\right)$ is decomposed into an envelope function $\Upsilon\left(\vec{r}\right)$ and a periodic function $U\left(\vec{r}\right)$, where $U\left(\vec{r}-\vec{r}_n\right)=U\left(\vec{r}\right)$. Therefore
+$$\Psi\left(\vec{r}\right)=\Upsilon\left(\vec{r}\right)U\left(\vec{r}\right)$$
+and therefore the character of the wavefunction under a rotation $\hat{R}$ is
+$$\chi^{\left(\Psi\left(\vec{r}\right)\right)}\left(\hat{R}\right)=\chi^{\left(\Upsilon\left(\vec{r}\right)\right)}\left(\hat{R}\right)\chi^{\left(U\left(\vec{r}\right)\right)}\left(\hat{R}\right)$$
+Due to energy constraints, we expect the envelop functions to be dominated by the ground state levels, which transform according to the identity irrep. The character of the periodic function is then given by taking the toal angular momentum eigenstate $j$ and subduing it into the spatial point group of the quantum dot (which governs also the boundary conditions of the envelope function).
+\item Luttinger-Kohn model to justify free-electrons and effective masses at the $\Gamma$ point (only there!!!!!).
+\end{itemize}
+
+TEXT
+
+The physical phenomenon which is subject to our study is photoluminiscence. Since this mechanism does not have the QDs in a laboratory ensemble interact or "communicate", we can formulate a theoretical model of photoluminiscence on a singular QD. An external electromagnetic field in the form of a light-beam interacts with the QD in a non-resonant way (as for not to favour a single excited state), which promotes electrons into the conduction band and holes into the valence bands (since there are typically two valence bands at the band edge, which touch at $\Gamma$). The population of excited electrons and different characteristics of holes is called an exciton complex. Exciton complexes decay into lower-occupancy exciton complexes via electron-hole recombination, which produces bright emission lines in the photoluminiscence spectrum. These lines are sharp and occur at fixed frequencies corresponding to the energy level differences, and the theoretical description of their spectrum is the ultimate goal of this work.
+
+In the Karlsson \textit{et al.} system, the light-beam is a laser with a spot size of $\SI{1}{\micro\metre}$, power in the range 25--$\SI{750}{\nano\watt}$, and wavelength of $\SI{532}{\nano\metre}$. The semiconductor nanocrystal has a direct band-gap at $\Gamma$. The excitons with resolvable emissions have low occupancy numbers (3 or fewer of any of the three fermions--electrons, light holes, and heavy holes). Since the number of fermions excited on a single band is smaller than the number of states available on the band by many orders of magnitude (GIVE ROUGH ESTIMATE), we approximate the exciton complexes as living on $\Gamma$, i.e. each excited fermion having zero crystal momentum.
+
+Clearly, the phenomenon of photoluminiscence and its behaviour is wholly described by the specific wavefunctions of the exciton complexes. However, finding the wavefunctions and the matrix elements of interaction operators is a near-impossible task and is not viable to make predictions about the spectrum of the quantum dot. However, we can make multiple very strong qualitative predictions (mainly regarding degeneracies of energy levels and selection rules) by using purely symmetry arguments, using the formalism of group theory. To employ group theory, we must first identify the physical symmetries of our quantum dot.
+
+\subsubsection{Envelope functions, periodic functions, and their symmetries}
+Here i do the LK thing
+
+\subsubsection{Total angular momentum and double groups}
+here I elaborate on $j$
+
 \subsection{Photoluminiscence spectrum and evidence of symmetry elevation}
 
