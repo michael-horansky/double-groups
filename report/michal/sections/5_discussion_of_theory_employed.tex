@@ -60,15 +60,81 @@ Labelling the single contributing basis vector by the quantum numbers $l, s, j, 
 \begin{equation}
 \braket{\vec{r}}{\Psi}=\Upsilon\left(\vec{r}\right)\braket{\vec{r}}{l, s=1/2, j, j_z}
 \end{equation}
-where $\ket{l, s=1/2, j, j_z}$ are the usual spinor spherical harmonics which include the spinor part of the wavefunction, as treated e.g. in Biedenharn, Louck (1981) \cite{biedenharn}.
+As discussed in Burt (1992) \cite[p. 6656]{envelope_equation}, we can write down the effective Hamiltonian for the envelope function, which yields the corresponding Schrödinger equation:
+\begin{eqnarray}
+\hat{H}_\Upsilon &=& -\frac{\hbar^2}{2}\nabla\vdot\frac{1}{m^*\left(\vec{r}\right)}\nabla + E_0\\
+\hat{H}_\Upsilon \Upsilon\left(\vec{r}\right)&=& E\Upsilon\left(\vec{r}\right)
+\end{eqnarray}
+where $E_0$ is the band-edge energy. Now, in a parabolic Taylor expansion of the bands about $\Gamma$, we state that around the $\Gamma$ point the effective mass $m^*$ is constant. We now see that the Schrödinger equation reduces to the following form:
+\begin{equation}\label{eq:single_envelope_function}
+-\frac{\hbar^2}{2m^*}\nabla^2 \Upsilon = (E-E_0)\Upsilon
+\end{equation}
+This is the equation of a free particle with energy $E_p=E-E_0$. Hence we can model a single excited fermion as a "particle in a box" around the $\Gamma$ point for a large enough structure.
+
+Now we consider the wavefunction of an exciton complex, which is comprised of multiple excited fermions. The interaction between the fermions is purely electromagnetic. Since the envelope functions are slowly-varying and associated to zero crystal momenta, their magnetic interaction is negligible. The magnetic interaction of the periodic basis functions gives rise to spin-orbit and orbit-orbit coupling (ignoring the hyperfine structure of spin-spin coupling), which allows us to label an exciton complex with a total angular momentum $J$ and its projection onto the $z$-axis $J_z$ as two quantum numbers. The Coulomb interaction between fermions $a$ and $b$ gives rise to a term in the Hamiltonian in the form
+\begin{equation}
+\hat{V}_{ab}^C\left(\vec{r}_a,\vec{r}_b\right)=\frac{q_aq_b}{4\pi\epsilon_0}\frac{1}{\abs{\vec{r}_a-\vec{r}_b}}
+\end{equation}
+This operator can be rewritten as a function of a single vector:
+\begin{equation}
+\hat{V}_{ab}^C\left(\vec{\xi}\right)=\frac{q_aq_b}{4\pi\epsilon_0}\frac{1}{\xi}, \qq{} \xi = \abs{\vec{\xi}}
+\end{equation}
+Note that when this operator acts on the full two-particle wavefunction:
+\begin{equation} \label{eq:coulomb_interaction_integral}
+\hat{V}_{ab}^C\left(\vec{r}_a-\vec{r}_b\right)\Upsilon_a\left(\vec{r}_a\right)U_a\left(\vec{r}_a\right)\Upsilon_b\left(\vec{r}_b\right)U_b\left(\vec{r}_b\right)
+\end{equation}
+the envelope functions $\Upsilon_a, \Upsilon_b$ are slowly-varying, so we can state that they don't change in the volume of a single crystal lattice cell. Therefore, we can take the envelope functions outside of an integral where each vector $\vec{r}_a, \vec{r}_b$ is confined to a single cell:
+\begin{eqnarray*}
+\int_{\vec{r}_a\in \text{cell a}}\dd^3 \vec{r}_a \int_{\vec{r}_b\in \text{cell b}} \dd^3 \vec{r}_b \hat{V}_{ab}^C\left(\vec{r}_a-\vec{r}_b\right)\Upsilon_a\left(\vec{r}_a\right)U_a\left(\vec{r}_a\right)\Upsilon_b\left(\vec{r}_b\right)U_b\left(\vec{r}_b\right) \approx \\
+\Upsilon_a\left(\vec{r}_a\right)\Upsilon_b\left(\vec{r}_b\right) \int_{\vec{r}_a\in \text{cell a}}\dd^3 \vec{r}_a \int_{\vec{r}_b\in \text{cell b}} \dd^3 \vec{r}_b \hat{V}_{ab}^C\left(\vec{r}_a-\vec{r}_b\right)U_a\left(\vec{r}_a\right)U_b\left(\vec{r}_b\right)
+\end{eqnarray*}
+and since $U_a, U_b$ are periodic over the crystal lattice, we can denote $\xi = \vec{R}_{\text{cell b}}-\vec{R}_{\text{cell a}}$ to be the lattice vector equal to the displacement between the two cells, then the integral becomes
+\begin{eqnarray*}
+\int_{\vec{r}_a\in \text{cell a}}\dd^3 \vec{r}_a \int_{\vec{r}_b\in \text{cell b}} \dd^3 \vec{r}_b \hat{V}_{ab}^C\left(\vec{r}_a-\vec{r}_b\right)\Upsilon_a\left(\vec{r}_a\right)U_a\left(\vec{r}_a\right)\Upsilon_b\left(\vec{r}_b\right)U_b\left(\vec{r}_b\right) \approx \\
+\Upsilon_a\left(\vec{r}_a\right)\Upsilon_b\left(\vec{r}_b\right) \int_{\vec{r}_a\in \text{U.C.}}\dd^3 \vec{r}_a \int_{\vec{r}_b\in \text{U.C.}} \dd^3 \vec{r}_b \hat{V}_{ab}^C\left(\vec{r}_a-\vec{r}_b-\vec{\xi}\right)U_a\left(\vec{r}_a\right)U_b\left(\vec{r}_b\right)
+\end{eqnarray*}
+where U.C. denotes a single unit cell of the crystal lattice centered around the origin (or otherwise fixed in space). Now comes the final approximation. When considering the integral of the expression \ref{eq:coulomb_interaction_integral} over an arbitrary dual volume, we partition the volumes into unit cells of the crystal lattice and then divide the integral into pairwise U.C.-U.C. integrals over a set of displacement vectors $\vec{\xi}$. For the majority of these vectors in dual volumes comparable in size to the size of the QD, the values of $\xi$ will be larger than the dimensions of U.C. Hence we can approximate
+\begin{equation}
+\hat{V}_{ab}^C\left(\vec{r}_a-\vec{r}_b-\vec{\xi}\right)\approx \hat{V}_{ab}^C\left(\vec{\xi}\right)
+\end{equation}
+By denoting the set of lattice vectors in the volume $V$ as $R_V$, the integral simplifies to
+\begin{eqnarray*}
+\int_{V}\dd^3 \vec{r}_a\int_{V}\dd^3 \vec{r}_b \hat{V}_{ab}^C\left(\vec{r}_a-\vec{r}_b\right)\Upsilon_a\left(\vec{r}_a\right)U_a\left(\vec{r}_a\right)\Upsilon_b\left(\vec{r}_b\right)U_b\left(\vec{r}_b\right) \approx \\
+\Pi_{ab} \sum_{\vec{r}_a\in R_V}\sum_{\vec{r}_b\in R_V} \hat{V}_{ab}^C\left(\vec{r}_a-\vec{r}_b\right)\Upsilon_a\left(\vec{r}_a\right)\Upsilon_b\left(\vec{r}_b\right)\\
+\qq{where}\Pi_{ab} = \int_{\vec{r}_a\in \text{U.C.}}\dd^3 \vec{r}_a \int_{\vec{r}_b\in \text{U.C.}} \dd^3 \vec{r}_b U_a\left(\vec{r}_a\right)U_b\left(\vec{r}_b\right) \qq{is a correlation constant.}
+\end{eqnarray*}
+Now we renormalize the correlation constant $\Pi_{ab}$ using the volume of the unit cell $V_{\text{U.C.}}$, which allows us to rewrite the double sum over $R_V$ as an integral over the dual volume:
+\begin{eqnarray*}
+\int_{V}\dd^3 \vec{r}_a\int_{V}\dd^3 \vec{r}_b \hat{V}_{ab}^C\left(\vec{r}_a-\vec{r}_b\right)\Upsilon_a\left(\vec{r}_a\right)U_a\left(\vec{r}_a\right)\Upsilon_b\left(\vec{r}_b\right)U_b\left(\vec{r}_b\right) \approx\\
+ \Pi'_{ab} \int_{V}\dd^3 \vec{r}_a\int_{V}\dd^3 \vec{r}_b  \hat{V}_{ab}^C\left(\vec{r}_a-\vec{r}_b\right)\Upsilon_a\left(\vec{r}_a\right)\Upsilon_b\left(\vec{r}_b\right),\qq{where} \Pi'_{ab}=V_{\text{U.C.}}^{-2}\Pi_{ab}
+ \end{eqnarray*}
+ Since this must be true for any (sufficiently large) $V$, we drop the integral altogether, equating the integrands:
+ \begin{equation}
+ \hat{V}_{ab}^C\left(\vec{r}_a-\vec{r}_b\right) \Psi_a\left(\vec{r}_a\right)\Psi_b\left(\vec{r}_b\right) = \Pi'_{ab}\hat{V}_{ab}^C\left(\vec{r}_a-\vec{r}_b\right)\Upsilon_a\left(\vec{r}_a\right)\Upsilon_b\left(\vec{r}_b\right)\qq{on vol. avg.}
+ \end{equation}
+ What was done here was essentialy taking a volume average over the basis functions $U_a, U_b$, motivated by their periodicity over unit volumes much smaller than that of the wavefunction domain. This high-frequency periodicity manifests as a simple correlation coefficient when considering matrix elements of $\hat{V}_{ab}^C$.
+ 
+ This allows us to modify \ref{eq:single_envelope_function} to account for Coulomb interaction purely in the paradigm of envelope functions. The full effective Schrödinger equation for envelope functions (since the fine structure effects do not matter for the slowly-varying envelope functions) is then
+ \begin{equation} \label{eq:exciton_envelope_equation}
+ \left(-\sum_{i}\frac{\hbar^2}{2m_i^*}\nabla_{\vec{r}_i}^2 +\sum_{i,j; i\neq j} \Pi'_{ij}\hat{V}_{ij}^C\left(\vec{r}_i-\vec{r}_j\right) \right)\Upsilon = E_{\text{exciton}}\Upsilon
+ \end{equation}
+ where
+ \begin{equation*}
+ \Upsilon = \prod_{i}\Upsilon_i\left(\vec{r}_i\right)
+ \end{equation*}
+ Note that the Coulomb interaction on the volumes of the scale of the unit cell of the crystal lattice is fully rotationally symmetric, and therefore will not invalidate $J, J_z$ as good quantum numbers.
+ 
+ By interpreting eq. \ref{eq:exciton_envelope_equation}, we now see that the envelope functions in an exciton complex behave as free particles in a box with added Coulomb interactions, i.e. a many-body charged particle system. Note that the potential barriers at the edges of the "box" are not infinite, and that would indeed not be a good approximation!
 
 \subsubsection{Symmetry arguments and group theory}
-Outline what group theory tells us.
+Now that we have decomposed the single excited fermion wavefunction into a $j$ eigenstate periodic in the atomic lattice and a slowly varying envelope function which corresponds to a zero bulk-crystal momentum, we turn to symmetry arguments to make predictions about the spectrum. Indeed, finding either of the two component functions is a task beyond the scope of this work, but we can make quantitative statements about the 
 
 
 
 \subsubsection{Total angular momentum and double groups}
-here I elaborate on $j$
+here I elaborate on $j$ and $j$-coupling
+
+The band structure of our QD has the following structure:
 
 \subsection{Photoluminiscence spectrum and evidence of symmetry elevation}
 
