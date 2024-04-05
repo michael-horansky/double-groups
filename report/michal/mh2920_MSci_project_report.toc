@@ -6,15 +6,16 @@
 \contentsline {section}{\numberline {5}Discussions of theory employed}{5}{section.6}%
 \contentsline {subsection}{\numberline {5.1}The InGaAs pyramidal quantum dot}{5}{subsection.7}%
 \contentsline {subsection}{\numberline {5.2}Exciton complexes and double groups}{5}{subsection.8}%
-\contentsline {subsubsection}{\numberline {5.2.1}Envelope functions, periodic functions, and their symmetries}{6}{subsubsection.9}%
-\contentsline {subsubsection}{\numberline {5.2.2}Total angular momentum and double groups}{6}{subsubsection.10}%
-\contentsline {subsection}{\numberline {5.3}Photoluminiscence spectrum and evidence of symmetry elevation}{6}{subsection.11}%
-\contentsline {section}{\numberline {6}Results}{7}{section.12}%
-\contentsline {subsection}{\numberline {6.1}Treatment of parity}{7}{subsection.13}%
-\contentsline {subsection}{\numberline {6.2}Symmetry suppression theory}{7}{subsection.14}%
-\contentsline {section}{\numberline {7}Discussion of results}{8}{section.15}%
-\contentsline {subsection}{\numberline {7.1}Symmetry suppression in pyramidal quantum dots}{8}{subsection.16}%
-\contentsline {subsection}{\numberline {7.2}Other hypothetical causes of symmetry elevation}{8}{subsection.17}%
-\contentsline {section}{\numberline {8}Conclusions}{9}{section.18}%
-\contentsline {section}{\numberline {9}Acknowledgements}{10}{section.19}%
-\contentsline {section}{\numberline {10}Bibliography}{11}{section.20}%
+\contentsline {subsubsection}{\numberline {5.2.1}Envelope function method}{6}{subsubsection.9}%
+\contentsline {subsubsection}{\numberline {5.2.2}Symmetry arguments and group theory}{8}{subsubsection.18}%
+\contentsline {subsubsection}{\numberline {5.2.3}Total angular momentum and double groups}{8}{subsubsection.19}%
+\contentsline {subsection}{\numberline {5.3}Photoluminiscence spectrum and evidence of symmetry elevation}{8}{subsection.20}%
+\contentsline {section}{\numberline {6}Results}{9}{section.21}%
+\contentsline {subsection}{\numberline {6.1}Treatment of parity}{9}{subsection.22}%
+\contentsline {subsection}{\numberline {6.2}Symmetry suppression theory}{9}{subsection.23}%
+\contentsline {section}{\numberline {7}Discussion of results}{10}{section.24}%
+\contentsline {subsection}{\numberline {7.1}Symmetry suppression in pyramidal quantum dots}{10}{subsection.25}%
+\contentsline {subsection}{\numberline {7.2}Other hypothetical causes of symmetry elevation}{10}{subsection.26}%
+\contentsline {section}{\numberline {8}Conclusions}{11}{section.27}%
+\contentsline {section}{\numberline {9}Acknowledgements}{12}{section.28}%
+\contentsline {section}{\numberline {10}Bibliography}{13}{section.29}%

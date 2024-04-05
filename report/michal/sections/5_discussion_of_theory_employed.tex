@@ -3,7 +3,7 @@
 \subsection{The InGaAs pyramidal quantum dot} \label{sec:growth}
 A brief description of the growth process as employed by Karlsson, Pelucchi etc. A discussion of \cite{hexagon} and its arguments for the true shape. A review of effects that alter the shape (and hence the symmetry) of a quantum dot, including strain and other mechanical effects.
 
-\subsection{Exciton complexes and double groups}
+\subsection{Exciton complexes and double groups} \label{sec:exciton_theory}
 A theoretical description of exciton complexes, the decomposition of their wavefunctions into a periodic function and an envelope function, and a model of the enevlope function's "effective Hamiltonian" as a box (of a non-rectangular shape) potential with particles interacting via Coulomb interaction and magnetic momenta interaction (here we justify a first-quantization approach by asserting non-relativistic effective speeds). Total angular momentum is shown to be a good quantum number and its treatment within the full rotoinversion $SU(2)\otimes C_i$ group is described.
 
 NOTES:
@@ -22,12 +22,50 @@ TEXT
 
 The physical phenomenon which is subject to our study is photoluminiscence. Since this mechanism does not have the QDs in a laboratory ensemble interact or "communicate", we can formulate a theoretical model of photoluminiscence on a singular QD. An external electromagnetic field in the form of a light-beam interacts with the QD in a non-resonant way (as for not to favour a single excited state), which promotes electrons into the conduction band and holes into the valence bands (since there are typically two valence bands at the band edge, which touch at $\Gamma$). The population of excited electrons and different characteristics of holes is called an exciton complex. Exciton complexes decay into lower-occupancy exciton complexes via electron-hole recombination, which produces bright emission lines in the photoluminiscence spectrum. These lines are sharp and occur at fixed frequencies corresponding to the energy level differences, and the theoretical description of their spectrum is the ultimate goal of this work.
 
-In the Karlsson \textit{et al.} system, the light-beam is a laser with a spot size of $\SI{1}{\micro\metre}$, power in the range 25--$\SI{750}{\nano\watt}$, and wavelength of $\SI{532}{\nano\metre}$. The semiconductor nanocrystal has a direct band-gap at $\Gamma$. The excitons with resolvable emissions have low occupancy numbers (3 or fewer of any of the three fermions--electrons, light holes, and heavy holes). Since the number of fermions excited on a single band is smaller than the number of states available on the band by many orders of magnitude (GIVE ROUGH ESTIMATE), we approximate the exciton complexes as living on $\Gamma$, i.e. each excited fermion having zero crystal momentum.
+In the Karlsson \textit{et al.} system, the light-beam is a laser with a spot size of $\SI{1}{\micro\metre}$, power in the range $25$--$\SI{750}{\nano\watt}$, and wavelength of $\SI{532}{\nano\metre}$. The semiconductor nanocrystal has a direct band-gap at $\Gamma$. The excitons with resolvable emissions have low occupancy numbers (3 or fewer of any of the three fermions--electrons, light holes, and heavy holes). Since the number of fermions excited on a single band is smaller than the number of states available on the band by many orders of magnitude (GIVE ROUGH ESTIMATE), we approximate the exciton complexes as living on $\Gamma$, i.e. each excited fermion having zero crystal momentum.
 
 Clearly, the phenomenon of photoluminiscence and its behaviour is wholly described by the specific wavefunctions of the exciton complexes. However, finding the wavefunctions and the matrix elements of interaction operators is a near-impossible task and is not viable to make predictions about the spectrum of the quantum dot. However, we can make multiple very strong qualitative predictions (mainly regarding degeneracies of energy levels and selection rules) by using purely symmetry arguments, using the formalism of group theory. To employ group theory, we must first identify the physical symmetries of our quantum dot.
 
-\subsubsection{Envelope functions, periodic functions, and their symmetries}
-Here i do the LK thing
+\subsubsection{Envelope function method}
+The following approach is informed by that developed by Burt (1999), \cite{envelope_fundamentals}. Let us consider a QD with a single excited electron which is promoted to the conduction band (the following easily generalises to holes promoted to valence bands). Disregarding the spin component of its wavefunction for simplicity, we decompose the electron's spatial wavefunction $\Psi\left(\vec{r}\right)$ into plane-waves:
+\begin{equation}
+\Psi\left(\vec{r}\right)=\int\dd\vec{k} \tilde{\Psi}\left(\vec{k}\right)\exp{i\vec{k}\vdot\vec{r}}
+\end{equation}
+where $\tilde{\Psi}\left(\vec{k}\right)$ is the Fourier transform of $\Psi\left(\vec{r}\right)$. We now decompose the integral domain into the first Brillouin zone (B.Z.) summed over the set of reciprocal lattice vectors $G$:
+\begin{equation}
+\Psi\left(\vec{r}\right)=\sum_{\vec{g}\in G}\int_{\vec{k}\in\text{1st B.Z.}}\dd\vec{k} \tilde{\Psi}\left(\vec{k}+\vec{g}\right)\exp{i\left(\vec{k}+\vec{g}\right)\vdot\vec{r}}
+\end{equation}
+Note that $G$ is equivalent to the set of wave-vectors of plane waves periodic on the Bravais lattice. Therefore, we can choose a set of basis functions $U_n\left(\vec{r}\right)$ periodic on the Bravais lattice like so:
+\begin{eqnarray}
+U_n\left(\vec{r}\right)&=&\sum_{\vec{g}\in G}u_{n}\left(\vec{g}\right)\exp{i\vec{g}\vdot\vec{r}}\\
+U_n\left(\vec{r}+\vec{r}_B\right)&=&\sum_{\vec{g}\in G}u_{n}\left(\vec{g}\right)\exp{i\vec{g}\vdot\vec{r}}\exp{i\vec{g}\vdot\vec{r}_B}=U_n\left(\vec{r}\right)
+\end{eqnarray}
+where $\vec{r}_B\in R$ is a lattice vector and $u_n\left(\vec{g}\right)$ are the coefficients of the decomposition of $U_n$ into reciprocal lattice plane waves, typically chosen such that $U_n$ are orthonormal. Then, inverting this decomposition, we obtain
+\begin{equation}
+\exp{i\vec{g}\vdot r} = \sum_n u_n\left(\vec{g}\right)^*U_n\left(\vec{r}\right)
+\end{equation}
+which allows us to decompose the original wavefunction into a sum of the orthonormal basis vectors $U_n$ and their envelope functions $\Upsilon_n$:
+\begin{eqnarray}
+\Psi\left(\vec{r}\right)&=&\sum_n \Upsilon_n\left(\vec{r}\right)U_n\left(\vec{r}\right)\\
+\Upsilon_n\left(\vec{r}\right)&=&\sum_{\vec{g}\in G}\int_{\vec{k}\in\text{B.Z.}}\dd\vec{k}u_n\left(\vec{g}\right)^*\tilde{\Psi}\left(\vec{k}+\vec{g}\right)\exp{i\vec{k}\vdot\vec{r}}
+\end{eqnarray}
+Now, we choose $U_n\left(\vec{r}\right)$ to represent the band-edge wavestates in the bulk structure. Using a tight-binding model with spin-orbit coupling, these wavestates can be labelled by three quantum numbers: total angular momentum $j$, its projection onto the $z$-axis $j_z$, and the orbital energy excitation $\varepsilon_n$, which we assume to be in the ground state in our system due to energy occupancy statistics (as we expect the population of states other than in the ground state to be negligible for a low-power light-source). Furthermore, the quantum number $j$ is determined by the orbital angular momentum $l$, which is given by the electron configuration in each specific band, and the spin $s=1/2$ determined for electrons and electron holes by their fundamental properties.
+
+Photonic nanostructures can, on a small scale, cease to posses a standard band-structure, instead featuring e.g. flat bands. Dresselhaus \textit{et al.} (2007) quotes the number of Bravais lattice cells below which this occurs to be in the order of $10^2$ \cite[p. 213]{dresselhaus_condensed_matter}. Our QDs have volumes typically higher than $\SI{100}{\nano\metre\cubed}$ \cite[p. 2]{karlsson_2010}, which corresponds to the number of unit cells in the order of $10^3$. Hence we can reasonably expect our system to posses a band structure. This has two consequences to our envelope function model:
+\begin{enumerate}
+\item The envelope function $\Upsilon\left(\vec{r}\right)$ is varying slowly enough for it to have an approximately defined crystal momentum. As discussed in \ref{sec:exciton_theory}, we assume $k\approx 0$.
+\item The wavefunction $\Psi\left(\vec{r}\right)$ of a single excited fermion approximately corresponds to a single state on the excited band of the infinite bulk crystal band structure. In other words, there exists a basis vector $U_n$ such that for all other basis vectors $U_m, m\neq n$, their contribution to the wavefunction is negligible.
+\end{enumerate}
+Labelling the single contributing basis vector by the quantum numbers $l, s, j, j_z$, we can express the wavefunction of a single excited fermion as
+\begin{equation}
+\braket{\vec{r}}{\Psi}=\Upsilon\left(\vec{r}\right)\braket{\vec{r}}{l, s=1/2, j, j_z}
+\end{equation}
+where $\ket{l, s=1/2, j, j_z}$ are the usual spinor spherical harmonics which include the spinor part of the wavefunction, as treated e.g. in Biedenharn, Louck (1981) \cite{biedenharn}.
+
+\subsubsection{Symmetry arguments and group theory}
+Outline what group theory tells us.
+
+
 
 \subsubsection{Total angular momentum and double groups}
 here I elaborate on $j$
