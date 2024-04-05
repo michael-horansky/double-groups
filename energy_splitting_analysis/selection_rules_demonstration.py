@@ -14,6 +14,11 @@ C3v.print_exciton_complexes()
 C3v.find_transition_chain()
 print(C3v.transition_chain)
 
+# here we find the basis vector surjection for j=3/2 wigner rep
+my_irrep_basis = C3v.reduce_representation_and_divide_basis(C3v.find_wigner_representation(3/2))
+print(my_irrep_basis)
+
+
 C6v = QDGroup("C6v QD")
 C6v.generate_double_group({"E" : E, "Cz_6" : ImproperRotation([0.0, 0.0, 1.0], [1, 6], False), "sigma" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], True)})
 C6v.print_character_table()
@@ -87,7 +92,7 @@ basically not having that rotoinversion creates a degeneracy, as |1/2, +-1/2> an
 
 #D3h.output_tikz("\\draw[gray, thick] (-1,2) -- (2,-4);\n\\draw[gray, thick] (-1,-1) -- (2,2);\n\\filldraw[black] (0,0) circle (2pt) node[anchor=west]{Intersection point};", "test", True)
 #C3v.tikz_decay_diagram_print("2X[2][2,1]")
-C6v.tikz_decay_diagram_print("2X[2][2,1]")
+#C6v.tikz_decay_diagram_print("2X[2][2,1]")
 #D3h.tikz_decay_diagram_print("2X[3][1,1]")
 
 """

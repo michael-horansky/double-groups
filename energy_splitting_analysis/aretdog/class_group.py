@@ -1318,7 +1318,7 @@ class Group():
         reducible_rep = {}
         if type(representation) == dict:
             for cc in self.conjugacy_class_names:
-                reducible_rep[cc] = representation[self.group_elements[self.indices_of_representative_elements[cc]]]
+                reducible_rep[cc] = np.array(representation[self.group_elements[self.indices_of_representative_elements[cc]]])
         elif type(representation) == Representation:
             for cc in self.conjugacy_class_names:
                 reducible_rep[cc] = representation.characters[cc]
