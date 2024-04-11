@@ -57,6 +57,36 @@ tex_readable_group_labels = {
 
 tikz_line_thickness = ["very thin", "thick", "ultra thick"]
 
+def exciton_label_from_occupancies(electron_occupancies, hole_occupancies):
+    e_chars = len(electron_occupancies)
+    h_chars = len(hole_occupancies)
+    if sum(electron_occupancies) == 0:
+        #no electrons
+        if sum(hole_occupancies) == 0:
+            # no holes
+            return("vacuum")
+        else:
+            label = ""
+            for i in range(h_chars):
+                if hole_occupancies[i] > 0:
+                    label += f"{hole_occupancies[i]}h{i+1}+"
+            label = label[:-1]
+            return(label)
+    else:
+        if sum(hole_occupancies) == 0:
+            # no holes
+            label = ""
+            for i in range(e_chars):
+                if electron_occupancies[i] > 0:
+                    label += f"{electron_occupancies[i]}e{i+1}+"
+            label = label[:-1]
+            return(label)
+        else:
+            exciton_prefix = f"{min(sum(electron_occupancies), sum(hole_occupancies))}"
+            label = exciton_prefix + "X[" + ",".join([str(x) for x in electron_occupancies]) + "][" + ",".join([str(x) for x in hole_occupancies]) + "]"
+            return(label)
+    print(f"I don't know how to label an exciton with electron occupancies {electron_occupancies} and hole occupancies {hole_occupancies}")
+    return(-1)
 
 class QDGroup(Group):
     # Instances of this class possess properties specific to the semiconductor structure, like the conduction and the valence band orbitals, the notion of holes etc
@@ -64,8 +94,10 @@ class QDGroup(Group):
     def __init__(self, name):
         self.holes = {} # {"hole name" : Rep}
         self.hole_irreps = {} # {"hole name" : "hole irrep or duo of conjugate irreps"}
+        self.multihole_states = []
         self.electrons = {} # we can have multiple characters of electrons when in higher orbital (very excited)
         self.electron_irreps = {} # "rep name"
+        self.multielectron_states = []
         self.excitons = {} # {"label" : Rep}
         self.exciton_irreps = {} # {"label" : "rep name"}
         self.exciton_occupancies = {} # {"label" : [[electron occupancies], [hole_occupancies]]}
@@ -83,6 +115,8 @@ class QDGroup(Group):
         # for GaAs: conduction band usually has s-orbital and valence band usually has p-orbital
         # if band="valence", we select highest possible j (highest energy). If "conduction", we select lowest j
         
+        # This function returns a list of length 2j+1, where the i-th element is the rep of i fermions in the same energy level (which is 2j+1 degenerate)
+        
         orbital_dict = {"s" : 0, "p" : 1, "d" : 2, "f" : 3}
         if type(orbital) == str: #otherwise must be a number
             orbital = orbital_dict[orbital]
@@ -91,55 +125,104 @@ class QDGroup(Group):
         elif band == "conduction" or band == "c":
             j_val = np.abs(orbital - spin)
         gerade_rep = self.angular_representation(j_val, "g")
+        if j_val == 1/2:
+            gerade_reps = [self.angular_representation(1/2, "g"),
+                           self.angular_representation(0, "g")]
+        elif j_val == 3/2:
+            gerade_reps = [self.angular_representation(3/2, "g"),
+                           self.angular_representation(2, "g")+self.angular_representation(0, "g"),
+                           self.angular_representation(3/2, "g"), # TODO check this!!!
+                           self.angular_representation(0, "g")]
+        else:
+            # oopsie
+            print("I don't know how to classify arbitrary amounts of excitons with j =", j_val)
         if orbital % 2 == 1:
-            gerade_rep *= self.irrep_characters[self.inversion_irrep]
+            for i in range(len(gerade_reps)):
+                if (i+1) % 2 == 1: # only odd numbers of particles can have a character of -1 under unversion
+                    gerade_reps[i] *= self.irrep_characters[self.inversion_irrep]
         
         # now we classify these:
-        return(self.separate_constituent_representations(self.reduce_representation(gerade_rep)[0]))
+        for i in range(len(gerade_reps)):
+            gerade_reps[i] = self.separate_constituent_representations(self.reduce_representation(gerade_reps[i])[0])
+        #return(self.separate_constituent_representations(self.reduce_representation(gerade_rep)[0]))
+        return(gerade_reps)
     
     def classify_electrons(self, orbital):
-        electron_dict = self.classify_fermions(orbital, 1/2, "conduction")
+        # initialises self.electrons, self.electron_irreps, self.multielectron_states
+        # self.electrons and self.electron_irreps describe the representations of different characters of SINGLE particles
+        # self.multielectron_states describes the reps of multi-electron states where all electrons are the SAME character (and there is only one)
+        electron_dict_list = self.classify_fermions(orbital, 1/2, "conduction")
         electron_i = 1
-        for irrep_label, rep in electron_dict.items():
+        for irrep_label, rep in electron_dict_list[0].items():
             self.electrons[f"e{electron_i}"] = rep
             self.electron_irreps[f"e{electron_i}"] = self.reduce_representation(rep)[1]
             electron_i += 1
+        for number_of_electrons_i in range(len(electron_dict_list)):
+            is_init = False
+            for irrep_label, rep in electron_dict_list[number_of_electrons_i].items():
+                if is_init == False:
+                    self.multielectron_states.append(rep)
+                    is_init = True
+                else:
+                    self.multielectron_states[-1] += rep
+            
     
     def classify_holes(self, orbital):
-        hole_dict = self.classify_fermions(orbital, 1/2, "valence")
+        hole_dict_list = self.classify_fermions(orbital, 1/2, "valence")
         hole_i = 1
-        for irrep_label, rep in hole_dict.items():
+        for irrep_label, rep in hole_dict_list[0].items():
             self.holes[f"h{hole_i}"] = rep
             self.hole_irreps[f"h{hole_i}"] = self.reduce_representation(rep)[1]
             hole_i += 1
+        for number_of_holes_i in range(len(hole_dict_list)):
+            is_init = False
+            for irrep_label, rep in hole_dict_list[number_of_holes_i].items():
+                if is_init == False:
+                    self.multihole_states.append(rep)
+                    is_init = True
+                else:
+                    self.multihole_states[-1] += rep
     
     
     def exciton_rep(self, electron_numbers, hole_numbers):
+        # of course, the multifermion_states mean nothing if there are multiple fermion characters, as we pick between them and they occupy different energy levels
         result_rep = self.irrep_characters[self.identity_irrep] #identity rep
         i = 0
-        for e_name, e_rep in self.electrons.items():
-            # pauli exclusion - each filled level is labelled by identity
-            if type(electron_numbers) == dict:
-                free_e = electron_numbers[e_name] % int(np.real(e_rep.characters["E"]))
-            else:
-                free_e = electron_numbers[i] % int(np.real(e_rep.characters["E"]))
-            
-            # what to do when multiple free e? idk mate
-            for j in range(free_e):
-                result_rep *= e_rep
-            i += 1
+        if len(self.electrons) == 1:
+            # there is only one electron character
+            # we assume electron_numbers is a list of length 1
+            free_e = (electron_numbers[i]-1) % len(self.multielectron_states)
+            result_rep *= self.multielectron_states[free_e]
+        else:
+            for e_name, e_rep in self.electrons.items():
+                # pauli exclusion - each filled level is labelled by identity
+                if type(electron_numbers) == dict:
+                    free_e = electron_numbers[e_name] % int(np.real(e_rep.characters["E"]))
+                else:
+                    free_e = electron_numbers[i] % int(np.real(e_rep.characters["E"]))
+                
+                # what to do when multiple free e? idk mate
+                for j in range(free_e):
+                    result_rep *= e_rep
+                i += 1
         i = 0
-        for h_name, h_rep in self.holes.items():
-            # pauli exclusion - each filled level is labelled by identity
-            if type(hole_numbers) == dict:
-                free_h = hole_numbers[h_name] % int(np.real(h_rep.characters["E"]))
-            else:
-                free_h = hole_numbers[i] % int(np.real(h_rep.characters["E"]))
-            
-            # what to do when multiple free e? idk mate
-            for j in range(free_h):
-                result_rep *= h_rep
-            i += 1
+        if len(self.holes) == 1:
+            # there is only one hole character
+            # we assume hole_numbers is a list of length 1
+            free_h = (hole_numbers[i]-1) % len(self.multihole_states)
+            result_rep *= self.multihole_states[free_h]
+        else:
+            for h_name, h_rep in self.holes.items():
+                # pauli exclusion - each filled level is labelled by identity
+                if type(hole_numbers) == dict:
+                    free_h = hole_numbers[h_name] % int(np.real(h_rep.characters["E"]))
+                else:
+                    free_h = hole_numbers[i] % int(np.real(h_rep.characters["E"]))
+                
+                # what to do when multiple free e? idk mate
+                for j in range(free_h):
+                    result_rep *= h_rep
+                i += 1
         
         return(result_rep)
     
@@ -264,7 +347,7 @@ class QDGroup(Group):
             return("vac.")
         # check if only one type of fermion
         elif not "X" in x_label:
-            # we just place underscores after them shits, removing unnecessary ones
+            # we just place underscores after sublabels, removing unnecessary ones
             new_label = x_label.split("e")
             for i in range(len(new_label)-1):
                 if new_label[i][-1] == "1":

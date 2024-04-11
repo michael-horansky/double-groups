@@ -259,6 +259,53 @@ def wigner_small_d_matrix(beta, j):
     return(result)
             
 
+# ----------------------------- output functions ------------------------------
+
+def print_table(table_name, column_names, row_names, list_of_rows, subtable_borders = [], header_separation = 2, print_to_stdout = True):
+    # column_names[N], row_names[M], list_of_rows[M][N]
+    def st(a, w):
+        if len(str(a)) >= w:
+            return(str(a))
+        else:
+            diff = w - len(str(a))
+            return(" " * int(np.floor(diff / 2.0)) + str(a) + " " * int(np.ceil(diff / 2.0)))
+    
+    result_string = ""
+    
+    max_len_row_names = len(str(table_name))
+    for row_name in row_names:
+        if len(str(row_name)) > max_len_row_names:
+            max_len_row_names = len(row_name)
+    max_len_by_column = []
+    for column_name in column_names:
+        max_len_by_column.append(len(str(column_name)))
+    
+    for j in range(len(column_names)):
+        for i in range(len(row_names)):
+            if max_len_by_column[j] < len(str(list_of_rows[i][j])):
+                max_len_by_column[j] = len(str(list_of_rows[i][j]))
+    
+    header_str = st(table_name, max_len_row_names + header_separation) + "|"
+    for i in range(len(column_names)):
+        header_str += st(column_names[i], max_len_by_column[i] + header_separation)
+        if i in subtable_borders:
+            header_str += "|"
+    
+    result_string = header_str + "\n" + "-" * len(header_str) + "\n"
+    for i in range(len(row_names)):
+        cur_str = st(row_names[i], max_len_row_names + header_separation) + "|"
+        for j in range(len(column_names)):
+            cur_str += st(list_of_rows[i][j], max_len_by_column[j] + header_separation)
+            if j in subtable_borders:
+                cur_str += "|"
+        result_string += cur_str + "\n"
+    result_string += "-" * len(header_str) + "\n"
+    if print_to_stdout:
+        print(result_string)
+    return(result_string)
+
+
+
 
 
 
