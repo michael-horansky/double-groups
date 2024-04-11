@@ -1,0 +1,14 @@
+Consider two non-interacting particles governed by Hamiltonians which conserve total angular momentum. Let the two particles exist in $j$-eigenstates $\ket{j^A, j^A_z, p}, \ket{j^B, j^B_z, p}$ respectively (here $p$ specifies the inversion parity), and the group of each of their Hamiltonians is $SU(2)\otimes C_i$. The full Hilbert space they occupy is the direct product of the Hilbert space occupied by each particle, and hence the group of the total Hamiltonian is:
+\begin{equation}
+G^{\text{nonint.}}_{\hat{H}}=\left(SU(2)\otimes C_i\right)\otimes\left(SU(2)\otimes C_i\right)
+\end{equation}
+The irreps of this group are the direct products of the respective irreps $\Gamma_{j,p}$, and hence
+\begin{equation} \label{eq:noninteracting_j}
+\ket{j^A, j^A_z, p^A}\otimes\ket{j^B, j^B_z, p^B}\qq{transforms according to}\Gamma_{j^A, p^A}\otimes\Gamma_{j^B, p^B}
+\end{equation}
+If we now include an interaction term in the full Hamiltonian which couples the total angular momenta of the particles, $j^A_z, j^B_z$ cease to be good quantum numbers. Instead (in classic electromagnetic coupling), the full total angular momentum $J$ and its projection along the $z$-axis, $J_z$, become good quantum numbers. Preserving $j^A, j^B$ as immutable parameters of the physical system, the new energy eigenstates posses the roto-inversion symmetry $SU(2)\otimes C_i$, and transform according to its irreps--this is determined wholly by the quantum numbers, which specify the partitioning of the Hilbert space into degenerate subspaces. Hence we need to reduce the high-symmetry irrep in Eq. \ref{eq:noninteracting_j} into the lower-symmetry group $SU(2)\otimes C_i$.
+
+A decomposition is always unique by the Great Orthogonality Theorem (CITATION), therefore finding a decomposition is sufficient to prove it is the correct one. We will assume that all constituent irreps in the decomposition have equal parity, which is the product of the two parities $p^A\cdot p^B$. Then, using standard results (CITATION), we write down the decomposition:
+\begin{equation}
+\Gamma_{j^A, p^A}\otimes\Gamma_{j^B, p^B}=\sum_{J=\abs{j^A-j^B}}^{j^A+j^B}\Gamma_{J, p^A\cdot p^B}
+\end{equation}
