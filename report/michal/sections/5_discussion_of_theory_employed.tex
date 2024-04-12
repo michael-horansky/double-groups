@@ -6,6 +6,8 @@ A brief description of the growth process as employed by Karlsson, Pelucchi etc.
 \subsection{Exciton complexes and double groups} \label{sec:exciton_theory}
 The physical phenomenon which is subject to our study is photoluminiscence. Since this mechanism does not have the QDs in a laboratory ensemble interact or "communicate", we can formulate a theoretical model of photoluminiscence on a singular QD. An external electromagnetic field in the form of a light-beam interacts with the QD in a non-resonant way (as for not to favour a single excited state), which promotes electrons into the conduction band and holes into the valence bands (since there are typically two valence bands at the band edge, which touch at $\Gamma$). The population of excited electrons and different characteristics of holes is called an exciton complex. Exciton complexes decay into lower-occupancy exciton complexes via electron-hole recombination, which produces bright emission lines in the photoluminiscence spectrum. These lines are sharp and occur at fixed frequencies corresponding to the energy level differences, and the theoretical description of their spectrum is the ultimate goal of this work.
 
+Exciton complexes are labelled by the number of electron-hole pairs and the occupancy numbers of each hole type. For example, $2X^+_{21}$ has $2$ electrons, $2$ heavy holes, $1$ light hole, and an overall charge of $+1e$.
+
 In the Karlsson \textit{et al.} system, the light-beam is a laser with a spot size of $\SI{1}{\micro\metre}$, power in the range $25$--$\SI{750}{\nano\watt}$, and wavelength of $\SI{532}{\nano\metre}$. The semiconductor nanocrystal has a direct band-gap at $\Gamma$. The excitons with resolvable emissions have low occupancy numbers (3 or fewer of any of the three fermions--electrons, light holes, and heavy holes). Since the number of fermions excited on a single band is smaller than the number of states available on the band by many orders of magnitude (GIVE ROUGH ESTIMATE), we approximate the exciton complexes as living on $\Gamma$, i.e. each excited fermion having zero crystal momentum.
 
 INSERT BAND STRUCTURE DIAGRAM HERE
@@ -115,7 +117,7 @@ Now we renormalize the correlation constant $\Pi_{ab}$ using the volume of the u
  
  \textit{Note.} Even though $\hat{V}_{ab}^C\left(\vec{r}_a-\vec{r}_b\right)$ diverges for $\vec{r}_a=\vec{r}_b$ (which occurs in the small subset of $R_V\otimes R_V$ where both vectors are in the same unit cell), the contribution of the integrals over these coinciding unit cells should not be disproportionally high, since when considering the volume integral in spherical coordinates centered on the asymptote, the integrand goes like $\abs{\vec{r}_a-\vec{r}_b}$, so the integral should be approximately proportional to $V_{\text{U.C.}}^{2/3}$, and the contribution from this subset where our approximations fail to the total integral is negligible.
 
-\subsubsection{Symmetry arguments, group theory, and double groups}
+\subsubsection{Symmetry arguments, group theory, and double groups} \label{sec:symmetry_arguments}
 Now that we have decomposed the single excited fermion wavefunction into a $j$-eigenstate periodic in the atomic lattice and a slowly varying envelope function which corresponds to a zero bulk-crystal momentum, we turn to symmetry arguments to make predictions about the spectrum. Indeed, finding either of the two component functions is a task beyond the scope of this work, but we can make quantitative statements about the splitting of the exciton energy levels and selection rules for transitions between these energy levels. To do this, we must consider how the exciton wavefunction transforms under symmetry transformations of the true Hamiltonian.
 
 To review the basic applications of group theory to quantum mechanics as outlined e.g. in Dresselhaus (2002) \cite{dresselhaus}, we consider the set of rotations commuting with a Hamiltonian $\hat{H}$. This set forms a group under multiplication (as for $\hat{R}_1, \hat{R}_2$ commuting with $\hat{H}$, $\hat{R}_1\hat{R}_2$ must be a single rotation $\hat{R}_3$ which also commutes with $\hat{H}$). This group shall be denoted as $G_{\hat{H}}$, and is referred to as the group of the Hamiltonian. As shown in standard texts, each energy level $E_n$ of the time-independent Schrödinger eigenvalue problem $\hat{H}\Psi_n=E_n\Psi_n$ corresponds to an irreducible representation (irrep) of $G_{\hat{H}}$, which we can denote as $\Gamma_{r(n)}$, where $r$ is some mapping. The degeneracy of $E_n$ is then equal to the dimension of $\Gamma_{r(n)}$. Therefore, knowing the group of the Hamiltonian tells us the possible degeneracies of the energy levels and what they transform like under the symmetry transformations.
@@ -126,7 +128,7 @@ Consider now the effective Hamiltonians acting on the envelope function $\Upsilo
 periodic function $F=\prod_{i}F_i\left(\vec{r}_i\right)$, respectively.
 \begin{enumerate}
 \item $\Upsilon$, representing a many-body charged particle-in-a-box system, is governed in its symmetry by the shape of the box, i.e. the shape of the QD. In our system, this shape is assumed to posses $C_{3v}$ (tetrahedral) symmetry. This symmetry shall be referred to as the \textit{structure symmetry}.
-\item $F$, representing a function periodic in the crystal lattice, is governed in its symmetry by the shape of the lattice, i.e. the properties of the bulk of the crystal. In our system, the crystal lattice is a zincblend structure (cubic FCC) around the [111] direction. The point group of this lattice is $O_h$. This symmetry shall be referred to as the \textit{bulk symmetry}.
+\item $F$, representing a function periodic in the crystal lattice, is governed in its symmetry by the shape of the lattice, i.e. the properties of the bulk of the crystal. In our system, the crystal lattice is a zincblend structure (cubic FCC) around the [111] direction. The point group of this lattice is $T_d$. This symmetry shall be referred to as the \textit{bulk symmetry}.
 \item Around the individual atoms in the crystal lattice, in the tight-binding model the exciton forms a total angular momentum eigenstate $\ket{J, J_z}$. This has a full roto-inversion symmetry, and since it is a spin-half spinor, the group describing the full roto-inversion symmetry is $SU(2)\otimes C_i$, where $C_i=\{\hat{E}, \hat{i}\}$ is the inversion group and it is isomorphic to $\mathbb{Z}_2$.
 \end{enumerate}
 Naturally, the symmetry of the true Hamiltonian will be the lowest one of these, which is in our case the structure symmetry $C_{3v}$--or rather, since we are discussing spin-half spinors, its double group, as will be discussed below. However, as we argue below, the bulk symmetry will be important when explaining the origin of symmetry elevation in our perturbative model.
@@ -137,7 +139,7 @@ Now, let us consider the character of the full exciton wavefunction under a symm
 \end{equation}
 The character of the envelope function can be, in principle, any irrep of the structure symmetry group. However, we once again invoke the energy statistics--the population of QDs excited by a low-energy laser for which the envelope functions are out of the ground state should be negligible. Therefore, assuming the envelope function is in its ground state, we know it transforms according to the identity rep. Therefore $\chi^{\left(\Upsilon\left(\vec{r}\right)\right)}\left(\hat{R}\right)=1$.
 
-In the tight-binding model, the band-edge eigenstate $U$ is a convolution of the $j$-eigenstate which exists around each atom with the distribution of the atoms, weighted relatively to their atomic properties. Since the structure symmetry group is a subgroup of the bulk symmetry group, the bulk crystal lattice maps onto itself under every rotation in the structure symmetry. Furthermore, the Ga-As bonds in the conduction band are antisymmetric, and the second-nearest neighbour bonds are symmetric \cite{gaas_bonding}, which leaves the lattice to transform according to the identity rep.
+In the tight-binding model, the band-edge eigenstate $U$ is a convolution of the $j$-eigenstate which exists around each atom with the distribution of the atoms, weighted relatively to their atomic properties. Since the structure symmetry group is a subgroup of the bulk symmetry group, the bulk crystal lattice maps onto itself under every rotation in the structure symmetry. Furthermore, the Ga-As bonds in the conduction band are antisymmetric, and the second-nearest neighbour bonds are symmetric \cite{gaas_bonding}, which leaves the lattice to transform according to the identity rep. (FIGURE HERE)
 
 Therefore the only part of the single excited fermion wavefunction which does not necessarily transform according to the identity rep is the $j$-eigenstate itself. The character of a $j$-eigenstate is just the trace of the corresponding Wigner D-matrix (CITATION), and each set of eigenstates
 \begin{equation*}
@@ -172,19 +174,51 @@ We can now generalise this approach to cases where each particle's original Hami
 \end{equation}
 Naturally, as the constituent irreps in the direct sum on the right side correspond to different energy levels (disregarding accidental degeneracy), the symmetry breaking associated with coupling of quantum numbers lowers the degeneracy of the system.
 
-The outlined method is sufficient for finding the energy levels of distinguishable particles undergoing coupling; however, in our case, the particles are fermions, and hence we also have to consider Pauli's exclusion principle. In our system, this is thankfully trivial, since all three fermions (electrons, heavy holes, and light holes) have every $k$-state on their bands doubly-degenerate (which corresponds to the sign flip on $j_z$). We assume that the bands fill up sequentially under excitation in a way that maximises the number of completely filled-out states--in other words, every pair of equal-character fermions fills out one state. A filled state is invariant under transformations \cite[p. 15]{karlsson}, and thus transforms according to the identity rep. Hence, we can outline the general approach to labelling exciton complexes with reducible representations:
-\begin{enumerate}
-\item An exciton complex is determined by the occupancy of the three fermionic types--electrons, light holes, and heavy holes. We begin by finding the irrep associated with each fermion by considering the reduction of the angular momentum eigenstates $\ket{j=1/2, j_z = \pm 1/2}$ for electrons, $\ket{j=3/2, j_z = \pm 1/2}$ for light holes, and $\ket{j=3/2, j_z = \pm 3/2}$ for heavy holes into the crystal double group (which is the lowest common subgroup of the structure symmetry group and the bulk symmetry group).
-\item Denote the occupancy numbers $n_e, n_{l-h}, n_{h-h}$ and the associated fermion irreps as $\Gamma_e, \Gamma_{l-h}, \Gamma_{h-h}$ respectively. Then, lowering these occupancy numbers by $2$ does not change the transformation properties, since it only removes symmetrically-inert filled states. Then, the full reducible representation of the exciton complex is
-\begin{equation}
-\Gamma_{X[n_e, n_{l-h}, n_{h-h}]}=\left(\Gamma_e\right)^{n_e\bmod{2}}\otimes\left(\Gamma_{l-h}\right)^{n_{l-h}\bmod{2}}\otimes\left(\Gamma_{h-h}\right)^{n_{h-h}\bmod{2}}
-\end{equation}
-\item To find the energy levels and their transformation properties, we simply reduce $\Gamma_{X[n_e, n_{l-h}, n_{h-h}]}$ back into the crystal double group and find its constituent irreps.
-\end{enumerate}
+The outlined method is sufficient for finding the energy levels of distinguishable particles undergoing coupling; however, in our case, the particles are fermions, and hence, for particles occupying the same $k$-state in the same band, we also have to consider Pauli's exclusion principle.
 
-TODO triple-check the bulk lattice character!!! isnt it inversion rep after all???
+The conduction band is an $s$-orbital, and hence the excited electrons have $j=1/2$, which renders their $k$-states doubly degenerate. The valence band is a $p$-orbital, and hence the holes have $j=3/2$ and $4$-fold degenerate $k$-states. However, for most groups, including $C_{3v}$, the $SU(2)\otimes C_i$ irrep $\Gamma_{j=3/2,u}$ reduces to two $2$-dimensional irreps, which causes the holes to have two different characters (light-like and heavy-like), each with doubly degenerate $k$-states. We assume that the bands fill up sequentially under excitation in a way that maximises the number of completely filled-out states.
+\begin{itemize}
+\item For doubly degenerate $k$-states, we only need to find the transformation properties of the full $k$-state, i.e. a pair of fermions. As per Karlsson \textit{et al.} \cite[p. 15]{karlsson}, a full doubly degenerate energy level transforms according to the identity representation.
+\item For $4$-fold degenerate $k$-states with $j=3/2$, we can extend Karlsson's argument to claim that the full energy level with $4$ particles transforms according to the identity representation. We can label an energy level with $3$ particles by the $1$ missing particle, and hence it transforms equally to an energy level filled with $1$ particle. Finally, for two particles, we need to construct the $6$ antisymmetric basis vectors, with kets labelled by the $j_z$ values of the first and the second particle respectively:
+
+\begin{center}
+\begin{tabular}{ll}
+$b_1=\frac{1}{\sqrt{2}}\left(\ket{\frac{3}{2},-\frac{3}{2}}-\ket{-\frac{3}{2},\frac{3}{2}}\right)$ & $b_2=\frac{1}{\sqrt{2}}\left(\ket{\frac{1}{2},-\frac{1}{2}}-\ket{-\frac{1}{2},\frac{1}{2}}\right)$ \vspace{0.2cm}\\
+$b_3=\frac{1}{\sqrt{2}}\left(\ket{\frac{3}{2},\frac{1}{2}}-\ket{\frac{1}{2},\frac{3}{2}}\right)$ & $b_4=\frac{1}{\sqrt{2}}\left(\ket{-\frac{3}{2},-\frac{1}{2}}-\ket{-\frac{1}{2},-\frac{3}{2}}\right)$ \vspace{0.2cm}\\
+$b_5=\frac{1}{\sqrt{2}}\left(\ket{\frac{3}{2},-\frac{1}{2}}-\ket{-\frac{1}{2},\frac{3}{2}}\right)$ & $b_6=\frac{1}{\sqrt{2}}\left(\ket{-\frac{3}{2},\frac{1}{2}}-\ket{\frac{1}{2},-\frac{3}{2}}\right)$
+\end{tabular}
+\end{center}
+
+The character of a rotation is given purely by the angle $\theta$, not by the rotation axis, as
+\begin{equation} \label{eq:weyl_character}
+\chi^{\left(\Gamma_{j}\right)\left(\hat{R}(\theta)\right)}=\frac{\sin{\left(2j+1\right)\theta/2}}{\sin{\theta/2}}
+\end{equation}
+which is just the trace of the Wigner $d$-matrix, which Wigner defined as
+\begin{equation}
+d^j_{m',m}=\mel{j,m'}{\hat{R}(\theta)}{j,m}
+\end{equation}
+where $\theta$ is the second Euler angle in the z-y-z convention \cite[p.160]{wigner}, and for which Wigner gave an expression \cite[p.167]{wigner}. The character of a simultaneous rotation of two particles is a product of the two single-particle rotation characters, which allows us to calculate the sum of the simultaneous-rotation characters over all basis vectors:
+\begin{equation}
+\sum_{i=1}^6 \chi^{b_i}\left(\hat{R}(\theta)\right)=2\cos{\theta}+2\cos{2\theta}+2
+\end{equation}
+which we can equate to the sum of the characters of $\Gamma_{j=0}\oplus \Gamma_{j=2}$, as per eq. \ref{eq:weyl_character}. Hence an energy level with $j=3/2$ filled with two particles transforms as $\Gamma_{j=0}\oplus \Gamma_{j=2}$.
+
+
+\end{itemize}
+
+Hence we can label any exciton complex for groups which have one or two hole characters by labelling each fermion type by the number of free fermions and then multiplying the corresponding representations for each fermion type. Reducing this into the irreps of the structure symmetry group gives is the number of energy levels and their degeneracies for each exciton complex.
 
 \subsection{Photoluminiscence spectrum and evidence of symmetry elevation}
+
+To predict the rate of photoluminiscent transitions between energy levels, we utilize the dipole approximation, in which the dipole operator (and hence the perturbing Hamiltonian) transforms as a vector \cite[p. 13]{karlsson}. Vectors transform according to the Cartesian representation, which can be easily constructed from rotation matrices \cite[p. 160]{wigner}. If the Cartesian representation is reducible in the structure symmetry group, different vector orientations of the dipole may transform differently, resulting in different lines in polarised spectra. In that case, we must apply the selection rules outlined in Sec. \ref{sec:symmetry_arguments} for each polarisation separately. Then, the number of allowed transitions between different finely-split energy levels of two excitons gives the number of tightly-spaced lines we predict on the spectrum of that exciton transition.
+
+In \cite{karlsson}, Karlsson \textit{et al.} have applied the selection rules to different exciton transitions and compared the predicted number of lines to their experimental data. (FIGURE HERE) The predictions have mostly agreed, but three exciton transitions were identified for which emission lines in the measured spectra were missing. These were:
+\begin{enumerate}
+\item $X_{10}\to $vacuum ($2$ predicted $x-y$-polarised lines, $1$ measured).
+\item $2X_{20}\to X_{10}$ ($2$ predicted $x-y$-polarised lines, $1$ measured).
+\item $2X_{11}\to X_{01}$ ($6$ predicted $x-y$-polarised lines, $3$ resolved strongly and $2$ more resolved weakly).
+\end{enumerate}
+Karlsson \textit{et al.} theorise that the missing lines or the relative intensity of lines in these transitions can be explained by a symmetry elevation to a larger group of symmetries which contains $C_{3v}$. In our work, we have attempted to test this claim.
 
 
 

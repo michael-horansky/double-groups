@@ -1,8 +1,89 @@
-\section{Results}
+\section{Results - symmetry suppression theory}
 
-\subsection{Treatment of parity}
-The theoretical treatment of parity under $l$ and $j$-coupling is shown. The program AReTDoG as an implementation of this and its agreement with \cite{karlsson} is discussed.
+%\subsection{Treatment of parity}
+%The theoretical treatment of parity under $l$ and $j$-coupling is shown. The program AReTDoG as an implementation of this and its agreement with \cite{karlsson} is discussed.
 
-\subsection{Symmetry suppression theory} \label{sec:suppression}
-The first-order perturbation treatment of selection rules and its applicability to low-to-high symmetry systems is shown.
+%\subsection{Symmetry suppression theory} \label{sec:suppression}
+%The first-order perturbation treatment of selection rules and its applicability to low-to-high symmetry systems is shown.
+
+In our research, we tested the following hypothesis: \textit{Symmetry elevation effects are caused by transformation properties of the bulk symmetry.} Since the bulk symmetry group $T_d$ contains the structure symmetry $C_{3v}$ as a subgroup, it is a natural suspect for a source  of \textit{approximate} symmetries, since it limits the true symmetry of the system.
+
+The theoretical basis for particular excitons enjoying symmetry transformations from the bulk symmetry is built on their localisation within the QD. If the envelope functions $\Upsilon_i$ of every fermion in an exciton complex are localised near the centre of the QD, any bulk-symmetry transformation should also be a symmetry transformation of the exciton wavefunction. With every QD border the envelope functions approach, more approximate symmetry transformations vanish, until, when an exciton has significant probability to measure one or more of its fermions around the entire edge of the QD, it fully probes the structure symmetry.
+
+\subsection{Perturbative analysis of selection rules}
+Suppose now we have a system described by a Hamiltonian $\hat{H}$ equipped with a group of symmetries $G$. Let us construct a Hamiltonian $\hat{H}_+$ which is equipped with a group of symmetries $G_+$ such that $G<G_+$ and $\hat{H}$ can be modelled as a perturbation of $\hat{H}_+$ like so:
+	$$\hat{H}=\hat{H}_+ + \lambda \hat{H}',\qq{where}\lambda\ll 1$$
+	For an exciton with its wavefunction localised in the centre of the QD, $\hat{H}$ is the true Hamiltonian, and $\hat{H}_+$ is the Hamiltonian of a smaller QD inscribed into the true QD with a higher symmetry.
+	\subsubsection{Elevated symmetry component of an energy eigenstate}
+	Let us denote the eigenstates of the Hamiltonians $\hat{H},\hat{H}_+$ as $\ket{E_i;n}$ and $\ket{E^+_{i'};n'}$ respectively, where $n, n'$ are the degeneracy labels. Disregarding accidental degeneracy, we know that every set of degenerate energy levels forms a basis of (i.e. transforms according to) an irrep of the respective symmetry group:
+	$$\mqty(\ket{E_i;1}\\\ket{E_i;2}\\\vdots\\\ket{E_i;d_i})\mbox{ forms a basis to }\Gamma^{(G)}_{r(i)}; \mqty(\ket{E^+_{i'};1}\\\ket{E^+_{i'};2}\\\vdots\\\ket{E^+_{i'};d^+_{i'}})\mbox{ forms a basis to }\Gamma^{\left(G_+\right)}_{r^+(i')}$$
+	where $d_i, d^+_{i'}$ specify the total degeneracies of the energy levels and $r,r^+$ are some functions which map energy levels onto irreps.
+	Under a first-order perturbation of a set of degenerate eigenstates, the distance of the new states from the subspace $\mathcal{D}^+$ spanned by the degenerate eigenstates goes like $O(\lambda)$. Therefore, if $\ket{E_i;n}$ arises from perturbing a degenerate subspace of energy $E^+_j$, there exists an unnormalized vector $\ket{E^+_j;P}\in\mathcal{D}^+_j$ for which
+	\begin{eqnarray*}
+	\frac{\braket{E_i;n}{E^+_j;P}}{\abs{\braket{E^+_j;P}{E^+_j;P}}^{1/2}}&=&1-O(\lambda)\\
+	\qq{where} \braket{E^+_j;P'}{E_i;n}&=&\braket{E^+_j;P'}{E^+_j;P}
+	\qq{for all} \ket{E^+_j;P'}\in\mathcal{D}^+
+	\end{eqnarray*}
+	We can construct a state satisfying these conditions by projecting the perturbed eigenstate onto the original degenerate subspace:
+	\begin{eqnarray*}
+	\hat{P}^+_j&=&\sum_{m=1}^{d^+_j}\dyad{E^+_j;m}{E^+_j;m}\\
+	\ket{E^+_j;P}&=&\hat{P}^+_j\ket{E_i;n}=\sum_{m=1}^{d^+_j}\ket{E^+_j;m}\braket{E^+_j;m}{E_i;n}
+	\end{eqnarray*}
+	Now we can express a general eigenstate of $\hat{H}$ as a superposition of an eigenstate of $\hat{H}^+$ with a norm that goes like $1-O(\lambda)$ and a remainder. We normalize the components and introduce superposition coefficients:
+	\begin{equation}
+	\ket{E_i;n}=c_{ES}\ket{E^+_j;ES}+c_R\ket{R}
+	\end{equation}
+	where the \textit{elevated symmetry component} is defined as
+	\begin{eqnarray*}
+	\ket{E^+_j;ES}&=&\ket{E^+_j;P}\abs{\braket{E^+_j;P}{E^+_j;P}}^{-1/2}\\
+	&=&\ket{E^+_j;P}\left(\sum_{m=1}^{d^+_j}\abs{\braket{E^+_j;m}{E_i;n}}^2\right)^{-1/2}\\
+	c_{ES}&=&\braket{E^+_j;ES}{E_i;n}\\
+	&=&\sqrt{\sum_{m=1}^{d^+_j}\abs{\braket{E^+_j;m}{E_i;n}}^2}\\
+	&\sim& 1-O\left(\lambda\right)
+	\end{eqnarray*}
+	and the \textit{residual component} then becomes
+	\begin{eqnarray*}
+	\ket{R}&=&c_R^{-1}\left(\ket{E_i;n}-c_{ES}\ket{E^+_j;ES}\right)
+	\end{eqnarray*}
+	By demanding norm 1, we obtain:
+	\begin{eqnarray*}
+	1&=&c_R^{-2}\left(\braket{E_i;n}{E_i;n}+c_{ES}^2\braket{E^+_j;ES}{E^+_j;ES}-2c_{ES}\braket{E_i;n}{E^+_j;ES}\right)\\
+	c_R&=&\sqrt{1-c_{ES}^2}\\
+	&\sim & O(\lambda)\\
+	\ket{R}&=& \left(1-c_{ES}^2\right)^{-1/2}\left(\ket{E_i;n}-c_{ES}\ket{E^+_j;ES}\right)
+	\end{eqnarray*}
+	\subsubsection{Selection rules for the elevated symmetry component}
+	Consider now two eigenstates of $\hat{H}$ at different energy levels, $\ket{E_i;n_i}$, $\ket{E_f;n_f}$. If we perturb the system with an interaction Hamiltonian $\hat{H}'$, the rate of transition between these two states is given by Fermi's golden rule
+	$$\Gamma_{\ket{E_i;n_i}\to \ket{E_f;n_f}}=\frac{2\pi}{\hbar}\abs{\mel{E_f;n_f}{\hat{H}'}{E_i;n_i}}^2$$
+	Since the energy levels may be degenerate, the full transition rate between the two sets of degenerate states becomes
+	$$\Gamma_{E_i\to E_f}=\sum_{n_i=1}^{d_i}\sum_{n_f=1}^{d_f}\Gamma_{\ket{E_i;n_i}\to \ket{E_f;n_f}}$$
+	Let the energy levels $E_i,E_f$ be chosen such that the direct product $\Gamma^{(G)}_{r(i)}\otimes \Gamma^{(G)}_{\hat{H}'}\otimes \Gamma^{(G)}_{r(f)}$ contains the identity irrep of $G$, and hence the matrix elements do not vanish due to the selection rule. Let us now decompose the two eigenstates into elevated symmetry and residual components:
+	\begin{eqnarray*}
+	\ket{E_i;n_i}&=&c_{ES}^i\ket{E_{i'}^+;ES}+c_R^i\ket{R_i}\\
+	\ket{E_f;n_f}&=&c_{ES}^f\ket{E_{f'}^+;ES}+c_R^f\ket{R_f}
+	\end{eqnarray*}
+	where $E_{i'}^+,E_{f'}^+$ denote the energy levels of the high-symmetry Hamiltonian $\hat{H}^+$ which get perturbed into $E_i,E_f$ respectively.
+	
+	Let us now calculate the matrix element under the interaction Hamiltonian:
+	\begin{eqnarray*}
+	&&\mel{E_f;n_f}{\hat{H}'}{E_i;n_i}=\\
+	&&\left(c_{ES}^f\right)^* c_{ES}^i \mel{E_{f'}^+;ES}{\hat{H}'}{E_{i'}^+;ES}+\left(c_{ES}^f\right)^* c_R^i \mel{E_{f'}^+;ES}{\hat{H}'}{R_i} + \\
+	&&\left(c_{R}^f\right)^* c_{ES}^i\mel{R_f}{\hat{H}'}{E_{i'}^+;ES} + \left(c_{R}^f\right)^* c_R^i \mel{R_f}{\hat{H}'}{R_i}
+	\end{eqnarray*}
+	We know that $\left(c_{R}^f\right)^* c_R^i$ goes like $O\left(\lambda^2\right)$, and hence we will disregard the corresponding term. There are now two possibilities for what may occur:
+	\begin{enumerate}
+	\item \textit{The elevated symmetry matrix element does not vanish.} If $\Gamma^{\left(G_+\right)}_{r^+(i')}\otimes \Gamma^{\left(G_+\right)}_{\hat{H}'}\otimes \Gamma^{\left(G_+\right)}_{r^+(f')}$ contains the identity irrep of $G_+$, the leading term matrix element does not vanish, and forms the main contribution to the total matrix element.
+	\item \textit{The elevated symmetry matrix element vanishes.} If $\Gamma^{\left(G_+\right)}_{r^+(i')}\otimes \Gamma^{\left(G_+\right)}_{\hat{H}'}\otimes \Gamma^{\left(G_+\right)}_{r^+(f')}$ does not contain the identity irrep of $G_+$, the leading term matrix element vanishes due to the selection rule (since it must transform as a scalar). The only non-zero terms are now the cross-terms, which both go like $O(\lambda)$, and the transition rate goes like $O(\lambda^2)$. Hence, even though these spectral lines are not fully forbidden by the selection rule, they are reduced by an order of magnitude (and vanish in first order) due to their high partial symmetry--this is symmetry suppression.
+	\end{enumerate}
+
+\subsection{Localisation of pure-heavy-hole excitons in the bulk}
+use that particle in the box model!!!
+
+\subsection{Identifying intermediate groups of bulk and structure symmetries}
+Any symmetry transformation which is not a symmetry transformation of the crystal bulk is not a true symmetry transformation of the system \cite{bulk_limiting}. Since every element of the structure symmetry $G_s$ is also an element of the bulk symmetry $G_b$ (which requires a specific orientation of the zincblende lattice), any candidate approximate symmetry $G_a$ has to satisfy $G_s \subset G_a \subseteq G_b$. Consulting the group chains in \cite[Ch.9]{altmann}, we see that there is only one group that satisfies this condition, which is the bulk symmetry group $T_d$ itself. Our model of symmetry suppression therefore requires $T_d$ to be the symmetry we elevate to.
+
+In the analysis, we have also included the groups $C_{6v}, D_{3d}$, and $O_h$ as close supergroups of $C_{3v}$. $D_{3h}$ was not analysed here, since it was already proposed as the elevated symmetry group by Karlsson \textit{et al.} However, since $D_{3h}$ is also not a subgroup of $T_d$, we cannot use it in the symmetry suppression model.
+
+\subsection{Predictions and their agreement with experiments}
+its all bad
 
