@@ -19,6 +19,6 @@
 \contentsline {subsection}{\numberline {6.4}Predictions and their agreement with experiments}{20}{subsection.53}%
 \contentsline {section}{\numberline {7}Discussion of results}{21}{section.54}%
 \contentsline {subsection}{\numberline {7.1}Agreement with $C_{6v}$ is a coincidence}{21}{subsection.55}%
-\contentsline {subsection}{\numberline {7.2}Other hypothetical causes of symmetry elevation}{21}{subsection.56}%
+\contentsline {subsection}{\numberline {7.2}Symmetry outside of the $\Gamma $ point}{21}{subsection.56}%
 \contentsline {section}{\numberline {8}Acknowledgements}{23}{section.57}%
 \contentsline {section}{\numberline {9}Bibliography}{24}{section.58}%
