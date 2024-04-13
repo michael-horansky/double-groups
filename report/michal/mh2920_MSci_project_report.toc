@@ -15,10 +15,10 @@
 \contentsline {subsubsection}{\numberline {6.1.1}Elevated symmetry component of an energy eigenstate}{16}{subsubsection.45}%
 \contentsline {subsubsection}{\numberline {6.1.2}Selection rules for the elevated symmetry component}{18}{subsubsection.47}%
 \contentsline {subsection}{\numberline {6.2}Localisation of pure-heavy-hole excitons in the bulk}{19}{subsection.50}%
-\contentsline {subsection}{\numberline {6.3}Identifying intermediate groups of bulk and structure symmetries}{19}{subsection.51}%
-\contentsline {subsection}{\numberline {6.4}Predictions and their agreement with experiments}{19}{subsection.52}%
-\contentsline {section}{\numberline {7}Discussion of results}{20}{section.53}%
-\contentsline {subsection}{\numberline {7.1}Agreement with $C_{6v}$ is a coincidence}{20}{subsection.54}%
-\contentsline {subsection}{\numberline {7.2}Other hypothetical causes of symmetry elevation}{20}{subsection.55}%
-\contentsline {section}{\numberline {8}Acknowledgements}{22}{section.56}%
-\contentsline {section}{\numberline {9}Bibliography}{23}{section.57}%
+\contentsline {subsection}{\numberline {6.3}Identifying intermediate groups of bulk and structure symmetries}{19}{subsection.52}%
+\contentsline {subsection}{\numberline {6.4}Predictions and their agreement with experiments}{20}{subsection.53}%
+\contentsline {section}{\numberline {7}Discussion of results}{21}{section.54}%
+\contentsline {subsection}{\numberline {7.1}Agreement with $C_{6v}$ is a coincidence}{21}{subsection.55}%
+\contentsline {subsection}{\numberline {7.2}Other hypothetical causes of symmetry elevation}{21}{subsection.56}%
+\contentsline {section}{\numberline {8}Acknowledgements}{23}{section.57}%
+\contentsline {section}{\numberline {9}Bibliography}{24}{section.58}%
