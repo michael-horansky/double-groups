@@ -1114,10 +1114,12 @@ class Group():
             # For 1D irreps, we check individual x, y, z, for 2D irreps we check (x,y), (x, z) and (y, z)
     
     
-    def find_wigner_representation(self, j):
+    def find_wigner_representation(self, j, parity = "g"):
         result = {}
         for g in self.group_elements:
             result[g] = self.group_operations[g].wigner_d_matrix(j)
+            if parity in ["u", "ungerade", "odd"]:
+                result[g] *= self.irrep_characters[self.inversion_irrep].characters[self.element_conjugacy_classes[g]]
         return(result)
     
     
@@ -1359,7 +1361,7 @@ class Group():
                     cur_subtrace = 0.0
                     for b_i in possible_basis_indices:
                         cur_subtrace += reducible_rep[cc][b_i][b_i]
-                    if np.round(cur_subtrace, decimals = 5) != np.round(constituent_irreps[i].characters[cc]):
+                    if np.round(cur_subtrace, decimals = 5) != np.round(constituent_irreps[i].characters[cc], decimals = 5):
                         is_basis_indices_subset_correct = False
                         break
                 if is_basis_indices_subset_correct:
@@ -1478,6 +1480,7 @@ class Group():
         
         for irr_n in self.irrep_names: #TODO clump conjugate irreps here as well!!!!!
             subgroup_rep = self.rep_to_subgroup_rep(subgroup_name, self.irreps[irr_n])
+            print(irr_n)
             subgroup_rep_reduction = self.subgroup_element_relations[subgroup_name][0].reduce_representation_and_divide_basis(subgroup_rep, clump_conjugate_irreps)
             for subgroup_irrep_desc in subgroup_rep_reduction:
                 for i in range(len(subgroup_irrep_desc[2])):

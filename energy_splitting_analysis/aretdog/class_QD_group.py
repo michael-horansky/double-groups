@@ -47,6 +47,15 @@ tex_readable_irrep_labels = {"D3h QD" : {
         "E_1(j=1/2)" : "E_{1/2}",
         "E_2(j=5/2)" : "E_{5/2}",
         "E_3(j=3/2)" : "E_{3/2}"
+    }, "Td QD": {
+        "A_1" : "A_1",
+        "A_2" : "A_2",
+        "E_1" : "E",
+        "T_1" : "T_1",
+        "T_2" : "T_2",
+        "E_1(j=1/2)" : "E_{1/2}",
+        "E_2(j=5/2)" : "E_{5/2}",
+        "F_1(j=3/2)" : "F_{3/2}"
     }}
     
 tex_readable_group_labels = {
@@ -169,11 +178,34 @@ class QDGroup(Group):
     
     def classify_holes(self, orbital):
         hole_dict_list = self.classify_fermions(orbital, 1/2, "valence")
-        hole_i = 1
-        for irrep_label, rep in hole_dict_list[0].items():
-            self.holes[f"h{hole_i}"] = rep
-            self.hole_irreps[f"h{hole_i}"] = self.reduce_representation(rep)[1]
-            hole_i += 1
+        
+        # if we have light and heavy holes, heavy holes will be first
+        successful_classification = False
+        if len(hole_dict_list[0]) == 2:
+            try_holes = [-1, -1]
+            three_half = self.find_wigner_representation(3/2, "u")
+            three_half_basis = self.reduce_representation_and_divide_basis(three_half)
+            # 0, 3 = heavy holes
+            for line_data in three_half_basis:
+                if line_data[2] == [0, 3]:
+                    try_holes[0] = line_data[1]
+                    continue
+            for line_data in three_half_basis:
+                if line_data[2] == [1, 2]:
+                    try_holes[1] = line_data[1]
+                    continue
+            if try_holes[0] != -1 and try_holes[1] != -1:
+                successful_classification = True
+                self.holes[f"h1"] = try_holes[0]
+                self.holes[f"h2"] = try_holes[1]
+                self.hole_irreps[f"h1"] = self.reduce_representation(try_holes[0])[1]
+                self.hole_irreps[f"h2"] = self.reduce_representation(try_holes[1])[1]
+        if successful_classification == False:
+            hole_i = 1
+            for irrep_label, rep in hole_dict_list[0].items():
+                self.holes[f"h{hole_i}"] = rep
+                self.hole_irreps[f"h{hole_i}"] = self.reduce_representation(rep)[1]
+                hole_i += 1
         for number_of_holes_i in range(len(hole_dict_list)):
             is_init = False
             for irrep_label, rep in hole_dict_list[number_of_holes_i].items():
@@ -182,7 +214,7 @@ class QDGroup(Group):
                     is_init = True
                 else:
                     self.multihole_states[-1] += rep
-    
+        
     
     def exciton_rep(self, electron_numbers, hole_numbers):
         # of course, the multifermion_states mean nothing if there are multiple fermion characters, as we pick between them and they occupy different energy levels

@@ -3,23 +3,54 @@
 
 from aretdog.class_QD_group import *
 
+def find_light_and_heavy(s_group):
+    # heavy holes are |3/2, pm 3/2>; light holes are |3/2, pm 1/2>
+    three_half = s_group.find_wigner_representation(3/2, "u")# * s_group.irrep_characters[s_group.inversion_irrep]
+    three_half_basis = s_group.reduce_representation_and_divide_basis(three_half)
+    # 0, 3 = heavy holes
+    for line_data in three_half_basis:
+        if line_data[2] == [0, 3]:
+            print("Heavy hole: ", line_data[0])
+            continue
+    for line_data in three_half_basis:
+        if line_data[2] == [1, 2]:
+            print("Light hole: ", line_data[0])
+            continue
+
+def print_multihole_states(s_group):
+    for i in range(len(s_group.multihole_states)):
+        readable_label = s_group.reduce_representation(s_group.multihole_states[i])[1]
+        print(f"{i+1} holes transform according to {readable_label}")
 
 
 print("Constructing the double group C3v...")
 C3v = QDGroup("C3v QD")
+#C3v.generate_double_group({"E" : E, "Cz_3" : ImproperRotation([1.0, 1.0, 1.0], [1, 3], False), "sigma" : ImproperRotation([-1.0, 1.0, 0.0], [1, 2], True)})
 C3v.generate_double_group({"E" : E, "Cz_3" : ImproperRotation([0.0, 0.0, 1.0], [1, 3], False), "sigma" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], True)})
 C3v.print_character_table()
 C3v.classify_excitons(max_e = 3, max_h = 3)
-#C3v.print_exciton_complexes()
+C3v.print_exciton_complexes()
 C3v.find_transition_chain()
+
+find_light_and_heavy(C3v)
+
+
 #print(C3v.transition_chain)
+
+"""Cs = QDGroup("Cs QD")
+Cs.generate_double_group({"E" : E, "m" : ImproperRotation([0.0, 0.0, 1.0], [1, 2], True)})
+Cs.print_character_table()
+Cs.classify_excitons(max_e = 3, max_h = 3)
+Cs.find_transition_chain()"""
+
 
 print("Constructing the double group C6v...")
 C6v = QDGroup("C6v QD")
 C6v.generate_double_group({"E" : E, "Cz_6" : ImproperRotation([0.0, 0.0, 1.0], [1, 6], False), "sigma" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], True)})
 C6v.print_character_table()
 C6v.classify_excitons(max_e = 3, max_h = 3)
-#C6v.print_exciton_complexes()
+C6v.print_exciton_complexes()
+find_light_and_heavy(C6v)
 C6v.find_transition_chain()
 #print(C3v.transition_chain)
 C6v.add_subgroup(C3v)
@@ -29,14 +60,16 @@ D3h = QDGroup("D3h QD")
 D3h.generate_double_group({"E" : E, "Cz_3" : ImproperRotation([0.0, 0.0, 1.0], [1, 3], False), "m" : ImproperRotation([1.0, 1.0, 0.0], [1, 2], True), "m'" : ImproperRotation([0.0, 0.0, 1.0], [1, 2], True)})
 D3h.print_character_table()
 D3h.classify_excitons(max_e = 3, max_h = 3)
-#D3h.print_exciton_complexes()
+D3h.print_exciton_complexes()
+find_light_and_heavy(D3h)
 
 print("Constructing the double group D3d...")
 D3d = QDGroup("D3d QD")
 D3d.generate_double_group({"E" : E, "Cz_3" : ImproperRotation([0.0, 0.0, 1.0], [1, 3], False), "C_2" : ImproperRotation([1.0, -1.0, 0.0], [1, 2], False), "i" : ImproperRotation([0.0, 0.0, 1.0], [1, 1], True)})
 D3d.print_character_table()
 D3d.classify_excitons(max_e = 3, max_h = 3)
-#D3d.print_exciton_complexes()
+D3d.print_exciton_complexes()
+find_light_and_heavy(D3d)
 
 print("Constructing the double group Oh...")
 Oh = QDGroup("Oh QD")
@@ -49,6 +82,7 @@ Oh.generate_double_group({"E" : E,
 Oh.print_character_table()
 Oh.classify_excitons(max_e = 3, max_h = 3)
 Oh.print_exciton_complexes()
+print_multihole_states(Oh)
 
 print("Constructing the double group Td...")
 Td = QDGroup("Td QD")
@@ -57,11 +91,28 @@ Td.generate_double_group({"E" : E,
                           "Cy_2" : ImproperRotation([0.0, 1.0, 0.0], [1, 2], False),
                           "C_3"   : ImproperRotation([1.0, 1.0, 1.0], [1, 3], False),
                           "m" : ImproperRotation([1.0, -1.0, 0.0], [1, 2], True)})
+"""Td.generate_double_group({"E" : E,
+                          "Cz_2" : ImproperRotation([-1.0, -1.0, 1.0], [1, 2], False),
+                          "Cy_2" : ImproperRotation([-0.21132487, 0.78867513, 0.57735027], [1, 2], False),
+                          "C_3"   : ImproperRotation([0.0, 0.0, 1.0], [1, 3], False),
+                          "m" : ImproperRotation([1.0, -1.0, 0.0], [1, 2], True)})"""
 Td.print_character_table()
 Td.classify_excitons(max_e = 3, max_h = 3)
 Td.print_exciton_complexes()
+print_multihole_states(Td)
 
+#Td.add_subgroup(C3v)
+#print(Td.subgroups)
+#print(Td.subgroup_conjugacy_relations)
 
+T = QDGroup("T QD")
+T.generate_double_group({"E" : E,
+                          "Cz_2" : ImproperRotation([0.0, 0.0, 1.0], [1, 2], False),
+                          "Cy_2" : ImproperRotation([0.0, 1.0, 0.0], [1, 2], False),
+                          "C_3"   : ImproperRotation([1.0, 1.0, 1.0], [1, 3], False)})
+T.print_character_table()
+T.classify_excitons(max_e = 3, max_h = 3)
+#T.print_exciton_complexes()
 
 # Something doesnt add up
 # h1 + h2 = j=3/2 wigner rep
@@ -76,7 +127,7 @@ print(C6v.reduce_representation(C6v.irrep_characters["E_3(j=3/2)"] * C6v.irrep_c
 
 print(C6v.reduce_representation(C6v.angular_representation(3/2) * C6v.irrep_characters[C6v.inversion_irrep])[1])
 print(D3h.reduce_representation(D3h.angular_representation(3/2) * D3h.irrep_characters[D3h.inversion_irrep])[1])"""
-
+"""
 print(" ------------ differing predictions ---------")
 # both transition chains are equal - we will now compare element by element, and see which ones differ in the number of emission lines
 inequal_transitions = [] # each element is a two-element list [init state, final state]
@@ -106,7 +157,7 @@ for inequal_transition in inequal_transitions:
         if len(C3v_transitions[polarisation][0]) != len(C6v_transitions[polarisation][0]):
             print(f"    {polarisation}-polar.: C3v = {len(C3v_transitions[polarisation][0])}; C6v = {len(C6v_transitions[polarisation][0])}")
         #print(f"      C3v: {'; '.join(C3v_transitions[polarisation][0])}")
-        #print(f"      C6v: {'; '.join(C6v_transitions[polarisation][0])}")
+        #print(f"      C6v: {'; '.join(C6v_transitions[polarisation][0])}")"""
 
 #print_table("test", [1, 56, 64321], ["a", 72], [[1, 2, 3], [False, 5, 6]], [1])
 
@@ -265,7 +316,10 @@ def compare_emission_line_numbers(list_of_groups, detector_polarisations = ["x,y
 print("---------------------------------------------")
 #OLD_compare_emission_line_numbers([C3v, C6v, D3h, D3d])
 #compare_emission_line_numbers([C3v, C6v, D3h, D3d])
-compare_emission_line_numbers([C3v, C6v, Oh, Td])
+compare_emission_line_numbers([C3v, C6v, D3h, Td, T])
+
+#Td.tikz_basis_surjection_diagram("C3v QD", position = (15, 0))
+
 
 #for i in range(len(Oh.multihole_states)):
 #    print(f"{i+1} holes in Oh would transform as {Oh.reduce_representation(Oh.multihole_states[i])[1]}")
