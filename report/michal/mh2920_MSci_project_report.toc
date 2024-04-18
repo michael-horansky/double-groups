@@ -10,19 +10,19 @@
 \contentsline {subsubsection}{\numberline {5.2.2}Symmetry arguments, group theory, and double groups}{10}{subsubsection.26}%
 \contentsline {subsubsection}{\numberline {5.2.3}Total angular momentum coupling and Pauli's exclusion principle}{12}{subsubsection.31}%
 \contentsline {subsection}{\numberline {5.3}Photoluminiscence spectrum and evidence of symmetry elevation}{15}{subsection.39}%
-\contentsline {section}{\numberline {6}Results - symmetry suppression theory}{16}{section.43}%
+\contentsline {section}{\numberline {6}Results--symmetry suppression theory}{16}{section.43}%
 \contentsline {subsection}{\numberline {6.1}Perturbative analysis of selection rules}{16}{subsection.44}%
 \contentsline {subsubsection}{\numberline {6.1.1}Elevated symmetry component of an energy eigenstate}{16}{subsubsection.45}%
 \contentsline {subsubsection}{\numberline {6.1.2}Selection rules for the elevated symmetry component}{18}{subsubsection.47}%
 \contentsline {subsection}{\numberline {6.2}Localisation of pure-heavy-hole excitons in the bulk}{19}{subsection.50}%
 \contentsline {subsection}{\numberline {6.3}Identifying intermediate groups of bulk and structure symmetries}{20}{subsection.52}%
 \contentsline {subsection}{\numberline {6.4}Predictions and their agreement with experiments}{21}{subsection.53}%
-\contentsline {subsubsection}{\numberline {6.4.1}Single fermion transformation properties in different groups}{21}{subsubsection.54}%
-\contentsline {subsection}{\numberline {6.5}Predicted number of lines for exciton and biexciton decays}{22}{subsection.57}%
-\contentsline {section}{\numberline {7}Discussion of results}{23}{section.58}%
-\contentsline {subsection}{\numberline {7.1}Agreement with $C_{6v}$ is a coincidence}{23}{subsection.59}%
-\contentsline {subsection}{\numberline {7.2}Symmetry outside of the $\Gamma $ point}{23}{subsection.60}%
-\contentsline {subsection}{\numberline {7.3}mottness? spontaneous symmetries? what?}{23}{subsection.61}%
-\contentsline {section}{\numberline {8}Conclusions}{24}{section.62}%
-\contentsline {section}{\numberline {9}Acknowledgements}{25}{section.63}%
-\contentsline {section}{\numberline {10}Bibliography}{26}{section.64}%
+\contentsline {subsubsection}{\numberline {6.4.1}Fermion transformation properties in different groups}{21}{subsubsection.54}%
+\contentsline {subsubsection}{\numberline {6.4.2}Number of lines for exciton and biexciton decays}{22}{subsubsection.57}%
+\contentsline {section}{\numberline {7}Discussion of results}{24}{section.60}%
+\contentsline {subsection}{\numberline {7.1}Agreement with $C_{6v}$ is a coincidence}{24}{subsection.61}%
+\contentsline {subsection}{\numberline {7.2}Symmetry outside of the $\Gamma $ point}{24}{subsection.62}%
+\contentsline {subsection}{\numberline {7.3}mottness? spontaneous symmetries? what?}{24}{subsection.63}%
+\contentsline {section}{\numberline {8}Conclusions}{25}{section.64}%
+\contentsline {section}{\numberline {9}Acknowledgements}{26}{section.65}%
+\contentsline {section}{\numberline {10}Bibliography}{27}{section.66}%

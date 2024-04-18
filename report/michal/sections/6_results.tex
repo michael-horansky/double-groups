@@ -1,4 +1,4 @@
-\section{Results - symmetry suppression theory}
+\section{Results--symmetry suppression theory}
 
 %\subsection{Treatment of parity}
 %The theoretical treatment of parity under $l$ and $j$-coupling is shown. The program AReTDoG as an implementation of this and its agreement with \cite{karlsson} is discussed.
@@ -94,12 +94,11 @@ If we mix excited fermions of different types into exciton complex, we can now s
 \subsection{Identifying intermediate groups of bulk and structure symmetries}
 Any symmetry transformation which is not a symmetry transformation of the crystal bulk is not a true symmetry transformation of the system \cite{bulk_limiting}. Since every element of the structure symmetry $G_s$ is also an element of the bulk symmetry $G_b$ (which requires a specific orientation of the zincblende lattice), any candidate approximate symmetry $G_a$ has to satisfy $G_s \subset G_a \subseteq G_b$. Consulting the group chains in \cite[Ch.9]{altmann}, we see that there is only one group that satisfies this condition, which is the bulk symmetry group $T_d$ itself. Our model of symmetry suppression therefore requires $T_d$ to be the symmetry we elevate to.
 
-In the analysis, we have also included the groups $D_{3d}$, and $O_h$ as close supergroups of $C_{3v}$. Included are also the groups $C_{6v}$ and $D_{3h}$, which Karlsson \textit{et al.} claimed give the same predictions for emission decay lines \cite[p. 19]{karlsson}, which we have found to be incorrect. Interestingly, the group $C_{6v}$ proves to give very accurate predictions for pure-heavy hole exciton transitions, although it is not a subgroup of $T_d$ and therefore not a possible symmetry group of the system.
-%$D_{3h}$ was not analysed here, since it was already proposed as the elevated symmetry group by Karlsson \textit{et al.} However, since $D_{3h}$ is also not a subgroup of $T_d$, we cannot use the cited analysis of the group in the symmetry suppression model.
+In the analysis, we have also included the groups $D_{3d}$, and $O_h$ as close supergroups of $C_{3v}$, as well as $D_{3h}$, the close supergroup of $C_{3v}$ which Karlsson \textit{et al.} claimed to match their experimental data for symmetry-elevated exciton decays, and which gives equal predictions to $C_{6v}$, another close supergroup \cite[p. 19]{karlsson} .
 
 Note that when making predictions for the bulk symmetry group $T_d$, at the $k=0$ point ($\Gamma$) the light hole band and heavy hole band become degenerate (REF TO PREVIOUS FIG) and together they transform as a single four-dimensional irrep of $T_d$. This means that for groups such as $T_d$, $O_h$, or any groups containing these as subgroups, where no splitting between the four $j=3/2$ states occurs, the predictions at the $\Gamma$ point do not depend on the occupancy numbers of each type of hole, only their total sum.
 
-Also note that for the groups $T_d, O_h$, the Cartesian rep transforms according to a single irrep, which means the photoluminiscent light will not be polarised. As such, it should be detected by both the detector in the $x-y$ plane and the detector along the $z$-axis, with halved intensity in the latter due to passing through a linear polariser.
+Also note that for the groups $T_d, O_h$, the Cartesian rep transforms according to a single irrep, which means the photoluminiscent light will not be polarised. As such, it should be detected by both the detector in the $x-y$ plane and the detector along the $z$-axis, with halved intensity in the latter due to passing through a linear polariser. Furthermore, the lines in the $x-y$ polarisation and $z$ polarisation should line up at equal energies, since each pair of lines corresponds to a single transition.
 
 \subsection{Predictions and their agreement with experiments}
 The predictions our model makes are the numbers of different emission lines between two exciton complexes. These lines should in theory be separated by fine-structure energy splitting, however, due to accidental degeneracy, some lines may not be resolvable in the experiment. Therefore, observing a lower number of lines than predicted does not necessarily contradict the assumed symmetry group, and more careful analysis of which lines probe the symmetry is needed to robustly disconfirm it.
@@ -109,7 +108,7 @@ The groups $C_{3v}$, $C_{6v}$, $D_{3h}$, and $D_{3d}$ undergo splitting of the v
 
 \begin{table}
 \begin{center}
-\bgroup
+\begingroup
 \def\arraystretch{1.5}
 \begin{tabular}{c | c c c}
 & e, $\ket{j=\frac{1}{2}, j_z=\pm\frac{1}{2}}$ & h-h, $\ket{j=\frac{3}{2}, j_z=\pm\frac{3}{2}}$ & lh, $\ket{j=\frac{3}{2}, j_z=\pm\frac{1}{2}}$ \\
@@ -119,7 +118,7 @@ $C_{6v}$ & $E_{1/2}$ & $E_{3/2}$ & $E_{1/2}$\\
 $D_{3h}$ & $E_{1/2}$ & $E_{3/2}$ & $E_{5/2}$\\
 $D_{3d}$ & $E_{1/2,g}$ & $E_{3/2,u}$ (${}^1E_{3/2,u}\oplus{}^2E_{3/2,u}$) & $E_{1/2,u}$
 \end{tabular}
-\egroup
+\endgroup
 \end{center}
 \caption{Irreps corresponding to electrons, heavy holes, and light holes, respectively, in several point groups. In the parentheses after an irrep label, its decomposition into conjugate representations is denoted if applicable.\label{tab:single_fermions}}
 \end{table}
@@ -140,8 +139,50 @@ $O_h$ & $F_{3/2,u}$ & $A_{1g} \oplus E_g \oplus T_{2g}$
 \caption{Transformation properties of one hole and two holes in a single energy level, respectively.\label{tab:multihole_states}}
 \end{table}
 
-\subsubsection{Predicted number of lines for exciton and biexciton decays}
-We have found that $D_{3d}$ gives equal predictions to $C_{3v}$ and $O_h$ gives equal predictions to $T_d$, and hence we omit $D_{3d}$ and $O_h$ from further analysis for brevity.
+\subsubsection{Number of lines for exciton and biexciton decays}
+We have found that $D_{3d}$ gives equal predictions to $C_{3v}$, $C_{6v}$ gives equal predictions to $D_{3h}$, and $O_h$ gives equal predictions to $T_d$, and hence we omit $D_{3d}$, $C_{6v}$, and $O_h$ from further analysis for brevity.
 
-TABLE
+\begin{table}
+\begin{center}
+\begin{tabular}{c c | c c c | c c c}
+%\toprule
+\multicolumn{2}{c}{Exciton decay label} &  \multicolumn{3}{c}{$\sigma$-polarised} & \multicolumn{3}{c}{$z$-polarised}\\
+%\midrule
+short & full & $C_{3v}$ & $D_{3h}$ & $T_d$ & $C_{3v}$ & $D_{3h}$ & $T_d$ \\\hline
+ $X_{\bar{1}0}$ & $X_{10}\to \text{vac.}$ & 2 & 1 & 1 & 0 & 0 & 1\\
+ $X_{0\bar{1}}$ & $X_{01}\to \text{vac.}$ & 1 & 1 & 1 & 1 & 1 & 1\\
+ $X^+_{\bar{2}0}$ & $X^+_{20}\to \text{h-h}$ & 1 & 1 & 4 & 0 & 0 & 4\\
+ $X^+_{1\bar{1}}$ & $X^+_{11}\to \text{h-h}$ & 2 & 2 & 4 & 2 & 2 & 4\\
+ $X^+_{\bar{1}1}$ & $X^+_{11}\to \text{l-h}$ & 4 & 3 & 4 & 2 & 1 & 4\\
+ $X^+_{0\bar{2}}$ & $X^+_{02}\to \text{l-h}$ & 1 & 1 & 4 & 1 & 1 & 4\\
+ $X^-_{\bar{1}0}$ & $X^-_{10}\to \text{e}$ & 1 & 1 & 1 & 0 & 0 & 1\\
+ $X^-_{0\bar{1}}$ & $X^-_{01}\to \text{e}$ & 1 & 1 & 1 & 1 & 1 & 1\\
+ $2X_{\bar{2}0}$ & $2X_{20}\to X_{10}$ & 2 & 1 & 6 & 0 & 0 & 6\\
+ $2X_{1\bar{1}}$ & $2X_{11}\to X_{10}$ & 4 & 2 & 6 & 4 & 2 & 6\\
+ $2X_{\bar{1}1}$ & $2X_{11}\to X_{01}$ & 6 & 3 & 6 & 2 & 1 & 6\\
+ $2X_{0\bar{2}}$ & $2X_{02}\to X_{01}$ & 1 & 1 & 6 & 1 & 1 & 6\\
+ $2X^+_{\bar{3}0}$ & $2X^+_{30}\to X^+_{20}$ & 1 & 1 & 4 & 0 & 0 & 4\\
+ $2X^+_{2\bar{1}}$ & $2X^+_{21}\to X^+_{20}$ & 1 & 1 & 4 & 1 & 1 & 4\\
+ $2X^+_{\bar{2}1}$ & $2X^+_{21}\to X^+_{11}$ & 4 & 3 & 4 & 2 & 1 & 4\\
+ $2X^+_{1\bar{2}}$ & $2X^+_{12}\to X^+_{11}$ & 2 & 2 & 4 & 2 & 2 & 4\\
+ $2X^+_{\bar{1}2}$ & $2X^+_{12}\to X^+_{02}$ & 1 & 1 & 4 & 0 & 0 & 4\\
+ $2X^+_{0\bar{3}}$ & $2X^+_{03}\to X^+_{02}$ & 1 & 1 & 4 & 1 & 1 & 4
+%\bottomrule
+\end{tabular}
+\end{center}
+\caption{The predicted number of different transitions between exciton complexes for the a priori assumed true group $C_{3v}$, the elevation supergroup $D_{3h}$ as suggested by Karlsson \textit{et al.}, and the only supergroup which also respects bulk symmetry, $T_d$. The short label for a decay identifies the initial complex and indicates which hole type recombines with a bar over the occupation number. \label{tab:predictions}}
+\end{table}
 
+The data from Table \ref{tab:predictions} is compared to experimental data collected by Francesco Mattana, Luca Colavecchi, Gediminas Juska and Emanuele Pelucchi (Tyndall National Institute, University College Cork), which they shared with us together with their preliminary analysis. The dataset is to-be published, and will be referred to by the authorial initials MCJP. The authors have conducted correlation measurememts to identify specific peaks by their corresponding exciton transition. The experimental and analysis details will be included in their upcoming article.
+
+In the experimental data, for specific transitions there seems to be variations in the spectrum, as if the QDs split into two sub-populations with different properties. Specifically, for $X_{\bar{1}0}$ and $X_{0\bar{1}}$, MCJP identify two separate characteristic spectra shown in Fig. \ref{fig:single_neutral}. For one sub-population, the missing of one $\sigma$-polarised line for $X_{\bar{1}0}$ as noted by Karlsson \textit{et al.} is reproduced. However, in this sub-population, a resolvable $z$-polarised peak is measured, contradicting the $D_{3h}$ assumption and suggesting an elevation to the bulk symmetry $T_d$. The two most-resolvable lines in $\sigma$ and $z$ polarisation for $X_{0\bar{1}}$, conversely, contradict elevation to $T_d$, as their energies are inequal. The second sub-population matches neither of the analysed groups, as the number of peaks in both polarisations for $X_{\bar{1}0}$ and $\sigma$-polarisation for $X_{0\bar{1}}$ seems to increase.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\textwidth]{figures/single_neutral}
+\end{center}
+\caption{Spectra of two types of QDs in the neutral exciton decays. The $\sigma$ and $z$-polarised spectra are colour-coded black and red, respectively.\label{fig:single_neutral}}
+\end{figure}
+
+$$X^-_{\bar{1}0}$$
+$$X^-_{0\bar{1}}$$
