@@ -89,13 +89,59 @@ If we occupy the QD with two or more excited fermions of the same type, the tota
 
 If we mix excited fermions of different types into exciton complex, we can now see the logical conclusions of our hypothesis. In excitons with only light holes, both the light holes and the excitons probe the structure symmetry and their Coulomb attraction does not affect that. In excitons with both light and heavy holes, the light holes still probe the structure symmetry, a phenomenon reinforced by their Coulomb repulsion with the centrally-localised heavy holes, which may push the light holes further out into the edges of the QD. Finally, in excitons with purely heavy holes, the Coulomb attraction between the heavy holes and the electrons increases the probability of measuring the electrons near the centre of the QD. Hence only purely heavy hole-like excitons undergo symmetry elevation to the bulk symmetry and enjoy symmetry suppression effects in this model.
 
+\textit{Note.} Since the shape of the envelope functions is not known, the fact that pure-light hole excitons probe the structure symmetry is empirical in our model.
+
 \subsection{Identifying intermediate groups of bulk and structure symmetries}
 Any symmetry transformation which is not a symmetry transformation of the crystal bulk is not a true symmetry transformation of the system \cite{bulk_limiting}. Since every element of the structure symmetry $G_s$ is also an element of the bulk symmetry $G_b$ (which requires a specific orientation of the zincblende lattice), any candidate approximate symmetry $G_a$ has to satisfy $G_s \subset G_a \subseteq G_b$. Consulting the group chains in \cite[Ch.9]{altmann}, we see that there is only one group that satisfies this condition, which is the bulk symmetry group $T_d$ itself. Our model of symmetry suppression therefore requires $T_d$ to be the symmetry we elevate to.
 
-In the analysis, we have also included the groups $C_{6v}, D_{3d}$, and $O_h$ as close supergroups of $C_{3v}$. $D_{3h}$ was not analysed here, since it was already proposed as the elevated symmetry group by Karlsson \textit{et al.} However, since $D_{3h}$ is also not a subgroup of $T_d$, we cannot use the cited analysis of the group in the symmetry suppression model.
+In the analysis, we have also included the groups $D_{3d}$, and $O_h$ as close supergroups of $C_{3v}$. Included are also the groups $C_{6v}$ and $D_{3h}$, which Karlsson \textit{et al.} claimed give the same predictions for emission decay lines \cite[p. 19]{karlsson}, which we have found to be incorrect. Interestingly, the group $C_{6v}$ proves to give very accurate predictions for pure-heavy hole exciton transitions, although it is not a subgroup of $T_d$ and therefore not a possible symmetry group of the system.
+%$D_{3h}$ was not analysed here, since it was already proposed as the elevated symmetry group by Karlsson \textit{et al.} However, since $D_{3h}$ is also not a subgroup of $T_d$, we cannot use the cited analysis of the group in the symmetry suppression model.
 
 Note that when making predictions for the bulk symmetry group $T_d$, at the $k=0$ point ($\Gamma$) the light hole band and heavy hole band become degenerate (REF TO PREVIOUS FIG) and together they transform as a single four-dimensional irrep of $T_d$. This means that for groups such as $T_d$, $O_h$, or any groups containing these as subgroups, where no splitting between the four $j=3/2$ states occurs, the predictions at the $\Gamma$ point do not depend on the occupancy numbers of each type of hole, only their total sum.
 
+Also note that for the groups $T_d, O_h$, the Cartesian rep transforms according to a single irrep, which means the photoluminiscent light will not be polarised. As such, it should be detected by both the detector in the $x-y$ plane and the detector along the $z$-axis, with halved intensity in the latter due to passing through a linear polariser.
+
 \subsection{Predictions and their agreement with experiments}
-its all bad
+The predictions our model makes are the numbers of different emission lines between two exciton complexes. These lines should in theory be separated by fine-structure energy splitting, however, due to accidental degeneracy, some lines may not be resolvable in the experiment. Therefore, observing a lower number of lines than predicted does not necessarily contradict the assumed symmetry group, and more careful analysis of which lines probe the symmetry is needed to robustly disconfirm it.
+
+\subsubsection{Fermion transformation properties in different groups}
+The groups $C_{3v}$, $C_{6v}$, $D_{3h}$, and $D_{3d}$ undergo splitting of the valence band into heavy holes and light holes at the $\Gamma$ point, and therefore their exciton complexes are fully characterised by the single-fermion transformation properties. See Table \ref{tab:single_fermions} for the associated irreps as labelled by Altmann, \cite{altmann}.
+
+\begin{table}
+\begin{center}
+\bgroup
+\def\arraystretch{1.5}
+\begin{tabular}{c | c c c}
+& e, $\ket{j=\frac{1}{2}, j_z=\pm\frac{1}{2}}$ & h-h, $\ket{j=\frac{3}{2}, j_z=\pm\frac{3}{2}}$ & lh, $\ket{j=\frac{3}{2}, j_z=\pm\frac{1}{2}}$ \\
+\hline
+$C_{3v}$ & $E_{1/2}$ & $E_{3/2}$ (${}^1E_{3/2}\oplus{}^2E_{3/2}$) & $E_{1/2}$\\
+$C_{6v}$ & $E_{1/2}$ & $E_{3/2}$ & $E_{1/2}$\\
+$D_{3h}$ & $E_{1/2}$ & $E_{3/2}$ & $E_{5/2}$\\
+$D_{3d}$ & $E_{1/2,g}$ & $E_{3/2,u}$ (${}^1E_{3/2,u}\oplus{}^2E_{3/2,u}$) & $E_{1/2,u}$
+\end{tabular}
+\egroup
+\end{center}
+\caption{Irreps corresponding to electrons, heavy holes, and light holes, respectively, in several point groups. In the parentheses after an irrep label, its decomposition into conjugate representations is denoted if applicable.\label{tab:single_fermions}}
+\end{table}
+
+Note that the electron and light-hole labels in $D_{3h}$ are $E_{1/2}$ and $E_{5/2}$, respectively. This is interchanged in the analysis of Karlsson \textit{et al.} \cite[p. 14]{karlsson}, which does not lead to different predictions.
+
+The groups $T_d$ and $O_h$ have the heavy hole and light hole bands degenerate at the $\Gamma$ point, where all holes transform according to a single irrep. Therefore, for these groups we list the transformation properties of both a single-hole state and a double-hole state, with the triple-hole state transforming equally to the single-hole state and the full energy level transforming according to the identity rep (see Sec. \ref{sec:j_coupling}). See Table \ref{tab:multihole_states} for the associated irreps in the Altmann convention.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{c | c c}
+& one hole & two holes \\
+\hline
+$T_d$ & $F_{3/2}$ & $A_1 \oplus E \oplus T_2$\\
+$O_h$ & $F_{3/2,u}$ & $A_{1g} \oplus E_g \oplus T_{2g}$
+\end{tabular}
+\end{center}
+\caption{Transformation properties of one hole and two holes in a single energy level, respectively.\label{tab:multihole_states}}
+\end{table}
+
+\subsubsection{Predicted number of lines for exciton and biexciton decays}
+We have found that $D_{3d}$ gives equal predictions to $C_{3v}$ and $O_h$ gives equal predictions to $T_d$, and hence we omit $D_{3d}$ and $O_h$ from further analysis for brevity.
+
+TABLE
 

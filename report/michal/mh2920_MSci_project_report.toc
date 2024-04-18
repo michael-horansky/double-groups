@@ -16,9 +16,13 @@
 \contentsline {subsubsection}{\numberline {6.1.2}Selection rules for the elevated symmetry component}{18}{subsubsection.47}%
 \contentsline {subsection}{\numberline {6.2}Localisation of pure-heavy-hole excitons in the bulk}{19}{subsection.50}%
 \contentsline {subsection}{\numberline {6.3}Identifying intermediate groups of bulk and structure symmetries}{20}{subsection.52}%
-\contentsline {subsection}{\numberline {6.4}Predictions and their agreement with experiments}{20}{subsection.53}%
-\contentsline {section}{\numberline {7}Discussion of results}{21}{section.54}%
-\contentsline {subsection}{\numberline {7.1}Agreement with $C_{6v}$ is a coincidence}{21}{subsection.55}%
-\contentsline {subsection}{\numberline {7.2}Symmetry outside of the $\Gamma $ point}{21}{subsection.56}%
-\contentsline {section}{\numberline {8}Acknowledgements}{23}{section.57}%
-\contentsline {section}{\numberline {9}Bibliography}{24}{section.58}%
+\contentsline {subsection}{\numberline {6.4}Predictions and their agreement with experiments}{21}{subsection.53}%
+\contentsline {subsubsection}{\numberline {6.4.1}Single fermion transformation properties in different groups}{21}{subsubsection.54}%
+\contentsline {subsection}{\numberline {6.5}Predicted number of lines for exciton and biexciton decays}{22}{subsection.57}%
+\contentsline {section}{\numberline {7}Discussion of results}{23}{section.58}%
+\contentsline {subsection}{\numberline {7.1}Agreement with $C_{6v}$ is a coincidence}{23}{subsection.59}%
+\contentsline {subsection}{\numberline {7.2}Symmetry outside of the $\Gamma $ point}{23}{subsection.60}%
+\contentsline {subsection}{\numberline {7.3}mottness? spontaneous symmetries? what?}{23}{subsection.61}%
+\contentsline {section}{\numberline {8}Conclusions}{24}{section.62}%
+\contentsline {section}{\numberline {9}Acknowledgements}{25}{section.63}%
+\contentsline {section}{\numberline {10}Bibliography}{26}{section.64}%
