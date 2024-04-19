@@ -19,10 +19,10 @@
 \contentsline {subsection}{\numberline {6.4}Predictions and their agreement with experiments}{21}{subsection.53}%
 \contentsline {subsubsection}{\numberline {6.4.1}Fermion transformation properties in different groups}{21}{subsubsection.54}%
 \contentsline {subsubsection}{\numberline {6.4.2}Number of lines for exciton and biexciton decays}{22}{subsubsection.57}%
-\contentsline {section}{\numberline {7}Discussion of results}{24}{section.60}%
-\contentsline {subsection}{\numberline {7.1}Agreement with $C_{6v}$ is a coincidence}{24}{subsection.61}%
-\contentsline {subsection}{\numberline {7.2}Symmetry outside of the $\Gamma $ point}{24}{subsection.62}%
-\contentsline {subsection}{\numberline {7.3}mottness? spontaneous symmetries? what?}{24}{subsection.63}%
-\contentsline {section}{\numberline {8}Conclusions}{25}{section.64}%
-\contentsline {section}{\numberline {9}Acknowledgements}{26}{section.65}%
-\contentsline {section}{\numberline {10}Bibliography}{27}{section.66}%
+\contentsline {section}{\numberline {7}Discussion of results}{26}{section.63}%
+\contentsline {subsection}{\numberline {7.1}Agreement with $C_{6v}$ is a coincidence}{26}{subsection.64}%
+\contentsline {subsection}{\numberline {7.2}Symmetry outside of the $\Gamma $ point}{26}{subsection.65}%
+\contentsline {subsection}{\numberline {7.3}mottness? spontaneous symmetries? what?}{26}{subsection.66}%
+\contentsline {section}{\numberline {8}Conclusions}{27}{section.67}%
+\contentsline {section}{\numberline {9}Acknowledgements}{28}{section.68}%
+\contentsline {section}{\numberline {10}Bibliography}{29}{section.69}%
