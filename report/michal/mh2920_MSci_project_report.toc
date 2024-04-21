@@ -3,26 +3,26 @@
 \contentsline {section}{\numberline {2}Abstract}{2}{section.2}%
 \contentsline {section}{\numberline {3}Contents}{3}{section.3}%
 \contentsline {section}{\numberline {4}Introduction}{4}{section.5}%
-\contentsline {section}{\numberline {5}Discussions of theory employed}{5}{section.6}%
-\contentsline {subsection}{\numberline {5.1}The InGaAs pyramidal quantum dot}{5}{subsection.7}%
-\contentsline {subsection}{\numberline {5.2}Exciton complexes and double groups}{5}{subsection.8}%
-\contentsline {subsubsection}{\numberline {5.2.1}Envelope function method}{6}{subsubsection.9}%
-\contentsline {subsubsection}{\numberline {5.2.2}Symmetry arguments, group theory, and double groups}{10}{subsubsection.26}%
-\contentsline {subsubsection}{\numberline {5.2.3}Total angular momentum coupling and Pauli's exclusion principle}{12}{subsubsection.31}%
-\contentsline {subsection}{\numberline {5.3}Photoluminiscence spectrum and evidence of symmetry elevation}{15}{subsection.39}%
-\contentsline {section}{\numberline {6}Results--symmetry suppression theory}{16}{section.43}%
-\contentsline {subsection}{\numberline {6.1}Perturbative analysis of selection rules}{16}{subsection.44}%
-\contentsline {subsubsection}{\numberline {6.1.1}Elevated symmetry component of an energy eigenstate}{16}{subsubsection.45}%
-\contentsline {subsubsection}{\numberline {6.1.2}Selection rules for the elevated symmetry component}{18}{subsubsection.47}%
-\contentsline {subsection}{\numberline {6.2}Localisation of pure-heavy-hole excitons in the bulk}{19}{subsection.50}%
-\contentsline {subsection}{\numberline {6.3}Identifying intermediate groups of bulk and structure symmetries}{19}{subsection.52}%
-\contentsline {subsection}{\numberline {6.4}Predictions and their agreement with experiments}{20}{subsection.54}%
-\contentsline {subsubsection}{\numberline {6.4.1}Fermion transformation properties in different groups}{20}{subsubsection.55}%
-\contentsline {subsubsection}{\numberline {6.4.2}Number of lines for exciton and biexciton decays}{21}{subsubsection.58}%
-\contentsline {section}{\numberline {7}Discussion of results}{26}{section.64}%
-\contentsline {subsection}{\numberline {7.1}Agreement with the bulk symmetry $T_d$}{26}{subsection.65}%
-\contentsline {subsection}{\numberline {7.2}Insufficient treatment of line number increase}{26}{subsection.66}%
-\contentsline {subsection}{\numberline {7.3}Symmetry outside of the $\Gamma $ point}{27}{subsection.67}%
-\contentsline {section}{\numberline {8}Conclusions}{28}{section.69}%
-\contentsline {section}{\numberline {9}Acknowledgements}{29}{section.70}%
-\contentsline {section}{\numberline {10}Bibliography}{30}{section.71}%
+\contentsline {subsection}{\numberline {4.1}The InGaAs pyramidal quantum dot}{5}{subsection.6}%
+\contentsline {section}{\numberline {5}Discussions of theory employed}{7}{section.9}%
+\contentsline {subsection}{\numberline {5.1}Exciton complexes and double groups}{7}{subsection.10}%
+\contentsline {subsubsection}{\numberline {5.1.1}Envelope function method}{7}{subsubsection.11}%
+\contentsline {subsubsection}{\numberline {5.1.2}Symmetry arguments, group theory, and double groups}{12}{subsubsection.28}%
+\contentsline {subsubsection}{\numberline {5.1.3}Total angular momentum coupling and Pauli's exclusion principle}{14}{subsubsection.33}%
+\contentsline {subsection}{\numberline {5.2}Photoluminiscence spectrum and evidence of symmetry elevation}{17}{subsection.41}%
+\contentsline {section}{\numberline {6}Results--symmetry suppression theory}{18}{section.45}%
+\contentsline {subsection}{\numberline {6.1}Perturbative analysis of selection rules}{18}{subsection.46}%
+\contentsline {subsubsection}{\numberline {6.1.1}Elevated symmetry component of an energy eigenstate}{18}{subsubsection.47}%
+\contentsline {subsubsection}{\numberline {6.1.2}Selection rules for the elevated symmetry component}{20}{subsubsection.49}%
+\contentsline {subsection}{\numberline {6.2}Localisation of heavy-hole excitons in the bulk}{21}{subsection.52}%
+\contentsline {subsection}{\numberline {6.3}Identifying intermediate groups of bulk and structure symmetries}{21}{subsection.54}%
+\contentsline {subsection}{\numberline {6.4}Predictions and their agreement with experiments}{22}{subsection.56}%
+\contentsline {subsubsection}{\numberline {6.4.1}Fermion transformation properties in different groups}{22}{subsubsection.57}%
+\contentsline {subsubsection}{\numberline {6.4.2}Number of lines for exciton and biexciton decays}{23}{subsubsection.60}%
+\contentsline {section}{\numberline {7}Discussion of results}{28}{section.66}%
+\contentsline {subsection}{\numberline {7.1}Agreement with the bulk symmetry $T_d$}{28}{subsection.67}%
+\contentsline {subsection}{\numberline {7.2}Insufficient treatment of line number increase}{28}{subsection.68}%
+\contentsline {subsection}{\numberline {7.3}Symmetry outside of the $\Gamma $ point}{29}{subsection.69}%
+\contentsline {section}{\numberline {8}Conclusions}{30}{section.71}%
+\contentsline {section}{\numberline {9}Acknowledgements}{31}{section.72}%
+\contentsline {section}{\numberline {10}Bibliography}{32}{section.73}%

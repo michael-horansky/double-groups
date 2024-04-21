@@ -48,6 +48,39 @@ We investigate the photoluminiscence spectra of InGaAs pyramidal quantum dots wi
 
 Firstly, a historical context of the problem and a brief literature review (namely \cite{karlsson}). Secondly, a brief review of \cite{hexagon} as a \textit{de facto} solution to symmetry elevation, and then motivating the need for a perturbative analysis under strain and imperfect growth, which favour the three pyramid-defined directions out of the six grown. Thirdly, a list of proposed solutions, with the first one, a perturbative model of a low-symmetry Hamiltonian being mathematically explored and quantified.
 
+TEXT
+
+Quantum dots (QDs) have been the subject of keen interest and study by the scientific community in the last decades for their wide applications in quantum information (\cite{quantum_information1}), photonics (\cite{photonics1}, \cite{photonics2}), medicine (\cite{medicine1}, \cite{medicine2}) and many others (\cite{other_applications}). Many of these applications are viable due to the unique electronic properties of QDs that allow us to construct within it atom-like electron states \cite{atomlike} with tunable energy levels \cite{tunable} which depend on the specific manufacturing parameters. However, there are still challenges in characterising the small-scale structural properties of grown QDs, such as unintentional symmetry breaking \cite{karlsson}. In the project, we will inspect these structural properties using the tools of spectroscopy and the mathematical toolset of group theory.
+
+Quantum dots are semiconductor nanocrystals \cite{other_applications}, which enjoy programmable charge states of electrons and electron holes (together dubbed exciton complexes) \cite{charge_state}. The most direct way to experimentally investigate the energy states of electrons and electron holes in QDs is photoluminiscence spectroscopy, a technique used by Karlsson \textit{et a.} \cite{karlsson}. The QDs are first non-resonantly excited by a laser and then spontaneously emit photons due to state transitions of exciton complexes. Each exciton complex may correspond to multiple tightly-spaced energy levels. Determining these energy levels, as well as the selection rules that rule which transitions are allowed, is then sufficient to describe the QD spectrum.
+
+The energy level splitting for exciton complexes can be investigated by first considering the exciton as a state of multiple fermionic particles which couple their total angular momenta, and then inserting these eigenstate of the total angular momentum into the structure of the quantum dot, breaking the rotational symmetry. Whilst the exciton wavefunctions are very difficult to calculate precisely, we can use symmetry arguments to determine the number of energy levels and their degeneracies for a single exciton complex, as well as the selection rules for transitions between energy levels belonging to two different excitons. For this, we use group theory, which proved to be very useful in quantum mechanics and other branches of physics in the twentieth century thanks to the work of physicists such as Eugene Wigner and Hermann Weyl \cite{wightman}. In our problem, we describe the symmetry of a QD by its \textit{group of the Hamiltonian}, which is built upon a set of all rotations and roto-inversions which commute with the Hamiltonian of exciton complexes.
+
+In 2015, Karlsson \textit{et al.} published a paper claiming that InGaAs QDs grown in a way which suggests its group of the Hamiltonian should be $C_{3v}$ exhibits spectral features for certain exciton transitions which imply the group of the Hamiltonian to contain more symmetries, such as $D_{3h}$ or $C_{6v}$ \cite{karlsson}. The effect of \textit{symmetry elevation} has been studied by Karlsson \textit{et al.} in \cite{karlsson} and \cite{karlsson_2010} and by Dupertuis \textit{et al.} in \cite{dupertuis}, but remains yet unexplained. In this work, we collaborate with a laboratory in the Tyndall Institute, University College Cork, which reproduces the spectral measurements for this type of QDs using new methods of spectral features identification, and compare these measurements to our simple perturbative model of \textit{symmetry suppression} which attempts to quantify the effects of approximate symmetries, which were hypothesised by Dupertuis \textit{et al.} as the mechanism behind symmetry elevation \cite[p. 2]{dupertuis}. Finally, we reject the suggested groups $D_{3h}$ and $C_{6v}$ as candidates for symmetry elevation due to them postulating symmetries which the underlying atomic lattice of the QD is not equipped with. Instead, we identify $T_d$ as the \textit{bulk symmetry} of this lattice, and propose it as a new candidate for symmetry elevation.
+
+
+\subsection{The InGaAs pyramidal quantum dot} \label{sec:growth}
+\begin{figure} \label{fig:pyramidal_qds}
+\begin{center}
+
+    \includegraphics[width=0.8\textwidth]{figures/pyramidal_qds}
+ \caption{The tetrahedral recesses within which the QDs are grown. Dashed lines indicate the pyramid boundaries before growth, the solid lines indicate the vicinal facets after growth. Recess figure taken from \cite[Fig. 1]{pyramidal_qds}; QD diagram taken from \cite[Fig. 1]{karlsson}}
+\end{center}
+\end{figure}
+
+The quantum dot bulk is an $\text{In}_{0.10}\text{Ga}_{0.90}\text{As}$ alloy semiconductor, and the dot is grown in tetrahedral recesses on a GaAs $\{111\}B$ substrate. Within the tetrahedral recess, three quantum wires form along the pyramid corners, and a quantum dot forms at the tip of the pyramid where the quantum wires meet \cite{pyramidal_qds}. As seen in Fig. \ref{fig:pyramidal_qds}, the shape of the recess should determine the symmetries of the dot. The triangular base yields the three-fold rotation along the $z$-axis, and the inclination of the facets breaks the $z$-mirror symmetry. However, as seen by the deformation of the facets, the true shape of the dot is affected by several phenomena, some of which are poorly understood. For instance, Holsgrove \textit{et al.} have studied a similar quantum dot which significantly differs only in the thickness of the lateral quantum wires, and have found the dot to form into the shape of a regular hexagon, which does possess $C_{6v}$ symmetry \cite{hexagon} (See Fig. \ref{fig:hexagonal_qds}). We do not believe that our dot also forms a regular hexagon, and even in such case the true symmetry would be limited by the underlying lattice, hence disconfirming $C_{6v}$ as the group towards which symmetry elevates, but this illustrates that the true shape of the QD is poorly understood, and might exhibit properties which allow approximate symmetries to manifest.
+
+Dupertuis \textit{et al.} claim that symmetry elevation manifests in strain-free QDs \cite[p. 4]{dupertuis}, and hence we disregard strain effects and symmetry breaking possibly caused by them in our analysis, and we discuss the possible effects of strain on our models in Sec. \ref{sec:symmetry_outside_gamma} and Sec. \ref{sec:conclusions}.\\
+
+\begin{figure}\label{fig:hexagonal_qds}
+\begin{center}
+    \includegraphics[width=0.4\textwidth]{figures/hexagonal_qds}
+ \caption{Analogously-grown QDs form regular hexagons. "QW" labels quantum wells, "QWr" labels quantum wires. Figure taken from \cite[Fig. 1]{hexagon}}
+\end{center}
+\end{figure}
+
+The measurements performed by our colleagues Francesco Mattana, Luca Colavecchi, Gediminas Juska and Emanuele Pelucchi (Tyndall National Institute, University College Cork). The data will be published together with experimental details and descriptions of the methods they used to identify emission lines with the exciton transitions they correspond to in a separate paper, and therefore we omit this information here. Mattana, Colavecchi, Juska, and Pelucchi have kindly provided us with their results regarding the spectral features of individual exciton decays, which we use to test our theoretical model in Sec. \ref{sec:testing_against_data}. 
+
 \pagebreak
 
 \include{sections/5_discussion_of_theory_employed}
@@ -59,9 +92,11 @@ Firstly, a historical context of the problem and a brief literature review (name
 \include{sections/8_conclusions}
 
 \section{Acknowledgements}
-The author would like to acknowledge his research partner Zétény Bacsó for his robust, multi-faceted contribution to the project,
+The author would like to acknowledge his research partner Zétény Bacsó for his robust, multi-faceted contribution to the project, which includes authoring novel ideas as well as consulting ideas proposed by the author, tirelessly delving into research of countless subjects related to the project, aptly assessing the relevance of the many components of the complex theory of semiconductor nanocrystals to the symmetry properties of quantum dots, diligently validating the outputs of the author's automated algorithm package for double group representation theory with pen-and-paper calculations, identifying many problems and bugs in the process, and many other contributions to the team-work and the team-spirit, from proposing efficient work delegation to engaging in casual conversations about the relationship between mathematics, philosophy, and Nature,
 
 their supervisor, Professor Dimitri Vvedensky, for his guidance, direction, and identification of important information sources,
+
+Francesco Mattana, Luca Colavecchi, Doctor Gediminas Juska, and Doctor Emanuele Pelucchi from Tyndall National Institute, University College Cork, who kindly provided us with their measurements of the quantum dot photoluminiscence spectra, which constitute material for their to-be-published paper, and with whom we had many stimulating discussions about the quantum dot symmetries,
 
 Professor Jing Zhang, for his consultation on the envelope function method and other fundamental properties of quantum dots,
 
@@ -73,11 +108,46 @@ and Ivan Shalashilin, Jacob Edginton, and the author's family for their discussi
 
 \begin{thebibliography}{10}
 
+\bibitem{quantum_information1}
+Michler, P. (2017), \textit{Quantum Dots for Quantum Information Technologies}. 1st edn. Springer Cham.
+
+\bibitem{photonics1}
+Jin, X. \textit{et al} (2020), Cation exchange assisted synthesis of ZnCdSe/ZnSe quantum dots with narrow emission line widths and near-unity photoluminescence quantum yields. \textit{Chem. Commun.}, \textbf{56}, 6130--6133
+
+\bibitem{photonics2}
+Hanifi, D. A. \textit{et al} (2019), Redefining near-unity luminescence in quantum dots with photothermal threshold quantum yield. \textit{Science}, \textbf{363}, 1199--1202
+
+\bibitem{medicine1}
+Medintz, I. L., Uyeda, H. T., Goldman, E. R., Mattoussi, H. (2005),
+Quantum dot bioconjugates for imaging, labelling and sensing. \textit{Nature Materials}, \textbf{4}, 435--446
+
+\bibitem{medicine2}
+Sakimoto, K. K., Wong, A. B., Yang, P. (2016), Self-photosensitization
+of nonphotosynthetic bacteria for solar-to-chemical production. \textit{Science}, \textbf{351}, 74--77
+
+\bibitem{other_applications}
+García de Arquer, F. P., Talapin, D. V., Klimov, V. I., Arakawa, Y., Bayer, M., Sargent, E. H. (2021), Semiconductor quantum dots: Technological progress and future challenges. \textit{Science}, \textbf{373}, 640 
+
+\bibitem{atomlike}
+Ashoori, R. C. (1996), Electrons in artificial atoms. \textit{Nature}, \textbf{379}, 413--419.
+
+\bibitem{tunable}
+Cho, A. Y., Arthur, J. R. (1975), Molecular beam epitaxy. \textit{Progress in Solid State Chemistry}, \textbf{10}, 157--191
+
+\bibitem{wightman}
+Wightman, A. S. (1995), Eugene Paul Wigner 1902--1995. \textit{Notices of the American Mathematical Society}, \textbf{42} (7), 769-771
+
 \bibitem{karlsson}
 Karlsson, K. F. \textit{et al.} (2015), Spectral signatures of high-symmetry quantum dots and effects of symmetry breaking. \textit{New Journal of Physics}, \textbf{17} 103017
 
 \bibitem{karlsson_2010}
 Karlsson, K. F. \textit{et al.} (2010), Fine structure of exciton complexes in high-symmetry quantum dots: Effects of symmetry breaking and symmetry elevation. \textit{Phys. Rev. B}, \textbf{81} 161307(R)
+
+\bibitem{dupertuis}
+Dupertuis, M. A., Karlsson, K. F., Oberli, D. Y., Pelucchi, E., Rudra, A., Holtz, P. O., Kapon, E. (2011), Symmetries and the Polarized Optical Spectra of Exciton Complexes in Quantum Dots. \textit{Physical Review Letters}, \textbf{107} 127403
+
+\bibitem{pyramidal_qds}
+Hartmann, A. \textit{et al} (1997), Self-limiting growth of quantum dot heterostructures on nonplanar $\{111\}B$ substrates. \textit{Applied Physics Letters}, \textbf{71} 1314
 
 \bibitem{hexagon}
 Holsgrove, K. M. \textit{et al} (2022), Towards 3D characterisation of site-controlled InGaAs pyramidal QDs at the nanoscale. \textit{J Mater Sci}, \textbf{57} 16383--16396
