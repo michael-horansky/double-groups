@@ -15,14 +15,14 @@
 \contentsline {subsubsection}{\numberline {6.1.1}Elevated symmetry component of an energy eigenstate}{16}{subsubsection.45}%
 \contentsline {subsubsection}{\numberline {6.1.2}Selection rules for the elevated symmetry component}{18}{subsubsection.47}%
 \contentsline {subsection}{\numberline {6.2}Localisation of pure-heavy-hole excitons in the bulk}{19}{subsection.50}%
-\contentsline {subsection}{\numberline {6.3}Identifying intermediate groups of bulk and structure symmetries}{20}{subsection.52}%
-\contentsline {subsection}{\numberline {6.4}Predictions and their agreement with experiments}{21}{subsection.53}%
-\contentsline {subsubsection}{\numberline {6.4.1}Fermion transformation properties in different groups}{21}{subsubsection.54}%
-\contentsline {subsubsection}{\numberline {6.4.2}Number of lines for exciton and biexciton decays}{22}{subsubsection.57}%
-\contentsline {section}{\numberline {7}Discussion of results}{26}{section.63}%
-\contentsline {subsection}{\numberline {7.1}Agreement with $C_{6v}$ is a coincidence}{26}{subsection.64}%
-\contentsline {subsection}{\numberline {7.2}Symmetry outside of the $\Gamma $ point}{26}{subsection.65}%
-\contentsline {subsection}{\numberline {7.3}mottness? spontaneous symmetries? what?}{26}{subsection.66}%
-\contentsline {section}{\numberline {8}Conclusions}{27}{section.67}%
-\contentsline {section}{\numberline {9}Acknowledgements}{28}{section.68}%
-\contentsline {section}{\numberline {10}Bibliography}{29}{section.69}%
+\contentsline {subsection}{\numberline {6.3}Identifying intermediate groups of bulk and structure symmetries}{19}{subsection.52}%
+\contentsline {subsection}{\numberline {6.4}Predictions and their agreement with experiments}{20}{subsection.54}%
+\contentsline {subsubsection}{\numberline {6.4.1}Fermion transformation properties in different groups}{20}{subsubsection.55}%
+\contentsline {subsubsection}{\numberline {6.4.2}Number of lines for exciton and biexciton decays}{21}{subsubsection.58}%
+\contentsline {section}{\numberline {7}Discussion of results}{26}{section.64}%
+\contentsline {subsection}{\numberline {7.1}Agreement with the bulk symmetry $T_d$}{26}{subsection.65}%
+\contentsline {subsection}{\numberline {7.2}Insufficient treatment of line number increase}{26}{subsection.66}%
+\contentsline {subsection}{\numberline {7.3}Symmetry outside of the $\Gamma $ point}{27}{subsection.67}%
+\contentsline {section}{\numberline {8}Conclusions}{28}{section.69}%
+\contentsline {section}{\numberline {9}Acknowledgements}{29}{section.70}%
+\contentsline {section}{\numberline {10}Bibliography}{30}{section.71}%
