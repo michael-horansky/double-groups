@@ -1,9 +1,9 @@
 \section{Discussions of theory employed}
 
-\subsection{Exciton complexes and double groups} \label{sec:exciton_theory}
+\subsection[Exciton complexes]{Exciton complexes and double groups} \label{sec:exciton_theory}
 The physical phenomenon which is subject to our study is photoluminiscence. Since this mechanism does not have the QDs in a laboratory ensemble interact, we can formulate a theoretical model of photoluminiscence on a singular QD. An external electromagnetic field in the form of a light-beam interacts with the QD in a non-resonant way (as for not to favour a single transition), which promotes electrons into the conduction band and holes into the valence bands (since there are typically two valence bands at the band edge, which are close at $\Gamma$). The population of excited electrons and holes of different characteristics is called an exciton complex. Exciton complexes decay into lower-occupancy exciton complexes via electron-hole recombination, which produces bright emission lines in the photoluminiscence spectrum. These lines are sharp and occur at fixed frequencies corresponding to the energy level differences, and the theoretical description of their spectrum is the ultimate goal of this work.
 
-Exciton complexes are labelled by the number of electron-hole pairs and the occupancy numbers of each hole type. For example, $2X^+_{21}$ has $2$ electrons, $2$ heavy holes, $1$ light hole, and an overall charge of $+1e$.
+Exciton complexes are labelled by the number of electron-hole pairs, overall charge, and the occupancy numbers of each hole type. For example, $2X^-_{20}$ has $3$ electrons, $2$ heavy holes, $0$ light holes, and an overall charge of $-1e$.
 
 In the Karlsson \textit{et al.} setup, the light-beam is a laser with a spot size of $\SI{1}{\micro\metre}$, power in the range $25$--$\SI{750}{\nano\watt}$, and wavelength of $\SI{532}{\nano\metre}$. The semiconductor nanocrystal has a direct band-gap at $\Gamma$. The excitons with resolvable emissions have low occupancy numbers (3 or fewer of any of the three fermions--electrons, light holes, and heavy holes). Because InGaAs has a direct band-gap, we approximate the exciton complexes as living on the $\Gamma$ point, i.e. each excited fermion having zero crystal momentum (Fig. \ref{fig:ingaas_band_structure}).
 
@@ -57,7 +57,7 @@ where $E_0$ is the band-edge energy. Now, in a parabolic Taylor expansion of the
 \begin{equation}\label{eq:single_envelope_function}
 -\frac{\hbar^2}{2m^*}\nabla^2 \Upsilon = (E-E_0)\Upsilon
 \end{equation}
-This is the equation of a free particle with energy $E_p=E-E_0$. Hence we can model a single excited fermion as a "particle in a box" around the $\Gamma$ point for a large enough structure.
+This is the equation of a free particle with energy $E_p=E-E_0$. Hence we can model a single excited fermion as a ``particle in a box'' around the $\Gamma$ point for a large enough structure.
 
 Now we consider the wavefunction of an exciton complex, which is comprised of multiple excited fermions. The interaction between the fermions is purely electromagnetic. Since the envelope functions are slowly-varying and associated to zero crystal momenta, their magnetic interaction is negligible. The magnetic interaction of the periodic basis functions gives rise to spin-orbit and orbit-orbit coupling (ignoring the hyperfine structure of spin-spin coupling), which allows us to label an exciton complex with a total angular momentum $J$ and its projection onto the $z$-axis $J_z$ as two quantum numbers. The Coulomb interaction between fermions $a$ and $b$ gives rise to a term in the Hamiltonian in the form
 \begin{equation}
@@ -113,7 +113,7 @@ Now we renormalize the correlation constant $\Pi_{ab}$ using the volume of the u
  \end{equation*}
  Note that the Coulomb interaction on the volumes of the scale of the unit cell of the crystal lattice is fully rotationally symmetric, and therefore will not invalidate $J, J_z$ as good quantum numbers. However, it will affect the value of $\Pi'_{ij}$, which therefore becomes nontrivial to calculate. It will also affect the shape of the periodic functions, which we can for simplicity just denote $F_i\left(\vec{r}_i\right)$, and which have the same periodic properties as $U_i\left(\vec{r}_i\right)$, and form in totality a $J, J_z$ eigenstate. Therefore, we expect the transformation $U_i\to F_i$ to only affect the radial dependence in the close vicinity of an atom, preserving the spherical-harmonics angular dependence in the tight-binding model.
  
- By interpreting Eq. (\ref{eq:exciton_envelope_equation}), we now see that the envelope functions in an exciton complex behave as free particles in a box with added Coulomb interactions, i.e. a many-body charged particle system. Note that the potential barriers at the edges of the "box" are not infinite, and that would indeed not be a good approximation!
+ By interpreting Eq. (\ref{eq:exciton_envelope_equation}), we now see that the envelope functions in an exciton complex behave as free particles in a box with added Coulomb interactions, i.e. a many-body charged particle system. Note that the potential barriers at the edges of the ``box'' are not infinite, and that would indeed not be a good approximation!
  
  \textit{Note.} Even though $\hat{V}_{ab}^C\left(\vec{r}_a-\vec{r}_b\right)$ diverges for $\vec{r}_a=\vec{r}_b$ (which occurs in the small subset of $R_V\otimes R_V$ where both vectors are in the same unit cell), the contribution of the integrals over these coinciding unit cells should not be disproportionally high, since when considering the volume integral in spherical coordinates centered on the asymptote, the integrand goes like $\abs{\vec{r}_a-\vec{r}_b}$, so the integral should be approximately proportional to $V_{\text{U.C.}}^{2/3}$, and the contribution from this subset where our approximations fail to the total integral is negligible.
 
@@ -122,7 +122,7 @@ Now that we have decomposed the single excited fermion wavefunction into a $j$-e
 
 To review the basic applications of group theory to quantum mechanics as outlined e.g. in Dresselhaus (2002) \cite{dresselhaus}, we consider the set of rotations commuting with a Hamiltonian $\hat{H}$. This set forms a group under multiplication (as for $\hat{R}_1, \hat{R}_2$ commuting with $\hat{H}$, $\hat{R}_1\hat{R}_2$ must be a single rotation $\hat{R}_3$ which also commutes with $\hat{H}$). This group shall be denoted as $G_{\hat{H}}$, and is referred to as the group of the Hamiltonian. As shown in standard texts, each energy level $E_n$ of the time-independent Schrödinger eigenvalue problem $\hat{H}\Psi_n=E_n\Psi_n$ corresponds to an irreducible representation (irrep) of $G_{\hat{H}}$, which we can denote as $\Gamma_{r(n)}$, where $r$ is some mapping. The degeneracy of $E_n$ is then equal to the dimension of $\Gamma_{r(n)}$. Therefore, knowing the group of the Hamiltonian tells us the possible degeneracies of the energy levels and what they transform like under the symmetry transformations.
 
-Moreover, group theory has an application to selection rules. Consider two energy levels $E_a, E_b$ of a system with the Hamiltonian $\hat{H}$. If we add a perturbation $\hat{H}'$ which allows transition between energy levels, and which transforms according to the representation $\Gamma_{\hat{H}'}$, by Fermi's golden rule the rate of transition $E_a\to E_b$ is proportional to the matrix element $\mel{E_a}{\hat{H}'}{E_b}$ (if the energy levels are degenerate, we need to pick a set of basis vectors and consider the rates of transition between each pair of basis vectors). As per \cite[Ch. 7]{dresselhaus}, this matrix element vanishes if the irrep direct product $\Gamma_{r(a)}\otimes\Gamma_{\hat{H}'}\otimes\Gamma_{r(b)}$ does not contain the identity representation. This allows us to decide which exciton transitions under photoluminiscent electron-hole recombination will be dark in which polarisation.
+Moreover, group theory has an application to selection rules. Consider two energy levels $E_a, E_b$ of a system with the Hamiltonian $\hat{H}$. If we add a perturbation $\hat{H}'$ which allows transition between energy levels, and which transforms according to the representation $\Gamma_{\hat{H}'}$, by Fermi's golden rule the rate of transition $E_a\to E_b$ is proportional to the matrix element $\mel{E_a}{\hat{H}'}{E_b}$ \cite[Eq. 3.2]{fox}. As per \cite[Ch. 7]{dresselhaus}, this matrix element vanishes if the irrep direct product $\Gamma_{r(a)}\otimes\Gamma_{\hat{H}'}\otimes\Gamma_{r(b)}$ does not contain the identity representation. This allows us to decide which exciton transitions under photoluminiscent electron-hole recombination will be dark in which polarisation.
 
 Consider now the effective Hamiltonians acting on the envelope function $\Upsilon=\prod_{i}\Upsilon_i\left(\vec{r}_i\right)$ and the 
 periodic function $F=\prod_{i}F_i\left(\vec{r}_i\right)$, respectively.
@@ -148,7 +148,7 @@ In the tight-binding model, the band-edge eigenstate $U$ is a convolution of the
 \end{center}
 \end{figure}
 
-Therefore the only part of the single excited fermion wavefunction which does not necessarily transform according to the identity rep is the $j$-eigenstate itself. The character of a $j$-eigenstate under any rotation is the trace of the corresponding Wigner D-matrix, the general representation of $SU(2)$ derived by Wigner in \cite[Ch. 15]{wigner} and each set of eigenstates
+Therefore the only part of the single excited fermion wavefunction which does not necessarily transform according to the identity rep is the $j$-eigenstate itself. The character of a $j$-eigenstate under any rotation is the trace of the corresponding Wigner $D$-matrix, the general irrep $\Gamma^{(SU(2))}_{j}$ of $SU(2)$ derived by Wigner in \cite[Ch. 15]{wigner} and each set of eigenstates
 \begin{equation*}
 \mqty(\ket{j,j_z=j}\\\ket{j,j_z=j-1}\\\vdots\\\ket{j, j_z=-j})\mbox{ forms a basis to }\Gamma^{(SU(2))}_{j}
 \end{equation*}
@@ -158,18 +158,18 @@ Our approach to construct the transformation laws for the single excited fermion
 
 Applying this approach, we find that an electron promoted to the $s$-orbital conduction band transforms according to $\Gamma_{j=1/2, g}$ in the full roto-inversion group, which reduces to $E_{1/2}$ in the $C_{3v}$ double group. Conversely, a hole promoted to the $p$-orbital valence band transforms according to $\Gamma_{j=1/2, u}\oplus\Gamma_{j=3/2, u}$ in the full roto-inversion group. We identify $\Gamma_{j=1/2, u}$ as the split-off band which has significantly lower energy at the band-edge, and hence will not be populated in our system (Fig. \ref{fig:ingaas_band_structure}). Conversely, $\Gamma_{j=3/2, u}$ decomposes into $E_{1/2}\oplus E_{3/2}$ in the $C_{3v}$ double group, where $E_{1/2}$ corresponds to the light-hole band ($j_z=\pm 1/2$) and $E_{3/2}$ corresponds to the heavy-hole band ($j_z=\pm 3/2$). This illustrates that in a nanocrystal with $C_{3v}$ symmetry, the heavy hole and light hole bands undergo splitting, no longer being degenerate at $\Gamma$.
 
-\subsubsection{Total angular momentum coupling and Pauli's exclusion principle} \label{sec:j_coupling}
+\subsubsection{Total angular momentum coupling and Pauli exclusion principle} \label{sec:j_coupling}
 To obtain the transformation properties of an exciton complex, we must consider the magnetic orbit-orbit and spin-orbit interaction which couples the total angular momenta $j$ of separate fermions together. The treatment of $j$-coupling in the full roto-inversion symmetry is as follows:
 
-Consider two non-interacting particles governed by Hamiltonians which conserve total angular momentum. Let the two particles exist in $j$-eigenstates $\ket{j^A, j^A_z, p}, \ket{j^B, j^B_z, p}$ respectively (here $p$ specifies the inversion parity), and the group of each of their Hamiltonians is $SU(2)\otimes C_i$. The full Hilbert space they occupy is the direct product of the Hilbert space occupied by each particle, and hence the group of the total Hamiltonian is:
+Consider two non-interacting particles governed by Hamiltonians which conserve total angular momentum. Let the two particles exist in $j$-eigenstates $\ket{j^A, j^A_z, p^A}, \ket{j^B, j^B_z, p^B}$ respectively (here $p$ specifies the inversion parity), and the group of each of their Hamiltonians is $SU(2)\otimes C_i$. The full Hilbert space they occupy is the direct product of the Hilbert space occupied by each particle, and hence the group of the total Hamiltonian is:
 \begin{equation}
-G^{\text{nonint.}}_{\hat{H}}=\left(SU(2)\otimes C_i\right)\otimes\left(SU(2)\otimes C_i\right)
+G^{\text{non-int.}}_{\hat{H}}=\left(SU(2)\otimes C_i\right)\otimes\left(SU(2)\otimes C_i\right)
 \end{equation}
 The irreps of this group are the direct products of the respective irreps $\Gamma_{j,p}$, and hence
 \begin{equation} \label{eq:noninteracting_j}
 \ket{j^A, j^A_z, p^A}\otimes\ket{j^B, j^B_z, p^B}\qq{transforms according to}\Gamma_{j^A, p^A}\otimes\Gamma_{j^B, p^B}
 \end{equation}
-If we now include an interaction term in the full Hamiltonian which couples the total angular momenta of the particles, $j^A_z, j^B_z$ cease to be good quantum numbers. Instead (in classic electromagnetic coupling), the full total angular momentum $J$ and its projection along the $z$-axis, $J_z$, become good quantum numbers. Preserving $j^A, j^B$ as immutable parameters of the physical system, the new energy eigenstates posses the roto-inversion symmetry $SU(2)\otimes C_i$, and transform according to its irreps--this is determined wholly by the quantum numbers, which specify the partitioning of the Hilbert space into degenerate subspaces. Hence we need to reduce the high-symmetry irrep in Eq. \ref{eq:noninteracting_j} into the lower-symmetry group $SU(2)\otimes C_i$.
+If we now include an interaction term in the full Hamiltonian which couples the total angular momenta of the particles, $j^A_z, j^B_z$ cease to be good quantum numbers. Instead (in classic electromagnetic coupling), the full total angular momentum $J$ and its projection along the $z$-axis, $J_z$, become good quantum numbers. Preserving $j^A, j^B$ as immutable parameters of the physical system, the new energy eigenstates posses the roto-inversion symmetry $SU(2)\otimes C_i$, and transform according to its irreps. Hence we need to reduce the high-symmetry irrep in Eq. (\ref{eq:noninteracting_j}) into the lower-symmetry group $SU(2)\otimes C_i$.
 
 We will assume that all constituent irreps in the decomposition have equal parity, which is the product of the two parities $p^A\cdot p^B$. Then, using standard results \cite[Ch. 17]{wigner}, we write down the decomposition:
 \begin{equation}
@@ -177,13 +177,13 @@ We will assume that all constituent irreps in the decomposition have equal parit
 \end{equation}
 We can now generalise this approach to cases where each particle's original Hamiltonian undergoeas symmetry breaking to some double group $\tilde{G}_{\hat{H}_0}$, which is a subgroup of $SU(2)\otimes C_i$. In the non-interacting direct product of the two Hilbert spaces, each pair of quantum numbers $j^i, j^i_z$ reduces into an instance of this subgroup, and so the pair of non-interacting particles transforms according to $\tilde{G}_{\hat{H}_0}\otimes\tilde{G}_{\hat{H}_0}$. If we include the $j$-coupling interaction term, the full system features only one pair of these quantum numbers, $J, J_z$, which reduce into a single instance of the aforementioned subgroup. Hence, the reduction goes like this:
 \begin{equation}
-\Gamma^{\left(\tilde{G}_{\hat{H}_0}\right)}_A \otimes \Gamma^{\left(\tilde{G}_{\hat{H}_0}\right)}_B \to \bigoplus_i \Gamma^{\left(\tilde{G}_{\hat{H}_0}\right)}_i
+\Gamma^{\left(\tilde{G}_{\hat{H}_0}\right)}_A \otimes \Gamma^{\left(\tilde{G}_{\hat{H}_0}\right)}_B \to \bigoplus_i \Gamma^{\left(\tilde{G}_{\hat{H}_0}\right)}_{f(i)}
 \end{equation}
-Naturally, as the constituent irreps in the direct sum on the right side correspond to different energy levels (disregarding accidental degeneracy), the symmetry breaking associated with coupling of quantum numbers lowers the degeneracy of the system.
+where the mapping $f(i)$ specifies the decomposition. Naturally, as the constituent irreps in the direct sum on the right side correspond to different energy levels (disregarding accidental degeneracy), the symmetry breaking associated with coupling of quantum numbers lowers the degeneracy of the system.
 
-The outlined method is sufficient for finding the energy levels of distinguishable particles undergoing coupling; however, in our case, the particles are fermions, and hence, for particles occupying the same $k$-state in the same band, we also have to consider Pauli's exclusion principle.
+The outlined method is sufficient for finding the energy levels of distinguishable particles undergoing coupling; however, in our case, the particles are fermions, and hence, for particles occupying the same $k$-state in the same band, we also have to consider Pauli exclusion principle.
 
-The conduction band is an $s$-orbital, and hence the excited electrons have $j=1/2$, which renders their $k$-states doubly degenerate. The valence band is a $p$-orbital, and hence the holes have $j=3/2$ and $4$-fold degenerate $k$-states. However, for most groups, including $C_{3v}$, the $SU(2)\otimes C_i$ irrep $\Gamma_{j=3/2,u}$ reduces to two $2$-dimensional irreps, which causes the holes to have two different characters (light-like and heavy-like), each with doubly degenerate $k$-states. We assume that the bands fill up sequentially under excitation in a way that maximises the number of completely filled-out states.
+The conduction band is an $s$-orbital, and hence the excited electrons have $j=1/2$, which renders their $k$-states doubly degenerate. The valence band is a $p$-orbital, and hence the holes have $j=3/2$ and $4$-fold degenerate $k$-states. However, for most groups, including $C_{3v}$, the $SU(2)\otimes C_i$ irrep $\Gamma_{j=3/2,u}$ reduces to two $2$-dimensional irreps, which causes light holes and heavy holes to occupy different energy levels at $\Gamma$, each with doubly degenerate $k$-states. We assume that the bands fill up sequentially under excitation in a way that maximises the number of completely filled-out states.
 \begin{itemize}
 \item For doubly degenerate $k$-states, we only need to find the transformation properties of the full $k$-state, i.e. a pair of fermions. As per Karlsson \textit{et al.} \cite[p. 15]{karlsson}, a full doubly degenerate energy level transforms according to the identity representation.
 \item For $4$-fold degenerate $k$-states with $j=3/2$, we can extend Karlsson's argument to claim that the full energy level with $4$ particles transforms according to the identity representation. We can label an energy level with $3$ particles by the $1$ missing particle, and hence it transforms equally to an energy level filled with $1$ particle. Finally, for two particles, we need to construct the $6$ antisymmetric basis vectors, with kets labelled by the $j_z$ values of the first and the second particle respectively:
@@ -213,19 +213,34 @@ which we can equate to the sum of the characters of $\Gamma_{j=0}\oplus \Gamma_{
 
 \end{itemize}
 
-Hence we can label any exciton complex for groups which have one or two hole characters by labelling each fermion type by the number of free fermions and then multiplying the corresponding representations for each fermion type. Reducing this into the irreps of the structure symmetry group gives is the number of energy levels and their degeneracies for each exciton complex.
+Hence we can label any exciton complex for groups which have one or two hole characters by labelling each fermion type by the number of free fermions and then multiplying the corresponding representations for each fermion type. Reducing this into the irreps of the structure symmetry group gives the number of energy levels and their degeneracies for each exciton complex (Fig. \ref{fig:example_labelling}).
 
-\subsection{Photoluminiscence spectrum and evidence of symmetry elevation}
+\begin{figure}[b]
+\begin{eqnarray*}
+C_{3v}&&3X_{21}{\xrightarrow{\mbox{  Pauli exc.  }}} \mqty{1\text{ free e.: }E_{1/2}\\0\text{ free hh.: }A_1\\1\text{ free lh.: }E_{1/2}}{\xrightarrow{\qquad}}E_{1/2}\otimes E_{1/2}{\xrightarrow{\mbox{ }j\mbox{-coupling }}}A_1\oplus A_2\oplus E\\
+T_d &&2X^-_{11}{\xrightarrow{\mbox{  Pauli exc.  }}} \mqty{1\text{ free e.: }E_{1/2}\\2\text{ free h.: }A_1\oplus E\oplus T_2}{\xrightarrow{\mbox{ }j\mbox{-coupling }}}E_{1/2}\oplus E_{5/2}\oplus F_{3/2}\oplus F_{3/2}
+\end{eqnarray*}
+\caption{The process of labelling exciton complexes with irreps of the group of the Hamiltonian. $T_d$ has both hole types degenerate at $\Gamma$, and thus they occupy a single quadruply-degenerate energy level (Tab. \ref{tab:multihole_states}). \label{fig:example_labelling}}
+\end{figure}
+
+\subsection[Photoluminiscence spectrum]{Photoluminiscence spectrum and evidence of symmetry elevation}
 
 To predict the rate of photoluminiscent transitions between energy levels, we utilize the dipole approximation, in which the dipole operator (and hence the perturbing Hamiltonian) transforms as a vector \cite[p. 13]{karlsson}. Vectors transform according to the Cartesian representation, which can be easily constructed from rotation matrices \cite[p. 160]{wigner}. If the Cartesian representation is reducible in the structure symmetry group, different vector orientations of the dipole may transform differently, resulting in different lines in polarised spectra. In that case, we must apply the selection rules outlined in Sec. \ref{sec:symmetry_arguments} for each polarisation separately. Then, the number of allowed transitions between different finely-split energy levels of two excitons gives the number of tightly-spaced lines we predict on the spectrum of that exciton transition.
 
-In \cite{karlsson}, Karlsson \textit{et al.} have applied the selection rules to different exciton transitions and compared the predicted number of lines to their experimental data. (FIGURE HERE) The predictions have mostly agreed, but three exciton transitions were identified for which emission lines in the measured spectra were missing. These were:
+For the assumed symmetry $C_{3v}$, vectors $\hat{x},\hat{y}$ transform differently to $\vec{z}$, meaning the spectrum polarised along the $z$-axis will be different than the spectrum polarised in the $x-y$ plane ($\sigma$-polarised). In the experiment, readings for both polarisations are collected, utilising a rotatable waveplate \cite[p. 2]{karlsson}.
+
+In \cite{karlsson}, Karlsson \textit{et al.} have applied the selection rules to different exciton transitions and compared the predicted number of lines to their experimental data. The predictions have mostly agreed, but three exciton transitions were identified for which emission lines in the measured spectra were missing (Fig. \ref{fig:karlsson_elevation_evidence}). These were:
 \begin{enumerate}
 \item $X_{10}\to $vacuum ($2$ predicted $x-y$-polarised lines, $1$ measured).
 \item $2X_{20}\to X_{10}$ ($2$ predicted $x-y$-polarised lines, $1$ measured).
 \item $2X_{11}\to X_{01}$ ($6$ predicted $x-y$-polarised lines, $3$ resolved strongly and $2$ more resolved weakly).
 \end{enumerate}
-Karlsson \textit{et al.} theorise that the missing lines or the relative intensity of lines in these transitions can be explained by a symmetry elevation to a larger group of symmetries which contains $C_{3v}$. In our work, we have attempted to test this claim.
+Karlsson \textit{et al.} theorise that the missing lines or the relative intensity of lines in these transitions can be explained by a symmetry elevation to a larger group of symmetries of which $C_{3v}$ is a subgroup. In our work, we have attempted to test this claim and identify the mechanism that employs the system with extra symmetries.
 
-
+\begin{figure}
+\begin{center}
+\includegraphics[width=\textwidth]{figures/karlsson_elevation_evidence}
+\caption{Evidence of symmetry elevation in the research of Karlsson \textit{et al.}, with $D_{3h}$ proposed as the elevated symmetry group. Energy level splitting and allowed transitions for three exciton complexes are plotted for the groups $C_{3v}$ and $D_{3h}$, and identification of emission lines in the spectra is attempted. Figure taken from \cite[Fig. 14, 15, 16]{karlsson} \label{fig:karlsson_elevation_evidence}}
+\end{center}
+\end{figure}
 

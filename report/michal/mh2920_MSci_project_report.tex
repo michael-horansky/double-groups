@@ -10,6 +10,17 @@
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
 
+\newenvironment{changemargin}[2]{%
+\begin{list}{}{%
+\setlength{\topsep}{0pt}%
+\setlength{\leftmargin}{#1}%
+\setlength{\rightmargin}{#2}%
+\setlength{\listparindent}{\parindent}%
+\setlength{\itemindent}{\parindent}%
+\setlength{\parsep}{\parskip}%
+}%
+\item[]}{\end{list}}
+
 %\renewcommand{\arraystretch}{1.5}
 
 \begin{document}
@@ -46,7 +57,7 @@ We investigate the photoluminiscence spectra of InGaAs pyramidal quantum dots wi
 
 \section{Introduction}
 
-Quantum dots (QDs) have been the subject of keen interest and study by the scientific community in the last decades for their wide applications in quantum information \cite{quantum_information1}, photonics \cite{photonics1, photonics2}, medicine \cite{medicine1, medicine2}, and many others \cite{other_applications}. Many of these applications are viable due to the unique electronic properties of QDs that allow us to construct within it atom-like electron states \cite{atomlike} with tunable energy levels \cite{tunable} which depend on the specific manufacturing parameters. However, there are still challenges in characterising the small-scale structural properties of grown QDs, such as unintentional symmetry breaking \cite{karlsson}. In the project, we will inspect these structural properties using the tools of spectroscopy and the mathematical toolset of group theory.
+Quantum dots (QDs) have been the subject of keen interest and study by the scientific community in the last decades for their wide applications in quantum information \cite{quantum_information1, quantum_information2}, photonics \cite{photonics1, photonics2}, medicine \cite{medicine1, medicine2}, and many others \cite{other_applications}. Many of these applications are viable due to the unique electronic properties of QDs that allow us to construct within it atom-like electron states \cite{atomlike} with tunable energy levels \cite{tunable} which depend on the specific manufacturing parameters. However, there are still challenges in characterising the small-scale structural properties of grown QDs, such as unintentional symmetry breaking \cite{karlsson}. In the project, we will inspect these structural properties using the tools of spectroscopy and the mathematical toolset of group theory.
 
 Quantum dots are semiconductor nanocrystals \cite{other_applications}, which enjoy programmable charge states of electrons and electron holes (together dubbed exciton complexes) \cite{charge_state}. The most direct way to experimentally investigate the energy states of electrons and electron holes in QDs is photoluminiscence spectroscopy, a technique used by Karlsson \textit{et al.} \cite{karlsson}. The QDs are first non-resonantly excited by a laser and then spontaneously emit photons due to state transitions of exciton complexes. Each exciton complex may correspond to multiple tightly-spaced energy levels. Determining these energy levels, as well as the selection rules that rule which transitions between them are allowed, is then sufficient to describe the QD spectrum.
 
@@ -60,7 +71,7 @@ In 2015, Karlsson \textit{et al.} published a paper claiming that InGaAs QDs gro
 \begin{center}
 
     \includegraphics[width=0.8\textwidth]{figures/pyramidal_qds}
- \caption{The tetrahedral recesses within which the QDs are grown. Dashed lines indicate the pyramid boundaries before growth, the solid lines indicate the vicinal facets after growth. "VQWR" refers to the vertical quantum wire present in the structure. Recess figure taken from \cite[Fig. 1]{pyramidal_qds}; QD structure diagram taken from \cite[Fig. 1]{karlsson}\label{fig:pyramidal_qds}}
+ \caption{The tetrahedral recesses within which the QDs are grown. Dashed lines indicate the pyramid boundaries before growth, the solid lines indicate the vicinal facets after growth. ``VQWR'' refers to the vertical quantum wire present in the structure. Recess figure taken from \cite[Fig. 1]{pyramidal_qds}; QD structure diagram taken from \cite[Fig. 1]{karlsson}\label{fig:pyramidal_qds}}
 \end{center}
 \end{figure}
 
@@ -71,7 +82,7 @@ Dupertuis \textit{et al.} claim that symmetry elevation manifests in strain-free
 \begin{figure}
 \begin{center}
     \includegraphics[width=0.4\textwidth]{figures/hexagonal_qds}
- \caption{Analogously-grown QDs form regular hexagons. "QW" labels quantum wells, "QWr" labels quantum wires. Figure taken from \cite[Fig. 1]{hexagon}\label{fig:hexagonal_qds}}
+ \caption{Analogously-grown QDs form regular hexagons. ``QW'' labels quantum wells, ``QWr'' labels quantum wires. Figure taken from \cite[Fig. 1]{hexagon}\label{fig:hexagonal_qds}}
 \end{center}
 \end{figure}
 
@@ -90,7 +101,7 @@ The measurements were conducted by our colleagues Francesco Mattana, Luca Colave
 \section{Acknowledgements}
 The author would like to acknowledge his research partner Zétény Bacsó for his robust, multi-faceted contribution to the project, which includes authoring novel ideas as well as consulting ideas proposed by the author, tirelessly delving into research of countless subjects related to the project, aptly assessing the relevance of the many components of the complex theory of semiconductor nanocrystals to the symmetry properties of quantum dots, diligently validating the outputs of the author's automated algorithm package for double group representation theory with pen-and-paper calculations, identifying many problems and bugs in the process, and many other contributions to the team-work and the team-spirit, from proposing efficient work delegation to engaging in casual conversations about the relationship between mathematics, philosophy, and Nature,
 
-their supervisor, Professor Dimitri Vvedensky, for his guidance, direction, and identification of important information sources,
+our supervisor, Professor Dimitri Vvedensky, for his guidance, direction, and identification of important information sources,
 
 Francesco Mattana, Luca Colavecchi, Doctor Gediminas Juska, and Doctor Emanuele Pelucchi from Tyndall National Institute, University College Cork, who kindly provided us with their measurements of the quantum dot photoluminiscence spectra, which constitute material for their to-be-published paper, and with whom we had many stimulating discussions about the quantum dot symmetries,
 
@@ -101,11 +112,19 @@ and Ivan Shalashilin, Jacob Edginton, and the author's family for their discussi
 \pagebreak
 
 \section{Bibliography}
+\renewcommand\refname{}
+
+\begingroup
+\let\clearpage\relax
+\vspace{-1cm} % the removed space. Set as appropriate
 
 \begin{thebibliography}{10}
 
 \bibitem{quantum_information1}
 Michler, P. (2017), \textit{Quantum Dots for Quantum Information Technologies}. 1st edn. Springer Cham.
+
+\bibitem{quantum_information2}
+Juska, G., Chung, T. H., Moroni, S. T., Gocalinska, A., Pelucchi, E. (2016), A Site-Controlled Quantum Dot Light-Emitting Diode of Polarization-Entangled Photons, Violating Bell's Inequality. \textit{CLEO: QELS\_Fundamental Science 2016} (Conference), FTu1C.2
 
 \bibitem{photonics1}
 Jin, X. \textit{et al} (2020), Cation exchange assisted synthesis of ZnCdSe/ZnSe quantum dots with narrow emission line widths and near-unity photoluminescence quantum yields. \textit{Chem. Commun.}, \textbf{56}, 6130--6133
@@ -202,6 +221,8 @@ Altmann, S. L., Herzig, P. (1994), \textit{Point-Group Theory Tables}. Oxford: C
 \bibliographystyle{unsrt}
 % use the following line to create a bibligraphy based on a .bib bibtex file (change to your filename)
 %\bibliography{michal_bibliography}
+
+\endgroup
 
 
 

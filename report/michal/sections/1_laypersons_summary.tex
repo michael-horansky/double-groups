@@ -1,11 +1,25 @@
-\section{Layperson's summary}
 
-\begin{center}
-\begin{huge}
-Breaking the Symmetry, or, When Crystals Are Almost Perfect
-\end{huge}
-\end{center}
+\newgeometry{top=20mm, bottom=20mm, left=20mm, right=20mm}
+\section[Layperson's summary]{Layperson's summary--``Hidden Symmetries''}
+%\thispagestyle{plain}{
+%\fancyhf{} % clear all header and footer fields
+%\fancyfoot[C]{\bfseries \thepage} % except the center
+%\renewcommand{\headrulewidth}{0pt}
+%\renewcommand{\footrulewidth}{0pt}}
+\thispagestyle{empty}
 
-The title of the layperson's summary: "Breaking the Symmetry, or, When Crystals Are Almost Perfect". It will focus firstly on the role of symmetries in selection rules and secondly on the overlap decomposition as a quantifier of what we mean by \textit{approximate}. Technicalities such as double groups or growth of QDs shall be omitted for brevity (although \cite{hexagon} will be discussed as a motivator for the perturbative approach).
+A major goal of Physics is making predictions. What sets Physics apart from esoterism is the \textit{scientific method}--a theory that disagrees with empirical evidence cannot reliably produce correct predictions, and hence it has little value as a description of Nature. The uphill battle Physicists wage is that against the complexity of Nature--rigorous theories are difficult to apply to real-world situations. However, sometimes it is possible to take a mathematical shortcut and describe a complex system by simple, fundamental properties, which allows us to make predictions without understanding all the inner dynamics present. This is why symmetry is a physicist's best friend.
 
+Quantum mechanics often boils down to solving the Schrödinger equation. This is easier said than done, but imagine a situation where altering the equation in some way leaves it unchanged. For instance, if the tiny me stands on an atomic nucleus and then walks to a different point on it, essentially rotating the whole picture, I should not be able to tell the difference. Now, if a solution to the corresponding Schrödinger equation remains unchanged when similarly rotated, you would not be surprised. But if it \textit{does} change (and why should it not?), the new object should also be a solution to the equation--and even one corresponding to the same energy! Et voilà, that is the power of symmetries.
 
+Quantum dots are tiny crystals, with many uses in medicine, engineering, quantum computing, etc. This is (partly) because they emit light in a tunable, predictable manner--that is why they used to be called ``artificial atoms''. Predicting how crystals emit light is difficult--but because quantum dots have regular shapes, we can tell a lot about their light spectra based only on their symmetries. This is because the kind of light emission we are interested in is governed by the electrons living around the atoms in the crystal, and excitons, which are groups of electrons interacting together.
+
+If we ignore the shape of the crystal, electrons around an atom have full rotation symmetry. When we state the shape of the crystal, only certain rotations remain symmetries--others now affect the Schrödinger equation, messing up the solutions. And this means that a pair of solutions we were able to freely transform into one another before can now become separated, if the crystal shape forbids all rotations that served this mutual transformation. Now, the solutions will still (with ragged edges) be proper solutions, but their energies will be different, and the energy splitting will show in the spectrum. Knowing the crystal shape means we can predict these kinks in the spectrum--or rather, the number of tightly-spaced lines.
+
+In 2015, several papers were published about an apparent failure of this whole idea. Quantum dots grown in the shape of triangular pyramids sometimes behave as if their shape was a triangular prism. Now, forbidding assumed symmetries--``symmetry breaking''--is normal and can be caused by many things, but here it seems that these crystals \textit{gain} symmetries. And no one knows why.
+
+We realised that the inside of a crystal is a lattice, and as such, it also has an associated symmetry of rotations which keep the lattice unchanged. This ``bulk symmetry'' limits the \textit{true} symmetry of the whole system. Now, for our crystal this bulk symmetry is that of a regular tetrahedron, higher than the crystal-shape symmetry. If the shape of the crystal is just \textit{slightly} different to a shape which actually has this higher symmetry, then Schrödinger solutions which are tiny around the crystal edges will \textit{approximately} resemble other solutions when rotated by these extra rotations provided by the lattice. We tested the predictions the bulk symmetry gives, and there seems to be partial agreement!
+
+Sadly, the measurements show that quantum dots are finnicky and their spectra may change between samples. Even the qualitative things--number of lines--are difficult to predict. So while our theory sometimes disagrees with experiment, it is not useless--moving towards agreement shows a step in the right direction. And sometimes, that step is another symmetry.
+
+\restoregeometry
