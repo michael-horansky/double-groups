@@ -1,11 +1,5 @@
 \section{Results}
 
-%\subsection{Treatment of parity}
-%The theoretical treatment of parity under $l$ and $j$-coupling is shown. The program AReTDoG as an implementation of this and its agreement with \cite{karlsson} is discussed.
-
-%\subsection{Symmetry suppression theory} \label{sec:suppression}
-%The first-order perturbation treatment of selection rules and its applicability to low-to-high symmetry systems is shown.
-
 In our research, we tested the following hypothesis: \textit{Symmetry elevation effects are caused by transformation properties of the bulk symmetry.} Since the bulk symmetry group $T_d$ contains the structure symmetry $C_{3v}$ as a subgroup, it is a natural suspect for a source  of \textit{approximate} symmetries, as it limits the true symmetry of the system.
 
 The theoretical basis for particular excitons enjoying symmetry transformations from the bulk symmetry is built on their localisation within the QD. If the envelope functions $\Upsilon_i$ of every fermion in an exciton complex are localised near the centre of the QD, any bulk-symmetry transformation should also be a symmetry transformation of the exciton wavefunction. With every QD border the envelope functions approach, more approximate symmetry transformations vanish, until, when an exciton has significant probability to measure one or more of its fermions anywhere around the edge of the QD, it fully probes the structure symmetry.
@@ -57,7 +51,7 @@ Suppose now we have a system described by a Hamiltonian $\hat{H}$ equipped with 
 	$$\Gamma_{\ket{E_i;n_i}\to \ket{E_f;n_f}}=\frac{2\pi}{\hbar}\abs{\mel{E_f;n_f}{\hat{H}'}{E_i;n_i}}^2$$
 	Since the energy levels may be degenerate, we must consider a full basis for each of the two energy levels to obtain the full transition rate.
 	
-	Let the energy levels $E_i,E_f$ be chosen such that the direct product $\Gamma^{(G)}_{r(i)}\otimes \Gamma^{(G)}_{\hat{H}'}\otimes \Gamma^{(G)}_{r(f)}$ contains the identity irrep of $G$, and hence the matrix elements for energy level basis vectors do not vanish due to the selection rule (Sec. \ref{sec:symmetry_arguments}). Let us now decompose the two eigenstates into elevated symmetry and residual components:
+	Let the energy levels $E_i,E_f$ be chosen such that the direct product $\Gamma^{(G)}_{r(i)}\otimes \Gamma^{(G)}_{\hat{H}'}\otimes \Gamma^{(G)}_{r(f)}$ contains the identity irrep of $G$, and hence the matrix elements for energy level basis vectors do not vanish due to the selection rule (Sec. \ref{sec:group_theory_intro}). Let us now decompose the two eigenstates into elevated symmetry and residual components:
 	\begin{eqnarray*}
 	\ket{E_i;n_i}&=&c_{ES}^i\ket{E_{i'}^+;ES}+c_R^i\ket{R_i}\\
 	\ket{E_f;n_f}&=&c_{ES}^f\ket{E_{f'}^+;ES}+c_R^f\ket{R_f}
@@ -127,7 +121,7 @@ $D_{3d}$ & $E_{1/2,g}$ & $E_{3/2,u}$ (${}^1E_{3/2,u}\oplus{}^2E_{3/2,u}$) & $E_{
 
 Note that the electron and light-hole labels in $D_{3h}$ are $E_{1/2}$ and $E_{5/2}$, respectively. This is interchanged in the analysis of Karlsson \textit{et al.} \cite[p. 14]{karlsson}, which does not lead to different predictions.
 
-The groups $T_d$ and $O_h$ have the heavy hole and light hole bands degenerate at the $\Gamma$ point, where all holes transform according to a single irrep. Therefore, for these groups we list the transformation properties of both a single-hole state and a double-hole state, with the triple-hole state transforming equally to the single-hole state and the full energy level transforming according to the identity rep (see Sec. \ref{sec:j_coupling}). See Table \ref{tab:multihole_states} for the associated irreps in the Altmann convention.
+The groups $T_d$ and $O_h$ have the heavy hole and light hole bands degenerate at the $\Gamma$ point, where all holes transform according to a single irrep. Therefore, for these groups we list the transformation properties of both a single-hole state and a double-hole state, with the triple-hole state transforming equally to the single-hole state and the full energy level transforming according to the identity rep (see Sec. \ref{sec:pauli_exclusion}). See Table \ref{tab:multihole_states} for the associated irreps in the Altmann convention.
 
 \begin{table}
 \begin{center}

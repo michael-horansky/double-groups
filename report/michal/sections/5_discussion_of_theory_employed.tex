@@ -12,7 +12,7 @@ In the Karlsson \textit{et al.} setup, the light-beam is a laser with a spot siz
 \begin{figure}
 \begin{center}
 \includegraphics[width=0.7\textwidth]{figures/ingaas_band_structure}
-\caption{Band structure of the conduction and valence bands of $\text{In}_{1-x}\text{Ga}_x\text{As}$. In a nanocrystal, the breaking of rotational symmetries may cause the heavy hole and light hole bands to split at $\Gamma$, being no longer degenerate there, as shown in Sec. \ref{sec:symmetry_arguments}. Figure taken from \cite[Fig. 3.2.1]{semiconductor_handbook} \label{fig:ingaas_band_structure}}
+\caption{Band structure of the conduction and valence bands of $\text{In}_{1-x}\text{Ga}_x\text{As}$. In a nanocrystal, the breaking of rotational symmetries may cause the heavy hole and light hole bands to split at $\Gamma$, being no longer degenerate there, as shown in Sec. \ref{sec:j_coupling}. Figure taken from \cite[Fig. 3.2.1]{semiconductor_handbook} \label{fig:ingaas_band_structure}}
 \end{center}
 \end{figure}
 
@@ -50,6 +50,8 @@ Labelling the single contributing basis vector by the quantum numbers $l, s, j, 
 \begin{equation}
 \braket{\vec{r}}{\Psi}=\Upsilon\left(\vec{r}\right)\braket{\vec{r}}{l, s=1/2, j, j_z}
 \end{equation}
+
+\subsubsection{Envelope-effective Hamiltonian at $\Gamma$} \label{sec:envelope_effective_hamiltonian}
 As discussed in Burt (1992) \cite[p. 6656]{envelope_equation}, we can write down the effective Hamiltonian for the envelope function, which yields the corresponding Schrödinger equation:
 \begin{eqnarray}
 \hat{H}_\Upsilon &=& -\frac{\hbar^2}{2}\nabla\vdot\frac{1}{m^*\left(\vec{r}\right)}\nabla + E_0\\
@@ -119,21 +121,51 @@ Now we renormalize the correlation constant $\Pi_{ab}$ using the volume of the u
  
  \textit{Note.} Even though $\hat{V}_{ab}^C\left(\vec{r}_a-\vec{r}_b\right)$ diverges for $\vec{r}_a=\vec{r}_b$ (which occurs in the small subset of $R_V\otimes R_V$ where both vectors are in the same unit cell), the contribution of the integrals over these coinciding unit cells should not be disproportionally high, since when considering the volume integral in spherical coordinates centered on the asymptote, the integrand goes like $\abs{\vec{r}_a-\vec{r}_b}$, so the integral should be approximately proportional to $V_{\text{U.C.}}^{2/3}$, and the contribution from this subset where our approximations fail to the total integral is negligible.
 
-\subsubsection{Symmetry arguments, group theory, and double groups} \label{sec:symmetry_arguments}
+\subsection{Symmetry in quantum dots} \label{sec:symmetry_arguments}
 Now that we have decomposed the single excited fermion wavefunction into a $j$-eigenstate periodic in the atomic lattice and a slowly varying envelope function which corresponds to zero bulk-crystal momentum, we turn to symmetry arguments to make predictions about the spectrum. Indeed, finding either of the two component functions is a task beyond the scope of this work, but we can make quantitative statements about the splitting of the exciton energy levels and selection rules for transitions between these energy levels. To do this, we must consider how the exciton wavefunction transforms under symmetry transformations of the true Hamiltonian.
 
-To review the basic applications of group theory to quantum mechanics as outlined e.g. in Dresselhaus (2002) \cite{dresselhaus}, we consider the set of rotations commuting with a Hamiltonian $\hat{H}$. This set forms a group under multiplication (as for $\hat{R}_1, \hat{R}_2$ commuting with $\hat{H}$, $\hat{R}_1\hat{R}_2$ must be a single rotation $\hat{R}_3$ which also commutes with $\hat{H}$). This group shall be denoted as $G_{\hat{H}}$, and is referred to as the group of the Hamiltonian. As shown in standard texts, each energy level $E_n$ of the time-independent Schrödinger eigenvalue problem $\hat{H}\Psi_n=E_n\Psi_n$ corresponds to an irreducible representation (irrep) of $G_{\hat{H}}$, which we can denote as $\Gamma_{r(n)}$, where $r$ is some mapping. The degeneracy of $E_n$ is then equal to the dimension of $\Gamma_{r(n)}$. Therefore, knowing the group of the Hamiltonian tells us the possible degeneracies of the energy levels and what they transform like under the symmetry transformations.
+\subsubsection{Group theory--the formalism of symmetries} \label{sec:group_theory_intro}
+A \textit{group} is a set of objects $G$ equipped with a binary operation (here denoted $\cdot$ and referred to as \textit{multiplication}) which satisfies the following axioms \cite[Ch. 1]{dresselhaus}:
+\begin{enumerate}
+\item \textit{Closure}: If $g_1, g_2$ are elements of $G$, then $g_1\cdot g_2$ is an element of $G$.
+\item \textit{Associativity}: The order in which one evaluates multiplication of multiple elements does not matter; $(g_1\cdot g_2) \cdot g_3 = g_1 \cdot (g_2 \cdot g_3)$.
+\item \textit{Identity}: There exists a neutral element $e\in G$ such that $e \cdot g = g$ for all $g\in G$.
+\item \textit{Inverse}: Each $g\in G$ has its inverse $g^{-1}\in G$ such that $g \cdot g^{-1} = e$.
+\end{enumerate}
+A \textit{representation} $\Gamma$ (rep) is a mapping of group elements $g$ onto matrices $D^{(\Gamma)}(g)$ that preserves the group operation as matrix multiplication \cite[Ch. 2]{dresselhaus}:
+\begin{equation}
+D^{(\Gamma)}(g_1)D^{(\Gamma)}(g_2) = D^{(\Gamma)}(g_1\cdot g_2)
+\end{equation}
+The \textit{character} of element $g$ in representation $\Gamma$ is the trace of its matrix:
+\begin{equation}
+\chi^{(\Gamma)}(g)=\Tr D^{(\Gamma)}(g)
+\end{equation}
+A representation is \textit{reducible} if there exist a similarity transformation which simultaneously brings the matrix of every element into block-diagonal form:
+\begin{equation}
+D(g)\to P^{-1} D(g) P = \mqty(D_1(g) & 0 \\ 0 & D_2(g))
+\end{equation}
+When multiplying two block-diagonal matrices of equal structure, the elements from different blocks are decoupled, and hence $D_1(g)$ and $D_2(g)$ form two new, lower-dimensional representations of $G$. A representation which cannot be reduced in this way is called \textit{irreducible} (irrep). There is a finite number of irreps for a finite group, and the tables of their characters for each element for point groups (groups formed on rotations of geometric structures) are included in \cite{altmann}.
+
+In a vector space where each dimension corresponds to one group element, the characters of an irrep form a vector. These vectors are orthonormal with norm $\abs{G}$ \cite[Ch. 3]{dresselhaus}. This allows us to uniquely reduce any representation into its constituent irreps, as if decomposing a general vector into a basis.
+
+A set of objects $\ket{\Gamma, i}, i=1,2,\dots \dim \Gamma$ forms a basis to $\Gamma$ if it transforms according to its matrices \cite[Ch. 4]{dresselhaus}:
+\begin{equation}
+g \mqty(\ket{\Gamma, 1} \\ \ket{\Gamma, 2} \\ \vdots \\ \ket{\Gamma, \dim\Gamma}) = D^{(\Gamma)}(g)\mqty(\ket{\Gamma, 1} \\ \ket{\Gamma, 2} \\ \vdots \\ \ket{\Gamma, \dim\Gamma})
+\end{equation}
+
+To review the basic applications of group theory to quantum mechanics \cite[Ch. 5]{dresselhaus}: the set of symmetry transformations $\hat{P}_R$ commuting with a Hamiltonian $\hat{H}$ forms a group under multiplication, denoted $G_{\hat{H}}$, which is referred to as the group of the Hamiltonian. Each energy level $E_n$ of the time-independent Schrödinger eigenvalue problem $\hat{H}\Psi_n=E_n\Psi_n$ corresponds to an irreducible representation of $G_{\hat{H}}$, which we can denote as $\Gamma_{r(n)}$, where $r$ is some mapping. A chosen basis of degenerate eigenstates $\ket{E_n, i}$ is also a basis of $\Gamma_{r(n)}$. The degeneracy of $E_n$ is then equal to the dimension of $\Gamma_{r(n)}$. Therefore, knowing the group of the Hamiltonian tells us the possible degeneracies of the energy levels and what they transform as under the symmetry transformations.
 
 Moreover, group theory has an application to selection rules. Consider two energy levels $E_a, E_b$ of a system with the Hamiltonian $\hat{H}$. If we add a perturbation $\hat{H}'$ which allows transition between energy levels, and which transforms according to the representation $\Gamma_{\hat{H}'}$, by Fermi's golden rule the rate of transition $E_a\to E_b$ is proportional to the matrix element $\mel{E_a}{\hat{H}'}{E_b}$ \cite[Eq. 3.2]{fox}. As per \cite[Ch. 7]{dresselhaus}, this matrix element vanishes if the irrep direct product $\Gamma_{r(a)}\otimes\Gamma_{\hat{H}'}\otimes\Gamma_{r(b)}$ does not contain the identity representation. This allows us to decide which exciton transitions under photoluminiscent electron-hole recombination will be dark in which polarisation.
 
-Consider now the effective Hamiltonians acting on the envelope function $\Upsilon=\prod_{i}\Upsilon_i\left(\vec{r}_i\right)$ and the 
+\subsubsection{Symmetries of quantum dots and double groups}
+Consider now the symmetries of the envelope function $\Upsilon=\prod_{i}\Upsilon_i\left(\vec{r}_i\right)$ and the 
 periodic function $F=\prod_{i}F_i\left(\vec{r}_i\right)$, respectively.
 \begin{enumerate}
 \item $\Upsilon$, representing a many-body charged particle-in-a-box system, is governed in its symmetry by the shape of the box, i.e. the shape of the QD. In our system, this shape is assumed to posses $C_{3v}$ (pyramid with equilateral triangle base) symmetry. This symmetry shall be referred to as the \textit{structure symmetry}.
 \item $F$, representing a function periodic in the crystal lattice, is governed in its symmetry by the shape of the lattice, i.e. the properties of the bulk of the crystal. In our system, the crystal lattice is a zincblende structure (cubic FCC) \cite[p. 62]{semiconductor_handbook} oriented along the [111] direction. The point group of this lattice is $T_d$ (regular tetrahedron) \cite{zincblende_symmetry}. This symmetry shall be referred to as the \textit{bulk symmetry}.
 \item Around the individual atoms in the crystal lattice, in the tight-binding model the exciton forms a total angular momentum eigenstate $\ket{J, J_z}$. This has a full roto-inversion symmetry, and since it couples spin-half spinors, which transform according to the fundamental representation of $SU(2)$ under inversions \cite[p. 228]{wigner}, the group describing the full roto-inversion symmetry is $SU(2)\otimes C_i$, where $C_i=\{\hat{E}, \hat{i}\}$ is the inversion group and it is isomorphic to $\mathbb{Z}_2$.
 \end{enumerate}
-The group of the true Hamiltonian is then constructed from symmetry transformations present in all of these groups. Because the crystal lattice of the QD is oriented along the [111] direction, it contains every structure-symmetry transformation. Therefore the true symmetry is the structure symmetry $C_{3v}$--or rather, since we are discussing spin-half spinors, its double group, as will be discussed below. However, as we argue below, the bulk symmetry will be important when explaining the origin of symmetry elevation in our perturbative model.
+The group of the true Hamiltonian is then constructed from symmetry transformations present in all of these groups. Because the crystal lattice of the QD is oriented along the [111] direction, it contains every structure-symmetry transformation. Therefore the true symmetry is the structure symmetry $C_{3v}$--or rather, since we are considering spin-half spinors, its double group, as will be discussed below. However, as we argue below, the bulk symmetry will be important when explaining the origin of symmetry elevation in our perturbative model.
 
 Now, let us consider the character of the full exciton wavefunction under a symmetry transformation $\hat{R}$. Since the Coulomb interaction transforms according to the identity rep under roto-inversions, we can first consider the character of a single fermion wavefunction under the symmetry transformation, and then we construct the full exciton character through $j$-coupling, as discussed in Sec. \ref{sec:j_coupling}. Since the single excited fermion wavefunction is a product of two functions, its character will be the product of the two constituent characters:
 \begin{equation} \label{eq:character_breakdown}
@@ -156,10 +188,10 @@ Therefore the only part of the single excited fermion wavefunction which does no
 \end{equation*}
 To extend this unto roto-inversions, we need to consider the orbital angular momentum $l$, which determines inversion parity. For example, in our system, the conduction band is an $s$-orbital, which has even parity under inversion, but the valence band is a $p$-orbital, which has odd parity under inversion. Determining parity specifies the irrep of the full roto-inversion group $SU(2)\otimes C_i$, which gains an index $g$ (gerade) if even or $u$ (ungerade) if odd under inversion.
 
-Our approach to constructing the transformation laws for the single excited fermions is therefore to consider the irreps of the full roto-inversion spinor group, and then decompose them into the true symmetry, i.e. the structure symmetry. To do this, we must construct the double group of the structure symmetry point group. Essentially, a double group encodes the spin-orbit coupling for its original group by adding the time-reversal operator as a generator. This renders rotations by $2\pi$ to result in time-reversal, and only rotations by $4\pi$ return back to the identity, in agreement with the behaviour of spin-half particles under rotation. The theory of double groups is outlined in \cite[Ch. 19]{dresselhaus}, and the character tables of double groups can be found in standard tables, such as \cite{altmann}.
+Our approach to constructing the transformation laws for the single excited fermions is therefore to consider the irreps of the full roto-inversion spinor group, and then decompose them into the true symmetry, i.e. the structure symmetry. To do this, we must construct the double group of the structure symmetry point group. Essentially, a double group includes the transformation properties of half-integer $j$ eigenstates, and thus allowing the description of spin-orbit coupling for its original group by adding the time-reversal operator as a generator. Then, rotations by $2\pi$ result in time-reversal, adding a factor of $-1$ to half-integer $j$-eigenstates, and only rotations by $4\pi$ return back to the identity, in agreement with the behaviour of spin-half particles under rotation. The theory of double groups is outlined in \cite[Ch. 19]{dresselhaus}, and the character tables of double groups can be found in standard tables, such as \cite{altmann}.
 
-\subsubsection{Total angular momentum coupling and Pauli exclusion principle} \label{sec:j_coupling}
-To obtain the transformation properties of an exciton complex, we must consider the magnetic orbit-orbit and spin-orbit interaction which couples the total angular momenta $j$ of separate fermions together. The treatment of $j$-coupling in the full roto-inversion symmetry is as follows:
+\subsubsection{Total angular momentum coupling} \label{sec:j_coupling}
+To obtain the transformation properties of an exciton complex, we must consider the magnetic orbit-orbit and spin-orbit interaction which couples the total angular momenta $j$ of separate fermions together (Sec. \ref{sec:envelope_effective_hamiltonian}). The treatment of $j$-coupling in the full roto-inversion symmetry is as follows:
 
 Consider two non-interacting particles governed by Hamiltonians which conserve total angular momentum. Let the two particles exist in $j$-eigenstates $\ket{j^A, j^A_z, p^A}$, $\ket{j^B, j^B_z, p^B}$ respectively (here $p$ specifies the inversion parity), and the group of each of their Hamiltonians is $SU(2)\otimes C_i$. The full Hilbert space they occupy is the direct product of the Hilbert space occupied by each particle, and hence the group of the total Hamiltonian is:
 \begin{equation}
@@ -187,6 +219,7 @@ We can now generalise the approach to $j$-coupling to cases where each particle'
 \end{equation}
 where the mapping $f(i)$ specifies the decomposition. Naturally, as the constituent irreps in the direct sum on the right side correspond to different energy levels (disregarding accidental degeneracy), the symmetry breaking associated with coupling of quantum numbers lowers the degeneracy of the system.
 
+\subsubsection{$J$-eigenstate transformations with the Pauli exclusion principle} \label{sec:pauli_exclusion}
 The outlined method is sufficient for finding the energy levels of distinguishable particles undergoing coupling; however, in our case, the particles are fermions, and hence, for particles occupying the same $k$-state in the same band, we also have to consider Pauli exclusion principle.
 
 The conduction band is an $s$-orbital, and hence the excited electrons have $j=1/2$, which renders their $k$-states doubly degenerate. The valence band is a $p$-orbital, and hence the holes have $j=3/2$ and $4$-fold degenerate $k$-states. However, for most groups, including $C_{3v}$, the $SU(2)\otimes C_i$ irrep $\Gamma_{j=3/2,u}$ reduces to two $2$-dimensional irreps, which causes light holes and heavy holes to occupy different energy levels at $\Gamma$, each with doubly degenerate $k$-states. We assume that the bands fill up sequentially under excitation in a way that maximises the number of completely filled-out states.
@@ -231,7 +264,7 @@ T_d &&2X^-_{11}{\xrightarrow{\mbox{  Pauli exc.  }}} \mqty{1\text{ free e.: }E_{
 
 \subsection[Photoluminiscence spectrum]{Photoluminiscence spectrum and evidence of symmetry elevation}
 
-To predict the rate of photoluminiscent transitions between energy levels, we utilize the dipole approximation, in which the dipole operator (and hence the perturbing Hamiltonian) transforms as a vector \cite[p. 13]{karlsson}. Vectors transform according to the Cartesian representation, which can be easily constructed from rotation matrices \cite[p. 160]{wigner}. If the Cartesian representation is reducible in the structure symmetry group, different vector orientations of the dipole may transform differently, resulting in different lines in polarised spectra. In that case, we must apply the selection rules outlined in Sec. \ref{sec:symmetry_arguments} for each polarisation separately. Then, the number of allowed transitions between different finely-split energy levels of two excitons gives the number of tightly-spaced lines we predict on the spectrum of that exciton transition.
+To predict the rate of photoluminiscent transitions between energy levels, we utilize the dipole approximation, in which the dipole operator (and hence the perturbing Hamiltonian) transforms as a vector \cite[p. 13]{karlsson}. Vectors transform according to the Cartesian representation, which can be easily constructed from rotation matrices \cite[p. 160]{wigner}. If the Cartesian representation is reducible in the structure symmetry group, different vector orientations of the dipole may transform differently, resulting in different lines in polarised spectra. In that case, we must apply the selection rules outlined in Sec. \ref{sec:group_theory_intro} for each polarisation separately. Then, the number of allowed transitions between different finely-split energy levels of two excitons gives the number of tightly-spaced lines we predict on the spectrum of that exciton transition.
 
 For the assumed symmetry $C_{3v}$, vectors $\hat{x},\hat{y}$ transform differently to $\vec{z}$, meaning the spectrum polarised along the $z$-axis will be different than the spectrum polarised in the $x-y$ plane ($\sigma$-polarised). In the experiment, readings for both polarisations are collected, utilising a rotatable waveplate \cite[p. 2]{karlsson}.
 
