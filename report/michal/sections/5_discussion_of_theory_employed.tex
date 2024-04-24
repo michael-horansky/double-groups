@@ -125,14 +125,14 @@ Now we renormalize the correlation constant $\Pi_{ab}$ using the volume of the u
 Now that we have decomposed the single excited fermion wavefunction into a $j$-eigenstate periodic in the atomic lattice and a slowly varying envelope function which corresponds to zero bulk-crystal momentum, we turn to symmetry arguments to make predictions about the spectrum. Indeed, finding either of the two component functions is a task beyond the scope of this work, but we can make quantitative statements about the splitting of the exciton energy levels and selection rules for transitions between these energy levels. To do this, we must consider how the exciton wavefunction transforms under symmetry transformations of the true Hamiltonian.
 
 \subsubsection{Group theory--the formalism of symmetries} \label{sec:group_theory_intro}
-A \textit{group} is a set of objects $G$ equipped with a binary operation (here denoted $\cdot$ and referred to as \textit{multiplication}) which satisfies the following axioms \cite[Ch. 1]{dresselhaus}:
+A \textit{group} is a set of objects $G$ equipped with a binary operation (here denoted $\cdot$ and referred to as \textit{multiplication}) which satisfies the following requirements \cite[Ch. 1]{dresselhaus}:
 \begin{enumerate}
 \item \textit{Closure}: If $g_1, g_2$ are elements of $G$, then $g_1\cdot g_2$ is an element of $G$.
 \item \textit{Associativity}: The order in which one evaluates multiplication of multiple elements does not matter; $(g_1\cdot g_2) \cdot g_3 = g_1 \cdot (g_2 \cdot g_3)$.
 \item \textit{Identity}: There exists a neutral element $e\in G$ such that $e \cdot g = g$ for all $g\in G$.
 \item \textit{Inverse}: Each $g\in G$ has its inverse $g^{-1}\in G$ such that $g \cdot g^{-1} = e$.
 \end{enumerate}
-A \textit{representation} $\Gamma$ (rep) is a mapping of group elements $g$ onto matrices $D^{(\Gamma)}(g)$ that preserves the group operation as matrix multiplication \cite[Ch. 2]{dresselhaus}:
+A \textit{representation} $\Gamma$ (rep) is a mapping of group elements $g$ onto matrices $D^{(\Gamma)}(g)$ of dimension $\dim\Gamma$ that preserves the group operation as matrix multiplication \cite[Ch. 2]{dresselhaus}:
 \begin{equation}
 D^{(\Gamma)}(g_1)D^{(\Gamma)}(g_2) = D^{(\Gamma)}(g_1\cdot g_2)
 \end{equation}
@@ -222,7 +222,7 @@ where the mapping $f(i)$ specifies the decomposition. Naturally, as the constitu
 \subsubsection{$J$-eigenstate transformations with the Pauli exclusion principle} \label{sec:pauli_exclusion}
 The outlined method is sufficient for finding the energy levels of distinguishable particles undergoing coupling; however, in our case, the particles are fermions, and hence, for particles occupying the same $k$-state in the same band, we also have to consider Pauli exclusion principle.
 
-The conduction band is an $s$-orbital, and hence the excited electrons have $j=1/2$, which renders their $k$-states doubly degenerate. The valence band is a $p$-orbital, and hence the holes have $j=3/2$ and $4$-fold degenerate $k$-states. However, for most groups, including $C_{3v}$, the $SU(2)\otimes C_i$ irrep $\Gamma_{j=3/2,u}$ reduces to two $2$-dimensional irreps, which causes light holes and heavy holes to occupy different energy levels at $\Gamma$, each with doubly degenerate $k$-states. We assume that the bands fill up sequentially under excitation in a way that maximises the number of completely filled-out states.
+As discussed in Sec. \ref{sec:j_coupling}, the electrons promoted to the conduction band have $j=1/2$, which renders their $k$-states doubly degenerate, and the holes promoted to the heavy-hole and light-hole valence bands have $j=3/2$ and a $4$-fold degenerate $k$-state at $\Gamma$. However, for certain groups, including $C_{3v}$, the $SU(2)\otimes C_i$ irrep $\Gamma_{j=3/2,u}$ reduces to two $2$-dimensional irreps, which causes light holes and heavy holes to occupy different energy levels at $\Gamma$, each with doubly degenerate $k$-states. We assume that the bands fill up sequentially under excitation in a way that maximises the number of completely filled-out states.
 \begin{itemize}
 \item For doubly degenerate $k$-states, we only need to find the transformation properties of the full $k$-state, i.e. a pair of fermions. As per Karlsson \textit{et al.} \cite[p. 15]{karlsson}, a full doubly degenerate energy level transforms according to the identity representation.
 \item For $4$-fold degenerate $k$-states with $j=3/2$, we can extend Karlsson's argument to claim that the full energy level with $4$ particles transforms according to the identity representation. We can label an energy level with $3$ particles by the $1$ missing particle, and hence it transforms equally to an energy level filled with $1$ particle. Finally, for two particles, we need to construct the $6$ antisymmetric basis vectors, with kets labelled by the $j_z$ values of the first and the second particle respectively:
@@ -247,7 +247,7 @@ where $\theta$ is the second Euler angle in the z-y-z convention \cite[p.160]{wi
 \begin{equation}
 \sum_{i=1}^6 \chi^{b_i}\left(\hat{R}(\theta)\right)=2\cos{\theta}+2\cos{2\theta}+2
 \end{equation}
-which we can equate to the sum of the characters of $\Gamma_{j=0}\oplus \Gamma_{j=2}$, as per eq. \ref{eq:weyl_character}. Hence an energy level with $j=3/2$ filled with two particles transforms as $\Gamma_{j=0}\oplus \Gamma_{j=2}$.
+which we can equate to the sum of the characters of $\Gamma_{j=0}\oplus \Gamma_{j=2}$, as per eq. (\ref{eq:weyl_character}). Hence an energy level with $j=3/2$ occupied by two particles transforms as $\Gamma_{j=0}\oplus \Gamma_{j=2}$.
 
 
 \end{itemize}
