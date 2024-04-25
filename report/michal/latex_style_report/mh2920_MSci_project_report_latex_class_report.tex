@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[12pt]{report}
 
 \newcommand{\reporttitle}{A group-theoretical treatment of approximate symmetry elevation towards bulk symmetry in semiconducting nanocrystals}
 \newcommand{\reportauthor}{Michal Horanský}
@@ -23,8 +23,6 @@
 
 %\renewcommand{\arraystretch}{1.5}
 
-\numberwithin{equation}{section}
-
 \begin{document}
 
 %\title{Double Groups and Quantum Dots - Literature Review}%
@@ -37,14 +35,14 @@
 
 \input{titlepage}
 
-\include{sections/1_laypersons_summary}
+\include{chapters/1_laypersons_summary}
 
-\section{Abstract}
+\chapter{Abstract}
 We investigate the photoluminiscence spectra of InGaAs pyramidal quantum dots with a triangular base under exciton decay. We employ an envelope-function treatment for the exciton wavefunctions, deriving the envelope effective Hamiltonian at the $\Gamma$ point (point of zero crystal momentum, which in nanocrystals corresponds to envelope functions being in the ground state). We review the principles of arguments based on Hamiltonian symmetries in group-theory formalism, specifically the predictions they provide for energy level degeneracies and the selection rules for transitions induced by weak perturbation. We review the claim made by Karlsson \textit{et al.} (2015) that pyramidal quantum dots with triangular base (symmetry group $C_{3v}$) exhibit laser-induced photoluminiscence spectra characteristic of structures with a higher symmetry (symmetry group $D_{3h}$). We propose a theoretical model based on first-order perturbations to symmetry selection rules as a possible mechanism for symmetry elevation, and the condition of localisation within the quantum dot bulk which the model imposes on the wavefunction of an exciton that undergoes symmetry elevation. We claim that exciton complexes with equal charge and equal number of electrons are more likely to undergo symmetry elevation when they are dominated by heavy holes. Because the crystal lattice in the quantum dot restricts the true Hamiltonian symmetries, we claim that $D_{3h}$ is not a candidate of the elevated symmetry group within our model, and we identify $T_d$ as the only possible candidate symmetry group if no \textit{a priori} symmetry breaking is postulated, because it is the bulk symmetry. We compare the predictions $T_d$ yields to both the data measured by Karlsson \textit{et al.} and a new dataset provided by our colleagues, finding good agreement for a part of the studied sample for several exciton complexes. We conclude that either some exciton complexes elevate to the bulk symmetry or the experiments mistakenly identify non-zero $z$-polarised components in multiple emission lines. We review the condition of raising valence band degeneracy at $\Gamma$ which elevating to $T_d$ requires, and which is not treated within our proposed model. We discuss further analysis of elevation to bulk symmetry in nanocrystals, as well as the exciton transformation properties disregarded in our simplistic model.
 
 \pagebreak
 
-\section{Contents}
+\chapter{Contents}
 
 
 \renewcommand\contentsname{}
@@ -57,7 +55,7 @@ We investigate the photoluminiscence spectra of InGaAs pyramidal quantum dots wi
 
 \pagebreak
 
-\section{Introduction}
+\chapter{Introduction}
 
 Quantum dots (QDs) have been the subject of keen interest and study by the scientific community in the last decades for their wide applications in quantum information \cite{quantum_information1, quantum_information2}, photonics \cite{photonics1, photonics2}, medicine \cite{medicine1, medicine2}, and many others \cite{other_applications}. Many of these applications are viable due to the unique electronic properties of QDs that allow us to construct within it atom-like electron states \cite{atomlike} with tunable energy levels \cite{tunable} which depend on the specific manufacturing parameters. However, there are still challenges in characterising the small-scale structural properties of grown QDs, such as unintentional symmetry breaking \cite{karlsson}. In the project, we will inspect these structural properties using the tools of spectroscopy and the mathematical toolset of group theory.
 
@@ -68,7 +66,7 @@ The energy level splitting for exciton complexes can be investigated by first co
 In 2015, Karlsson \textit{et al.} published a paper claiming that InGaAs QDs grown in a way which suggests its group of the Hamiltonian should be $C_{3v}$ exhibits spectral features for certain exciton transitions which imply the group of the Hamiltonian to contain more symmetries, corresponding to $D_{3h}$ or $C_{6v}$ \cite{karlsson}. The effect of \textit{symmetry elevation} has been studied by Karlsson \textit{et al.} in \cite{karlsson} and \cite{karlsson_2010} and by Dupertuis \textit{et al.} in \cite{dupertuis}, but remains yet unexplained. In this work, we collaborate with a laboratory at Tyndall Institute, University College Cork, which reproduces the spectral measurements for this type of QDs using new methods of spectral features identification, and compare these measurements to our simple perturbative model of \textit{symmetry suppression} which attempts to quantify the effects of approximate symmetries, which were hypothesised by Dupertuis \textit{et al.} as the mechanism behind symmetry elevation \cite[p.~2]{dupertuis}. Finally, we reject the suggested groups $D_{3h}$ and $C_{6v}$ as candidates for symmetry elevation due to them postulating symmetries which the underlying atomic lattice of the QD is not equipped with. Instead, we identify $T_d$ as the \textit{bulk symmetry} of this lattice, and propose it as a new candidate for symmetry elevation.
 
 
-\subsection{The InGaAs pyramidal quantum dot} \label{sec:growth}
+\section{The InGaAs pyramidal quantum dot} \label{sec:growth}
 \begin{figure}
 \begin{center}
 
@@ -92,15 +90,15 @@ The measurements were conducted by our colleagues Francesco Mattana, Luca Colave
 
 \pagebreak
 
-\include{sections/5_discussion_of_theory_employed}
+\include{chapters/5_discussion_of_theory_employed}
 
-\include{sections/6_results}
+\include{chapters/6_results}
 
-\include{sections/7_discussion_of_results}
+\include{chapters/7_discussion_of_results}
 
-\include{sections/8_conclusions}
+\include{chapters/8_conclusions}
 
-\section{Acknowledgements}
+\chapter{Acknowledgements}
 The author would like to acknowledge his research partner Zétény Bacsó for his robust, multi-faceted contribution to the project, which includes authoring novel ideas as well as consulting ideas proposed by the author, tirelessly delving into research of countless subjects related to the project, aptly assessing the relevance of the many components of the complex theory of semiconductor nanocrystals to the symmetry properties of quantum dots, diligently validating the outputs of the author's automated algorithm package for double group representation theory with pen-and-paper calculations, identifying many problems and bugs in the process, and many other contributions to the team-work and the team-spirit, from proposing efficient work delegation to engaging in casual conversations about the relationship between mathematics, philosophy, and Nature,
 
 our supervisor, Professor Dimitri Vvedensky, for his guidance, direction, and identification of important information sources, and who supported us throughout the entire duration of the research, discussed the many ideas we proposed to him, and provided invaluable perspective on different aspects of our research when things became overwhelming for us,
@@ -113,7 +111,7 @@ and Ivan Shalashilin, Jacob Edginton, and the author's family for their discussi
 
 \pagebreak
 
-\section{Bibliography}
+\chapter{Bibliography}
 \renewcommand\refname{}
 
 \begingroup

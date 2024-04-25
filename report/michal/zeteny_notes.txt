@@ -1,0 +1,45 @@
+-Section content should be immediately obvious from the label ("what's the differentce between GT in QM I and GT in QM II?")
+-Section labels might be more neutral (i would drop the hitchiker's guide, save that for the layperson's summary)
+
+-You do say that reducible representations can be formed by direct sums/products of smaller reps, but maybe also talk about the decomposition, e.g. mention orthogonality of character vectors in the group element space as I did, otherwise sentences such as "this rep contains the identity rep" are a bit abstract? idk, i mean technically not an issue.
+- in 2.2.2, maybe mention specifically Fermi's golden rule,, because that's where the matrix element comes from
+- in 2.2.3 you're using the wrong notation for exciton complexes!!!! the number n before X is not the number of electrons, but the number of electron-hole pairs (e.g. 3 electrons and 2 heavy holes would be 2X^-_20). This is why the charge label is important, as it specifies extra electrons. You can think of n as the possible number of recombinations before hitting a stable state.
+
+2.3.2
+-Transforms as SU(2) _under rotations_.
+
+4.1
+-You claim that symmetry suppression theory predicts that for a light hole and heavy hole, the light hole would be pushed out to the boundary, probing the structure symmetry. This was our paradigm a month ago. In my analysis, I claim that this is no longer a justifiable claim, as the particles-in-a-box model can only say that less heavy holes = more likely to probe structure symmetry. This is not a problem with your report, but an important difference. (In some sense, your suppression conjecture is stronger than mine.)
+-You talk about 2X^+_20. That's not a real exciton. Did you mean X^+_20? If yes, its behaviour doesn't say anything about the behaviour of 2X_20
+
+4.4.2
+-I suggest you mention the problem of exact degeneracy of heavy and light hole bands at Gamma for T_d! This is probably the biggest shortcoming of symmetry suppression theory. See my Sec. 6.3 for details.
+
+Either in Results or Conclusions, you should talk about how even in the Karlsson data, the C_3v-agreeing predictions constitute only about 15% of the sample. The Conclusions makes the problem look solved, but it really isn't, especially with how noisy and inconsistent the readings are.
+
+-Appendix C is really, really similar to my Section 4.1. Now, since the work is shared in this project, that is not a problem, but any plagiarism software will pick up on that. I suggest you specifically acknowledge at the beginning of Appendix C me and my report as a source of this derivation (especially for the envelope-effectove hamiltonian and the particles-in-the-box model). Alternatively, just state the results (slowly varying envelopes with lattice-periodic modulation, charged-particles-in-a-box), crediting Burt and Zhang respectively.
+-Same for the symmetry suppression sections in 3.4. Now, ofc there is only one "correct" theoretical derivation of suppression, but since it is directly text contained within the report, i think it will make you look better if you put an ackonwledgement at the top of the section that the following derivation was authored by me, since i quote the original derivation verbatim in my report.
+
+
+-Spelling and stylistic errors:
+    1.2.1:
+        ateral -> Lateral
+        corresponfing -> corresponding
+        exction -> exciton
+        containing of -> containing
+    1.2.2:
+        tetrahedrals -> tetrahedron
+        are -> is
+    2.1.1:
+        by Dresselhaus -> from Dresselhaus
+    2.1.2:
+        total angular quantum number -> total angular momentum quantum number
+    2.2.3:
+        consists -> consists of
+    2.3.2:
+        orbitls -> orbitals
+    3.4.2:
+        the eqnarray shouldn't have a different equation number for each line break!
+    
+    General:
+        -i saw some "don't"s etc, make sure to write them out as "do not"s etc, since contractions are not academic writing style.

@@ -1,20 +1,16 @@
-\section{Results}
+\chapter{Results}
 
 In our research, we tested the following hypothesis: \textit{Symmetry elevation effects are caused by transformation properties of the bulk symmetry.} Since the bulk symmetry group $T_d$ contains the structure symmetry $C_{3v}$ as a subgroup, it is a natural suspect for a source  of \textit{approximate} symmetries, as it limits the true symmetry of the system.
 
 The theoretical basis for particular excitons enjoying symmetry transformations from the bulk symmetry is built on their localisation within the QD. If the envelope functions $\Upsilon_i$ of every fermion in an exciton complex are localised near the centre of the QD, any bulk-symmetry transformation should also be a symmetry transformation of the exciton wavefunction. With every QD border the envelope functions approach, more approximate symmetry transformations vanish, until, when an exciton has significant probability to measure one or more of its fermions anywhere around the edge of the QD, it fully probes the structure symmetry.
 
-\subsection{Perturbative analysis of selection rules} \label{sec:symmetry_suppression}
+\section{Perturbative analysis of selection rules} \label{sec:symmetry_suppression}
 Suppose now we have a system described by a Hamiltonian $\hat{H}$ equipped with a group of symmetries $G$. Let us construct a Hamiltonian $\hat{H}_+$ which is equipped with a group of symmetries $G_+$ such that $G\subset G_+$ and $\hat{H}$ can be modelled as a perturbation of $\hat{H}_+$ like so:
-	\begin{equation}
-	\hat{H}=\hat{H}_+ + \lambda \hat{H}',\qq{where}\lambda\ll 1
-	\end{equation}
+	$$\hat{H}=\hat{H}_+ + \lambda \hat{H}',\qq{where}\lambda\ll 1$$
 	For an exciton with its wavefunction localised in the centre of the QD, $\hat{H}$ is the true Hamiltonian, and $\hat{H}_+$ is the Hamiltonian of a smaller QD with a higher symmetry inscribed into the true QD.
-	\subsubsection{Elevated symmetry component of an energy eigenstate}
+	\subsection{Elevated symmetry component of an energy eigenstate}
 	Let us denote the eigenstates of the Hamiltonians $\hat{H},\hat{H}_+$ as $\ket{E_i;n}$ and $\ket{E^+_{i'};n'}$ respectively, where $n, n'$ are the degeneracy labels. Disregarding accidental degeneracy, we know that every set of degenerate energy levels forms a basis of (i.e. transforms according to) an irrep of the respective symmetry group \cite[Ch.~5]{dresselhaus}:
-	\begin{equation}
-	\mqty(\ket{E_i;1}\\\ket{E_i;2}\\\vdots\\\ket{E_i;d_i})\mbox{ forms a basis to }\Gamma^{(G)}_{r(i)}; \mqty(\ket{E^+_{i'};1}\\\ket{E^+_{i'};2}\\\vdots\\\ket{E^+_{i'};d^+_{i'}})\mbox{ forms a basis to }\Gamma^{\left(G_+\right)}_{r^+(i')}
-	\end{equation}
+	$$\mqty(\ket{E_i;1}\\\ket{E_i;2}\\\vdots\\\ket{E_i;d_i})\mbox{ forms a basis to }\Gamma^{(G)}_{r(i)}; \mqty(\ket{E^+_{i'};1}\\\ket{E^+_{i'};2}\\\vdots\\\ket{E^+_{i'};d^+_{i'}})\mbox{ forms a basis to }\Gamma^{\left(G_+\right)}_{r^+(i')}$$
 	where $d_i, d^+_{i'}$ specify the total degeneracies of the energy levels and $r,r^+$ are some functions which map energy levels onto irreps.
 	Under a first-order perturbation of a set of degenerate eigenstates which span a Hilbert subspace $\mathcal{D}^+$, the distance of the perturbed states from $\mathcal{D}^+$ goes like $O(\lambda)$. Therefore, if $\ket{E_i;n}$ arises from perturbing a degenerate subspace of energy $E^+_j$, there exists an unnormalized vector $\ket{E^+_j;P}\in\mathcal{D}^+_j$ for which
 	\begin{eqnarray}
@@ -40,9 +36,9 @@ Suppose now we have a system described by a Hamiltonian $\hat{H}$ equipped with 
 	&\sim 1-O\left(\lambda\right)\nonumber
 	\end{align}
 	and the \textit{residual component} then becomes
-	\begin{equation}
-	\ket{R}=c_R^{-1}\left(\ket{E_i;n}-c_{ES}\ket{E^+_j;ES}\right)
-	\end{equation}
+	\begin{eqnarray*}
+	\ket{R}&=&c_R^{-1}\left(\ket{E_i;n}-c_{ES}\ket{E^+_j;ES}\right)
+	\end{eqnarray*}
 	By demanding norm 1, we obtain:
 	\begin{align}
 	1&= c_R^{-2}\left(\braket{E_i;n}{E_i;n}+c_{ES}^2\braket{E^+_j;ES}{E^+_j;ES}-2c_{ES}\braket{E_i;n}{E^+_j;ES}\right)\nonumber\\
@@ -50,26 +46,24 @@ Suppose now we have a system described by a Hamiltonian $\hat{H}$ equipped with 
 	&\sim O(\lambda)\nonumber\\
 	\ket{R}&= \left(1-c_{ES}^2\right)^{-1/2}\left(\ket{E_i;n}-c_{ES}\ket{E^+_j;ES}\right)
 	\end{align}
-	\subsubsection{Selection rules for the elevated symmetry component}
+	\subsection{Selection rules for the elevated symmetry component}
 	Consider now two eigenstates of $\hat{H}$ at different energy levels, $\ket{E_i;n_i}$, $\ket{E_f;n_f}$. If we perturb the system with an interaction Hamiltonian $\hat{H}'$, the rate of transition between these two states is given by Fermi's golden rule \cite[Eq.~(3.2)]{fox}
-	\begin{equation}
-	\Gamma_{\ket{E_i;n_i}\to \ket{E_f;n_f}}=\frac{2\pi}{\hbar}\abs{\mel{E_f;n_f}{\hat{H}'}{E_i;n_i}}^2
-	\end{equation}
+	$$\Gamma_{\ket{E_i;n_i}\to \ket{E_f;n_f}}=\frac{2\pi}{\hbar}\abs{\mel{E_f;n_f}{\hat{H}'}{E_i;n_i}}^2$$
 	Since the energy levels may be degenerate, we must consider a full basis for each of the two energy levels to obtain the full transition rate.
 	
 	Let the energy levels $E_i,E_f$ be chosen such that the direct product $\Gamma^{(G)}_{r(i)}\otimes \Gamma^{(G)}_{\hat{H}'}\otimes \Gamma^{(G)}_{r(f)}$ contains the identity irrep of $G$, and hence the matrix elements for energy level basis vectors do not vanish due to the selection rule (Sec.~\ref{sec:group_theory_intro}). Let us now decompose the two eigenstates into elevated symmetry and residual components:
-	\begin{eqnarray}
+	\begin{eqnarray*}
 	\ket{E_i;n_i}&=&c_{ES}^i\ket{E_{i'}^+;ES}+c_R^i\ket{R_i}\\
 	\ket{E_f;n_f}&=&c_{ES}^f\ket{E_{f'}^+;ES}+c_R^f\ket{R_f}
-	\end{eqnarray}
+	\end{eqnarray*}
 	where $E_{i'}^+,E_{f'}^+$ denote the energy levels of the high-symmetry Hamiltonian $\hat{H}^+$ which get perturbed into $E_i,E_f$ respectively.
 	
 	Let us now calculate the matrix element under the interaction Hamiltonian:
-	\begin{align}
-	&\mel{E_f;n_f}{\hat{H}'}{E_i;n_i}=\nonumber\\
-	&\left(c_{ES}^f\right)^* c_{ES}^i \mel{E_{f'}^+;ES}{\hat{H}'}{E_{i'}^+;ES}+\left(c_{ES}^f\right)^* c_R^i \mel{E_{f'}^+;ES}{\hat{H}'}{R_i} + \nonumber\\
-	&\left(c_{R}^f\right)^* c_{ES}^i\mel{R_f}{\hat{H}'}{E_{i'}^+;ES} + \left(c_{R}^f\right)^* c_R^i \mel{R_f}{\hat{H}'}{R_i}
-	\end{align}
+	\begin{eqnarray*}
+	&&\mel{E_f;n_f}{\hat{H}'}{E_i;n_i}=\\
+	&&\left(c_{ES}^f\right)^* c_{ES}^i \mel{E_{f'}^+;ES}{\hat{H}'}{E_{i'}^+;ES}+\left(c_{ES}^f\right)^* c_R^i \mel{E_{f'}^+;ES}{\hat{H}'}{R_i} + \\
+	&&\left(c_{R}^f\right)^* c_{ES}^i\mel{R_f}{\hat{H}'}{E_{i'}^+;ES} + \left(c_{R}^f\right)^* c_R^i \mel{R_f}{\hat{H}'}{R_i}
+	\end{eqnarray*}
 	We know that $\left(c_{R}^f\right)^* c_R^i$ goes like $O\left(\lambda^2\right)$, and hence we will disregard the corresponding term. There are now two possibilities for what may occur:
 	\begin{enumerate}
 	\item \textit{The elevated symmetry matrix element does not vanish.} If $\Gamma^{\left(G_+\right)}_{r^+(i')}\otimes \Gamma^{\left(G_+\right)}_{\hat{H}'}\otimes \Gamma^{\left(G_+\right)}_{r^+(f')}$ contains the identity irrep of $G_+$, the leading term matrix element does not vanish, and forms the main contribution to the total matrix element.
@@ -77,7 +71,7 @@ Suppose now we have a system described by a Hamiltonian $\hat{H}$ equipped with 
 	\end{enumerate}
 	Because $\hat{H}^+$ describes a smaller structure inscribed into the original structure, the perturbation affects the system around the edge of the QD. Therefore we expect wavefunctions which are localised in the centre of the QD to have a high value of $c_{ES}$ and undergo symmetry elevation, whilst wavefunctions with a significant measure around the QD edges should have a high value of $c_{R}$, nullifying the effect of symmetry suppression.
 
-\subsection{Localisation of heavy-hole excitons in the bulk} \label{sec:localisation}
+\section{Localisation of heavy-hole excitons in the bulk} \label{sec:localisation}
 The shape of the exciton wavefunctions in the pyramidal QD is not well-understood, as calculating them is highly non-trivial. However, we can state qualitative arguments providing the justification for our expectation of some excitons being highly localised in the bulk of the QD.
 
 For semiconductors with a band-gap under $\SI{5}{\electronvolt}$, the excitons are mainly of the Wannier-Mott type, for which the electron-hole orbit radius is inversely proportional to the reduced mass \cite[p.~78]{fox}:
@@ -89,7 +83,7 @@ $\text{In}_{0.10}\text{Ga}_{0.90}\text{As}$ has a band-gap of $\SI{1.28}{\electr
 
 From this we see that a light-hole neutral exciton has orbit radius twice the value of that of a heavy-hole neutral exciton, making it more delocalised from the QD centre. Based on the particles-in-a-box model derived in Sec.~\ref{sec:envelopes} for the envelope functions, we will extend this qualitative argument for other exciton complexes, too. As shown by Landau in \cite[p.~64]{landau}, lighter particles penetrate further into the walls of a potential well. We hence conjecture that for two exciton complexes of equal number of electrons and equal charge, the exciton with more heavy holes will be more localised in the QD centre, and the exciton with more light holes will be more likely to probe the structure symmetry.
 
-\subsection{Identifying intermediate groups of bulk and structure symmetries}
+\section{Identifying intermediate groups of bulk and structure symmetries}
 Any transformation which is not a symmetry transformation of the crystal bulk is not a true symmetry transformation of the system \cite{bulk_limiting}. Since every element of the structure symmetry $G_s$ is also an element of the bulk symmetry $G_b$ (a fact which requires a specific orientation of the zincblende lattice), any candidate approximate symmetry $G_a$ has to satisfy
 \begin{equation} \label{eq:group_chain}
 G_s \subset G_a \subseteq G_b
@@ -102,11 +96,11 @@ Note that when making predictions for the bulk symmetry group $T_d$, at the $\Ga
 
 Also note that for the groups $T_d, O_h$, the Cartesian rep transforms according to a single irrep, which means the emitted light will not be polarised. As such, it should be detected in both configurations of the waveplate, as it has both $\sigma$ and $z$-polarised components. Furthermore, the lines in the $\sigma$ polarisation and $z$ polarisation should line up at equal energies, since each pair of lines corresponds to a single transition.
 
-\subsection{Predictions and their agreement with experiments}
+\section{Predictions and their agreement with experiments}
 The predictions our model makes are the numbers of different emission lines between two exciton complexes. These lines should in theory be separated by fine-structure energy splitting, however, due to accidental degeneracy, some lines may not be resolvable in the experiment. Therefore, observing a lower number of lines than predicted does not necessarily contradict the assumed symmetry group, and more careful analysis of which lines probe the symmetry is needed to robustly disconfirm it.
 
-\subsubsection{Fermion transformation properties in different groups}
-The groups $C_{3v}$, $C_{6v}$, $D_{3h}$, and $D_{3d}$ undergo splitting of the valence band into heavy holes and light holes at the $\Gamma$ point, and therefore their exciton complexes are fully characterised by the single-fermion transformation properties. See Table~\ref{tab:single_fermions} for the associated irreps as labelled by Altmann in \cite{altmann}.
+\subsection{Fermion transformation properties in different groups}
+The groups $C_{3v}$, $C_{6v}$, $D_{3h}$, and $D_{3d}$ undergo splitting of the valence band into heavy holes and light holes at the $\Gamma$ point, and therefore their exciton complexes are fully characterised by the single-fermion transformation properties. See Table~\ref{tab:single_fermions} for the associated irreps as labelled by Altmann, \cite{altmann}.
 
 \begin{table}
 \begin{center}
@@ -141,7 +135,7 @@ $O_h$ & $F_{3/2,u}$ & $A_{1g} \oplus E_g \oplus T_{2g}$
 \caption{Transformation properties of one hole and two holes in a single energy level, respectively.\label{tab:multihole_states}}
 \end{table}
 
-\subsubsection{Number of lines for exciton and biexciton decays} \label{sec:testing_against_data}
+\subsection{Number of lines for exciton and biexciton decays} \label{sec:testing_against_data}
 We have found that $D_{3d}$ gives equal predictions to $C_{3v}$, $C_{6v}$ gives equal predictions to $D_{3h}$, and $O_h$ gives equal predictions to $T_d$, and hence we omit $D_{3d}$, $C_{6v}$, and $O_h$ from further analysis for brevity.
 
 \begin{table}
