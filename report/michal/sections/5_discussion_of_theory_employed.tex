@@ -3,7 +3,7 @@
 \subsection[Exciton complexes]{Exciton complexes and double groups} \label{sec:exciton_theory}
 The physical phenomenon which is subject to our study is photoluminiscence. The QDs in a laboratory ensemble are arranged with large spacing and are not expect to interact, hence we can formulate a theoretical model of photoluminiscence on a singular QD. For InGaAs there are two valence bands at the band edge, which are close at $\Gamma$ (see Fig.~\ref{fig:ingaas_band_structure}). These two valence bands have different curvatures at $\Gamma$, and hence correspond to holes of two different effective masses, referred to as heavy holes and light holes.
 
-An external electromagnetic field in the form of a light-beam interacts with the QD in a non-resonant way (as for not to favour a single transition), which promotes electrons into the conduction band and holes into the valence bands. The population of excited electrons and holes of different characteristics is called an exciton complex. Exciton complexes decay into lower-occupancy exciton complexes via electron-hole recombination, which produces bright emission lines in the photoluminiscence spectrum. These lines are sharp and occur at fixed frequencies corresponding to the energy level differences, and the theoretical description of their spectrum is the ultimate goal of this work.
+An external electromagnetic field in the form of a light-beam interacts with the QD in a non-resonant way (as for not to favour a single transition), which promotes electrons into the conduction band and holes into the valence bands. The population of excited electrons and holes of different characteristics is called an exciton complex. Exciton complexes decay into lower-occupancy exciton complexes via electron-hole recombination, which produces bright emission lines in the photoluminiscence spectrum. These lines are sharp and occur at fixed frequencies corresponding to the energy level difference between the initial and final state, and the theoretical description of their spectrum is the ultimate goal of this work.
 
 Exciton complexes are labelled by the number of electron-hole pairs, overall charge, and the occupancy numbers of each hole type. For example, $2X^-_{20}$ has $3$ electrons, $2$ heavy holes, $0$ light holes, and an overall charge of $-1e$.
 
@@ -25,12 +25,12 @@ where $\tilde{\Psi}\left(\vec{k}\right)$ is the Fourier transform of $\Psi\left(
 \begin{equation}
 \Psi\left(\vec{r}\right)=\sum_{\vec{g}\in G}\int_{\vec{k}\in\text{1st B.Z.}}\dd\vec{k} \tilde{\Psi}\left(\vec{k}+\vec{g}\right)\exp{i\left(\vec{k}+\vec{g}\right)\vdot\vec{r}}
 \end{equation}
-Note that $G$ is equivalent to the set of wave-vectors of plane waves periodic on the crystal lattice. Therefore, we can choose a set of basis functions $U_n\left(\vec{r}\right)$ periodic on the Bravais lattice like so:
+Note that $G$ is equivalent to the set of wave-vectors of plane waves periodic on the crystal lattice. Therefore, we can choose a set of basis functions $U_n\left(\vec{r}\right)$ periodic on the crystal lattice like so:
 \begin{eqnarray}
 U_n\left(\vec{r}\right)&=&\sum_{\vec{g}\in G}u_{n}\left(\vec{g}\right)\exp{i\vec{g}\vdot\vec{r}}\\
 U_n\left(\vec{r}+\vec{r}_B\right)&=&\sum_{\vec{g}\in G}u_{n}\left(\vec{g}\right)\exp{i\vec{g}\vdot\vec{r}}\exp{i\vec{g}\vdot\vec{r}_B}=U_n\left(\vec{r}\right)
 \end{eqnarray}
-where $\vec{r}_B\in R$ is a lattice vector and $u_n\left(\vec{g}\right)$ are the coefficients of the decomposition of $U_n$ into reciprocal lattice plane waves, typically chosen such that $U_n$ are orthonormal. Then, inverting this decomposition, we obtain
+where $\vec{r}_B\in R$ is a lattice vector and $u_n\left(\vec{g}\right)$ are the coefficients of the decomposition of $U_n$ into reciprocal lattice plane waves, chosen such that $U_n$ are orthonormal. Then, inverting this decomposition, we obtain
 \begin{equation}
 \exp{i\vec{g}\vdot r} = \sum_n u_n\left(\vec{g}\right)^*U_n\left(\vec{r}\right)
 \end{equation}
@@ -41,10 +41,10 @@ which allows us to decompose the original wavefunction into a sum of the orthono
 \end{eqnarray}
 Now we choose $U_n\left(\vec{r}\right)$ to represent the band-edge eigenstates in the bulk structure. Using a tight-binding model with spin-orbit coupling, these wavestates can be labelled by three quantum numbers: total angular momentum $j$, its projection onto the $z$-axis $j_z$, and the orbital energy excitation $\varepsilon_n$, which we assume to be in the ground state in our system due to energy occupancy statistics (as we expect the population of states other than in the ground state to be negligible for a low-power light-source). Furthermore, the quantum number $j$ is determined by the orbital angular momentum $l$, which is given by the electron configuration in each specific band, and the spin $s=1/2$ determined for electrons and electron holes by their fundamental properties.
 
-Photonic nanostructures can, on a small scale, cease to posses a standard band-structure, instead featuring e.g. flat bands. Dresselhaus \textit{et al.} (2007) quotes the number of Bravais lattice cells below which this occurs to be in the order of $10^2$ \cite[p.~213]{dresselhaus_condensed_matter}. Our QDs have volumes typically higher than $\SI{100}{\nano\metre\cubed}$ \cite[p.~2]{karlsson_2010}, which corresponds to the number of unit cells in the order of $10^3$. Hence we can reasonably expect our system to posses a band structure resembling the standard bulk-lattice band structure in the vicinity of $\Gamma$. This has two consequences to our envelope function model:
+Photonic nanostructures can, on a small scale, cease to posses a standard band-structure, instead featuring e.g. flat bands. Dresselhaus \textit{et al.} (2007) quotes the number of crystal lattice cells below which this occurs to be in the order of $10^2$ \cite[p.~213]{dresselhaus_condensed_matter}. Our QDs have volumes typically higher than $\SI{100}{\nano\metre\cubed}$ \cite[p.~2]{karlsson_2010}, which corresponds to the number of unit cells in the order of $10^3$. Hence we can reasonably expect our system to posses a band structure resembling the standard bulk-lattice band structure in the vicinity of $\Gamma$. This has two consequences to our envelope function model:
 \begin{enumerate}
 \item The envelope function $\Upsilon\left(\vec{r}\right)$ is varying slowly enough for it to have an approximately defined crystal momentum. As discussed in~\ref{sec:exciton_theory}, we assume $k\approx 0$.
-\item The wavefunction $\Psi\left(\vec{r}\right)$ of a single excited fermion approximately corresponds to a single state on the excited band of the infinite bulk crystal band structure. In other words, there exists a basis vector $U_n$ such that for all other basis vectors $U_m, m\neq n$, their contribution to the wavefunction is negligible. This postulate is equivalent to disregarding band-mixing effects.
+\item The wavefunction $\Psi\left(\vec{r}\right)$ of a single excited fermion approximately corresponds to a single state on the excited band of the band structure of the infinite bulk crystal lattice. In other words, there exists a basis vector $U_n$ such that for all other basis vectors $U_m, m\neq n$, their contribution to the wavefunction is negligible. This postulate is equivalent to disregarding band-mixing effects.
 \end{enumerate}
 Labelling the single contributing basis vector by the quantum numbers $l, s, j, j_z$, we can express the wavefunction of a single excited fermion as
 \begin{equation}
@@ -52,7 +52,7 @@ Labelling the single contributing basis vector by the quantum numbers $l, s, j, 
 \end{equation}
 
 \subsubsection{Envelope-effective Hamiltonian at $\Gamma$} \label{sec:envelope_effective_hamiltonian}
-As discussed in Burt (1992) \cite[p.~6656]{envelope_equation}, we can write down the effective Hamiltonian for the envelope function, which yields the corresponding Schrödinger equation:
+As discussed by Burt (1992) \cite[p.~6656]{envelope_equation}, we can write down the effective Hamiltonian for the envelope function, which yields the corresponding Schrödinger equation:
 \begin{eqnarray}
 \hat{H}_\Upsilon &=& -\frac{\hbar^2}{2}\nabla\vdot\frac{1}{m^*\left(\vec{r}\right)}\nabla + E_0\\
 \hat{H}_\Upsilon \Upsilon\left(\vec{r}\right)&=& E\Upsilon\left(\vec{r}\right)
@@ -63,7 +63,7 @@ where $E_0$ is the band-edge energy. Now, in a parabolic Taylor expansion of the
 \end{equation}
 This is the equation of a free particle with energy $E_p=E-E_0$. Hence we can model a single excited fermion as a ``particle in a box'' around the $\Gamma$ point for a large enough structure.
 
-Now we consider the wavefunction of an exciton complex, which is comprised of multiple excited fermions. The interaction between the fermions is purely electromagnetic. Since the envelope functions are slowly-varying and associated to zero crystal momenta, their magnetic interaction is negligible. The magnetic interaction of the periodic basis functions gives rise to spin-orbit and orbit-orbit coupling (ignoring the hyperfine structure of spin-spin coupling), which allows us to label an exciton complex with a total angular momentum $J$ and its projection onto the $z$-axis $J_z$ as two quantum numbers. The Coulomb interaction between fermions $a$ and $b$ gives rise to a term in the Hamiltonian in the form
+Now we consider the wavefunction of an exciton complex, which is comprised of multiple excited fermions. The interaction between the fermions is purely electromagnetic (disregarding the Pauli exclusion principle, which is treated in Sec. \ref{sec:pauli_exclusion}). Since the envelope functions are slowly-varying and associated to zero crystal momentum, their magnetic interaction is negligible. The magnetic interaction of the periodic basis functions gives rise to spin-orbit and orbit-orbit coupling (ignoring the hyperfine structure of spin-spin coupling), which allows us to label an exciton complex with a total angular momentum $J$ and its projection onto the $z$-axis $J_z$ as two quantum numbers. The Coulomb interaction between fermions $a$ and $b$ gives rise to a term in the Hamiltonian in the form
 \begin{equation}
 \hat{V}_{ab}^C\left(\vec{r}_a,\vec{r}_b\right)=\frac{q_aq_b}{4\pi\epsilon_0\epsilon_r}\frac{1}{\abs{\vec{r}_a-\vec{r}_b}}
 \end{equation}
@@ -85,7 +85,7 @@ and since $U_a, U_b$ are periodic over the crystal lattice, we can denote $\xi =
 \int_{\vec{r}_a\in \text{cell a}}\dd^3 \vec{r}_a \int_{\vec{r}_b\in \text{cell b}} \dd^3 \vec{r}_b \hat{V}_{ab}^C\left(\vec{r}_a-\vec{r}_b\right)\Upsilon_a\left(\vec{r}_a\right)U_a\left(\vec{r}_a\right)\Upsilon_b\left(\vec{r}_b\right)U_b\left(\vec{r}_b\right) \approx \\
 \Upsilon_a\left(\vec{r}_a\right)\Upsilon_b\left(\vec{r}_b\right) \int_{\vec{r}_a\in \text{U.C.}}\dd^3 \vec{r}_a \int_{\vec{r}_b\in \text{U.C.}} \dd^3 \vec{r}_b \hat{V}_{ab}^C\left(\vec{r}_a-\vec{r}_b-\vec{\xi}\right)U_a\left(\vec{r}_a\right)U_b\left(\vec{r}_b\right)
 \end{eqnarray*}
-where U.C. denotes a single unit cell of the crystal lattice centered around the origin (or otherwise fixed in space). Now comes the final approximation. When considering the integral of Eq.~(\ref{eq:coulomb_interaction_integral}) over an arbitrary dual volume, we partition the volumes into unit cells of the crystal lattice and then divide the integral into pairwise U.C.-U.C. integrals over a set of displacement vectors $\vec{\xi}$. For the majority of these vectors in dual volumes comparable in size to the size of the QD, the values of $\xi$ will be larger than the dimensions of U.C. Hence we can approximate
+where U.C. denotes a single unit cell of the crystal lattice centered around the origin (or otherwise fixed in space). Now comes the final approximation. When considering the integral of Eq.~(\ref{eq:coulomb_interaction_integral}) over an arbitrary dual volume, we partition the volumes into unit cells of the crystal lattice and then divide the integral into pairwise U.C.-U.C. integrals over a set of displacement vectors $\vec{\xi}$. For the majority of these vectors in dual volumes comparable in size to the size of the QD, the values of $\xi$ will be larger than the dimensions of the U.C. Hence we can approximate
 \begin{equation}
 \hat{V}_{ab}^C\left(\vec{r}_a-\vec{r}_b-\vec{\xi}\right)\approx \hat{V}_{ab}^C\left(\vec{\xi}\right)
 \end{equation}
