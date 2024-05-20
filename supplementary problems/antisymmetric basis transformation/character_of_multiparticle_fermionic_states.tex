@@ -39,7 +39,12 @@
 	\begin{equation}
 	\chi^{j,j'}(\theta)=\chi^j(\theta)\chi^{j'}(\theta)
 	\end{equation}
-	This relation can be easily generalised--for an ensemble of $k$ distinguishable particles, each with angular momentum $j_i$, the simultaneous rotation character of the vector basis is $prod_{i}\chi^{j_i}(\theta)$.
+	This relation can be easily generalised--for an ensemble of $k$ distinguishable particles, each with angular momentum $j_i$, the simultaneous rotation character of the vector basis is $\prod_{i}\chi^{j_i}(\theta)$.
+	
+	Note that for the case of zero particles--that is, the vacuum state $\ket{\emptyset}$--the character is trivially $1$, since the vacuum state is invariant under rotation, and we have
+	\begin{equation} \label{vacuum_character}
+	\chi^\emptyset(\theta)=\mel{\emptyset}{\hat{R}(\theta)}{\emptyset}=\braket{\emptyset}{\emptyset}=1
+	\end{equation}
 	
 	\subsection{Rotation character of multiple fermions occupying a single $j$-eigenstate}
 	Now, suppose we have $k$ fermions occupying a single $j$-eigenstate (i.e. their angular momenta are all equal to $j$). Suppose the angular momentum projection of the $i$-th particle is $m_i$, with $m_i\neq m_j$ for $i\neq j$. We shall denote the corresponding vector as $\ket{j; m_1, m_2\dots m_k}$. The character of this state under rotation can be treated as if the fermions were distinguishable particles, since they occupy different eigenstates of $m$, which are orthogonal to each other. Hence, the character of this state under rotation is
@@ -115,8 +120,25 @@
 	\end{equation}
 	Applying Eq. \ref{Faddeev-LeVerrier} to $d^j_{m'm}(\theta)$, identifying $n=2j+1$, and equating the powers of $\lambda$ to Eq. \ref{wigner_characteristic_polynomial}, we obtain
 	\begin{equation}
-	\chi^j_k(\theta)=-\frac{1}{k}\sum_{a=1}^k (-1)^{a}\chi^j_{k-a}\Tr\left(\left(d^j(\theta)\right)^a\right)
+	\chi^j_k(\theta)=-\frac{1}{k}\sum_{a=1}^k (-1)^{a}\chi^j_{k-a}(\theta)\Tr\left(\left(d^j(\theta)\right)^a\right)
 	\end{equation}
+	where we can identify $\chi^j_0$ as the character of the vacuum state under rotation, which, as per Eq. \ref{vacuum_character}, is trivially equal to unity; hence we have $\chi^j_0(\theta)=1$.
+	
+	\subsection{The symmetries of $\chi^j_k$}
+	The Wigner d-matrices $d^j_{m'm}(\theta), \theta\in (0,4\pi)$ form a subset of the Wigner $\mathcal{D}$-matrices $\mathcal{D}^j_{m'm}(\alpha, \beta, \theta)$, which form irreducible representations of the group $SU(2)$. As such, $d^j_{m'm}(\theta)$ is a unitary matrix with determinant one. This allows us to derive an important symmetry regarding the coefficients of its characteristic polynomial, and hence the characters $\chi^j_k$:
+	\begin{eqnarray}
+	\lambda^{2j+1}p^{\left(d^j(\theta)\right)}\left(\frac{1}{\lambda}\right) &=& \lambda^{2j+1}\det(\frac{1}{\lambda}I-d^j(\theta))\\
+	&=& \det(I-\lambda d^j(\theta))\\
+	&=& \det(\left(d^j\right)^Td^j(\theta)-\lambda d^j(\theta))\\
+	&=& \det(\left(d^j\right)^T-\lambda I)\det(d^j(\theta))\\
+	&=& \det(\left(d^j-\lambda I\right)^T)\\
+	&=& (-1)^{2j+1}p^{\left(d^j(\theta)\right)}(\lambda)
+	\end{eqnarray}
+	Expressing the characteristic polynomial using Eq. \ref{wigner_characteristic_polynomial} and comparing equal powers of $\lambda$, we retrieve the condition
+	\begin{equation}
+	\chi^j_k(\theta)=\chi^j_{2j+1-k}(\theta)
+	\end{equation}
+	Therefore, changing the number of occupied states in a $j$-eigenstate to the number of unoccupied states in the same $j$-eigenstate leaves the character under simultaneous rotation invariant.
 	
 	\begin{thebibliography}{10}
 
