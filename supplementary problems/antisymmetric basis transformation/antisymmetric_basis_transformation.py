@@ -163,7 +163,25 @@ for t in theta_space:
         b[i].append(res)
         
 
-lol = find_representative_pure_states_by_occupancy(4, 2)
+def assumed_wigner_power_trace(theta, k):
+    j = 3/2
+    return(np.sin((2 * j + 1) * k * theta / 2) / np.sin(k * theta / 2))
+
+k_space = np.arange(1, 10)
+cur_theta = 1.0
+actual_result_space = []
+cur_d_matrix = np.matrix(direct_wigner_small_d_matrix(cur_theta, 3/2))
+cur_d_matrix_e = np.matrix(cur_d_matrix)
+for k_val in k_space:
+    actual_result_space.append(np.trace(cur_d_matrix_e))
+    cur_d_matrix_e = np.matmul(cur_d_matrix_e, cur_d_matrix)
+
+plt.plot(k_space, actual_result_space, label = "actual d^k")
+plt.plot(k_space, assumed_wigner_power_trace(cur_theta, k_space), linestyle="dashed", label = "assumed d^k")
+plt.show()
+    
+
+"""lol = find_representative_pure_states_by_occupancy(4, 2)
 print(lol)
 
 plt.xlabel("theta")
@@ -173,7 +191,7 @@ for i in range(len(a)):
 plt.plot(theta_space, actual_doublet(theta_space), linestyle="dashed", label="actual doublet")
 plt.plot(theta_space, rot_character(theta_space, 0)+rot_character(theta_space, 2), linestyle="dashed", label="decomposed doublet")
 plt.legend()
-plt.show()
+plt.show()"""
 
 #def find_antisymmetric_basis(n, k):
 #    # finds the antisymmetric basis of an n-fold degenerate energy level with occupancy k, where the i-th basis vector is labelled as |i>, i = 1 ..., n-1

@@ -27,7 +27,7 @@
 	Note that here the rotation is described by a single scalar parameter; indeed, it can be proven (TODO citation) that the rotation character is given only by the rotation angle, not the rotation axis, and hence we need only consider rotations about an arbitrarily chosen axis. Fixing the rotation axis as the $z$-axis, we can immediately equate the matrix element in Eq. \ref{rot_char_of_single_p} to the Wigner d-matrix:
 	\begin{eqnarray}
 	\mel{j, m'}{\hat{R}(\theta)}{j, m} &=& d^j_{m'm}(\theta)\\
-	\chi^j(\theta)&=&\Tr d^j(\theta) = \frac{\sin{(2j+1)\frac{\theta}{2}}}{\sin{\frac{\theta}{2}}}
+	\chi^j(\theta)&=&\Tr d^j(\theta) = \frac{\sin{(2j+1)\frac{\theta}{2}}}{\sin{\frac{\theta}{2}}} \label{single_particle_character}
 	\end{eqnarray}
 	Now, consider an ensemble of two distinguishable particles $A$ and $B$, with angular momenta $j_A, j_B$. The Hilbert space of this ensemble is the tensor product of two single-particle Hilbert spaces, and as such it is spanned by the vectors
 	\begin{equation} \label{two_particle_basis}
@@ -140,16 +140,32 @@
 	\end{equation}
 	Therefore, changing the number of occupied states in a $j$-eigenstate to the number of unoccupied states in the same $j$-eigenstate leaves the character under simultaneous rotation invariant.
 	
+	Another important set of symmetries is that for the argument $\theta$. Firstly, we note that, as discussed before, the character of a rotation does not depend on the axis of rotation. If we therefore invert the axis, the character remains invariant. However, inverting the rotation axis is equivalent to changing the sign of the rotation angle. Therefore we obtain
+	\begin{equation} \label{flip_angle_sign}
+	\chi^j_k(-\theta)=\chi^j_k(\theta)
+	\end{equation}
+	
+	\section{Angular momentum coupling among fermions}
+	In general, an ensemble of $k$ fermions with angular momentum $j$ possesses high rotational symmetry, as such a state has degeneracy $\binom{2j+1}{k}=\frac{(2j+1)!}{k!(2j+1-k)!}$, i.e. the number of subsets of the set of $m$-values with cardinality $k$, which is equal to the number of antisymmetric basis vectors $\ket{b^j_k; \{m_i\}}$. If the Hamiltonian is modified to include a term which couples the angular momenta of the fermions (e.g. orbit\nobreakdash-orbit coupling of electrons on a single atomic orbit), the symmetry is, in general, broken, as the system now possesses a single $m$-value as its quantum number, which is the projection of the \textit{total} angular momentum along the $z$-axis. The new eigenstates of the Hamiltonian will therefore transform as single-particle states under rotation. Therefore, we anticipate there will be a unique decomposition of the following form:
+	\begin{equation}
+	\chi^j_k(\theta)=\sum_{j'\in\{j'\}}\chi^{j'}_{k=1}(\theta)
+	\end{equation}
+	where $\{j'\}$ is some set of half-integers determined from the numbers $j, k$.
+	
+	\subsection{Single-particle states form a complete, orthonormal basis}
+	For this decomposition to be viable, we require the functions $\chi^j_{k=1}(\theta)$ to form a complete basis of the space spanned by the functions $\chi^j_k(\theta)$. As we prove here, this is true. In particular, we identify the right side of Eq. \ref{single_particle_character} as the Dirichlet kernel $D_j(\theta)$, which in turn is equivalent to the following expression:
+	\begin{equation}
+	\chi^j_{k=1}(\theta)=U_{2j}\left(\cos{\frac{\theta}{2}}\right)
+	\end{equation}
+	where $U_{n}(x)$ is the Chebyshev polynomial of the second kind. Since $j=0, \frac{1}{2}, 1, \frac{3}{2}\dots$, we see that the set of single-particle characters is equivalent to the set of Chebyshev polynomials of the second kind. It is known (TODO citation) that Chebyshev polynomials of the second kind form a complete basis for functions on the interval $x\in(-1,1)$. Substituing $x=\cos{\frac{\theta}{2}}$, this turns into the interval $\theta\in (0, 2\pi)$. Even though $\chi^j_k(\theta)$ have in general periodicity with an interval of $4\pi$, they are also all even (Eq. \ref{flip_angle_sign}), and hence they can be fully built up from the quoted interval in a regular manner. This is sufficient to show that $U_{2j}(\cos{\frac{\theta}{2}})$ form a complete basis for the family of character functions.
+	
+	The Chebyshev polynomials of the second kind also possess an orthogonality relation, which can be readily shown from the orthogonality of sines and cosines and the expression for the Dirichlet kernel, and which is
+	\begin{equation} \label{chebyshev_orthogonality}
+	\frac{4}{\pi}\int_0^{2\pi} U_{2j}\left(\cos{\frac{\theta}{2}}\right)U_{2j'}\left(\cos{\frac{\theta}{2}}\right) \sin^2{\frac{\theta}{2}}\dd \theta = \delta_{j,j'}
+	\end{equation}
+	
 	\begin{thebibliography}{10}
 
-\bibitem{karlsson}
-Karlsson, K. F. \textit{et al} (2015), Spectral signatures of high-symmetry quantum dots and effects of symmetry breaking. \textit{New Journal of Physics}, \textbf{17} 103017
-
-\bibitem{altmann}
-Altmann, S. L., Herzig, P. (1994), \textit{Point-Group Theory Tables}. Oxford: Clarendon Press
-
-\bibitem{dresselhaus}
-Dresselhaus, M. S. (20020), \textit{Applications of Group Theory to the Physics of Solids}. Massachusetts Institute of Technology
 
 
 \end{thebibliography}	
