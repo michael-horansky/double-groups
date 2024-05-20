@@ -1,0 +1,135 @@
+\documentclass[12pt]{article}
+\usepackage{stdheadstart}
+\usepackage{xargs}
+\usepackage{physics}
+\usepackage{amsmath,amssymb}
+\insheadstart{images/}
+\newcommand{\sgn}{\text{sgn}}
+
+\newtheorem{full_coupling_hilbert_space}
+{Theorem}
+
+\begin{document}
+
+	\title{The character of a degenerate $j$-eigenstate occupied by an ensemble of fermions under simultaneous rotation.}	
+	\maketitle
+	
+	\abstract{An eigenstate of angular momentum (i.e. a $j$-eigenstate) is $(2j+1)$-fold degenerate. For a single particle, choosing the eigenstates of $j_z$ as a basis allows us to determine the character of a single particle under rotation as the trace of the corresponding Wigner d-matrix $d^j_{m'm}$. Constructing multi-particle states as tensor products of $j_z$-eigenstates, we equate the character of the Slater determinant describing $k$ fermions occupying the same $j$-eigenstates to the sum of the rank-$k$ principal minors of $d^j$. Stating the relation between the rotation character and the coefficients of the characteristic polynomial of $d^j$, we use the Faddeev-Le Verrier algorithm (FLV) to write down an expression for the multi-fermionic rotation character as a function of traces of $d^j$ and its exponentiations. From the unitarity of $d^j$, we prove that the rotation character of an ensemble of $k$ fermions with angular momentum $j$ equals the rotation character of an ensemble of $2j+1-k$ fermions of equal angular momentum. We prove that the rotation character can be uniquely decomposed into a sum of rotation characters of single particles with arbitrary angular momenta, utilising the orthogonality relations of Chebyshev polynomials of the second kind.}
+	
+	\section{Deriving the rotation character of multi-fermionic states}
+	\subsection{Rotation character of distinguishable particle states}
+	Let us denote an eigenstate of angular momentum $j$ and its projection $m$ onto an arbitrary axis (conventionally chosen to be the $z$-axis) as $\ket{j, m}$. It can be proven (TODO citation) that the set of states
+	$$\ket{j, -j}, \ket{j, -j+1} \dots \ket{j, j-1}, \ket{j, j}$$
+	forms an orthonormal basis of the Hilbert space of states with angular momentum $j$. Then, the character of a $j$-eigenstate under rotation $\hat{R}(\theta)$ is the sum of characters of the basis vectors under the same rotation:
+	\begin{equation} \label{rot_char_of_single_p}
+	\chi^j(\theta)=\mel{j}{\hat{R}(\theta)}{j}=\sum_{m=-j}^j \mel{j, m}{\hat{R}(\theta)}{j, m}
+	\end{equation}
+	Note that here the rotation is described by a single scalar parameter; indeed, it can be proven (TODO citation) that the rotation character is given only by the rotation angle, not the rotation axis, and hence we need only consider rotations about an arbitrarily chosen axis. Fixing the rotation axis as the $z$-axis, we can immediately equate the matrix element in Eq. \ref{rot_char_of_single_p} to the Wigner d-matrix:
+	\begin{eqnarray}
+	\mel{j, m'}{\hat{R}(\theta)}{j, m} &=& d^j_{m'm}(\theta)\\
+	\chi^j(\theta)&=&\Tr d^j(\theta) = \frac{\sin{(2j+1)\frac{\theta}{2}}}{\sin{\frac{\theta}{2}}}
+	\end{eqnarray}
+	Now, consider an ensemble of two distinguishable particles $A$ and $B$, with angular momenta $j_A, j_B$. The Hilbert space of this ensemble is the tensor product of two single-particle Hilbert spaces, and as such it is spanned by the vectors
+	\begin{equation} \label{two_particle_basis}
+	\ket{j_A, m_A}_A\otimes\ket{j_B, m_B}_B, \quad m_A = -j_A \dots j_A, \quad m_B = -j_B \dots j_B
+	\end{equation}
+	A \textit{simultaneous rotation} can then be constructed as the tensor product of the corresponding rotation operators:
+	$$\hat{R}(\theta)=\hat{R}_A(\theta)\otimes\hat{R}_B(\theta)$$
+	Then, the character of this rotation for the vector basis in Eq. \ref{two_particle_basis} is equal to the product of the characters of constituent particles:
+	\begin{equation}
+	\chi^{j,j'}(\theta)=\chi^j(\theta)\chi^{j'}(\theta)
+	\end{equation}
+	This relation can be easily generalised--for an ensemble of $k$ distinguishable particles, each with angular momentum $j_i$, the simultaneous rotation character of the vector basis is $prod_{i}\chi^{j_i}(\theta)$.
+	
+	\subsection{Rotation character of multiple fermions occupying a single $j$-eigenstate}
+	Now, suppose we have $k$ fermions occupying a single $j$-eigenstate (i.e. their angular momenta are all equal to $j$). Suppose the angular momentum projection of the $i$-th particle is $m_i$, with $m_i\neq m_j$ for $i\neq j$. We shall denote the corresponding vector as $\ket{j; m_1, m_2\dots m_k}$. The character of this state under rotation can be treated as if the fermions were distinguishable particles, since they occupy different eigenstates of $m$, which are orthogonal to each other. Hence, the character of this state under rotation is
+	\begin{equation}
+	\mel{j; m_1, m_2\dots m_k}{\hat{R}(\theta)}{j; m_1, m_2\dots m_k}=\prod_i \mel{j, m_i}{\hat{R}(\theta)}{j, m_i}
+	\end{equation}
+	This vector is an eigenstate of $m_i$, but a physical system cannot exist purely in such a state, since for an ensemble of fermions, we demand that their quantum state is antisymmetric under the exchange of any two fermions.
+	
+	Let us denote a suitable quantum state for an ensemble of $k$ fermions with angular momentum $j$ which occupy a set of $m$-eigenstates $m_i$ as $\ket{b^j_k; m_1, m_2\dots m_k}$. Let us express this state as a superposition of the $m_i$-eigenstates:
+	\begin{equation}
+	\ket{b^j_k; m_1, m_2\dots m_k}=\sum_{P^k_x}c_x\ket{j; P^k_x\left(m_1, m_2\dots m_k\right)}
+	\end{equation}
+	 where $P^k$ is a permutation of $k$ elements and the sum is over all such permutations. Then, permuting the fermions with an arbitrary permutation $P^k_y$ yields
+	 \begin{equation}
+	 \hat{P}^k_y\ket{b^j_k; m_1, m_2\dots m_k}=\sum_{P^k_x}c_x\ket{j; (P^k_yP^k_x)\left(m_1, m_2\dots m_k\right)}=\sgn(P^k_y)\ket{b^j_k; m_1, m_2\dots m_k}
+	 \end{equation}
+	where $\sgn(P^k)$ is the sign function, equal to $1$ if $P^k$ is an even permutation and $-1$ if $P_k$ is an odd permutation.
+	
+	Let us choose $P^k_y=\left(P^k_{x'}\right)^{-1}$. By comparing the coefficients of the $m_i$-eigenstates, we obtain the relation
+	$$c_0=\sgn(P^k_{x'})c_{x'}$$
+	where $P^k_0$ is the identity element (empty permutation). 	Hence, fixinging $c_0$, all remaining coefficients are given as
+	$$c_x=\sgn(P^k_x)c_0$$
+	The value of $c_0$ is determined by demaning the state to be normalized, up to a complex phase; we choose it to be $(k!)^{-1/2}$. Hence, the fermionic quantum state is
+	\begin{equation} \label{slater_determinant}
+	\ket{b^j_k; m_1, m_2\dots m_k}=\frac{1}{\sqrt{k!}}\sum_{P^k_x}\sgn(p^k_x)\ket{j; P^k_x\left(m_1, m_2\dots m_k\right)}
+	\end{equation}
+	This is of course simply the Slater determinant constructed from the $m$-eigenstates for each occupied value of $m$.
+	
+	\subsection{The rotation character of the multi-fermionic Slater determinant}
+	Under simultaneous rotation, the character of a single multi-fermionic quantum state is
+	$$\mel{b^j_k; m_1, m_2\dots m_k}{\hat{R}(\theta)}{b^j_k; m_1, m_2\dots m_k}$$
+	Expanding this using Eq. \ref{slater_determinant}, we obtain
+	\begin{align*}
+	\mel{b^j_k; m_1, m_2\dots m_k}{\hat{R}(\theta)}{b^j_k; m_1, m_2\dots m_k} =\\
+	\frac{1}{k!}\sum_{x}\sum_{y} \sgn(P^k_x)\sgn(P^k_y)\mel{j; P^k_x\left(m_1, m_2\dots m_k\right)}{\hat{R}(\theta)}{j; P^k_y\left(m_1, m_2\dots m_k\right)}
+	\end{align*}
+	Since the matrix element of a $m_i$-eigenstate is invariant under a simultaneous permutation of both the bra and the ket, as the corresponding pairs of $m'_i, m_i$ remain unchanged, we shall simultanously permute each term by $(P^k_x)^{-1}$.
+	\begin{align*}
+	\mel{b^j_k; m_1, m_2\dots m_k}{\hat{R}(\theta)}{b^j_k; m_1, m_2\dots m_k} =\\
+	\frac{1}{k!}\sum_{x}\sum_{y} \sgn(P^k_x)\sgn(P^k_y)\mel{j; m_1, m_2\dots m_k}{\hat{R}(\theta)}{j; \left(\left(P^k_x\right)^{-1}P^k_y\right)\left(m_1, m_2\dots m_k\right)}
+	\end{align*}
+	Let us denote $P^k_z=\left(P^k_x\right)^{-1}P^k_y$. As we have $\sgn(\left(P^k_x\right)^{-1})=\sgn(P^k_x)$, we obtain
+	\begin{align*}
+	\mel{b^j_k; m_1, m_2\dots m_k}{\hat{R}(\theta)}{b^j_k; m_1, m_2\dots m_k} =\\
+	\frac{1}{k!}\sum_{x}\sum_{y} \sgn(P^k_z)\mel{j; m_1, m_2\dots m_k}{\hat{R}(\theta)}{j; P^k_z\left(m_1, m_2\dots m_k\right)}
+	\end{align*}
+	Note that the elements of $P^k$ form a group, and hence we have
+	$$P^k_A P^k_B = P^k_A P^k_C \iff P^k_B = P^k_C$$
+	Hence acting on each element of the set with a single element $\left(P^k_x\right)^{-1}$ leaves the set invariant, as each permutation is present once still. Hence the sum over $y$ can be rewritten as a sum over $z$. This removes the dependence on $x$, and the sum over $x$ results in a factor equal to the order of the group $P^k$, which is $\abs{P^k}=k!$. Hence
+	\begin{align*}
+	\mel{b^j_k; m_1, m_2\dots m_k}{\hat{R}(\theta)}{b^j_k; m_1, m_2\dots m_k}\\
+	=\sum_{z} \sgn(P^k_z)\mel{j; m_1, m_2\dots m_k}{\hat{R}(\theta)}{j; P^k_z\left(m_1, m_2\dots m_k\right)}\\
+	=\sum_{z} \sgn(P^k_z) \prod_{i=1}^k d^j_{m_i, m'_i}(\theta)
+	\end{align*}
+	where $m'_i$ is the $i$-th element of the array of $m_i$ permuted by $P^k_z$. We recognise the expression as the determinant of a matrix comprised of columns and rows of $d^j$ with indices present in the set $\{m_1, m_2\dots m_k\}$, i.e. the principal minor of $d^j$ determined by this set.
+	
+	This is the character of a single antisymmetric basis vector of the multi-fermionic ensemble. In the case where we do not know which values of $m$ are occupied, we calculate the total character of the ensemble as a sum over the characters of all antisymmetric basis vectors, i.e. the sum of all principal minors of $d^j$ of rank $k$. However, we know (TODO citation) that the characteristic polynomial of a matrix $M$ has the form:
+	\begin{equation} \label{principal_minor_polynomial}
+	p(\lambda)=\det(\lambda I - M) = \sum_{k=0}^{\dim M}\lambda^{\dim M-k}(-1)^k T_k
+	\end{equation}
+	where $T_k$ is the sum of all principal minors of $M$ of rank $k$. Therefore, applying Eq. \ref{principal_minor_polynomial} to the Wigner d-matrix, we find that the characteristic polynomial of $d^j_{m'm}$ is equal to
+	\begin{equation} \label{wigner_characteristic_polynomial}
+	p^{\left(d^j(\theta)\right)}(\lambda) = \sum_{k=0}^{2j+1}\lambda^{k}(-1)^{2j+1-k} \chi^j_{2j+1-k}(\theta)
+	\end{equation}
+	where $\chi^j_a$ is the character of an ensemble of $a$ fermions with angular momentum $j$ under simultaneous rotation by $\theta$, where the degeneracy between their $m$-values is not broken by measurement.
+	
+	\subsection{Applying the Faddeev-Le Verrier algorithm}
+	The Faddeev-Le Verrier algorithm (FLV) allows us to find an expression for the coefficients of the characteristic polynomial of a matrix $M$. Suppose the polynomial is
+	$$p(\lambda)=\sum_{k=0}^n c_k \lambda^k$$
+	where $n=\dim M$. Then
+	\begin{equation} \label{Faddeev-LeVerrier}
+	c_{n-m} = -\frac{1}{m}\sum_{k=1}^m c_{n-m+k} \Tr\left(M^k\right)
+	\end{equation}
+	Applying Eq. \ref{Faddeev-LeVerrier} to $d^j_{m'm}(\theta)$, identifying $n=2j+1$, and equating the powers of $\lambda$ to Eq. \ref{wigner_characteristic_polynomial}, we obtain
+	\begin{equation}
+	\chi^j_k(\theta)=-\frac{1}{k}\sum_{a=1}^k (-1)^{a}\chi^j_{k-a}\Tr\left(\left(d^j(\theta)\right)^a\right)
+	\end{equation}
+	
+	\begin{thebibliography}{10}
+
+\bibitem{karlsson}
+Karlsson, K. F. \textit{et al} (2015), Spectral signatures of high-symmetry quantum dots and effects of symmetry breaking. \textit{New Journal of Physics}, \textbf{17} 103017
+
+\bibitem{altmann}
+Altmann, S. L., Herzig, P. (1994), \textit{Point-Group Theory Tables}. Oxford: Clarendon Press
+
+\bibitem{dresselhaus}
+Dresselhaus, M. S. (20020), \textit{Applications of Group Theory to the Physics of Solids}. Massachusetts Institute of Technology
+
+
+\end{thebibliography}	
+	
+\end{document}

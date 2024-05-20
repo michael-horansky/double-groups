@@ -139,7 +139,7 @@ def get_all_occupancy_trace(theta, j):
     for m in range(1, n+1):
         cum_sum = 0.0
         for i in range(1, m+1):
-            cum_sum += results[m-i] * d_traces[i]
+            cum_sum += (1-(i % 2) * 2) * results[m-i] * d_traces[i]
         results.append(- cum_sum / m)
     return(results)
 
@@ -169,7 +169,7 @@ print(lol)
 plt.xlabel("theta")
 plt.ylabel("character")
 for i in range(len(a)):
-    plt.plot(theta_space, b[i], label=f"occupancy {i}")
+    plt.plot(theta_space, a[i], label=f"occupancy {i}")
 plt.plot(theta_space, actual_doublet(theta_space), linestyle="dashed", label="actual doublet")
 plt.plot(theta_space, rot_character(theta_space, 0)+rot_character(theta_space, 2), linestyle="dashed", label="decomposed doublet")
 plt.legend()
