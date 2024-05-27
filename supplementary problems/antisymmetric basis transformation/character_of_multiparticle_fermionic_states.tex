@@ -69,7 +69,7 @@
 	$$c_x=\sgn(P^k_x)c_0$$
 	The value of $c_0$ is determined by demaning the state to be normalized, up to a complex phase; we choose it to be $(k!)^{-1/2}$. Hence, the fermionic quantum state is
 	\begin{equation} \label{slater_determinant}
-	\ket{b^j_k; m_1, m_2\dots m_k}=\frac{1}{\sqrt{k!}}\sum_{P^k_x}\sgn(p^k_x)\ket{j; P^k_x\left(m_1, m_2\dots m_k\right)}
+	\ket{b^j_k; m_1, m_2\dots m_k}=\frac{1}{\sqrt{k!}}\sum_{P^k_x}\sgn(P^k_x)\ket{j; P^k_x\left(m_1, m_2\dots m_k\right)}
 	\end{equation}
 	This is of course simply the Slater determinant constructed from the $m$-eigenstates for each occupied value of $m$.
 	
@@ -119,10 +119,19 @@
 	c_{n-m} = -\frac{1}{m}\sum_{k=1}^m c_{n-m+k} \Tr\left(M^k\right)
 	\end{equation}
 	Applying Eq. \ref{Faddeev-LeVerrier} to $d^j_{m'm}(\theta)$, identifying $n=2j+1$, and equating the powers of $\lambda$ to Eq. \ref{wigner_characteristic_polynomial}, we obtain
-	\begin{equation}
+	\begin{equation} \label{FLV_with_matrix_powers}
 	\chi^j_k(\theta)=-\frac{1}{k}\sum_{a=1}^k (-1)^{a}\chi^j_{k-a}(\theta)\Tr\left(\left(d^j(\theta)\right)^a\right)
 	\end{equation}
 	where we can identify $\chi^j_0$ as the character of the vacuum state under rotation, which, as per Eq. \ref{vacuum_character}, is trivially equal to unity; hence we have $\chi^j_0(\theta)=1$.
+	
+	Eq. \ref{FLV_with_matrix_powers} can be simplified further by interpreting $d^j(\theta)$ as a matrix representation of an element of $SU(2)$ which corresponds to rotation about the $z$-axis by an angle $\theta$. Applying said rotation $a$ times (that is, taking the $a$-th power of the matrix) is equivalent to a single rotation by an angle equal to $a\theta$. Therefore we have
+	\begin{equation}
+	\Tr\left(\left(d^j(\theta)\right)^a\right) = \Tr d^j(a\theta)
+	\end{equation}
+	which allows us to rewrite Eq. \ref{FLV_with_matrix_powers} as
+	\begin{equation} \label{ensemble_character_recursive_relation}
+	\chi^j_k(\theta)=-\frac{1}{k}\sum_{a=1}^k (-1)^{a}\chi^j_{k-a}(\theta)\Tr d^j(a\theta)
+	\end{equation}
 	
 	\subsection{The symmetries of $\chi^j_k$}
 	The Wigner d-matrices $d^j_{m'm}(\theta), \theta\in (0,4\pi)$ form a subset of the Wigner $\mathcal{D}$-matrices $\mathcal{D}^j_{m'm}(\alpha, \beta, \theta)$, which form irreducible representations of the group $SU(2)$. As such, $d^j_{m'm}(\theta)$ is a unitary matrix with determinant one. This allows us to derive an important symmetry regarding the coefficients of its characteristic polynomial, and hence the characters $\chi^j_k$:
@@ -144,25 +153,168 @@
 	\begin{equation} \label{flip_angle_sign}
 	\chi^j_k(-\theta)=\chi^j_k(\theta)
 	\end{equation}
+	Secondly, let us identify $\Tr d^j(\phi)=\chi^j_1(\phi)$ in Eq. \ref{ensemble_character_recursive_relation}:
+	\begin{equation}
+	\chi^j_k(\theta)=-\frac{1}{k}\sum_{a=1}^k (-1)^{a}\chi^j_{k-a}(\theta)\chi^j_1(a\theta)
+	\end{equation}
+	We shall prove the following relation:
+	\begin{equation} \label{character_sign_under_two_pi}
+	\chi^j_k(2\pi+\theta)=(-1)^{2jk}\chi^j_k(\theta)
+	\end{equation}
+	A corollary of this relation is that
+	\begin{equation} \label{character_sign_under_integer_two_pi}
+	\chi^j_k(2a\pi+\theta)=(-1)^{2ajk}\chi^j_k(\theta)
+	\end{equation}
+	for integer $a$.
+	
+	Let us prove Eq. \ref{character_sign_under_two_pi} by induction. Firstly, from Eq. \ref{single_particle_character}
+	\begin{equation}
+	\chi^j_1(2\pi+\theta)=\frac{\sin((2j+1)\pi+(2j+1)\frac{\theta}{2})}{\sin(\pi +\frac{\theta}{2})}=(-1)^{2j}\chi^j_k(\theta)
+	\end{equation}
+	where we have used the identity $\sin(a\pi+x)=(-1)^a\sin{x}$ for integer $a$. Also, using Eq. \ref{vacuum_character}, we see that Eq. \ref{character_sign_under_two_pi} trivially holds for empty states:
+	\begin{equation}
+	\chi^j_0(2\pi+\theta)=1=(-1)^0\chi^j_0(\theta)
+	\end{equation}
+	
+	Now, assuming Eq. \ref{character_sign_under_two_pi} holds for states with $a$ fermions with $a=0,1\dots k-1$, let us consider shifting the argument of an ensemble with $k$ fermions:
+	\begin{eqnarray*}
+	\chi^j_k(2\pi+\theta)&=&-\frac{1}{k}\sum_{a=1}^k (-1)^{a}\chi^j_{k-a}(2\pi+\theta)\chi^j_1(2a\pi+a\theta)\\
+	&=&-\frac{1}{k}\sum_{a=1}^k (-1)^{a}(-1)^{2j(k-a)}\chi^j_{k-a}(\theta)(-1)^{2ja}\chi^j_1(2a\pi+a\theta)\\
+	&=&(-1)^{2jk}\chi^j_k(\theta)
+	\end{eqnarray*}
+	which finishes the proof. Hence we have proved Eq. \ref{character_sign_under_two_pi} and its corollary Eq. \ref{character_sign_under_integer_two_pi}, from which we also have trivially that all the ensemble characters are $4\pi$-periodic, i.e.
+	\begin{equation} \label{character_four_pi_periodic}
+	\chi^j_k(4\pi+\theta)=\chi^j_k(\theta)
+	\end{equation}
 	
 	\section{Angular momentum coupling among fermions}
 	In general, an ensemble of $k$ fermions with angular momentum $j$ possesses high rotational symmetry, as such a state has degeneracy $\binom{2j+1}{k}=\frac{(2j+1)!}{k!(2j+1-k)!}$, i.e. the number of subsets of the set of $m$-values with cardinality $k$, which is equal to the number of antisymmetric basis vectors $\ket{b^j_k; \{m_i\}}$. If the Hamiltonian is modified to include a term which couples the angular momenta of the fermions (e.g. orbit\nobreakdash-orbit coupling of electrons on a single atomic orbit), the symmetry is, in general, broken, as the system now possesses a single $m$-value as its quantum number, which is the projection of the \textit{total} angular momentum along the $z$-axis. The new eigenstates of the Hamiltonian will therefore transform as single-particle states under rotation. Therefore, we anticipate there will be a unique decomposition of the following form:
 	\begin{equation}
-	\chi^j_k(\theta)=\sum_{j'\in\{j'\}}\chi^{j'}_{k=1}(\theta)
+	\chi^j_k(\theta)=\sum_{j'}c^j_k(j')\chi^{j'}_{k=1}(\theta)
 	\end{equation}
-	where $\{j'\}$ is some set of half-integers determined from the numbers $j, k$.
+	where $c^j_k(j')$ are the coefficients of single-particle character functions with angular momentum $j'$ into which $\chi^j_k(\theta)$ is decomposed, and which we anticipate to be non-negative integers.
 	
 	\subsection{Single-particle states form a complete, orthonormal basis}
 	For this decomposition to be viable, we require the functions $\chi^j_{k=1}(\theta)$ to form a complete basis of the space spanned by the functions $\chi^j_k(\theta)$. As we prove here, this is true. In particular, we identify the right side of Eq. \ref{single_particle_character} as the Dirichlet kernel $D_j(\theta)$, which in turn is equivalent to the following expression:
 	\begin{equation}
 	\chi^j_{k=1}(\theta)=U_{2j}\left(\cos{\frac{\theta}{2}}\right)
 	\end{equation}
-	where $U_{n}(x)$ is the Chebyshev polynomial of the second kind. Since $j=0, \frac{1}{2}, 1, \frac{3}{2}\dots$, we see that the set of single-particle characters is equivalent to the set of Chebyshev polynomials of the second kind. It is known (TODO citation) that Chebyshev polynomials of the second kind form a complete basis for functions on the interval $x\in(-1,1)$. Substituing $x=\cos{\frac{\theta}{2}}$, this turns into the interval $\theta\in (0, 2\pi)$. Even though $\chi^j_k(\theta)$ have in general periodicity with an interval of $4\pi$, they are also all even (Eq. \ref{flip_angle_sign}), and hence they can be fully built up from the quoted interval in a regular manner. This is sufficient to show that $U_{2j}(\cos{\frac{\theta}{2}})$ form a complete basis for the family of character functions.
+	where $U_{n}(x)$ is the Chebyshev polynomial of the second kind. Since $j=0, \frac{1}{2}, 1, \frac{3}{2}\dots$, we see that the set of single-particle characters is equivalent to the set of Chebyshev polynomials of the second kind. It is known (TODO citation) that Chebyshev polynomials of the second kind form a complete basis for functions on the interval $x\in(-1,1)$. Substituing $x=\cos{\frac{\theta}{2}}$, this turns into the interval $\theta\in (0, 2\pi)$. Even though $\chi^j_k(\theta)$ have in general periodicity with an interval of $4\pi$ (Eq. \ref{character_four_pi_periodic}), they are also all even (Eq. \ref{flip_angle_sign}), and hence they can be fully built up from the quoted interval in a regular manner. As $U_{2j}(\cos{\frac{\theta}{2}})$ must also be even, since $\cos(-\frac{\theta}{2})=\cos{\frac{\theta}{2}}$, this is sufficient to show that $U_{2j}(\cos{\frac{\theta}{2}})$ form a complete basis for the family of character functions of multi-fermionic ensembles.
 	
 	The Chebyshev polynomials of the second kind also possess an orthogonality relation, which can be readily shown from the orthogonality of sines and cosines and the expression for the Dirichlet kernel, and which is
 	\begin{equation} \label{chebyshev_orthogonality}
-	\frac{4}{\pi}\int_0^{2\pi} U_{2j}\left(\cos{\frac{\theta}{2}}\right)U_{2j'}\left(\cos{\frac{\theta}{2}}\right) \sin^2{\frac{\theta}{2}}\dd \theta = \delta_{j,j'}
+	\frac{1}{\pi}\int_0^{2\pi} U_{2j}\left(\cos{\frac{\theta}{2}}\right)U_{2j'}\left(\cos{\frac{\theta}{2}}\right) \sin^2{\frac{\theta}{2}}\dd \theta = \delta_{j,j'}
 	\end{equation}
+	Therefore, if a function $f(\theta)$ is even and $4\pi$-periodic (i.e. $f(x+4\pi)=f(x)$), and hence can be decomposed into the single-particle characters like so:
+	\begin{equation}
+	f(\theta) = \sum_j c_f(j) \chi^j_1(\theta)
+	\end{equation}
+	then the decomposition coefficients can be determined using Eq. \ref{chebyshev_orthogonality} thusly:
+	\begin{equation}
+	c_f(j) = \frac{1}{\pi} \int_0^{2\pi} f(\theta) \chi^j_1(\theta) \sin^2{\frac{\theta}{2}}\dd \theta
+	\end{equation}
+	Since the integrand is even and $4\pi$-periodic, we can state an equivalent orthogonality relation by extending the intergation domain:
+	\begin{equation} \label{orthogonality_four_pi}
+	c_f(j) = \frac{1}{2\pi} \int_0^{4\pi} f(\theta) \chi^j_1(\theta) \sin^2{\frac{\theta}{2}}\dd \theta
+	\end{equation}
+	
+	\subsection{The multifermionic rotation character as a function of single-particle rotation characters}
+	The expression in Eq. \ref{ensemble_character_recursive_relation} expresses $\chi^j_k(\theta)$ as a function of all $\chi^j_{k'}(\theta)$ for $k'<k$. To eliminate the complexity of this recursive relationship, let us first change the summation index $a\rightarrow k-a$ and then recognise $\Tr d^j(\phi)=\chi^j_1(\phi)$:
+	\begin{equation}
+	\chi^j_k(\theta)=-\frac{1}{k}\sum_{a=0}^{k-1} (-1)^{k-a}\chi^j_1((k-a)\theta)\chi^j_{a}(\theta)
+	\end{equation}
+	Taking the term $\chi^j_{a}(\theta)$ and expressing it as a sum again, we obtain a nested sum expression:
+	\begin{equation} \label{nested_sum_a}
+	\chi^j_k(\theta)=-\frac{1}{k}\sum_{a_1=0}^{k-1} (-1)^{k-a_1}\chi^j_1((k-a_1)\theta)\frac{-1}{a_1}\sum_{a_2=0}^{a_1-1} (-1)^{a_1-a_2}\chi^j_1((a_1-a_2)\theta)\frac{-1}{a_2}\sum_{a_3=0}^{a_2-1}\dots
+	\end{equation}
+	where the nested sum terminates at $a_x=0$ for some $x$ dependent on the shape of the array $a_1, a_2\dots$, at which point we directly evaluate the term $\chi^j_{a_x=0}(\theta)=1$.
+	
+	To simplify this nested sum, let us choose a new set of indices:
+	\begin{eqnarray}
+	b_i &=& a_{i-1} - a_i\\
+	b_1 &=& k - a_1
+	\end{eqnarray}
+	Let us define the partial sum of the array $b_i$ like so:
+	\begin{eqnarray}
+	B_i &=& \sum_{x=1}^i b_x\\
+	B_0 &=& 0
+	\end{eqnarray}
+	This allows us to write the inverse of our index transformation:
+	\begin{equation}
+	a_i = k - B_i
+	\end{equation}
+	If the sum over $a_i$ ranges from $0$ to $a_{i-1}-1$, this corresponds to summing over $b_i$ ranging from $1$ to $a_{i-1}=k-B_{i-1}$, where for $b_1$ the upper limit is $a_0\equiv k$.
+	
+	Then, Eq. \ref{nested_sum_a} becomes
+	\begin{equation}
+	\chi^j_k(\theta) = \frac{-1}{k-B_0}\sum_{b_1=1}^k (-1)^{b_1} \chi^j_1(b_1\theta)\frac{-1}{k-B_1}\sum_{b_2=1}^{k-B_1}\dots
+	\end{equation}
+	where the sum now terminates at the point $B_x = k$, where we directly evaluate $\chi^j_{k-B_x}(\theta)=\chi^j_{0}(\theta)=1$. Hence, we can write the expression for $\chi^j_k(\theta)$ purely as a function of $\chi^j_1(x)$ in the following way:
+	\begin{equation}
+	\chi^j_k(\theta) = \sum_{(b_1, b_2\dots b_n)}\prod_{i=1}^n (-1)^{1+b_i}\frac{\chi^j_1(b_i\theta)}{k-B_{i-1}}
+	\end{equation}
+	We can simplify this further by taking all the factors of $-1$ out of the product and recognising the sum over all $b_i$ as $B_n=k$:
+	\begin{equation} \label{partitioning_arrays_expression}
+	\chi^j_k(\theta) = (-1)^k\sum_{(b_1, b_2\dots b_n)}(-1)^n\prod_{i=1}^n \frac{\chi^j_1(b_i\theta)}{k-B_{i-1}}
+	\end{equation}
+	where the sum is over all ordered lists $(b_1, b_2\dots b_n)$ which are integer compositions of $k$, i.e. $b_i\geq 1$ and $\sum_ib_i = k$.
+	
+	\subsection{Single-particle decomposition coefficients of multi-fermionic states as sums}
+	Let us now quote the sum-expression for the Dirichlet kernel:
+	\begin{equation} \label{dirichlet_kernel_sum}
+	\chi^j_k(\theta)=\frac{\sin((2j+1)\frac{\theta}{2})}{\sin{\frac{\theta}{2}}}=\sum_{c=-j}^j e^{ic\theta}
+	\end{equation}
+	Inserting Eq. \ref{dirichlet_kernel_sum} into Eq. \ref{partitioning_arrays_expression}, we obtain:
+	\begin{equation}
+	\chi^j_k(\theta) = (-1)^k\sum_{(b_1, b_2\dots b_n)}(-1)^n\left(\prod_{i=1}^n \frac{1}{k-B_{i-1}}\right)\prod_{i=1}^n \sum_{c=-j}^j e^{icb_i\theta}
+	\end{equation}
+	Let us denote the coefficients in the expansion of the Dirichlet kernel product by a special function:
+	\begin{equation} \label{omega_distribution_decomposition}
+	\prod_{i=1}^n \sum_{c=-j}^j e^{icb_i\theta}=\sum_{\omega=0,\pm\frac{1}{2},\pm 1,\pm\frac{3}{2}\dots}\Omega^j_{(b_i)}(\omega)e^{i\omega\theta}
+	\end{equation}
+	Let us also take notice of the following identity:
+	\begin{equation}
+	\sin^2(\frac{\theta}{2})=\left(\frac{i}{2}\left(e^{i\frac{\theta}{2}}-e^{-i\frac{\theta}{2}}\right)\right)^2=\frac{1}{2}\left(1-\frac{1}{2}\left(e^{i\theta}+e^{-i\theta}\right)\right)
+	\end{equation}
+	
+	Now, we use Eq. \ref{orthogonality_four_pi} with Eq. \ref{dirichlet_kernel_sum} substituted in for the single-particle character function to obtain the decomposition coefficients of a general multi-fermionic rotation character:
+	\begin{eqnarray*}
+	c^j_k(j')&=&\frac{(-1)^k}{4\pi}\sum_{(b_1, b_2\dots b_n)}(-1)^n\left(\prod_{i=1}^n \frac{1}{k-B_{i-1}}\right)\sum_{\omega}\Omega^j_{(b_i)}(\omega)\sum_{c'=-j}^j\int_0^{4\pi}\left(\right.\\
+	&&\left. e^{i(c'+\omega)\theta}-\frac{1}{2}\left(e^{i(c'+\omega + 1)\theta}+e^{i(c'+\omega -1)\theta}\right) \right)\dd\theta
+	\end{eqnarray*}
+	where
+	\begin{equation}
+	c^j_k(\theta)=\sum_{j'=0,\frac{1}{2},1\dots}c^j_k(j')c^{j'}_1(\theta)
+	\end{equation}
+	Now, for a general integral of $\exp(ia\theta)$ for half-integer $a$, we obtain:
+	\begin{equation}
+	\int_0^{4\pi}e^{ia\theta}\dd\theta=2\int_0^{2\pi}e^{i2a\phi}\dd\phi=4\pi\delta_{2a}=4\pi\delta_a
+	\end{equation}
+	where $\delta_a$ is a short-hand for the Kronecker delta $\delta_{a,0}$. Here we used a substitution $\phi=\frac{\delta}{2}$ and the fact that $2a$ is integer. This is applicable to all three terms inside the integral expression for $c^j_k(j')$, which allows us to write
+	\begin{eqnarray*}
+	c^j_k(j')&=&(-1)^k\sum_{(b_1, b_2\dots b_n)}(-1)^n\left(\prod_{i=1}^n \frac{1}{k-B_{i-1}}\right)\sum_{\omega}\Omega^j_{(b_i)}(\omega)\sum_{c'=-j}^j\left(\right.\\
+	&&\left. \delta_{c'+\omega}-\frac{1}{2}\left(\delta_{c'+\omega + 1}+\delta_{c'+\omega -1}\right) \right)\dd\theta
+	\end{eqnarray*}
+	As we can see, for a Kronecker delta term of the form $\delta_{c'+\omega}$, this term ends up contributing to the sum if and only if $j'$ is equal to $|\omega|$ or greater by an integer interval (so that the sum over $c'$ contains the value $-\omega$). Hence we see that for a term with a specific value $\omega$, the contribution to terms with $j'=|\omega|+1$ or greater will be zero, as all Kronecker deltas evaluate to $1$ exactly once in the sum over $c'$, leaving their total to be $1-\frac{1}{2}(1+1)=0$. Conversely, the contribution to the terms $j'=|\omega|-2$ or smaller will also be zero, as all of the Kronecker deltas will have zero contribution. This allows us to write the contributions to a term with a specific value of $j'$ in terms of the numbers of terms with specific values of $\omega$, which are given by the distribution $\Omega^j_{(b_i)}(\omega)$:
+	\begin{itemize}
+	\item For $j'=0$, the terms with $\omega=0$ contribute with a weight of $1$, and terms with $|\omega|= 1$ contribute with a weight of $-\frac{1}{2}$ (since only one of the two shifted Kronecker deltas is contained within the sum over $c'$).
+	\item For $j'=\frac{1}{2}$, the terms with $|\omega|=\frac{1}{2}$ contribute with a weight of $\frac{1}{2}$ (since it is the positive and one of the negative Kronecker deltas which are contained in the sum over $c'$), and the terms with $|\omega|=\frac{3}{2}$ contribute with a weight of $-\frac{1}{2}$, because only one of the two negative Kronecker deltas is contained in the sum.
+	\item For $j'=1$, we have a contribution from $|\omega|=1$ and $|\omega|=2$ with weights $\frac{1}{2}$, $-\frac{1}{2}$, respectively, as per the next bullet point. Note that the contribution from $\omega = 0$ is zero, because even though the term $\omega-1$ has a positive absolute value, the absolute value is equal to one and as such is contained in the sum over $c'$, and thus every Kronecker delta term will have one contribution in the sum, adding up to zero.
+	\item For larger $j'$, there will be a contribution from terms with $|\omega|=j'$ with a weight of $\frac{1}{2}$, since one of the negative Kronecker deltas is \textit{not} included in the sum over $c'$; there will also be a contribution from terms with $|\omega|=j'+1$ with a weight of $-\frac{1}{2}$, since one of the negative Kronecker deltas \textit{will} be included in the sum over $c'$ (and the positive Kronecker delta will not be included).
+	\end{itemize}
+	Now, let us consider the expansion of Eq. \ref{omega_distribution_decomposition}:
+	\begin{equation}
+	\prod_{i=1}^n \sum_{c=-j}^j e^{icb_i\theta}=\sum_{c_1=-j}^j\dots\sum_{c_n=-j}^j \exp(i\left(\sum_{i=1}^n b_ic_i\right)\theta)
+	\end{equation}
+	For each term with $\omega = \left(\sum_{i=1}^n b_ic_i\right)\neq 0$, we can find a unique conjugate term by taking $c_i\to-c_i$. This also takes $\omega\to-\omega$. Hence, there is a bijection between the terms with $\omega$ and the terms with $-\omega$, leaving us with the conclusion that
+	\begin{equation}
+	\Omega^j_{(b_i)}(-\omega)=\Omega^j_{(b_i)}(\omega)
+	\end{equation}
+	Applying this to the contributions to each $j'$ term listed above, we can write them all concisely like so:
+	\begin{equation}
+	c^j_k(j')=(-1)^k\sum_{(b_1, b_2\dots b_n)}(-1)^n\left(\prod_{i=1}^n \frac{1}{k-B_{i-1}}\right)\left(\Omega^j_{(b_i)}(j')-\Omega^j_{(b_i)}(j'+1)\right)
+	\end{equation}
+	This is true for all half-integer, non-negative values of $j'$.
 	
 	\begin{thebibliography}{10}
 
