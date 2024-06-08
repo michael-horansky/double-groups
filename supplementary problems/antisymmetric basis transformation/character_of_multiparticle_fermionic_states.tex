@@ -144,7 +144,7 @@
 	&=& (-1)^{2j+1}p^{\left(d^j(\theta)\right)}(\lambda)
 	\end{eqnarray}
 	Expressing the characteristic polynomial using Eq. \ref{wigner_characteristic_polynomial} and comparing equal powers of $\lambda$, we retrieve the condition
-	\begin{equation}
+	\begin{equation} \label{flip_k_by_two_j_plus_one}
 	\chi^j_k(\theta)=\chi^j_{2j+1-k}(\theta)
 	\end{equation}
 	Therefore, changing the number of occupied states in a $j$-eigenstate to the number of unoccupied states in the same $j$-eigenstate leaves the character under simultaneous rotation invariant.
@@ -177,19 +177,124 @@
 	\end{equation}
 	
 	Now, assuming Eq. \ref{character_sign_under_two_pi} holds for states with $a$ fermions with $a=0,1\dots k-1$, let us consider shifting the argument of an ensemble with $k$ fermions:
-	\begin{eqnarray*}
-	\chi^j_k(2\pi+\theta)&=&-\frac{1}{k}\sum_{a=1}^k (-1)^{a}\chi^j_{k-a}(2\pi+\theta)\chi^j_1(2a\pi+a\theta)\\
-	&=&-\frac{1}{k}\sum_{a=1}^k (-1)^{a}(-1)^{2j(k-a)}\chi^j_{k-a}(\theta)(-1)^{2ja}\chi^j_1(2a\pi+a\theta)\\
-	&=&(-1)^{2jk}\chi^j_k(\theta)
-	\end{eqnarray*}
+	\begin{align}
+	\chi^j_k(2\pi+\theta)&=-\frac{1}{k}\sum_{a=1}^k (-1)^{a}\chi^j_{k-a}(2\pi+\theta)\chi^j_1(2a\pi+a\theta)\nonumber\\
+	&=-\frac{1}{k}\sum_{a=1}^k (-1)^{a}(-1)^{2j(k-a)}\chi^j_{k-a}(\theta)(-1)^{2ja}\chi^j_1(2a\pi+a\theta)\nonumber\\
+	&=(-1)^{2jk}\chi^j_k(\theta) \label{shift_by_two_pi}
+	\end{align}
 	which finishes the proof. Hence we have proved Eq. \ref{character_sign_under_two_pi} and its corollary Eq. \ref{character_sign_under_integer_two_pi}, from which we also have trivially that all the ensemble characters are $4\pi$-periodic, i.e.
 	\begin{equation} \label{character_four_pi_periodic}
 	\chi^j_k(4\pi+\theta)=\chi^j_k(\theta)
 	\end{equation}
 	
+	\section{Multi-fermionic rotation characters as Gaussian binomial coefficients}
+	\subsection{The eigenvalues of the Wigner d-matrices}
+	Consider an irrep of $SU(2)$ of dimension $2j+1$, denoted $\Gamma_j$. By the spectral theorem, we can choose a basis $\ket{d, i}$ which diagonalizes $\Gamma_j$, in which we have
+	\begin{equation}
+	D^{(\Gamma_j)}\left(\hat{R}(\theta)\right)=\mqty(\dmat{f_1(\theta),f_2(\theta),\ddots,f_{2j+1}(\theta)})
+	\end{equation}
+	so that
+	\begin{eqnarray}
+	\hat{R}(\theta)\ket{b,i}=f_i(\theta)\ket{b, i}
+	\end{eqnarray}
+	where $\ket{b,i}$ is a linear superposition of the $j$-eigenstates with $j_z=-j\dots j$ obtained by a unitary transformation (so that its norm is one). Note that $f_i(\theta)$ is the $i$-th eigenvalue of $D^{(\Gamma_j)}\left(\hat{R}(\theta)\right)$, which is a general rotation by $\theta$.
+	
+	Because $SU(2)$ is unitary, we have
+	\begin{equation}
+	\mel{b,i}{\hat{R}(\theta)^\dagger \hat{R}(\theta)}{b,i}=\mel{b,i}{f_i(\theta)^*f_i(\theta)}{b,i}=f_i(\theta)^*f_i(\theta)=1
+	\end{equation}
+	Therefore $f_i(\theta)=\exp(ig_i(\theta))$, where $g_i(\theta)$ is real.
+	
+	Consider now an $a$-fold rotation by $\theta$, which is represented by the matrix
+	$$\left[D^{(\Gamma_j)}\left(\hat{R}(\theta)\right)\right]^a=D^{(\Gamma_j)}\left(\hat{R}(a\theta)\right)$$
+	The action of this rotation on an eigenstate $\ket{b,i}$ is then
+	\begin{equation}
+	\hat{R}(a\theta)\ket{b,i} = f_i(a\theta)\ket{b,i} = f_i(\theta)^a\ket{b,i}
+	\end{equation}
+	Substituing in the expression for $f_i$ in terms of $g_i$ shows that $g_i(\theta)$ is a linear function: $g_i(\theta) = G_i\theta$, where $G_i$ is a real constant, and the sum of $f_i(\theta)$ is then the Fourier series decomposition of the character $\chi^j_1(\theta)$.
+	
+	We identify Eq. \ref{single_particle_character} as the Dirichlet kernel, which can be expressed as a sum:
+	\begin{equation} \label{dirichlet_kernel_sum}
+	\chi^j_{k=1}(\theta)=\Tr D^{(\Gamma_j)}\left(\hat{R}(\theta)\right)=\frac{\sin((2j+1)\frac{\theta}{2})}{\sin{\frac{\theta}{2}}}=\sum_{c=-j}^j e^{ic\theta}
+	\end{equation}
+	Since $e^{ic\theta}$, $c\in \mathbb{R}$ form an orthonormal basis to $f:\mathbb{R}\to\mathbb{C}$, the decomposition of the trace into its Fourier series is unique, and hence we can identify $G_i=-j-1+i$, and therefore
+	\begin{equation} \label{su2_eigenvalues}
+	e^{ic\theta}, c=-j,-j+1\dots j-1, j \qq{are the eigenvalues of} D^{(\Gamma_j)}\left(\hat{R}(\theta)\right)
+	\end{equation}
+	Since the Wigner d-matrices form a subgroup of $SU(2)$, naturally their eigenvalues are given by Eq. \ref{su2_eigenvalues}.
+	
+	\subsection{Expanding the characteristic polynomial of the Wigner d-matrices}
+	By Eq. \ref{wigner_characteristic_polynomial}, the relevant characteristic polynomial of $d^j(\theta)$ is monic. Therefore, we can construct it from its roots (i.e. eigenvalues of the representation) like so:
+	\begin{equation} \label{wigner_simple_characteristic_polynomial_with_roots}
+	p(\lambda)=\prod_{c=-j}^j\left(\lambda-e^{ic\theta}\right)
+	\end{equation}
+	To expand this polynomial, we can utilise the $q$-binomial theorem (TODO cite this), which states that
+	\begin{equation}
+	\prod_{k=0}^{n-1}\left(1+q^kt\right)=\sum_{k=0}^{n}q^{k(k-1)/2}{n\choose k}_q t^k
+	\end{equation}
+	where ${n\choose k}_q$ is the Gaussian binomial coefficient defined as
+	\begin{equation} \label{gaussian_binomial_coefficient}
+	{n\choose k}_q = \frac{\left(1-q^n\right)\left(1-q^{n-1}\right)\dots \left(1-q^{n-k+1}\right)}{\left(1-q\right)\left(1-q^2\right)\dots \left(1-q^k\right)}
+	\end{equation}
+	We bring Eq. \ref{wigner_simple_characteristic_polynomial_with_roots} into the same form:
+	\begin{eqnarray}
+	p(\lambda)&=&\prod_{c=-j}^j\lambda\left(1-e^{ic\theta}\lambda^{-1}\right)\\
+	&=&\lambda^{2j+1}\prod_{k=0}^{2j}\left(1-\left(e^{i\theta}\right)^k e^{-ij\theta}\lambda^{-1}\right)
+	\end{eqnarray}
+	We identify $n=2j+1, q=e^{i\theta}, t=-e^{-ij\theta}\lambda^{-1}$ and apply the $q$-binomial theorem:
+	\begin{eqnarray}
+	p(\lambda)&=&\lambda^{2j+1}\sum_{k=0}^{2j+1}e^{i(k(k-1)/2)\theta}{2j+1\choose k}_{e^{i\theta}}(-1)^k e^{-ijk\theta}\lambda^{-k}\\
+	&=&\sum_{k=0}^{2j+1}\lambda^{2j+1-k}(-1)^k e^{i(k(k-1)/2-jk)\theta}{2j+1\choose k}_{e^{i\theta}}
+	\end{eqnarray}
+	Comparing this to Eq. \ref{wigner_characteristic_polynomial}, we obtain
+	\begin{equation} \label{multifermionic_character_gaussian_binomial}
+	\chi^j_k(\theta) = \exp(-i\frac{k(2j+1-k)}{2}\theta) {2j+1\choose k}_{e^{i\theta}}
+	\end{equation}
+	We can express Eq. \ref{multifermionic_character_gaussian_binomial} purely in terms of real-valued trigonometric functions by substituing in Eq. \ref{gaussian_binomial_coefficient}:
+	\begin{eqnarray*}
+	{2j+1\choose k}_{e^{i\theta}}&=&\frac{\left(1-e^{i(2j+1)\theta}\right)\dots \left(1-e^{i(2j+2-k)\theta}\right)}{\left(1-e^{i\theta}\right)\dots \left(1-e^{ik\theta}\right)}\\
+	&=& \frac{\exp(i\theta\sum_{c=1}^k\frac{2j+2-c}{2})}{\exp(i\theta\sum_{c=1}^k\frac{c}{2})}\frac{\prod_{c=1}^k\left(e^{-i(2j+2-c)\theta/2}-e^{i(2j+2-c)\theta/2}\right)}{\prod_{c=1}^k\left(e^{-ic\theta/2}-e^{ic\theta/2}\right)}\\
+	&=& \exp(i\theta \left(k(j+1)-\sum_{c=1}^k c\right)) \frac{\prod_{c=1}^k \left(-\frac{1}{2}\sin(\frac{2j+2-c}{2}\theta)\right)}{\prod_{c=1}^k\left(-\frac{1}{2}\sin(\frac{c}{2}\theta)\right)}\\
+	&=& e^{-i\left(k(k-1)/2-kj\right)\theta}\prod_{c=1}^k \frac{\sin(\frac{2j+2-c}{2}\theta)}{\sin(\frac{c}{2}\theta)}
+	\end{eqnarray*}
+	Substituing this into Eq. \ref{multifermionic_character_gaussian_binomial} we obtain
+	\begin{equation} \label{multifermionic_character_sine_product}
+	\chi^j_k(\theta) = \prod_{c=1}^k\frac{e^{i(2j+2-c)\theta/2}-e^{-i(2j+2-c)\theta/2}}{e^{ic\theta/2}-e^{-ic\theta/2}} = \prod_{c=1}^k \frac{\sin(\frac{2j+2-c}{2}\theta)}{\sin(\frac{c}{2}\theta)}
+	\end{equation}
+	We see that setting $k=1$ in Eq. \ref{multifermionic_character_sine_product} retrieves Eq. \ref{single_particle_character}.
+	
+	\subsection{Recursive relation for $\chi^j_k$ from the analogous Pascal identity}
+	For Gaussian binomial coefficients, we have two identities as analogues for the binomial Pascal identity (TODO cite this):
+	\begin{eqnarray}
+	{n\choose k}_q &=& q^k {{n-1}\choose k}_q + {{n-1}\choose {k-1}}_q \label{pascal_identity_1}\\
+	{n\choose k}_q &=& {{n-1}\choose k}_q + q^{n-k} {{n-1}\choose {k-1}}_q \label{pascal_identity_2}
+	\end{eqnarray}
+	Substituing in Eq. \ref{multifermionic_character_gaussian_binomial}, we obtain the following two relations:
+	\begin{eqnarray}
+	\chi^j_k(\theta) &=& e^{i\frac{k}{2}\theta} \chi^{j-\frac{1}{2}}_k(\theta) + e^{-i\frac{2j+1-k}{2}} \chi^{j-\frac{1}{2}}_{k-1}(\theta)\label{char_pascal_identity_1}\\
+	\chi^j_k(\theta) &=& e^{-i\frac{k}{2}\theta} \chi^{j-\frac{1}{2}}_k(\theta) + e^{i\frac{2j+1-k}{2}} \chi^{j-\frac{1}{2}}_{k-1}(\theta) \label{char_pascal_identity_2}
+	\end{eqnarray}
+	Taking the sum of Eq. \ref{char_pascal_identity_1} and Eq. \ref{char_pascal_identity_2} yields the relation
+	\begin{equation} \label{uncooked_pascal_recursion}
+	\chi^j_k(\theta) = \frac{1}{2}\left(e^{i\frac{k}{2}\theta}+e^{-i\frac{k}{2}\theta}\right)\chi^{j-\frac{1}{2}}_k(\theta) + \frac{1}{2}\left(e^{-i\frac{2j+1-k}{2}} + e^{i\frac{2j+1-k}{2}}\right) \chi^{j-\frac{1}{2}}_{k-1}(\theta)
+	\end{equation}
+	Contracting the Dirichlet kernel sum in Eq. \ref{dirichlet_kernel_sum}, we obtain
+	\begin{equation} \label{q_plus_q_inverse}
+	e^{-i\omega\theta}+e^{i\omega\theta} = \begin{cases}
+	\chi^\omega_1(\theta)-\chi^{\omega-1}_1(\theta) & \text{for } \omega \in \left\{1, \frac{3}{2}, 2, \frac{5}{2}\dots\right\}\\
+	\chi^\omega_1(\theta) & \text{for } \omega = \frac{1}{2}
+	\end{cases}
+	\end{equation}
+	Substituing this into Eq. \ref{uncooked_pascal_recursion}, we obtain
+	\begin{multline}  \label{pascal_recursion}
+	\chi^j_k(\theta) = \frac{1}{2}\left[\left(\chi^{k/2}_1(\theta)-\chi^{k/2-1}_1(\theta)\right)\chi^{j-\frac{1}{2}}_k(\theta)\right.\\
+	 \left.+ \left(\chi^{(2j+1-k)/2}_1(\theta)-\chi^{(2j+1-k)/2-1}_1(\theta)\right) \chi^{j-\frac{1}{2}}_{k-1}(\theta)\right]
+	\end{multline}
+	for $1<k<2j$. Note that if $k=1$, we already have the single-particle state, and if $k=2j$, we can use Eq. \ref{flip_k_by_two_j_plus_one} to immediately retrieve the decomposition.
+	
 	\section{Angular momentum coupling among fermions}
 	In general, an ensemble of $k$ fermions with angular momentum $j$ possesses high rotational symmetry, as such a state has degeneracy $\binom{2j+1}{k}=\frac{(2j+1)!}{k!(2j+1-k)!}$, i.e. the number of subsets of the set of $m$-values with cardinality $k$, which is equal to the number of antisymmetric basis vectors $\ket{b^j_k; \{m_i\}}$. If the Hamiltonian is modified to include a term which couples the angular momenta of the fermions (e.g. orbit\nobreakdash-orbit coupling of electrons on a single atomic orbit), the symmetry is, in general, broken, as the system now possesses a single $m$-value as its quantum number, which is the projection of the \textit{total} angular momentum along the $z$-axis. The new eigenstates of the Hamiltonian will therefore transform as single-particle states under rotation. Therefore, we anticipate there will be a unique decomposition of the following form:
-	\begin{equation}
+	\begin{equation} \label{general_coupling_decomposition}
 	\chi^j_k(\theta)=\sum_{j'}c^j_k(j')\chi^{j'}_{k=1}(\theta)
 	\end{equation}
 	where $c^j_k(j')$ are the coefficients of single-particle character functions with angular momentum $j'$ into which $\chi^j_k(\theta)$ is decomposed, and which we anticipate to be non-negative integers.
@@ -218,7 +323,109 @@
 	c_f(j) = \frac{1}{2\pi} \int_0^{4\pi} f(\theta) \chi^j_1(\theta) \sin^2{\frac{\theta}{2}}\dd \theta
 	\end{equation}
 	
-	\subsection{The multifermionic rotation character as a function of single-particle rotation characters}
+	\subsection{Presence of integer and half-integer angular momentum eigenstates in multi-fermionic angular momentum coupling} \label{presence_of_half_integer}
+	Let us consider the behaviour of Eq. \ref{general_coupling_decomposition} under the rotation by $2\pi+\theta$:
+	\begin{equation} 
+	\chi^j_k(2\pi+\theta)=\sum_{j'}c^j_k(j')\chi^{j'}_{k=1}(2\pi+\theta)
+	\end{equation}
+	Using Eq. \ref{shift_by_two_pi}, we obtain
+	\begin{equation} 
+	(-1)^{2jk}\chi^j_k(\theta)=\sum_{j'}(-1)^{2j'}c^j_k(j')\chi^{j'}_{k=1}(\theta)
+	\end{equation}
+	Hence the following decomposition is also true:
+	\begin{equation}  \label{shifted_decomposition}
+	\chi^j_k(\theta)=\sum_{j'}(-1)^{2(j'-jk)}c^j_k(j')\chi^{j'}_{k=1}(\theta)
+	\end{equation}
+	However, since the basis formed by $\chi^j_{k=1}(\theta)$ is orthonormal, a decomposition is unique. Hence Eq. \ref{shifted_decomposition} must be equivalent to Eq. \ref{general_coupling_decomposition}:
+	\begin{equation}
+	(-1)^{2(j'-jk)}c^j_k(j') = c^j_k(j')
+	\end{equation}
+	If $2(j'-jk)$ is even, this trivially holds. If $2(j'-jk)$ is odd, this only holds if $c^j_k(j')=0$. Hence the decomposition coefficients may be non-zero only in the following cases:
+	\begin{enumerate}
+	\item If $j$ is half-integer \textbf{and} $k$ is odd, $j'$ must be half-integer, too.
+	\item Otherwise, $j'$ must be an integer.
+	\end{enumerate}
+	For the values of $j'$ not covered in these two cases, the coefficients $c^j_k(j')$ are zero.
+	
+	Hence, if an ensemble of $k$ fermions occupying a specific $j$-eigenstate undergoes angular momentum coupling, then:
+	\begin{enumerate}
+	\item if $jk$ is a half-integer, the state decomposes into single-particle states with \textit{only} half-integer angular momenta;
+	\item if $jk$ is an integer, the state decomposes into single-particle states with \textit{only} integer angular momenta.
+	\end{enumerate}
+	
+	\subsection{The decomposition of multi-fermionic states under $j$-coupling as coefficients of Gaussian binomial coefficient expansion}
+	The Gaussian binomial coefficient (as defined in Eq. \ref{gaussian_binomial_coefficient}) is a polynomial in $q$, which can be shown (TODO cite) to have positive, integer coefficients. It can also be shown (TODO cite) that the degree of this polynomial is $k(n-k)$. Hence, there exists an expansion:
+	\begin{equation}
+	{n\choose k}_q=\sum_{m=0}^{k(n-k)} \upsilon^n_k(m) q^m\qq{where} \upsilon^n_k(m)\in\mathbb{N}^+
+	\end{equation}
+	Substituting this expansion into Eq. \ref{multifermionic_character_gaussian_binomial} yields
+	\begin{equation} \label{naive_sum_decomposition}
+	\chi^j_k(\theta) = \exp(-i\frac{k(2j+1-k)}{2}\theta)\sum_{m=0}^{k(2j+1-k)} \upsilon^n_k(m) e^{im\theta}
+	\end{equation}
+	It can be shown (TODO cite) that $\upsilon^n_k(m)$ is equal to the number of $k$-element subsets of the set $\gamma_n=\{1, 2\dots n\}$ whose sum is $k(k+1)/2+m$. Then, consider a $k$-element subset of $\gamma_n$:
+	$$\{a_1, a_2\dots a_k\}\qq{where} \sum_{i=1}^k a_i = \frac{k(k+1)}{2} + m \qq{for some} m$$
+	Let us construct a new $k$-element subset of $\gamma_n$ by taking $b_i=n+1-a_i$:
+	$$\{n+1-a_1, n+1-a_2\dots n+1-a_k\}\qq{where} \sum_{i=1}^k a_i = \frac{k(k+1)}{2} + m$$
+	Then the sum of this new subset is equal to
+	\begin{equation}
+	\sum_{i=1}^k b_i = \sum_{i=1}^k (n+1) - \sum_{i=1}^k a_i = \frac{k(k+1)}{2}+(k(n-k)-m)
+	\end{equation}
+	Hence for values of $m$ for which $m\neq k(n-k)-m$, there exists a bijection between the $k$-element subsets which sum up to $k(k+1)/2+m$ and those which sum up to $k(k+1)/2+(k(n-k)-m)$. The exception occurs when
+	\begin{eqnarray}
+	m &=& k(n-k)-m\\
+	m &=& \frac{k(n-k)}{2}
+	\end{eqnarray}
+	We shall refer to this value as singular $m\equiv m_s = k(n-k)/2$
+	Hence we have
+	\begin{equation} \label{reflective_q_gaussian_coefs}
+	\upsilon^n_k(m) = \upsilon^n_k(k(n-k)-m) \qq{for} m\neq \frac{k(n-k)}{2}
+	\end{equation}
+	It can also be shown (TODO cite) that $\upsilon^n_k(m)$ are unimodal in $m$. From unimodality and the property in Eq. \ref{reflective_q_gaussian_coefs}, we see that if the value $m=m_s$ is present in the terms of the sum in Eq. \ref{naive_sum_decomposition}, it must be the mode of $\upsilon^n_k(m)$ (i.e. the largest element in the distribution of $e^{im\theta}$). If it is not present, the two elements closest to the value, which are equal, will be the two largest coefficients.
+	
+	Now, let us consider the case $n=2j+1$, where $j$ can be an integer or a half-integer, and $k$ is always an integer. We shall inspect the terms of the sum in Eq. \ref{naive_sum_decomposition} for the following two cases:
+	\begin{enumerate}
+	\item If $k(2j+1-k)$ is even, there will be a term present for which ${m=m_s}$, and Eq. \ref{naive_sum_decomposition} can be written as
+	\begin{equation} \label{q_gauss_integer_j_decomposition}
+	\chi^j_k(\theta) = \upsilon^{2j+1}_k\left(m_s\right) + \sum_{m=1}^{m_s} \upsilon^{2j+1}_k\left(m_s+m\right)\left(e^{im\theta}+e^{-im\theta}\right)
+	\end{equation}
+	\item If $k(2j+1-k)$ is odd, $m_s$ is half-integer, no term will be present for $m=m_s$, and Eq. \ref{naive_sum_decomposition} can be written as
+	\begin{equation} \label{q_gauss_half_integer_j_decomposition}
+	\chi^j_k(\theta) = \sum_{m=\frac{1}{2}}^{m_s} \upsilon^{2j+1}_k\left(m_s+m\right)\left(e^{im\theta}+e^{-im\theta}\right)
+	\end{equation}
+	\end{enumerate}
+	In the previous two sums, we have used Eq. \ref{reflective_q_gaussian_coefs} in the form
+	\begin{equation}
+	\upsilon^{n}_k(m_s+m)=\upsilon^{n}_k(m_s-m)
+	\end{equation}
+	Now: suppose $k(2j+1-k)$ is even. We expand this into $2kj-k(k+1)$ is even. However, $k(k-1)$ is even for any integer $k$. Hence the statement is equivalent to $2jk$ being even, or $jk$ being integer. From this we see that the decompositions in Eq. \ref{q_gauss_integer_j_decomposition}, resp. Eq. \ref{q_gauss_half_integer_j_decomposition} coincides with $\chi^j_k(\theta)$ decomposing into purely integer, respectively purely half-integer single-particle states, as per Sec. \ref{presence_of_half_integer}.
+	
+	Now, we substitute Eq. \ref{q_plus_q_inverse} into Eq. \ref{q_gauss_integer_j_decomposition} and Eq. \ref{q_gauss_half_integer_j_decomposition}. This immediately retrieves the coefficients from Eq. \ref{general_coupling_decomposition} in the angular-momentum-coupling decomposition:
+	\begin{enumerate}
+	\item If $jk$ is integer:
+	\begin{equation}
+	\chi^j_k(\theta) = \upsilon^{2j+1}_k\left(m_s\right)\chi^{j=0}_1(\theta) + \sum_{m=1}^{m_s} \upsilon^{2j+1}_k\left(m_s+m\right)\left(\chi^m_1(\theta)-\chi^{m-1}_1(\theta)\right)
+	\end{equation}
+	Collecting the terms $\chi^{j'}_1(\theta)$ for a specific $j'$:
+	\begin{equation}
+	c^j_k(j') = \upsilon^{2j+1}_k\left(m_s+j'\right)-\upsilon^{2j+1}_k\left(m_s+j'+1\right)\qq{where}j'=0,1,2\dots
+	\end{equation}
+	\item If $jk$ is half-integer:
+	\begin{equation}
+	\chi^j_k(\theta) = \upsilon^{2j+1}_k\left(m_s+\frac{1}{2}\right)\chi^{j=1/2}_1(\theta) + \sum_{m=\frac{3}{2}}^{m_s} \upsilon^{2j+1}_k\left(m_s+m\right)\left(\chi^m_1(\theta)-\chi^{m-1}_1(\theta)\right)
+	\end{equation}
+	Collecting the terms $\chi^{j'}_1(\theta)$ for a specific $j'$:
+	\begin{equation}
+	c^j_k(j') = \upsilon^{2j+1}_k\left(m_s+j'\right)-\upsilon^{2j+1}_k\left(m_s+j'+1\right)\qq{where}j'=\frac{1}{2},\frac{3}{2},\frac{5}{2}\dots
+	\end{equation}
+	\end{enumerate}
+	We see that the coefficients $c^j_k(j')$ obey the same relation for both cases, and the only thing that differs is the subset of $\frac{1}{2}\mathbb{N}$ on which the coefficients are trivially zero. Hence we can write down the most general decomposition of a multi-fermionic state into single-particle states under angular momentum coupling:
+	\begin{multline} \label{decomposition_via_gaussian_binomials}
+	c^j_k(j') = \upsilon^{2j+1}_k\left(\frac{k(2j+1-k)}{2}+j'\right)-\upsilon^{2j+1}_k\left(\frac{k(2j+1-k)}{2}+j'+1\right)\\
+	\qq{where} \upsilon^n_k\left(x\right)\qq{is the coefficient of} q^x \qq{in} {n\choose k}_q
+	\end{multline}
+	Thus the decomposition of multi-fermionic states into single-particle states is fully described by the coefficients of expanded Gaussian binomials.
+	
+	\subsection{The multi-fermionic rotation character as a function of single-particle rotation characters}
 	The expression in Eq. \ref{ensemble_character_recursive_relation} expresses $\chi^j_k(\theta)$ as a function of all $\chi^j_{k'}(\theta)$ for $k'<k$. To eliminate the complexity of this recursive relationship, let us first change the summation index $a\rightarrow k-a$ and then recognise $\Tr d^j(\phi)=\chi^j_1(\phi)$:
 	\begin{equation}
 	\chi^j_k(\theta)=-\frac{1}{k}\sum_{a=0}^{k-1} (-1)^{k-a}\chi^j_1((k-a)\theta)\chi^j_{a}(\theta)
@@ -260,10 +467,6 @@
 	where the sum is over all ordered lists $(b_1, b_2\dots b_n)$ which are integer compositions of $k$, i.e. $b_i\geq 1$ and $\sum_ib_i = k$.
 	
 	\subsection{Single-particle decomposition coefficients of multi-fermionic states as sums}
-	Let us now quote the sum-expression for the Dirichlet kernel:
-	\begin{equation} \label{dirichlet_kernel_sum}
-	\chi^j_k(\theta)=\frac{\sin((2j+1)\frac{\theta}{2})}{\sin{\frac{\theta}{2}}}=\sum_{c=-j}^j e^{ic\theta}
-	\end{equation}
 	Inserting Eq. \ref{dirichlet_kernel_sum} into Eq. \ref{partitioning_arrays_expression}, we obtain:
 	\begin{equation}
 	\chi^j_k(\theta) = (-1)^k\sum_{(b_1, b_2\dots b_n)}(-1)^n\left(\prod_{i=1}^n \frac{1}{k-B_{i-1}}\right)\prod_{i=1}^n \sum_{c=-j}^j e^{icb_i\theta}
