@@ -301,6 +301,102 @@ def decomposition_of_multifermionic_ensemble(j, k):
         c_jk[i] = int(np.round(c_jk[i]))
     
     return(c_jk)
+
+
+
+# ------------------- the recursive method ----------------------
+
+def Decomposition_from_product(x, y):
+    new_keys = np.arange(np.abs(x-y), x+y+1, 1)
+    new_dict = {}
+    for k in new_keys:
+        new_dict[k] = 1
+    return(Decomposition(new_dict))
+
+class Decomposition():
+    
+    def __init__(self, nonzero_coefs):
+        # nonzero_coefs is a dictionary = {float j : int c_j}
+        self.nonzero_coefs = nonzero_coefs
+    
+    def __str__(self):
+        return(str(self.nonzero_coefs))
+    
+    def coef(self, j):
+        if j in self.nonzero_coefs.keys():
+            return(int(self.nonzero_coefs[j]))
+        else:
+            return(0)
+    
+    def add_to_coef(self, j, x):
+        # we increase self.coef(j) by x
+        if j in self.nonzero_coefs.keys():
+            self.nonzero_coefs[j] += x
+        else:
+            self.nonzero_coefs[j] = x
+        
+    def __add__(self, other):
+        new_nonzero_coefs = {}
+        for my_key in self.nonzero_coefs.keys():
+            new_nonzero_coefs[my_key] = self.nonzero_coefs[my_key]
+        for other_key in other.nonzero_coefs.keys():
+            if other_key in new_nonzero_coefs.keys():
+                new_nonzero_coefs[other_key] += other.nonzero_coefs[other_key]
+            else:
+                new_nonzero_coefs[other_key] = other.nonzero_coefs[other_key]
+        return(Decomposition(new_nonzero_coefs))
+    
+    def __mul__(self, other):
+        final_result = Decomposition({})
+        for my_key in self.nonzero_coefs.keys():
+            for other_key in other.nonzero_coefs.keys():
+                final_result += Decomposition_from_product(my_key, other_key).scalar_mul(self.coef(my_key) * other.coef(other_key))
+        return(final_result)
+    
+    def scalar_mul(self, c):
+        result = Decomposition(self.nonzero_coefs.copy())
+        for k in result.nonzero_coefs.keys():
+            result.nonzero_coefs[k] *= c
+        return(result)
+    
+    def mul_with_Dirichlet_contraction(self, a):
+        # multiply self with chi^j - chi^{j-1}
+        
+        # the A to B method
+        result = Decomposition({})
+        for b in np.arange(0, a-1/2, 1/2):
+            result.add_to_coef(a+b, self.coef(b))
+            result.add_to_coef(a-b-1, -self.coef(b))
+        result.add_to_coef(2*a-1/2, self.coef(a-1/2))
+        result.add_to_coef(0, self.coef(a))
+        result.add_to_coef(2*a, self.coef(a))
+        for b in np.arange(a+1/2, max(self.nonzero_coefs.keys())+1/2, 1/2):
+            result.add_to_coef(a+b, self.coef(b))
+            result.add_to_coef(b-a, self.coef(b))
+        return(result)
+
+
+def decomposition_of_multifermionic_ensemble_recursively(j, k):
+    # returns a decomposition
+    
+    # edge cases
+    if j == 0:
+        return(Decomposition({0 : 1}))
+    if k == 0 or k == int(2 * j + 1):
+        return(Decomposition({0 : 1}))
+    if k == 1 or k == int(2 * j):
+        return(Decomposition({j : 1}))
+    
+    # tail recursion
+    left_part  = decomposition_of_multifermionic_ensemble_recursively(j - 1/2, k  ).mul_with_Dirichlet_contraction(k/2      )
+    right_part = decomposition_of_multifermionic_ensemble_recursively(j - 1/2, k-1).mul_with_Dirichlet_contraction((2*j+1-k)/2)
+    return((left_part + right_part).scalar_mul(1/2))
+
+
+
+
+
+
         
 def print_table(table_name, column_names, row_names, list_of_rows, subtable_borders = [], header_separation = 2, empty_cell_str=" ", omit_strings=[], print_to_stdout = True):
     # column_names[N], row_names[M], list_of_rows[M][N]
@@ -380,8 +476,8 @@ def print_table(table_name, column_names, row_names, list_of_rows, subtable_bord
 
 
 
-cur_j = 3/2
-max_row_length = int(sp.special.binom(int(2 * 2 +1), int(cur_j+1/2)))
+#cur_j = 3/2
+#max_row_length = int(sp.special.binom(int(2 * 2 +1), int(cur_j+1/2)))
 
 def decomposition_table_column_names(row_length):
     res = []
@@ -392,7 +488,7 @@ def decomposition_table_column_names(row_length):
             res.append(str(i) + "/2")
     return(res)
 
-decomposition_table = []
+"""decomposition_table = []
 decomposition_table_row_names = []
 
 for k in range(1, int(cur_j * 2 + 1)):
@@ -412,7 +508,7 @@ for k in range(1, int(cur_j * 2 + 1)):
     if int(2*cur_j) % 2 == 0:
         decomposition_table_row_names.append(str(int(cur_j)) + ", " + str(k))
     else:
-        decomposition_table_row_names.append(str(int(2*cur_j)) + "/2, " + str(k))
+        decomposition_table_row_names.append(str(int(2*cur_j)) + "/2, " + str(k))"""
 
 
 #print_table("c^j_k", decomposition_table_column_names(max_row_length), decomposition_table_row_names, decomposition_table, omit_strings=["0"])
@@ -442,7 +538,7 @@ def print_decomposition_table(list_of_j):
                 decomposition_table_row_names.append(str(int(cur_j)) + ", " + str(k))
             else:
                 decomposition_table_row_names.append(str(int(2*cur_j)) + "/2, " + str(k))
-        print("    New max length =", actual_max_length)
+        #print("    New max length =", actual_max_length)
         if cur_j != list_of_j[-1]:
             decomposition_table_row_names.append("-")
     
@@ -452,7 +548,43 @@ def print_decomposition_table(list_of_j):
     
     print_table("c^j_k", decomposition_table_column_names(actual_max_length), decomposition_table_row_names, decomposition_table, omit_strings=["0"])
 
-#print_decomposition_table([3/2, 2, 4])
-print_decomposition_table(np.arange(1/2, 12/2, 1/2))
+#print_decomposition_table(np.arange(1/2, 8/2, 1/2))
+
+def print_decomposition_table_from_recursion(list_of_j):
+    
+    decomposition_table_row_names = []
+    decomposition_table = []
+    
+    actual_max_length = 0
+    
+    for cur_j in list_of_j:
+        print("Working on j =", cur_j)
+        for k in range(1, int(cur_j * 2 + 1)):
+            cur_decomposition = decomposition_of_multifermionic_ensemble_recursively(cur_j, k)
+            
+            max_j = max(cur_decomposition.nonzero_coefs.keys())
+            
+            cur_tab_row = []
+            for j in np.arange(0, max_j+1/2, 1/2):
+                cur_tab_row.append(cur_decomposition.coef(j))
+            cur_max_length = len(cur_tab_row)
+            if actual_max_length < cur_max_length:
+                actual_max_length = cur_max_length
+            
+            decomposition_table.append(cur_tab_row)
+            if int(2*cur_j) % 2 == 0:
+                decomposition_table_row_names.append(str(int(cur_j)) + ", " + str(k))
+            else:
+                decomposition_table_row_names.append(str(int(2*cur_j)) + "/2, " + str(k))
+        #print("    New max length =", actual_max_length)
+        if cur_j != list_of_j[-1]:
+            decomposition_table_row_names.append("-")
+    
+    # we trim everything
+    for i in range(len(decomposition_table)):
+        decomposition_table[i] = decomposition_table[i][:actual_max_length]
+    
+    print_table("c^j_k", decomposition_table_column_names(actual_max_length), decomposition_table_row_names, decomposition_table, omit_strings=["0"])
 
 
+print_decomposition_table_from_recursion(np.arange(1/2, 12/2, 1/2)) # a massive time improvement, but we should be saving the tail recursion results, which axes the master complexity from square to linear!

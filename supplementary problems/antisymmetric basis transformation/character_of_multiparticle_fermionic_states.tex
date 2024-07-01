@@ -282,7 +282,8 @@
 	\begin{equation} \label{q_plus_q_inverse}
 	e^{-i\omega\theta}+e^{i\omega\theta} = \begin{cases}
 	\chi^\omega_1(\theta)-\chi^{\omega-1}_1(\theta) & \text{for } \omega \in \left\{1, \frac{3}{2}, 2, \frac{5}{2}\dots\right\}\\
-	\chi^\omega_1(\theta) & \text{for } \omega = \frac{1}{2}
+	\chi^\omega_1(\theta) & \text{for } \omega = \frac{1}{2}\\
+	2\chi^\omega_1(\theta) & \text{for } \omega = 0
 	\end{cases}
 	\end{equation}
 	Substituing this into Eq. \ref{uncooked_pascal_recursion}, we obtain
@@ -424,6 +425,22 @@
 	\qq{where} \upsilon^n_k\left(x\right)\qq{is the coefficient of} q^x \qq{in} {n\choose k}_q
 	\end{multline}
 	Thus the decomposition of multi-fermionic states into single-particle states is fully described by the coefficients of expanded Gaussian binomials.
+	
+	\subsection{Recursive relation for the decomposition coefficients from the analogous Pascal identity}
+	We shall utilise Eq. \ref{pascal_recursion} to state a recursive relation for $c^j_k(j')$ in terms of $c^{j-1/2}_{k-1}(j')$ and $c^{j-1/2}_{k}(j')$.
+	
+	First, let us state the usual relation that governs the angular momentum coupling between two distinguishable particles:
+	
+	\begin{equation} \label{distinguishable_particle_coupling_decomposition}
+	\chi^a_1(\theta)\chi^b_1(\theta)=\sum_{j=|a-b|}^{a+b} \chi^j_1(\theta)
+	\end{equation}
+	This relation can be easily proven from Eq. \ref{dirichlet_kernel_sum}, where the product of the two sums can be treated as a convolution of their Fourier series via the convolution theorem.
+	
+	Now, consider the following product:
+	\begin{align}
+	\left(\chi^a_1(\theta)-\chi^{a-1}_1(\theta)\right)\chi^b_1(\theta)&\qq{where}a\geq 1\nonumber\\
+	&= \sum_{j=|a-b|}^{a+b}\chi^j_1(\theta)-\sum_{j=|a-b-1|}^{a+b-1}\chi^j_1(\theta)
+	\end{align}
 	
 	\subsection{The multi-fermionic rotation character as a function of single-particle rotation characters}
 	The expression in Eq. \ref{ensemble_character_recursive_relation} expresses $\chi^j_k(\theta)$ as a function of all $\chi^j_{k'}(\theta)$ for $k'<k$. To eliminate the complexity of this recursive relationship, let us first change the summation index $a\rightarrow k-a$ and then recognise $\Tr d^j(\phi)=\chi^j_1(\phi)$:
