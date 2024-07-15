@@ -133,7 +133,7 @@ class Decomposition():
             result.add_to_coef(b-a, self.coef(b))
         return(result)
 
-def print_decomposition_table_from_recursion(j_upper_cap):
+def print_decomposition_table_from_recursion(j_upper_cap, test_recursive_relation = False):
     
     decomposition_table_row_names = []
     decomposition_table = []
@@ -144,7 +144,6 @@ def print_decomposition_table_from_recursion(j_upper_cap):
     for j_index in range(int(j_upper_cap * 2)+1):
         
         cur_j = j_index / 2
-        print("Working on j =", cur_j)
         master_list.append([0] * (j_index + 2))
         master_list[j_index][0] = Decomposition({0 : 1})
         master_list[j_index][j_index + 1] = master_list[j_index][0]
@@ -155,6 +154,33 @@ def print_decomposition_table_from_recursion(j_upper_cap):
             right_part = master_list[j_index-1][k-1].mul_with_Dirichlet_contraction((j_index+1-k)/2)
             master_list[j_index][k] = (left_part + right_part).scalar_mul(1/2)
             master_list[j_index][j_index + 1 - k] = master_list[j_index][k]
+            
+            if test_recursive_relation:
+                # NOTE here we test the formulation from the article, which is inverse to the one we use here (so we test the validity of the inversion)
+                max_j = max(master_list[j_index][k].nonzero_coefs.keys())
+                
+                for j_prime in np.arange(0, max_j+1/2, 1/2):
+                    cur_coef = master_list[j_index][k].coef(j_prime)
+                    # alpha
+                    if j_prime <= k/2 - 1:
+                        alpha_j_prime = master_list[j_index-1][k].coef(k/2 + j_prime) - master_list[j_index-1][k].coef(k/2 - j_prime - 1)
+                    elif j_prime == (k-1)/2:
+                        alpha_j_prime = master_list[j_index-1][k].coef(k - 1/2)
+                    else:
+                        alpha_j_prime = master_list[j_index-1][k].coef(k/2 + j_prime) + master_list[j_index-1][k].coef(j_prime - k/2)
+                    # beta
+                    
+                    if j_prime <= (j_index - 1 - k)/2:
+                        beta_j_prime = master_list[j_index-1][k-1].coef( (j_index + 1 - k)/2 + j_prime ) - master_list[j_index-1][k-1].coef( (j_index - 1 - k)/2 - j_prime )
+                    elif j_prime == (j_index - k) / 2:
+                        beta_j_prime = master_list[j_index-1][k-1].coef( j_index - k + 1/2 )
+                    else:
+                        beta_j_prime = master_list[j_index-1][k-1].coef( (j_index + 1 - k)/2 + j_prime ) + master_list[j_index-1][k-1].coef( j_prime - (j_index + 1 - k)/2 )
+                    
+                    final_sol = 0.5 * (alpha_j_prime + beta_j_prime)
+                    if cur_coef != final_sol:
+                        print(f"DISCREPANCY for j={cur_j}, k={k}, j'={j_prime}: found coef = {cur_coef}, recursive rel = {final_sol}")
+            
             
         
         for k in range(1, int(j_index + 1)):
@@ -184,6 +210,6 @@ def print_decomposition_table_from_recursion(j_upper_cap):
     print_table("c^j_k", decomposition_table_column_names(actual_max_length), decomposition_table_row_names, decomposition_table, omit_strings=["0"])
     
 
-print_decomposition_table_from_recursion(30/2) #THIS IS SO FAST
+print_decomposition_table_from_recursion(11/2) #THIS IS SO FAST
 
 

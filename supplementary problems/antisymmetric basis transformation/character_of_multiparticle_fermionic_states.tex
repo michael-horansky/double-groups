@@ -11,10 +11,11 @@
 
 \begin{document}
 
-	\title{The character of a degenerate $j$-eigenstate occupied by an ensemble of fermions under simultaneous rotation.}	
+	\title{The character of a degenerate $j$-eigenstate occupied by an ensemble of fermions under simultaneous rotation.}
+	\author{Michal Horanský}	
 	\maketitle
 	
-	\abstract{An eigenstate of angular momentum (i.e. a $j$-eigenstate) is $(2j+1)$-fold degenerate. For a single particle, choosing the eigenstates of $j_z$ as a basis allows us to determine the character of a single particle under rotation as the trace of the corresponding Wigner d-matrix $d^j_{m'm}$. Constructing multi-particle states as tensor products of $j_z$-eigenstates, we equate the character of the Slater determinant describing $k$ fermions occupying the same $j$-eigenstates to the sum of the rank-$k$ principal minors of $d^j$. Stating the relation between the rotation character and the coefficients of the characteristic polynomial of $d^j$, we use the Faddeev-Le Verrier algorithm (FLV) to write down an expression for the multi-fermionic rotation character as a function of traces of $d^j$ and its exponentiations. From the unitarity of $d^j$, we prove that the rotation character of an ensemble of $k$ fermions with angular momentum $j$ equals the rotation character of an ensemble of $2j+1-k$ fermions of equal angular momentum. We prove that the rotation character can be uniquely decomposed into a sum of rotation characters of single particles with arbitrary angular momenta, utilising the orthogonality relations of Chebyshev polynomials of the second kind.}
+	\abstract{An eigenstate of angular momentum (i.e. a $j$-eigenstate) is $(2j+1)$-fold degenerate. For a single particle, choosing the eigenstates of $j_z$ as a basis allows us to determine the character of a single particle under rotation as the trace of the corresponding Wigner d-matrix $d^j_{m'm}$. Constructing multi-particle states as tensor products of $j_z$-eigenstates, we equate the character of the Slater determinant describing $k$ fermions occupying the same $j$-eigenstates to the sum of the rank-$k$ principal minors of $d^j$. Stating the relation between the rotation character and the coefficients of the characteristic polynomial of $d^j$, we use the Faddeev-Le Verrier algorithm (FLV) to write down an expression for the multi-fermionic rotation character as a function of traces of $d^j$ and its exponentiations. From the unitarity of $d^j$, we prove that the rotation character of an ensemble of $k$ fermions with angular momentum $j$ equals the rotation character of an ensemble of $2j+1-k$ fermions of equal angular momentum. Finding the eigenvalues of $d^j$, we find an expression for the multi-fermionic rotation character in terms of Gaussian binomial coefficients. We prove that the rotation character can be uniquely decomposed into a sum of rotation characters of single particles with arbitrary angular momenta, utilising the orthogonality relations of Chebyshev polynomials of the second kind. We find these decomposition coefficients in terms of the coefficients of polynomials obtained by expanding Gaussian binomial coefficients. Utilising recursive relations for Gaussian binomial coefficients, we then find simple recursive relations for the multi-fermionic character decomposition coeffucients which allows one to calculate them in polynomial time.}
 	
 	\section{Deriving the rotation character of multi-fermionic states}
 	\subsection{Rotation character of distinguishable particle states}
@@ -441,6 +442,78 @@
 	\left(\chi^a_1(\theta)-\chi^{a-1}_1(\theta)\right)\chi^b_1(\theta)&\qq{where}a\geq 1\nonumber\\
 	&= \sum_{j=|a-b|}^{a+b}\chi^j_1(\theta)-\sum_{j=|a-b-1|}^{a+b-1}\chi^j_1(\theta)
 	\end{align}
+	
+	The value of this product is distinct for each of the following cases:
+	\begin{itemize}
+	\item \textit{If $a>b+\frac{1}{2}$:} Then $|a-b|=a-b$, $|a-b-1|=a-b-1$, and the product evaluates to
+	\begin{equation*}
+	\left(\chi^a_1(\theta)-\chi^{a-1}_1(\theta)\right)\chi^b_1(\theta) = \chi^{a+b}_1(\theta) - \chi^{a-b-1}_1(\theta)
+	\end{equation*}
+	\item \textit{If $a=b+\frac{1}{2}$:} Then $|a-b|=\frac{1}{2}$, $|a-b-1|=\frac{1}{2}$, and the product evaluates to
+	\begin{equation*}
+	\left(\chi^a_1(\theta)-\chi^{a-1}_1(\theta)\right)\chi^b_1(\theta) = \chi^{a+b}_1(\theta) = \chi^{2b+1/2}_1(\theta)
+	\end{equation*}
+	\item \textit{If $a \leq b$:} Then $|a-b| = b-a$, $|a-b-1|=b-a+1$, and the product evaluates to
+	\begin{equation*}
+	\left(\chi^a_1(\theta)-\chi^{a-1}_1(\theta)\right)\chi^b_1(\theta) = \chi^{a+b}_1(\theta) + \chi^{b-a}_1(\theta)
+	\end{equation*}
+	\end{itemize}
+	Written concisely:
+	\begin{equation} \label{kernel_contraction_transformation_of_single_particle}
+	\left(\chi^a_1(\theta)-\chi^{a-1}_1(\theta)\right)\chi^b_1(\theta) = \begin{cases}
+	\chi^{a+b}_1(\theta) - \chi^{a-b-1}_1(\theta) & \text{for }a>b+\frac{1}{2}\\
+	\chi^{2b+1/2}_1(\theta) & \text{for }a=b+\frac{1}{2}\\
+	\chi^{a+b}_1(\theta) + \chi^{b-a}_1(\theta) & \text{for }a \leq b
+	\end{cases}	
+	\end{equation}
+	
+	Now, suppose we have a function $f(\theta)$ which can be decomposed into single-particle rotation character functions like so:
+	\begin{equation} \label{original_decomposition}
+	f(\theta) = \sum_{b\in\frac{1}{2}\mathbb{N}}c_b \chi^b_1(\theta)
+	\end{equation}
+	Then, multiplying this function by $\chi^a_1(\theta)-\chi^{a-1}_1(\theta)$ for some value of $a$ yields a new function, which can also be decomposed into single-particle rotation character functions:
+	\begin{equation}
+	\left(\chi^a_1(\theta)-\chi^{a-1}_1(\theta)\right)f(\theta) = \sum_{b\in\frac{1}{2}\mathbb{N}}c'_b \chi^b_1(\theta)
+	\end{equation}
+	We wish to describe this process as a transformation from $c_b\to c'_b$, i.e. express $c'_b$ as a function of $c_x$ for $x\in\frac{1}{2}\mathbb{N}$, and of the specific value of $a$.
+	
+	Using Eq. \ref{kernel_contraction_transformation_of_single_particle} and Eq. \ref{original_decomposition}, we expand the product like so:
+	\begin{multline}
+	\left(\chi^a_1(\theta)-\chi^{a-1}_1(\theta)\right)f(\theta) = \sum_{b=0, \frac{1}{2}, 1\dots}^{a-1} c_b\left(\chi^{a+b}_1(\theta)-\chi^{a-b-1}_1(\theta)\right)\\
+	 + c_{a-1/2}\chi^{2a-1/2}_1(\theta) + \sum_{b=a, a+\frac{1}{2}, a+1\dots}^\infty c_b \left(\chi^{a+b}_1(\theta)+\chi^{b-a}_1(\theta)\right)
+	\end{multline}
+	And finally, collecting the terms $\chi^j_1(\theta)$ for $j\in\frac{1}{2}\mathbb{N}$, we obtain the transformed decomposition:
+	\begin{equation} \label{single_kernel_contraction_recursion}
+	c'_j = \begin{cases}
+		c_{a+j}-c_{a-j-1} & \text{for } 0 \leq j \leq a - 1\\
+		c_{2a-1/2} & \text{for } j = a - \frac{1}{2}\\
+		c_{a+j}+c_{j-a} & \text{for } j \geq a
+	\end{cases}
+	\end{equation}
+	Substituing Eq. \ref{single_kernel_contraction_recursion} into Eq. \ref{pascal_recursion} we obtain the full recursive relation for  $c^j_k(j')$ in terms of $c^{j-1/2}_{k-1}(j')$ and $c^{j-1/2}_{k}(j')$. Let us first treat the two terms of Eq. \ref{pascal_recursion} as functions decomposed into single-particle rotation character functions with decomposition coefficients $\alpha, \beta$ respectively. For these two terms, the value of $a$ is $\frac{k}{2},\frac{2j+1-k}{2}$ respectively. Then we have
+	\begin{eqnarray*}
+	\alpha_{j'} &=& \begin{cases}
+		c^{j-1/2}_k\left(\frac{k}{2}+j'\right)-c^{j-1/2}_k\left(\frac{k}{2}-j'-1\right) & \text{for } 0 \leq j' \leq \frac{k}{2} - 1\\
+		c^{j-1/2}_k\left(k-1/2\right) & \text{for } j' = \frac{k}{2} - \frac{1}{2}\\
+		c^{j-1/2}_k\left(\frac{k}{2}+j'\right)+c^{j-1/2}_k\left(j'-\frac{k}{2}\right) & \text{for } j' \geq \frac{k}{2}
+	\end{cases}\\
+	\beta_{j'} &=& \begin{cases}
+		c^{j-1/2}_{k-1}\left(\frac{2j+1-k}{2}+j'\right)-c^{j-1/2}_{k-1}\left(\frac{2j-1-k}{2}-j'\right) & \text{for } 0 \leq j' \leq \frac{2j-1-k}{2}\\
+		c^{j-1/2}_{k-1}\left(2j-k+1/2\right) & \text{for } j' = \frac{2j-k}{2}\\
+		c^{j-1/2}_{k-1}\left(\frac{2j+1-k}{2}+j'\right)+c^{j-1/2}_{k-1}\left(j'-\frac{2j+1-k}{2}\right) & \text{for } j' \geq \frac{2j+1-k}{2}
+	\end{cases}
+	\end{eqnarray*}
+	and from this, we can immediately state the final recursive relation:
+	\begin{equation}
+	c^j_k(j') = \frac{1}{2}\left(\alpha_{j'}+\beta_{j'}\right)
+	\end{equation}
+	This relation is applicable for $1\leq k \leq 2j$, where for the remaining cases $k=0, k=2j+1$ we have
+	\begin{eqnarray*}
+	c^j_{0}(j') &=& \delta_{j', 0}\\
+	c^j_{2j+1}(j') &=& \delta_{j', 0}
+	\end{eqnarray*}
+	which trivially follows from Eq. \ref{vacuum_character} and Eq. \ref{flip_k_by_two_j_plus_one}.
+	
 	
 	\subsection{The multi-fermionic rotation character as a function of single-particle rotation characters}
 	The expression in Eq. \ref{ensemble_character_recursive_relation} expresses $\chi^j_k(\theta)$ as a function of all $\chi^j_{k'}(\theta)$ for $k'<k$. To eliminate the complexity of this recursive relationship, let us first change the summation index $a\rightarrow k-a$ and then recognise $\Tr d^j(\phi)=\chi^j_1(\phi)$:
